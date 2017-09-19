@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 20,
     borderWidth: 1,
-    borderRadius: 100,
+    borderRadius: 30,
   },
   text: {
     flex: 1,
