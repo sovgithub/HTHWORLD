@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Alert, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import Logo from './components/Logo';
+import Header from './components/Header';
 import RoundedButton from './components/RoundedButton';
 
 export default class App extends React.Component {
@@ -10,11 +10,7 @@ export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          <Logo />
-          <Text style={styles.header}>Hoard</Text>
-          <Text style={styles.subtitle}>Digital currency for everyone</Text>
-        </View>
+        <Header style={StyleSheet.flatten(styles.contentContainer)}  />
         <View style={styles.actionsContainer}>
           <RoundedButton
             color="white"
@@ -41,20 +37,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 100,
-  },
-  header: {
-    fontSize: 70,
-    fontWeight: '100',
-    color: 'white',
-  },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: '100',
-    fontStyle: 'italic',
-    color: 'white',
   },
   actionsContainer: {
     marginTop: 'auto',
