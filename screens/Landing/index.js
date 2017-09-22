@@ -5,7 +5,7 @@ import Header from '../../components/Header';
 import RoundedButton from '../../components/RoundedButton';
 
 export default class Landing extends React.Component {
-  handlePress = () => Alert.alert('Pressed me!')
+  handlePress = () => this.props.navigation.navigate('Referral')
 
   render() {
     return (
