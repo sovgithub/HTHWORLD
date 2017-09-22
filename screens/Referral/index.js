@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import Header from '../../components/Header';
+import Header from 'components/Header';
 
 export default function Referral() {
   return (

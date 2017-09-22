@@ -1,15 +1,15 @@
 // @flow
 import React from 'react';
 import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import Header from '../../components/Header';
-import RoundedButton from '../../components/RoundedButton';
+import Header from 'components/Header';
+import RoundedButton from 'components/RoundedButton';
 
 export default class Landing extends React.Component {
   handlePress = () => this.props.navigation.navigate('Referral')
 
   render() {
     return (
-      <Image style={styles.backgroundImage} source={require('../../assets/landing_bg.png')}>
+      <Image style={styles.backgroundImage} source={require('assets/landing_bg.png')}>
         <StatusBar barStyle="light-content" />
         <Header style={StyleSheet.flatten(styles.contentContainer)}  />
         <View style={styles.actionsContainer}>
