@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { Alert, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Header from './components/Header';
 import RoundedButton from './components/RoundedButton';
 
@@ -9,7 +9,8 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <Image style={styles.backgroundImage} source={require('./assets/landing_bg.png')}>
+        <StatusBar barStyle="light-content" />
         <Header style={StyleSheet.flatten(styles.contentContainer)}  />
         <View style={styles.actionsContainer}>
           <RoundedButton
@@ -25,15 +26,17 @@ export default class App extends React.Component {
             </TouchableHighlight>
           </View>
         </View>
-      </View>
+      </Image>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
-    backgroundColor: '#0b2026',
+    width: null,
+    height: null,
+    resizeMode: 'cover',
   },
   contentContainer: {
     flex: 1,
@@ -49,6 +52,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   signInPrompt: {
+    backgroundColor: 'transparent',
     fontWeight: 'bold',
     color: 'lightblue',
   },

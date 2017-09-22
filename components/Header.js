@@ -39,11 +39,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
+    backgroundColor: 'transparent',
     fontSize: 70,
     fontWeight: '100',
     color: 'white',
   },
   subtitle: {
+    backgroundColor: 'transparent',
     fontSize: 20,
     fontWeight: '100',
     fontStyle: 'italic',
