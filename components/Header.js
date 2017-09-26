@@ -8,8 +8,8 @@ import {
 import Logo from './Logo';
 
 type Props = {
-  showSubtitle: boolean,
-  style?: {[string]: any},
+  showSubtitle?: boolean,
+  style?: any,
   textColor?: string
 };
 

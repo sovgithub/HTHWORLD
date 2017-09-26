@@ -22,6 +22,7 @@
 ; Ignore misbehaving dev-dependencies
 .*/node_modules/xdl/build/*
 .*/node_modules/reqwest/tests/*
+.*/node_modules/react-navigation/.*/__tests__/.*
 
 ; Ignore missing expo-sdk dependencies (temporarily)
 ; https://github.com/expo/expo/issues/162
@@ -29,6 +30,11 @@
 
 ; Ignore react-native-fbads dependency of the expo sdk
 .*/node_modules/react-native-fbads/*
+
+; Ignore react-navigation and related modules until 1.0.0-beta.13 - https://github.com/react-community/react-navigation/issues/2215
+.*/node_modules/react-navigation/.*
+.*/node_modules/react-native-tab-view/.*
+
 
 [include]
 

@@ -16,11 +16,22 @@ type Props = {
   onSubmitEditing: () => mixed
 };
 
-export default class LabeledInput extends React.Component<Props> {
-  state = { active: false }
+type State = {
+  active: boolean
+};
+
+export default class LabeledInput extends React.Component {
+  static defaultProps = {
+    activeColor: 'white',
+    inactiveColor: 'grey',
+    placeholder: 'text',
+  }
+
+  props: Props
+  state: State = { active: false }
 
   inputRef = null
-  setupInputRef = (input) => this.inputRef = input
+  setupInputRef = (input: any) => this.inputRef = input
 
   toggleFocus = () => this.setState({ active: !this.state.active })
 
@@ -59,12 +70,6 @@ export default class LabeledInput extends React.Component<Props> {
       />
     );
   }
-}
-
-LabeledInput.defaultProps = {
-  activeColor: 'white',
-  inactiveColor: 'grey',
-  placeholder: 'text',
 }
 
 const styles = StyleSheet.create({

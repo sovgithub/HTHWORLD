@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store.duck';
 import Landing from 'screens/Landing';
 import Referral from 'screens/Referral';
+// $FlowFixMe - until 1.0.0-beta.13 version of react-navigation
 import { StackNavigator } from 'react-navigation';
 
 const storeInstance = createStore(store);
