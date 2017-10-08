@@ -4,8 +4,18 @@ import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } f
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
 
+import Auth0 from 'react-native-auth0';
+const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'zTlguuKCHeSg23A70X480gQvLfIos1oi' });
+
 export default class Landing extends React.Component {
-  handlePress = () => this.props.navigation.navigate('Referral')
+  handlePress = () => auth0
+    .webAuth
+    .authorize({scope: 'openid email', audience: 'https://oar-dev01.auth0.com/userinfo'})
+    .then(credentials => {
+      console.log(credentials);
+      this.props.navigation.navigate('Referral')
+    })
+    .catch(error => console.log(error));
 
   render() {
     return (
