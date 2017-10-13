@@ -29,6 +29,7 @@ ios/project.xcworkspace
 # Android/IntelliJ
 #
 android/build/
+android/app/build/
 android/.idea
 android/.gradle
 android/local.properties

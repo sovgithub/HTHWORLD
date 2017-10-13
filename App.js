@@ -3,6 +3,7 @@ import React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store.duck';
+import HockeyApp from 'react-native-hockeyapp';
 import Landing from 'screens/Landing';
 import Menu from 'screens/Menu';
 // $FlowFixMe - until 1.0.0-beta.13 version of react-navigation
@@ -18,10 +19,22 @@ const RoutingStack = StackNavigator({
 });
 
 
-export default function App() {
-  return (
-    <Provider store={storeInstance}>
-      <RoutingStack />
-    </Provider>
-  );
+
+export default class App extends React.Component {
+  componentWillMount() {
+    HockeyApp.configure('HOCKEYAPP_API_KEY', true);
+  }
+
+  componentDidMount() {
+    HockeyApp.start();
+    HockeyApp.checkForUpdate();
+  }
+
+  render() {
+    return (
+      <Provider store={storeInstance}>
+        <RoutingStack />
+      </Provider>
+    );
+  }
 };

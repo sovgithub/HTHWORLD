@@ -34,9 +34,12 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* hoardinvestTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* hoardinvestTests.m */; };
+		41F9E640F2016B401BF7D4F0 /* libPods-hoardinvest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7699B5F7717B755B4A096645 /* libPods-hoardinvest.a */; };
 		51B8991E581046079E3023F3 /* libA0Auth0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BDBE62C2AF3F438C93EFDE88 /* libA0Auth0.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
+		854FCB9E35B1B287FBDE50D7 /* libPods-hoardinvestTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F021398E07B451F8DDA5A92 /* libPods-hoardinvestTests.a */; };
+		AA9203E01F8D9E0C00C872F3 /* RNHockeyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9203DE1F8D9E0B00C872F3 /* RNHockeyApp.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,6 +267,27 @@
 			remoteGlobalIDString = 134814201AA4EA6300B7C361;
 			remoteInfo = A0Auth0;
 		};
+		AA9203B61F8D98B100C872F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = B3D5F2BEFEA46E2A564046359706EE30;
+			remoteInfo = "HockeySDK-HockeySDKResources";
+		};
+		AA9203B81F8D98B100C872F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1ED17BDF359C371A133368189D8961C7;
+			remoteInfo = "Pods-hoardinvest";
+		};
+		AA9203BA1F8D98B100C872F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6804402112A4034314970D8A8AD593F7;
+			remoteInfo = "Pods-hoardinvestTests";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -288,11 +312,20 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* hoardinvest-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hoardinvest-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* hoardinvest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hoardinvest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		34783A9B2A73F91A96ADF47C /* Pods-hoardinvest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest.debug.xcconfig"; sourceTree = "<group>"; };
 		36E08142686D4AF3B3CCC664 /* A0Auth0.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = A0Auth0.xcodeproj; path = "../node_modules/react-native-auth0/ios/A0Auth0.xcodeproj"; sourceTree = "<group>"; };
+		3F021398E07B451F8DDA5A92 /* libPods-hoardinvestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoardinvestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		48C297C136CEAB1EDFA3EB87 /* Pods-hoardinvestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvestTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		5FBEFC247620B6D79F4747A7 /* Pods-hoardinvest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvest.release.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest.release.xcconfig"; sourceTree = "<group>"; };
+		7699B5F7717B755B4A096645 /* libPods-hoardinvest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoardinvest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
+		AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
+		AA9203DE1F8D9E0B00C872F3 /* RNHockeyApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNHockeyApp.m; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.m"; sourceTree = "<group>"; };
+		AA9203DF1F8D9E0B00C872F3 /* RNHockeyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNHockeyApp.h; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.h"; sourceTree = "<group>"; };
 		BDBE62C2AF3F438C93EFDE88 /* libA0Auth0.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libA0Auth0.a; sourceTree = "<group>"; };
+		DFCE3BA8F7E63430395E939A /* Pods-hoardinvestTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvestTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,6 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */,
+				854FCB9E35B1B287FBDE50D7 /* libPods-hoardinvestTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +354,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				51B8991E581046079E3023F3 /* libA0Auth0.a in Frameworks */,
+				41F9E640F2016B401BF7D4F0 /* libPods-hoardinvest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -467,6 +502,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		67FC4CC46BC336053FD7DD55 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7699B5F7717B755B4A096645 /* libPods-hoardinvest.a */,
+				3F021398E07B451F8DDA5A92 /* libPods-hoardinvestTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -479,6 +523,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AA9203DF1F8D9E0B00C872F3 /* RNHockeyApp.h */,
+				AA9203DE1F8D9E0B00C872F3 /* RNHockeyApp.m */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
@@ -489,6 +535,7 @@
 				139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */,
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
+				AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				36E08142686D4AF3B3CCC664 /* A0Auth0.xcodeproj */,
 			);
@@ -512,6 +559,8 @@
 				00E356EF1AD99517003FC87E /* hoardinvestTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				AA161AFD1F831E41008DACAB /* Recovered References */,
+				999177F01798A836EDA7FD44 /* Pods */,
+				67FC4CC46BC336053FD7DD55 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -526,6 +575,17 @@
 				2D02E4901E0B4A5D006451C7 /* hoardinvest-tvOSTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		999177F01798A836EDA7FD44 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				34783A9B2A73F91A96ADF47C /* Pods-hoardinvest.debug.xcconfig */,
+				5FBEFC247620B6D79F4747A7 /* Pods-hoardinvest.release.xcconfig */,
+				48C297C136CEAB1EDFA3EB87 /* Pods-hoardinvestTests.debug.xcconfig */,
+				DFCE3BA8F7E63430395E939A /* Pods-hoardinvestTests.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		AA161AFD1F831E41008DACAB /* Recovered References */ = {
@@ -544,6 +604,16 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		AA9203B01F8D98B100C872F3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA9203B71F8D98B100C872F3 /* HockeySDKResources.bundle */,
+				AA9203B91F8D98B100C872F3 /* libPods-hoardinvest.a */,
+				AA9203BB1F8D98B100C872F3 /* libPods-hoardinvestTests.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -551,9 +621,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "hoardinvestTests" */;
 			buildPhases = (
+				32EE835BF106959DA86A3436 /* [CP] Check Pods Manifest.lock */,
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
 				00E356EC1AD99517003FC87E /* Resources */,
+				61846ADE432A3EE748C13B55 /* [CP] Embed Pods Frameworks */,
+				4886AFDDC604AB2412D0B439 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -569,10 +642,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "hoardinvest" */;
 			buildPhases = (
+				BF78D77E04FC9D3EBAF932CC /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				FFFBB138BEDB552EEDDC6C9F /* [CP] Embed Pods Frameworks */,
+				A8B4DD65B74964709EFB2391 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -658,6 +734,10 @@
 				{
 					ProductGroup = AA161B231F831E45008DACAB /* Products */;
 					ProjectRef = 36E08142686D4AF3B3CCC664 /* A0Auth0.xcodeproj */;
+				},
+				{
+					ProductGroup = AA9203B01F8D98B100C872F3 /* Products */;
+					ProjectRef = AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
@@ -925,6 +1005,27 @@
 			remoteRef = AA161B261F831E45008DACAB /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AA9203B71F8D98B100C872F3 /* HockeySDKResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HockeySDKResources.bundle;
+			remoteRef = AA9203B61F8D98B100C872F3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA9203B91F8D98B100C872F3 /* libPods-hoardinvest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-hoardinvest.a";
+			remoteRef = AA9203B81F8D98B100C872F3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		AA9203BB1F8D98B100C872F3 /* libPods-hoardinvestTests.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-hoardinvestTests.a";
+			remoteRef = AA9203BA1F8D98B100C872F3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -990,6 +1091,108 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
+		32EE835BF106959DA86A3436 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hoardinvestTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4886AFDDC604AB2412D0B439 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		61846ADE432A3EE748C13B55 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A8B4DD65B74964709EFB2391 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BF78D77E04FC9D3EBAF932CC /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hoardinvest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFFBB138BEDB552EEDDC6C9F /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1007,6 +1210,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				AA9203E01F8D9E0C00C872F3 /* RNHockeyApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,6 +1261,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48C297C136CEAB1EDFA3EB87 /* Pods-hoardinvestTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1085,6 +1290,7 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DFCE3BA8F7E63430395E939A /* Pods-hoardinvestTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
@@ -1110,6 +1316,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34783A9B2A73F91A96ADF47C /* Pods-hoardinvest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1132,6 +1339,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5FBEFC247620B6D79F4747A7 /* Pods-hoardinvest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
