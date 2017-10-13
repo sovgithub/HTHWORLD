@@ -8,9 +8,9 @@ import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'hoard.auth0.com', clientId: 'rFNquw0t3kVJLCJWCfzUxJPtXY09a6TT' });
 
 export default class Landing extends React.Component {
-  handlePress = () => auth0
+  handlePress = (initialScreen) => () => auth0
     .webAuth
-    .authorize({scope: 'openid email', audience: 'https://hoard.auth0.com/userinfo'})
+    .authorize({scope: 'openid email', audience: 'https://hoard.auth0.com/userinfo', initialScreen})
     .then(credentials => {
       console.log(credentials);
       this.props.navigation.navigate('Referral')
@@ -25,13 +25,13 @@ export default class Landing extends React.Component {
         <View style={styles.actionsContainer}>
           <RoundedButton
             color="white"
-            onPress={this.handlePress}
+            onPress={this.handlePress('signUp')}
           >
             Create An Account
           </RoundedButton>
           <View style={styles.signInContainer}>
             <Text style={styles.signInPrompt}>Have an account?</Text>
-            <TouchableHighlight onPress={this.handlePress}>
+            <TouchableHighlight onPress={this.handlePress('login')}>
               <Text style={styles.signInButton}> Sign in!</Text>
             </TouchableHighlight>
           </View>
