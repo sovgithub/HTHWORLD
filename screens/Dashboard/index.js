@@ -6,8 +6,23 @@ import {
   Text,
   View,
 } from 'react-native';
+import CurrencyButton from './CurrencyButton';
+
+const currencies = {
+  DASH: 'DASH',
+  ETH: 'ETH',
+  BTC: 'BTC',
+  LTC: 'LTC',
+  XRP: 'XRP',
+};
 
 export default class Dashboard extends React.Component {
+  state = {
+    selectedCurrency: currencies.BTC
+  }
+
+  handleCurrencyChange = selectedCurrency => () => this.setState({ selectedCurrency })
+
   triggerBasicAlert = (label) => () => Alert.alert('Button Clicked', label)
 
   render() {
@@ -15,6 +30,17 @@ export default class Dashboard extends React.Component {
       <View style={styles.container}>
         <Text style={styles.heading}>Currency Markets</Text>
         <Text style={styles.date}>September 2</Text>
+        <View style={styles.currencyTitleContainer}>
+          {Object.values(currencies).map((currency) => (
+            <CurrencyButton
+              key={currency}
+              onPress={this.handleCurrencyChange(currency)}
+              selected={currency === this.state.selectedCurrency}
+            >
+              {currency}
+            </CurrencyButton>
+          ))}
+        </View>
         <View style={styles.carouselContainer}>
           <Text style={styles.text}>Carousel section</Text>
         </View>
@@ -44,6 +70,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 20,
     color: 'white',
+  },
+  currencyTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
   carouselContainer: {
     flex: 1,
