@@ -62,12 +62,6 @@ export default class Dashboard extends React.Component {
               />
             )}
           </GetCurrencyPrice>
-          <ValueStatement
-            title="Your Holdings"
-            value="$124.94"
-            change="-3.55(0.02%)"
-            positive={false}
-          />
         </View>
         <View style={styles.carouselContainer}>
           <GetCurrencyHistory currency={this.state.selectedCurrency}>
