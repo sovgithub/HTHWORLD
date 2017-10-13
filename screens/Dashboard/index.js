@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
+import DotChart from 'components/DotChart';
 
 const currencies = {
   DASH: 'DASH',
@@ -16,6 +17,12 @@ const currencies = {
   LTC: 'LTC',
   XRP: 'XRP',
 };
+
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
+}
 
 export default class Dashboard extends React.Component {
   state = {
@@ -57,7 +64,9 @@ export default class Dashboard extends React.Component {
           />
         </View>
         <View style={styles.carouselContainer}>
-          <Text style={styles.text}>Carousel section</Text>
+          <DotChart positive={true}>
+            {[...Array(50)].map(() => getRandomInt(1, 200))}
+          </DotChart>
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Send or Request Money" onPress={this.triggerBasicAlert('Send/Request')}/>
