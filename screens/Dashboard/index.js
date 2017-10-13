@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   heading: {
-    marginTop: 100,
     margin: 10,
     fontSize: 30,
     color: 'white',
