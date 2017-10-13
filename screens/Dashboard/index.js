@@ -56,7 +56,7 @@ export default class Dashboard extends React.Component {
             {({loaded, data}) => (
               <ValueStatement
                 title={`${this.state.selectedCurrency} price`}
-                value={loaded ? `$${data}` : '... loading ...'}
+                value={loaded ? `$${data}` : '...'}
                 change="+34.55(0.23%)"
                 positive={true}
               />
@@ -68,7 +68,7 @@ export default class Dashboard extends React.Component {
             {({loaded, data}) => {
               return loaded
                 ? <DotChart positive={true}>{data}</DotChart>
-                : <Text style={styles.text}>Loading...</Text>
+                : <Text style={styles.text}>...</Text>
             }}
           </GetCurrencyHistory>
         </View>
