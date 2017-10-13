@@ -7,6 +7,7 @@ import {
   View,
 } from 'react-native';
 import CurrencyButton from './CurrencyButton';
+import ValueStatement from 'components/ValueStatement';
 
 const currencies = {
   DASH: 'DASH',
@@ -41,6 +42,20 @@ export default class Dashboard extends React.Component {
             </CurrencyButton>
           ))}
         </View>
+        <View style={styles.pricingContainer}>
+          <ValueStatement
+            title={`${this.state.selectedCurrency} price`}
+            value="$12,084.94"
+            change="+34.55(0.23%)"
+            positive={true}
+          />
+          <ValueStatement
+            title="Your Holdings"
+            value="$124.94"
+            change="-3.55(0.02%)"
+            positive={false}
+          />
+        </View>
         <View style={styles.carouselContainer}>
           <Text style={styles.text}>Carousel section</Text>
         </View>
@@ -74,6 +89,9 @@ const styles = StyleSheet.create({
   currencyTitleContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
+  },
+  pricingContainer: {
+    flexDirection: 'row',
   },
   carouselContainer: {
     flex: 1,
