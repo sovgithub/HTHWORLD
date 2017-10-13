@@ -38,7 +38,7 @@ export default class Dashboard extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Currency Markets</Text>
+        <Text style={styles.heading}>Markets</Text>
         <Text style={styles.date}>September 2</Text>
         <View style={styles.currencyTitleContainer}>
           {Object.values(currencies).map((currency) => (
