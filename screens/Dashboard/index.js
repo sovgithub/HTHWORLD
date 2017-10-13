@@ -9,6 +9,7 @@ import {
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
 import DotChart from 'components/DotChart';
+import GetCurrencyHistory from 'components/GetCurrencyHistory';
 
 const currencies = {
   DASH: 'DASH',
@@ -64,9 +65,13 @@ export default class Dashboard extends React.Component {
           />
         </View>
         <View style={styles.carouselContainer}>
-          <DotChart positive={true}>
-            {[...Array(50)].map(() => getRandomInt(1, 200))}
-          </DotChart>
+          <GetCurrencyHistory currency={this.state.selectedCurrency}>
+            {({loaded, data}) => {
+              return loaded
+                ? <DotChart positive={true}>{data}</DotChart>
+                : <Text style={styles.text}>Loading...</Text>
+            }}
+          </GetCurrencyHistory>
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Send or Request Money" onPress={this.triggerBasicAlert('Send/Request')}/>
