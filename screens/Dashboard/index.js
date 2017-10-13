@@ -9,6 +9,7 @@ import {
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
 import DotChart from 'components/DotChart';
+import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 
 const currencies = {
@@ -51,12 +52,16 @@ export default class Dashboard extends React.Component {
           ))}
         </View>
         <View style={styles.pricingContainer}>
-          <ValueStatement
-            title={`${this.state.selectedCurrency} price`}
-            value="$12,084.94"
-            change="+34.55(0.23%)"
-            positive={true}
-          />
+          <GetCurrencyPrice currency={this.state.selectedCurrency}>
+            {({loaded, data}) => (
+              <ValueStatement
+                title={`${this.state.selectedCurrency} price`}
+                value={loaded ? `$${data}` : '... loading ...'}
+                change="+34.55(0.23%)"
+                positive={true}
+              />
+            )}
+          </GetCurrencyPrice>
           <ValueStatement
             title="Your Holdings"
             value="$124.94"
