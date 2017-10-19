@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import Referral from 'screens/Referral';
 import Dashboard from 'screens/Dashboard';
+import Wallet from 'screens/Wallet';
 import withHeader from 'hocs/withHeader';
 
 const itemWithHeader = (title, screen) => {
@@ -17,6 +18,9 @@ const itemWithHeader = (title, screen) => {
 };
 
 const RouteConfigs = {
+  Wallet:  {
+    screen: itemWithHeader('Wallet', Wallet),
+  },
   Dashboard:  {
     screen: itemWithHeader('Dashboard', Dashboard),
   },
