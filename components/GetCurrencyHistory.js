@@ -7,6 +7,10 @@ export default class GetCurrencyHistory extends React.Component {
     requestNumber: 0,
   }
 
+  static defaultProps = {
+    limit: 60,
+  }
+
   componentWillMount() {
     this.makeRequest(this.props.currency, this.state.requestNumber);
   }
@@ -20,7 +24,7 @@ export default class GetCurrencyHistory extends React.Component {
   }
 
   makeRequest = (currency, requestNumber) => {
-    fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${currency}&tsym=USD&limit=60&aggregate=3`)
+    fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${currency}&tsym=USD&limit=${this.props.limit}&aggregate=3`)
       .then((response) => {
         if (this.state.requestNumber === requestNumber) {
           return response.json()
