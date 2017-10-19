@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class GetCurrencyPrice extends React.Component {
+  static propTypes = {
+    currency: PropTypes.string,
+  }
+
   state = {
     loaded: false,
     data: "",

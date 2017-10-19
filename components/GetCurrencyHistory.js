@@ -1,15 +1,22 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default class GetCurrencyHistory extends React.Component {
+  static propTypes = {
+    currency: PropTypes.string,
+    limit: PropTypes.number,
+  }
+
+  static defaultProps = {
+    limit: 60,
+  }
+
   state = {
     loaded: false,
     data: [],
     requestNumber: 0,
   }
 
-  static defaultProps = {
-    limit: 60,
-  }
 
   componentWillMount() {
     this.makeRequest(this.props.currency, this.state.requestNumber);
