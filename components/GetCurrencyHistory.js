@@ -1,55 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Fetch from 'components/Fetch';
 
 export default class GetCurrencyHistory extends React.Component {
   static propTypes = {
-    currencies: PropTypes.arrayOf(PropTypes.string),
-    limit: PropTypes.number,
+    currency: PropTypes.string,
+    limit: PropTypes.string,
   }
 
   static defaultProps = {
-    limit: 60,
+    limit: '60',
   }
 
-  state = {
-    loaded: false,
-    data: [],
-    requestNumber: 0,
-  }
-
-
-  componentWillMount() {
-    this.makeRequest(this.props.currencies, this.state.requestNumber);
+  constructor(props) {
+    super(props);
+    this.state = {
+      queries: this.constructQueries(props.currency, props.limit)
+    };
   }
 
   componentWillReceiveProps(newProps) {
-    if (this.props.currencies != newProps.currencies) {
-      this.setState({loaded: false, requestNumber: this.state.requestNumber + 1}, () => {
-        this.makeRequest(newProps.currencies, this.state.requestNumber);
-      })
+    if (newProps.currency !== this.props.currency || newProps.limit !== this.props.limit) {
+      this.setState({
+        queries: this.constructQueries(newProps.currency, newProps.limit)
+      });
     }
   }
 
+  constructQueries = (currency, limit) => [
+    {name: 'fsym', value: currency},
+    {name: 'tsym', value: 'USD'},
+    {name: 'limit', value: limit},
+    {name: 'aggregate', value: '3'}
+  ];
 
-  makeRequest = (currencies, requestNumber) => {
-    fetch(`https://min-api.cryptocompare.com/data/histohour?fsym=${currencies.join(',')}&tsym=USD&limit=${this.props.limit}&aggregate=3`)
-      .then((response) => {
-        if (this.state.requestNumber === requestNumber) {
-          return response.json()
-            .then((json) => {
-              console.log(json);
-              this.setState({
-                loaded: true,
-                data: json.Data.map((day) => day.close)
-              });
-            });
-        }
-      })
-      .catch((error) => console.log('error! ', error));
-  }
+  formatter = (json) =>
+    json.Data.map((day) => day.close);
 
   render() {
-    const { loaded, data } = this.state;
-    return this.props.children({ loaded, data });
+    return (
+      <Fetch
+        url="https://min-api.cryptocompare.com/data/histohour"
+        queries={this.state.queries}
+        formatter={this.formatter}
+      >
+        {this.props.children}
+      </Fetch>
+    );
   }
 }

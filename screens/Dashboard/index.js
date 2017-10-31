@@ -64,7 +64,7 @@ export default class Dashboard extends React.Component {
           </GetCurrencyPrice>
         </View>
         <View style={styles.carouselContainer}>
-          <GetCurrencyHistory currencies={[ this.state.selectedCurrency ]}>
+          <GetCurrencyHistory currency={this.state.selectedCurrency}>
             {({loaded, data}) => {
               return loaded
                 ? <DotChart positive={true}>{data}</DotChart>
