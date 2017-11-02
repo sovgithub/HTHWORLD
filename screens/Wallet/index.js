@@ -38,7 +38,7 @@ export default class Wallet extends React.Component {
                         currentPrice={prices && prices[curr].USD}
                         history={history}
                         holdingPrice={prices && amountHeld * prices[curr].USD}
-                        positive={true}
+                        positive={history[0] < history[history.length - 1]}
                         title={curr}
                       />
                     ) : null;

@@ -67,7 +67,7 @@ export default class Dashboard extends React.Component {
           <GetCurrencyHistory currency={this.state.selectedCurrency}>
             {({loaded, data}) => {
               return loaded
-                ? <SparkLine positive={true}>{data}</SparkLine>
+                ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
                 : <Text style={styles.text}>...</Text>
             }}
           </GetCurrencyHistory>

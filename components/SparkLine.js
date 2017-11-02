@@ -40,7 +40,7 @@ export default class SparkLine extends React.Component {
                 <Polyline
                     points={renderablePoints.join(' ')}
                     fill="none"
-                    stroke="red"
+                    stroke={positive ? positiveColor : negativeColor}
                     strokeWidth="1"
                 />
               </Svg>
@@ -51,6 +51,9 @@ export default class SparkLine extends React.Component {
     }
 }
 
+
+const positiveColor = 'green';
+const negativeColor = 'red';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -61,11 +64,5 @@ const styles = StyleSheet.create({
   dot: {
     marginRight: 2,
     marginLeft: 2,
-  },
-  dotPositive: {
-    backgroundColor: 'green'
-  },
-  dotNegative: {
-    backgroundColor: 'red'
   },
 });
