@@ -4,7 +4,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import DotChart from 'components/DotChart';
+import SparkLine from 'components/SparkLine';
 
 export default function CurrencyOverview({
   amountHeld,
@@ -23,7 +23,7 @@ export default function CurrencyOverview({
         </Text>
       </View>
       <View style={styles.chartContainer}>
-        <Text style={styles.amountHeld}>{history.toString()}</Text>
+        <SparkLine positive={positive}>{history}</SparkLine>
       </View>
       <View style={styles.priceContainer}>
         <Text style={styles.holdingPrice}>{holdingPrice}</Text>

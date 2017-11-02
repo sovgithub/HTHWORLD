@@ -30,9 +30,9 @@ export default class Wallet extends React.Component {
              <View>
               {Object.values(currencies).map((curr) => (
                 <GetCurrencyHistory key={curr} currency={curr} limit={'3'}>
-                  {({data: history}) => {
+                  {({loaded, data: history}) => {
                     const amountHeld = getRandomInt(1, 20);
-                    return (
+                    return loaded ? (
                       <CurrencyOverview
                         amountHeld={amountHeld}
                         currentPrice={prices && prices[curr].USD}
@@ -41,7 +41,7 @@ export default class Wallet extends React.Component {
                         positive={true}
                         title={curr}
                       />
-                    );
+                    ) : null;
                   }}
                 </GetCurrencyHistory>
               ))}

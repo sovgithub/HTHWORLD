@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
-import DotChart from 'components/DotChart';
+import SparkLine from 'components/SparkLine';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 
@@ -67,7 +67,7 @@ export default class Dashboard extends React.Component {
           <GetCurrencyHistory currency={this.state.selectedCurrency}>
             {({loaded, data}) => {
               return loaded
-                ? <DotChart positive={true}>{data}</DotChart>
+                ? <SparkLine positive={true}>{data}</SparkLine>
                 : <Text style={styles.text}>...</Text>
             }}
           </GetCurrencyHistory>
