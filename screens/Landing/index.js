@@ -5,17 +5,25 @@ import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
 
 import Auth0 from 'react-native-auth0';
-const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'zTlguuKCHeSg23A70X480gQvLfIos1oi' });
+const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
 
 export default class Landing extends React.Component {
-  handlePress = (initialScreen) => () => auth0
-    .webAuth
-    .authorize({scope: 'openid email', audience: 'https://oar-dev01.auth0.com/userinfo', initialScreen})
-    .then(credentials => {
+  handlePress = (initialScreen) => async () => {
+    try {
+      const credentials = await auth0
+        .webAuth
+        .authorize({scope: 'openid email', audience: 'https://oar-dev01.auth0.com/userinfo', initialScreen});
       console.log(credentials);
-      this.props.navigation.navigate('Referral')
-    })
-    .catch(error => console.log(error));
+      console.log(JSON.stringify({
+        access_token: credentials.accessToken,
+        id_token: credentials.idToken
+      }));
+      this.props.navigation.navigate('Referral');
+    }
+    catch (error) {
+      console.log(error);
+    }
+  }
 
   render() {
     return (
