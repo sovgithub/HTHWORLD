@@ -1,1 +1,1 @@
-import './src/index.ios.js';
+import './lib/index.ios';

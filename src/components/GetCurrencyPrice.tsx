@@ -1,20 +1,24 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Fetch from 'components/Fetch';
+import * as React from 'react';
+import Fetch, {FetchRenderType, FetchQuery} from 'components/Fetch';
 
-export default class GetCurrencyPrice extends React.Component {
-  static propTypes = {
-    currencies: PropTypes.arrayOf(PropTypes.string),
-  }
+interface Props {
+  currencies: string[];
+  children: FetchRenderType;
+}
 
-  constructor(props) {
+interface State {
+  queries: FetchQuery[];
+}
+
+export default class GetCurrencyPrice extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       queries: this.constructQueries(props.currencies)
     };
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.currencies !== this.props.currencies) {
       this.setState({
         queries: this.constructQueries(newProps.currencies)
@@ -22,12 +26,12 @@ export default class GetCurrencyPrice extends React.Component {
     }
   }
 
-  constructQueries = (currencies) => [
+  constructQueries = (currencies: Props["currencies"]) => [
     {name: 'fsyms', value: currencies.join(',')},
     {name: 'tsyms', value: 'USD'}
   ];
 
-  formatter = (json) => json;
+  formatter: (json: any) => any = (json) => json;
 
   render() {
     return (

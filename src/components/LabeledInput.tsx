@@ -1,36 +1,34 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   TextInput
 } from 'react-native';
 
-type Props = {
-  activeColor?: string,
-  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters',
-  inactiveColor?: string,
-  placeholder?: string,
-  style?: {[string]: any},
-  value?: string,
-  onChangeText: () => mixed,
-  onSubmitEditing: () => mixed
-};
+interface Props {
+  activeColor?: string;
+  autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
+  inactiveColor?: string;
+  placeholder?: string;
+  style?: {[key: string]: any};
+  value?: string;
+  onChangeText: () => any;
+  onSubmitEditing: () => any;
+}
 
-type State = {
+interface State {
   active: boolean
-};
+}
 
-export default class LabeledInput extends React.Component {
+export default class LabeledInput extends React.Component<Props, State> {
   static defaultProps = {
     activeColor: 'white',
     inactiveColor: 'grey',
     placeholder: 'text',
   }
 
-  props: Props
   state: State = { active: false }
 
-  inputRef = null
+  inputRef: any = null
   setupInputRef = (input: any) => this.inputRef = input
 
   toggleFocus = () => this.setState({ active: !this.state.active })

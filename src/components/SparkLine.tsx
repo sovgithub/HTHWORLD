@@ -1,14 +1,24 @@
-import React from 'react';
-import {View, StyleSheet, Text, Dimensions} from 'react-native';
+import * as React from 'react';
+import {View, StyleSheet, Text, Dimensions, LayoutChangeEvent} from 'react-native';
 import Svg, {Polyline} from 'react-native-svg';
 
-export default class SparkLine extends React.Component {
+interface Props {
+  positive: boolean;
+  children: number[];
+}
+
+interface State {
+  width: number;
+  height: number;
+}
+
+export default class SparkLine extends React.Component<Props, State> {
   state = {
-    width: null,
-    height: null
+    width: 0,
+    height: 0
   }
 
-  handleLayout = ({nativeEvent: {layout: {width, height}}}) => {
+  handleLayout: (event: LayoutChangeEvent) => void = ({nativeEvent: {layout: {width, height}}}) => {
     this.setState({
       width: width ? width : Dimensions.get('window').width,
       height
@@ -17,7 +27,7 @@ export default class SparkLine extends React.Component {
 
   render() {
     const {width, height} = this.state;
-    const {positive, children} = this.props;
+    const {positive, children}: Props = this.props;
 
     const maxValue = Math.max(...children);
     const minValue = Math.min(...children);

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,14 +6,23 @@ import {
 } from 'react-native';
 import SparkLine from 'components/SparkLine';
 
-export default function CurrencyOverview({
+interface Props {
+  amountHeld: number;
+  currentPrice: number;
+  history: number[];
+  holdingPrice: number;
+  positive: boolean;
+  title: string;
+}
+
+const CurrencyOverview: React.SFC<Props> = ({
   amountHeld,
   currentPrice,
   history,
   holdingPrice,
   positive,
   title,
-}) {
+}) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
@@ -75,3 +84,5 @@ const styles = StyleSheet.create({
     color: 'red'
   },
 });
+
+export default CurrencyOverview;

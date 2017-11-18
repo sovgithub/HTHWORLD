@@ -1,14 +1,18 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { NavigationScreenProp } from 'react-navigation';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
 
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
 
-export default class Landing extends React.Component {
-  handlePress = (initialScreen) => async () => {
+interface Props {
+    navigation: NavigationScreenProp<any, any>;
+}
+
+export default class Landing extends React.Component<Props, void> {
+  handlePress = (initialScreen: string) => async () => {
     try {
       const credentials = await auth0
         .webAuth

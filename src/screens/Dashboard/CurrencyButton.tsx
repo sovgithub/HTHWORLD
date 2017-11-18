@@ -1,11 +1,18 @@
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
+  GestureResponderEvent,
 } from 'react-native';
 
-export default function CurrencyButton({children, selected, onPress}) {
+interface Props {
+  children: string;
+  selected: boolean;
+  onPress: (event: GestureResponderEvent) => any;
+}
+
+const CurrencyButton: React.SFC<Props> = ({children, selected, onPress}) => {
   const containerStyles = [styles.container];
   const textStyles = [styles.text];
   if (selected) {
@@ -31,7 +38,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightblue',
   },
   text: {
-    color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
     color: 'grey',
@@ -40,3 +46,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+export default CurrencyButton;

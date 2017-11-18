@@ -1,9 +1,8 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Header from 'components/Header';
 
-export default function Referral() {
+const Referral: React.SFC<void> = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
@@ -62,3 +61,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
 });
+
+export default Referral;

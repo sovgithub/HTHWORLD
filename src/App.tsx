@@ -1,12 +1,10 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import store from './store.duck';
-import HockeyApp from 'react-native-hockeyapp';
+import * as HockeyApp from 'react-native-hockeyapp';
 import Landing from 'screens/Landing';
 import Menu from 'screens/Menu';
-// $FlowFixMe - until 1.0.0-beta.13 version of react-navigation
 import { StackNavigator } from 'react-navigation';
 
 const storeInstance = createStore(store);
@@ -20,7 +18,7 @@ const RoutingStack = StackNavigator({
 
 
 
-export default class App extends React.Component {
+export default class App extends React.Component<{}, {}> {
   componentWillMount() {
     HockeyApp.configure('HOCKEYAPP_API_KEY', true);
   }

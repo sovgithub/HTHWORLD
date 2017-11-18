@@ -1,5 +1,4 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,13 +6,13 @@ import {
 } from 'react-native';
 import Logo from './Logo';
 
-type Props = {
-  showSubtitle?: boolean,
-  style?: any,
-  textColor?: string
-};
+interface Props {
+  showSubtitle?: boolean;
+  style?: any;
+  textColor?: string;
+}
 
-export default function Header(props: Props) {
+const Header: React.SFC<Props> = (props) => {
   const fontStyle = { color: props.textColor };
 
   return (
@@ -52,3 +51,5 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+export default Header;

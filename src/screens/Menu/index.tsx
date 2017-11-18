@@ -1,5 +1,5 @@
-import React from 'react';
-import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation';
+import * as React from 'react';
+import { DrawerNavigator, StackNavigator, DrawerItems, DrawerNavigatorConfig } from 'react-navigation';
 import {
   Alert,
   Button,
@@ -11,9 +11,9 @@ import {
 import Referral from 'screens/Referral';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
-import withHeader from 'hocs/withHeader';
+import withHeader, {WrappedComponentType} from 'hocs/withHeader';
 
-const itemWithHeader = (title, screen) => {
+const itemWithHeader = (title: string, screen: WrappedComponentType) => {
   return StackNavigator({Main: { screen: withHeader(title, screen) }});
 };
 
@@ -29,7 +29,7 @@ const RouteConfigs = {
   },
 };
 
-const DrawerNavigatorConfig = {
+const drawerNavigatorConfig: DrawerNavigatorConfig = {
   drawerPosition: 'right',
   drawerWidth: Dimensions.get('window').width,
   contentComponent: props => <View style={{marginTop: 30}}>
@@ -40,4 +40,4 @@ const DrawerNavigatorConfig = {
   </View>
 };
 
-export default DrawerNavigator(RouteConfigs, DrawerNavigatorConfig)
+export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig)

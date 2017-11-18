@@ -1,25 +1,35 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Fetch from 'components/Fetch';
+import * as React from 'react';
+import Fetch, {FetchRenderType, FetchQuery} from 'components/Fetch';
 
-export default class GetCurrencyHistory extends React.Component {
-  static propTypes = {
-    currency: PropTypes.string,
-    limit: PropTypes.string,
-  }
+interface Props {
+  children: FetchRenderType;
+  currency: string;
+  limit?: string;
+}
 
+interface State {
+  queries: FetchQuery[];
+}
+
+interface JSONDatum {
+  close: number;
+}
+
+type JSONFormatter = (json: {Data: JSONDatum[]}) => number[];
+
+export default class GetCurrencyHistory extends React.Component<Props, State> {
   static defaultProps = {
     limit: '60',
   }
 
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       queries: this.constructQueries(props.currency, props.limit)
     };
   }
 
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.currency !== this.props.currency || newProps.limit !== this.props.limit) {
       this.setState({
         queries: this.constructQueries(newProps.currency, newProps.limit)
@@ -27,14 +37,14 @@ export default class GetCurrencyHistory extends React.Component {
     }
   }
 
-  constructQueries = (currency, limit) => [
+  constructQueries = (currency: Props["currency"], limit: Props["limit"]) => [
     {name: 'fsym', value: currency},
     {name: 'tsym', value: 'USD'},
     {name: 'limit', value: limit},
     {name: 'aggregate', value: '3'}
   ];
 
-  formatter = (json) =>
+  formatter: JSONFormatter = (json) =>
     json.Data.map((day) => day.close);
 
   render() {

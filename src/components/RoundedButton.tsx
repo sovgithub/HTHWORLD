@@ -1,21 +1,20 @@
-// @flow
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   Text,
   TouchableHighlight
 } from 'react-native';
 
-type Props = {
-  backgroundColor?: string,
-  children: string,
-  color?: string,
-  style?: {[string]: any},
-  underlayColor?: string,
-  onPress: () => mixed
+interface Props {
+  backgroundColor?: string;
+  children: string;
+  color?: string;
+  style?: {[key: string]: any};
+  underlayColor?: string;
+  onPress: () => any;
 };
 
-export default function RoundedButton(props: Props) {
+const RoundedButton: React.SFC<Props> = (props: Props) => {
   return (
     <TouchableHighlight
       style={[
@@ -54,3 +53,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   }
 });
+
+export default RoundedButton;

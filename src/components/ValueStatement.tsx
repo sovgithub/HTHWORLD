@@ -1,16 +1,23 @@
-import React from 'react';
+import * as React from 'react';
 import {
   StyleSheet,
   View,
   Text,
 } from 'react-native';
 
-export default function ValueStatement({
+interface Props {
+  change: string;
+  positive: boolean;
+  title: string;
+  value: string;
+}
+
+const ValueStatement: React.SFC<Props> = ({
   title,
   value,
   change,
   positive,
-}) {
+})  => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{title}</Text>
@@ -42,3 +49,5 @@ const styles = StyleSheet.create({
     color: 'red',
   },
 });
+
+export default ValueStatement;

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import {
   Alert,
   Button,
@@ -12,28 +12,38 @@ import SparkLine from 'components/SparkLine';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 
-const currencies = {
-  DASH: 'DASH',
-  ETH: 'ETH',
-  BTC: 'BTC',
-  LTC: 'LTC',
-  XRP: 'XRP',
+enum Currencies {
+  DASH = 'DASH',
+  ETH = 'ETH',
+  BTC = 'BTC',
+  LTC = 'LTC',
+  XRP = 'XRP',
 };
 
-function getRandomInt(min, max) {
+const CurrencyList: Currencies[] = [];
+
+for (const CurrencyItem in Currencies) {
+  CurrencyList.push(CurrencyItem as Currencies);
+}
+
+function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-export default class Dashboard extends React.Component {
+interface State {
+  selectedCurrency: Currencies
+}
+
+export default class Dashboard extends React.Component<{}, State> {
   state = {
-    selectedCurrency: currencies.BTC
+    selectedCurrency: Currencies.BTC
   }
 
-  handleCurrencyChange = selectedCurrency => () => this.setState({ selectedCurrency })
+  handleCurrencyChange = (selectedCurrency: Currencies) => () => this.setState({ selectedCurrency })
 
-  triggerBasicAlert = (label) => () => Alert.alert('Button Clicked', label)
+  triggerBasicAlert = (label: string) => () => Alert.alert('Button Clicked', label)
 
   render() {
     return (
@@ -41,7 +51,7 @@ export default class Dashboard extends React.Component {
         <Text style={styles.heading}>Markets</Text>
         <Text style={styles.date}>September 2</Text>
         <View style={styles.currencyTitleContainer}>
-          {Object.values(currencies).map((currency) => (
+        {CurrencyList.map((currency: Currencies) => (
             <CurrencyButton
               key={currency}
               onPress={this.handleCurrencyChange(currency)}
