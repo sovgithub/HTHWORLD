@@ -46,13 +46,13 @@ const styles = StyleSheet.create({
 const getThemedStyles = (colors: Colors) => {
   return {
     containerSelected: {
-      backgroundColor: 'lightblue',
+      backgroundColor: colors.interactivePrimary,
     },
     text: {
-      color: 'grey',
+      color: colors.textSecondary,
     },
     textSelected: {
-      color: 'white',
+      color: colors.textPrimary,
     },
   };
 }

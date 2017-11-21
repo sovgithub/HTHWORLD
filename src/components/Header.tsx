@@ -14,15 +14,16 @@ interface Props {
 }
 
 const Header: React.SFC<Props> = (props) => {
-  const fontStyle = { color: props.textColor };
-  const themedStyles = getThemedStyles(getColors());
+  const themeColors = getColors();
+  const themedStyles = getThemedStyles(themeColors);
+  const fontStyle = { color: props.textColor || themeColors.textPrimary };
 
   return (
     <View style={[props.style, styles.contentContainer]}>
       <Logo />
-      <Text style={[styles.header, themedStyles.header, fontStyle]}>Hoard</Text>
+      <Text style={[styles.header, themedStyles.header]}>Hoard</Text>
       { props.showSubtitle
-        ? <Text style={[styles.subtitle, themedStyles.subtitle, fontStyle]}>Digital currency for everyone</Text>
+        ? <Text style={[styles.subtitle, themedStyles.subtitle]}>Digital currency for everyone</Text>
         : null
       }
     </View>
