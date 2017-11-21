@@ -8,7 +8,7 @@ const Referral: React.SFC<void> = () => {
   const themedStyles = getThemedStyles(getColors());
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themedStyles.container]}>
       <StatusBar barStyle="dark-content" />
       <Header
         style={StyleSheet.flatten(styles.header)}
@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
 
 const getThemedStyles = (colors: Colors) => {
   return {
+    container: {
+      backgroundColor: colors.background,
+    },
     textContent: {
       color: colors.textSecondary,
     },
