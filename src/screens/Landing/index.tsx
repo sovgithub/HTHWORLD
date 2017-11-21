@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Alert, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Alert, Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
-import {getColors, Colors} from 'styles';
+import {getColors, Colors, setTheme, getTheme, Theme} from 'styles';
 
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
@@ -13,11 +13,13 @@ interface Props {
 }
 
 interface State {
+  currentTheme: Theme;
   loading: boolean;
 }
 
 export default class Landing extends React.Component<Props, State> {
   state = {
+    currentTheme: getTheme(),
     loading: false
   };
 
@@ -38,6 +40,14 @@ export default class Landing extends React.Component<Props, State> {
       console.log(error);
       this.setState({loading: false})
     }
+  }
+
+  handleThemeSwitch = () => {
+    this.setState({
+      currentTheme: setTheme(
+        getTheme() === Theme.light ? Theme.dark : Theme.light
+      )
+    })
   }
 
   render() {
@@ -64,6 +74,7 @@ export default class Landing extends React.Component<Props, State> {
                   <Text style={[styles.signInButton, themedStyles.signInButton]}> Sign in!</Text>
                 </TouchableHighlight>
               </View>
+              <Button title={`switch theme from ${this.state.currentTheme}`} onPress={this.handleThemeSwitch} color={themeColors.interactivePrimaryText} />
             </View>
           )
         }
