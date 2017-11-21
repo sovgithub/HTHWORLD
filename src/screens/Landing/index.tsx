@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Alert, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
@@ -41,7 +41,7 @@ export default class Landing extends React.Component<Props, State> {
 
   render() {
     return (
-      <Image style={styles.backgroundImage} source={require('assets/landing_bg.png')}>
+      <ImageBackground style={styles.imageView} imageStyle={styles.image} source={require('assets/landing_bg.png')}>
         <StatusBar barStyle="light-content" />
         <Header style={StyleSheet.flatten(styles.contentContainer)}  />
         {this.state.loading
@@ -63,14 +63,16 @@ export default class Landing extends React.Component<Props, State> {
             </View>
           )
         }
-      </Image>
+      </ImageBackground>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  backgroundImage: {
+  imageView: {
     flex: 1,
+  },
+  image: {
     width: null,
     height: null,
     resizeMode: 'cover',
