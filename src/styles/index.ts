@@ -52,10 +52,14 @@ export const themeColors: {
   }
 }
 
-export let currentTheme: Theme = Theme.dark;
+let currentTheme: Theme = Theme.dark;
 
 export function setTheme(theme: Theme): Theme {
   return currentTheme = theme;
+}
+
+export function getTheme(): Theme {
+  return currentTheme;
 }
 
 export function getColors() {
