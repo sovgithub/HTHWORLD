@@ -56,7 +56,7 @@ export default class Landing extends React.Component<Props, State> {
 
     return (
       <ImageBackground style={styles.imageView} imageStyle={styles.image} source={require('assets/landing_bg.png')}>
-        <StatusBar barStyle="light-content" />
+        <StatusBar barStyle={this.state.currentTheme === Theme.light ? 'dark-content' : 'light-content'} />
         <Header style={StyleSheet.flatten(styles.contentContainer)}  />
         {this.state.loading
           ? (<Text>...</Text>)

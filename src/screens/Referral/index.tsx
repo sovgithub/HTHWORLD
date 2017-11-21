@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, Image, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Alert, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Header from 'components/Header';
 import {getColors, Colors} from 'styles';
 
@@ -9,7 +9,6 @@ const Referral: React.SFC<void> = () => {
 
   return (
     <View style={[styles.container, themedStyles.container]}>
-      <StatusBar barStyle="dark-content" />
       <Header
         style={StyleSheet.flatten(styles.header)}
         textColor={themeColors.textPrimary}
