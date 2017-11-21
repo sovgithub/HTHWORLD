@@ -8,11 +8,20 @@ import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
 
 interface Props {
-    navigation: NavigationScreenProp<any, any>;
+  navigation: NavigationScreenProp<any, any>;
 }
 
-export default class Landing extends React.Component<Props, void> {
+interface State {
+  loading: boolean;
+}
+
+export default class Landing extends React.Component<Props, State> {
+  state = {
+    loading: false
+  };
+
   handlePress = (initialScreen: string) => async () => {
+    this.setState({loading: true});
     try {
       const credentials = await auth0
         .webAuth
@@ -26,6 +35,7 @@ export default class Landing extends React.Component<Props, void> {
     }
     catch (error) {
       console.log(error);
+      this.setState({loading: false})
     }
   }
 
@@ -34,20 +44,25 @@ export default class Landing extends React.Component<Props, void> {
       <Image style={styles.backgroundImage} source={require('assets/landing_bg.png')}>
         <StatusBar barStyle="light-content" />
         <Header style={StyleSheet.flatten(styles.contentContainer)}  />
-        <View style={styles.actionsContainer}>
-          <RoundedButton
-            color="white"
-            onPress={this.handlePress('signUp')}
-          >
-            Create An Account
-          </RoundedButton>
-          <View style={styles.signInContainer}>
-            <Text style={styles.signInPrompt}>Have an account?</Text>
-            <TouchableHighlight onPress={this.handlePress('login')}>
-              <Text style={styles.signInButton}> Sign in!</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
+        {this.state.loading
+          ? (<Text>...</Text>)
+          : (
+            <View style={styles.actionsContainer}>
+              <RoundedButton
+                color="white"
+                onPress={this.handlePress('signUp')}
+              >
+                Create An Account
+              </RoundedButton>
+              <View style={styles.signInContainer}>
+                <Text style={styles.signInPrompt}>Have an account?</Text>
+                <TouchableHighlight onPress={this.handlePress('login')}>
+                  <Text style={styles.signInButton}> Sign in!</Text>
+                </TouchableHighlight>
+              </View>
+            </View>
+          )
+        }
       </Image>
     );
   }
