@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {View, StyleSheet, Text, Dimensions, LayoutChangeEvent} from 'react-native';
 import Svg, {Polyline} from 'react-native-svg';
+import {getColors} from 'styles';
 
 interface Props {
   positive: boolean;
@@ -29,6 +30,8 @@ export default class SparkLine extends React.Component<Props, State> {
     const {width, height} = this.state;
     const {positive, children}: Props = this.props;
 
+    const themeColors = getColors();
+
     const maxValue = Math.max(...children);
     const minValue = Math.min(...children);
     const range = maxValue - minValue;
@@ -50,7 +53,7 @@ export default class SparkLine extends React.Component<Props, State> {
                 <Polyline
                     points={renderablePoints.join(' ')}
                     fill="none"
-                    stroke={positive ? positiveColor : negativeColor}
+                    stroke={positive ? themeColors.chartPositive : themeColors.chartNegative}
                     strokeWidth="1"
                 />
               </Svg>
@@ -62,8 +65,6 @@ export default class SparkLine extends React.Component<Props, State> {
 }
 
 
-const positiveColor = 'green';
-const negativeColor = 'red';
 const styles = StyleSheet.create({
   container: {
     flex: 1,

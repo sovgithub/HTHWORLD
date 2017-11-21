@@ -12,6 +12,7 @@ import Referral from 'screens/Referral';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
 import withHeader, {WrappedComponentType} from 'hocs/withHeader';
+import {getColors} from 'styles';
 
 const itemWithHeader = (title: string, screen: WrappedComponentType) => {
   return StackNavigator({Main: { screen: withHeader(title, screen) }});
@@ -34,7 +35,11 @@ const drawerNavigatorConfig: DrawerNavigatorConfig = {
   drawerWidth: Dimensions.get('window').width,
   contentComponent: props => <View style={{marginTop: 30}}>
     <View style={{alignSelf: 'flex-end'}}>
-      <Button title="X" onPress={() => props.navigation.navigate('DrawerClose')} />
+    <Button
+      title="X"
+      onPress={() => props.navigation.navigate('DrawerClose')}
+      color={getColors().menu}
+    />
     </View>
     <DrawerItems {...props} />
   </View>

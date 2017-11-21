@@ -11,6 +11,7 @@ import ValueStatement from 'components/ValueStatement';
 import SparkLine from 'components/SparkLine';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
+import {getColors, Colors} from 'styles';
 
 enum Currencies {
   DASH = 'DASH',
@@ -46,10 +47,13 @@ export default class Dashboard extends React.Component<{}, State> {
   triggerBasicAlert = (label: string) => () => Alert.alert('Button Clicked', label)
 
   render() {
+    const themeColors = getColors();
+    const themedStyles = getThemedStyles(themeColors);
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.heading}>Markets</Text>
-        <Text style={styles.date}>September 2</Text>
+      <View style={[styles.container, themedStyles.container]}>
+        <Text style={[styles.heading, themedStyles.heading]}>Markets</Text>
+        <Text style={[styles.date, themedStyles.date]}>September 2</Text>
         <View style={styles.currencyTitleContainer}>
         {CurrencyList.map((currency: Currencies) => (
             <CurrencyButton
@@ -78,13 +82,21 @@ export default class Dashboard extends React.Component<{}, State> {
             {({loaded, data}) => {
               return loaded
                 ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
-                : <Text style={styles.text}>...</Text>
+                : <Text style={themedStyles.text}>...</Text>
             }}
           </GetCurrencyHistory>
         </View>
         <View style={styles.buttonContainer}>
-          <Button title="Send or Request Money" onPress={this.triggerBasicAlert('Send/Request')}/>
-          <Button title="Wallet" onPress={this.triggerBasicAlert('Wallet')}/>
+          <Button
+            title="Send or Request Money"
+            onPress={this.triggerBasicAlert('Send/Request')}
+            color={themeColors.interactivePrimary}
+          />
+          <Button
+            title="Wallet"
+            onPress={this.triggerBasicAlert('Wallet')}
+            color={themeColors.interactivePrimary}
+          />
         </View>
       </View>
     );
@@ -94,19 +106,16 @@ export default class Dashboard extends React.Component<{}, State> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#0E1F27',
     alignItems: 'center',
     justifyContent: 'center',
   },
   heading: {
     margin: 10,
     fontSize: 30,
-    color: 'white',
   },
   date: {
     marginBottom: 10,
     fontSize: 20,
-    color: 'white',
   },
   currencyTitleContainer: {
     flexDirection: 'row',
@@ -123,8 +132,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 'auto',
     alignItems: 'center',
-  },
-  text: {
-    color: 'white',
-  },
+  }
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    container: {
+      backgroundColor: colors.background,
+    },
+    heading: {
+      color: colors.textPrimary,
+    },
+    date: {
+      color: colors.textPrimary,
+    },
+    text: {
+      color: colors.textPrimary,
+    },
+  };
+}

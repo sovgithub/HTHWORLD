@@ -3,6 +3,7 @@ import { Alert, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHig
 import { NavigationScreenProp } from 'react-navigation';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
+import {getColors, Colors} from 'styles';
 
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
@@ -40,6 +41,9 @@ export default class Landing extends React.Component<Props, State> {
   }
 
   render() {
+    const themeColors = getColors();
+    const themedStyles = getThemedStyles(getColors());
+
     return (
       <ImageBackground style={styles.imageView} imageStyle={styles.image} source={require('assets/landing_bg.png')}>
         <StatusBar barStyle="light-content" />
@@ -49,15 +53,15 @@ export default class Landing extends React.Component<Props, State> {
           : (
             <View style={styles.actionsContainer}>
               <RoundedButton
-                color="white"
+                color={themeColors.textPrimary}
                 onPress={this.handlePress('signUp')}
               >
                 Create An Account
               </RoundedButton>
               <View style={styles.signInContainer}>
-                <Text style={styles.signInPrompt}>Have an account?</Text>
+                <Text style={[styles.signInPrompt, themedStyles.signInPrompt]}>Have an account?</Text>
                 <TouchableHighlight onPress={this.handlePress('login')}>
-                  <Text style={styles.signInButton}> Sign in!</Text>
+                  <Text style={[styles.signInButton, themedStyles.signInButton]}> Sign in!</Text>
                 </TouchableHighlight>
               </View>
             </View>
@@ -93,10 +97,19 @@ const styles = StyleSheet.create({
   signInPrompt: {
     backgroundColor: 'transparent',
     fontWeight: 'bold',
-    color: 'lightblue',
   },
   signInButton: {
     fontWeight: 'bold',
-    color: 'white',
   }
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    signInButton: {
+      color: colors.textPrimary
+    },
+    signInPrompt: {
+      color: colors.textSecondary
+    }
+  };
+};

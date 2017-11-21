@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {Button} from 'react-native';
 import {NavigationScreenConfigProps, NavigationStackScreenOptions} from 'react-navigation';
+import {getColors} from 'styles';
 
 export type WrappedComponentType = React.ComponentClass<any> | React.StatelessComponent<any>;
 
@@ -12,7 +13,9 @@ export default function withHeader(title: string, WrappedComponent: WrappedCompo
       headerRight: (
         <Button
           title="="
-          onPress={() => navigation.navigate('DrawerOpen')} />
+          onPress={() => navigation.navigate('DrawerOpen')}
+          color={getColors().menu}
+        />
       )
     })
 

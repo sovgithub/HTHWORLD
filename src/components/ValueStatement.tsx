@@ -4,6 +4,7 @@ import {
   View,
   Text,
 } from 'react-native';
+import {getColors, Colors} from 'styles';
 
 interface Props {
   change: string;
@@ -18,11 +19,12 @@ const ValueStatement: React.SFC<Props> = ({
   change,
   positive,
 })  => {
+  const themedStyles = getThemedStyles(getColors());
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <Text style={styles.value}>{value}</Text>
-      <Text style={[ styles.change, positive ? styles.changePositive : styles.changeNegative ]}>
+      <Text style={themedStyles.title}>{title}</Text>
+      <Text style={[styles.value, themedStyles.value]}>{value}</Text>
+      <Text style={[positive ? themedStyles.changePositive : themedStyles.changeNegative ]}>
         {change}
       </Text>
     </View>
@@ -34,20 +36,26 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  title: {
-    color: 'lightblue',
-  },
   value: {
     fontSize: 30,
-    color: 'white',
-  },
-  change: {},
-  changePositive: {
-    color: 'green',
-  },
-  changeNegative: {
-    color: 'red',
   },
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    title: {
+      color: colors.textSecondary,
+    },
+    value: {
+      color: colors.textPrimary,
+    },
+    changePositive: {
+      color: colors.textPositive,
+    },
+    changeNegative: {
+      color: colors.textNegative,
+    },
+  };
+}
 
 export default ValueStatement;

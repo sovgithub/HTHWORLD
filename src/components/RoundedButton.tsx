@@ -35,8 +35,6 @@ const RoundedButton: React.SFC<Props> = (props: Props) => {
 
 RoundedButton.defaultProps = {
   backgroundColor: 'transparent',
-  color: 'red',
-  underlayColor: 'lightblue'
 }
 
 const styles = StyleSheet.create({

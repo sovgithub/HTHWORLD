@@ -3,11 +3,12 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native';
+import {getColors} from 'styles';
 
 interface Props {
-  activeColor?: string;
+  activeColor: string;
   autoCapitalize?: 'none' | 'sentences' | 'words' | 'characters';
-  inactiveColor?: string;
+  inactiveColor: string;
   placeholder?: string;
   style?: {[key: string]: any};
   value?: string;
@@ -20,12 +21,6 @@ interface State {
 }
 
 export default class LabeledInput extends React.Component<Props, State> {
-  static defaultProps = {
-    activeColor: 'white',
-    inactiveColor: 'grey',
-    placeholder: 'text',
-  }
-
   state: State = { active: false }
 
   inputRef: any = null

@@ -5,6 +5,7 @@ import {
   TouchableHighlight,
   GestureResponderEvent,
 } from 'react-native';
+import {getColors, Colors} from 'styles';
 
 interface Props {
   children: string;
@@ -13,11 +14,13 @@ interface Props {
 }
 
 const CurrencyButton: React.SFC<Props> = ({children, selected, onPress}) => {
-  const containerStyles = [styles.container];
-  const textStyles = [styles.text];
+  const themedStyles = getThemedStyles(getColors());
+
+  const containerStyles: any[] = [styles.container];
+  const textStyles: any[] = [styles.text, themedStyles.text];
   if (selected) {
-    containerStyles.push(styles.containerSelected);
-    textStyles.push(styles.textSelected);
+    containerStyles.push(themedStyles.containerSelected);
+    textStyles.push(themedStyles.textSelected);
   }
   return (
     <TouchableHighlight style={containerStyles} onPress={onPress}>
@@ -34,17 +37,24 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
-  containerSelected: {
-    backgroundColor: 'lightblue',
-  },
   text: {
     fontWeight: 'bold',
     textAlign: 'center',
-    color: 'grey',
-  },
-  textSelected: {
-    color: 'white',
   },
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    containerSelected: {
+      backgroundColor: 'lightblue',
+    },
+    text: {
+      color: 'grey',
+    },
+    textSelected: {
+      color: 'white',
+    },
+  };
+}
 
 export default CurrencyButton;

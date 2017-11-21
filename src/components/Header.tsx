@@ -5,6 +5,7 @@ import {
   View
 } from 'react-native';
 import Logo from './Logo';
+import {getColors, Colors} from 'styles';
 
 interface Props {
   showSubtitle?: boolean;
@@ -14,13 +15,14 @@ interface Props {
 
 const Header: React.SFC<Props> = (props) => {
   const fontStyle = { color: props.textColor };
+  const themedStyles = getThemedStyles(getColors());
 
   return (
     <View style={[props.style, styles.contentContainer]}>
       <Logo />
-      <Text style={[styles.header, fontStyle]}>Hoard</Text>
+      <Text style={[styles.header, themedStyles.header, fontStyle]}>Hoard</Text>
       { props.showSubtitle
-        ? <Text style={[styles.subtitle, fontStyle]}>Digital currency for everyone</Text>
+        ? <Text style={[styles.subtitle, themedStyles.subtitle, fontStyle]}>Digital currency for everyone</Text>
         : null
       }
     </View>
@@ -29,7 +31,6 @@ const Header: React.SFC<Props> = (props) => {
 
 Header.defaultProps = {
   showSubtitle: true,
-  textColor: 'white'
 }
 
 const styles = StyleSheet.create({
@@ -41,15 +42,24 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     fontSize: 70,
     fontWeight: '100',
-    color: 'white',
   },
   subtitle: {
     backgroundColor: 'transparent',
     fontSize: 20,
     fontWeight: '100',
     fontStyle: 'italic',
-    color: 'white',
   },
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    header: {
+      color: colors.textPrimary,
+    },
+    subtitle: {
+      color: colors.textPrimary,
+    },
+  };
+};
 
 export default Header;

@@ -5,6 +5,7 @@ import {
   View,
 } from 'react-native';
 import SparkLine from 'components/SparkLine';
+import {getColors, Colors} from 'styles';
 
 interface Props {
   amountHeld: number;
@@ -23,11 +24,13 @@ const CurrencyOverview: React.SFC<Props> = ({
   positive,
   title,
 }) => {
+  const themedStyles = getThemedStyles(getColors());
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themedStyles.container]}>
       <View style={styles.titleContainer}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={[ styles.currentPrice, positive ? styles.positiveText : styles.negativeText ]}>
+        <Text style={[styles.title, themedStyles.title]}>{title}</Text>
+        <Text style={[ styles.currentPrice, positive ? themedStyles.positiveText : themedStyles.negativeText ]}>
           {currentPrice}
         </Text>
       </View>
@@ -35,8 +38,8 @@ const CurrencyOverview: React.SFC<Props> = ({
         <SparkLine positive={positive}>{history}</SparkLine>
       </View>
       <View style={styles.priceContainer}>
-        <Text style={styles.holdingPrice}>{holdingPrice}</Text>
-        <Text style={styles.amountHeld}>{amountHeld}</Text>
+        <Text style={[styles.holdingPrice, themedStyles.holdingPrice]}>{holdingPrice}</Text>
+        <Text style={[styles.amountHeld, themedStyles.amountHeld]}>{amountHeld}</Text>
       </View>
     </View>
   );
@@ -45,7 +48,6 @@ const CurrencyOverview: React.SFC<Props> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: '#0f1f27',
     alignItems: 'center',
     paddingTop: 20,
     paddingBottom: 20,
@@ -64,25 +66,39 @@ const styles = StyleSheet.create({
   },
   title: {
     marginBottom: 5,
-    color: 'white',
     fontSize: 20,
   },
   currentPrice: {
   },
   holdingPrice: {
-    color: 'lightgrey',
     marginBottom: 5,
     fontSize: 20,
   },
   amountHeld: {
-    color: 'lightgrey',
-  },
-  positiveText: {
-    color: 'lightgreen'
-  },
-  negativeText: {
-    color: 'red'
   },
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    container: {
+      backgroundColor: colors.background,
+    },
+    title: {
+      color: colors.textPrimary,
+    },
+    holdingPrice: {
+      color: colors.textSecondary,
+    },
+    amountHeld: {
+      color: colors.textSecondary,
+    },
+    positiveText: {
+      color: colors.textPositive,
+    },
+    negativeText: {
+      color: colors.textNegative,
+    },
+  };
+}
 
 export default CurrencyOverview;

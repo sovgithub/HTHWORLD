@@ -6,6 +6,7 @@ import {
 import CurrencyOverview from 'components/CurrencyOverview';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
+import {getColors, Colors} from 'styles';
 
 const currencies = {
   DASH: 'DASH',
@@ -22,8 +23,10 @@ function getRandomInt(min: number, max: number) {
 }
 
 const Wallet: React.SFC<void> = () => {
+  const themedStyles = getThemedStyles(getColors());
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, themedStyles.container]}>
       <GetCurrencyPrice currencies={Object.values(currencies)}>
         {({data: prices}) => (
            <View>
@@ -53,9 +56,16 @@ const Wallet: React.SFC<void> = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0f1f27',
     flex: 1,
   },
 });
+
+const getThemedStyles = (colors: Colors) => {
+  return {
+    container: {
+      backgroundColor: colors.background,
+    },
+  }
+}
 
 export default Wallet;
