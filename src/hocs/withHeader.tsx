@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button} from 'react-native';
+import {Button, Text} from 'react-native';
 import {NavigationScreenConfigProps, NavigationStackScreenOptions} from 'react-navigation';
 import {getColors} from 'styles';
 
@@ -9,7 +9,22 @@ export default function withHeader(title: string, WrappedComponent: WrappedCompo
   return class Wrapper extends React.Component<void, void> {
     static displayName = `withHeader(${title})`;
     static navigationOptions: (opts: NavigationScreenConfigProps) => NavigationStackScreenOptions = ({navigation}) => ({
-      title,
+      drawerLabel: ({focused}: {focused: boolean}) => (
+        <Text
+          style={{
+            color: focused ? getColors().interactivePrimaryText : getColors().textPrimary,
+            backgroundColor: focused ? getColors().interactivePrimary : getColors().background,
+            padding: 20,
+            textAlign: 'center',
+            width: '100%'
+          }}
+        >
+          {title}
+        </Text>
+      ),
+      headerTitle: title,
+      headerTintColor: getColors().textPrimary,
+      headerStyle: {backgroundColor: getColors().background},
       headerRight: (
         <Button
           title="="

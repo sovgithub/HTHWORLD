@@ -33,16 +33,20 @@ const RouteConfigs = {
 const drawerNavigatorConfig: DrawerNavigatorConfig = {
   drawerPosition: 'right',
   drawerWidth: Dimensions.get('window').width,
-  contentComponent: props => <View style={{marginTop: 30}}>
-    <View style={{alignSelf: 'flex-end'}}>
-    <Button
-      title="X"
-      onPress={() => props.navigation.navigate('DrawerClose')}
-      color={getColors().menu}
-    />
+  contentComponent: props => (
+    <View style={{backgroundColor: getColors().background, flex: 1}}>
+      <View style={{marginTop: 30, alignSelf: 'flex-end'}}>
+        <Button
+          title="X"
+          onPress={() => props.navigation.navigate('DrawerClose')}
+          color={getColors().menu}
+        />
+      </View>
+      <DrawerItems
+        {...props}
+      />
     </View>
-    <DrawerItems {...props} />
-  </View>
+  )
 };
 
 export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig)
