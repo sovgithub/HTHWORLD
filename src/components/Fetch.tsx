@@ -2,7 +2,7 @@ import * as React from 'react';
 
 export interface FetchQuery {
   name: string;
-  value: string
+  value: string | number
 }
 
 interface Props {

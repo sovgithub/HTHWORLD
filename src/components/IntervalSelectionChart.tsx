@@ -1,18 +1,8 @@
 import * as React from 'react';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import SparkLine from 'components/SparkLine';
-import GetCurrencyHistory from 'components/GetCurrencyHistory';
+import GetCurrencyHistory, { Intervals } from 'components/GetCurrencyHistory';
 import { getColors, Colors } from 'styles';
-
-enum Intervals {
-  hour = '1H',
-  day = '1D',
-  week = '1W',
-  month = '1M',
-  year = '1Y',
-  multiYear = '5Y',
-  all = 'ALL'
-}
 
 const intervalList: Intervals[] = [
   Intervals.hour,
@@ -48,7 +38,7 @@ export default class IntervalSelectionChart extends React.Component<Props, State
 
     return (
         <View style={styles.container}>
-        <GetCurrencyHistory currency={this.props.currency}>
+        <GetCurrencyHistory currency={this.props.currency} interval={this.state.selectedInterval}>
           {({loaded, data}) => {
             return loaded
               ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
