@@ -12,6 +12,7 @@ import SparkLine from 'components/SparkLine';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 import {getColors, Colors} from 'styles';
+import IntervalSelectionChart from 'components/IntervalSelectionChart';
 
 enum Currencies {
   DASH = 'DASH',
@@ -78,13 +79,7 @@ export default class Dashboard extends React.Component<{}, State> {
           </GetCurrencyPrice>
         </View>
         <View style={styles.carouselContainer}>
-          <GetCurrencyHistory currency={this.state.selectedCurrency}>
-            {({loaded, data}) => {
-              return loaded
-                ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
-                : <Text style={themedStyles.text}>...</Text>
-            }}
-          </GetCurrencyHistory>
+          <IntervalSelectionChart currency={this.state.selectedCurrency} />
         </View>
         <View style={styles.buttonContainer}>
           <Button
