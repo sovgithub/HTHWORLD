@@ -22,36 +22,43 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-const Wallet: React.SFC<void> = () => {
-  const themedStyles = getThemedStyles(getColors());
+class Wallet extends React.Component<{}, {}> {
+  handlePress = (curr: string) => () => {
+    console.log(curr);
+  }
 
-  return (
-    <View style={[styles.container, themedStyles.container]}>
-      <GetCurrencyPrice currencies={Object.values(currencies)}>
-        {({data: prices}) => (
-           <View>
-            {Object.values(currencies).map((curr) => (
-              <GetCurrencyHistory key={curr} currency={curr} limit={'3'}>
-                {({loaded, data: history}) => {
-                  const amountHeld = getRandomInt(1, 20);
-                  return loaded ? (
-                    <CurrencyOverview
-                      amountHeld={amountHeld}
-                      currentPrice={prices && prices[curr].USD}
-                      history={history}
-                      holdingPrice={prices && amountHeld * prices[curr].USD}
-                      positive={history[0] < history[history.length - 1]}
-                      title={curr}
-                    />
-                  ) : null;
-                }}
-              </GetCurrencyHistory>
-            ))}
-          </View>
-        )}
-      </GetCurrencyPrice>
-    </View>
-  );
+  render() {
+    const themedStyles = getThemedStyles(getColors());
+
+    return (
+      <View style={[styles.container, themedStyles.container]}>
+        <GetCurrencyPrice currencies={Object.values(currencies)}>
+          {({data: prices}) => (
+            <View>
+              {Object.values(currencies).map((curr) => (
+                <GetCurrencyHistory key={curr} currency={curr} limit={'3'}>
+                  {({loaded, data: history}) => {
+                    const amountHeld = getRandomInt(1, 20);
+                    return loaded ? (
+                      <CurrencyOverview
+                        amountHeld={amountHeld}
+                        currentPrice={prices && prices[curr].USD}
+                        history={history}
+                        holdingPrice={prices && amountHeld * prices[curr].USD}
+                        positive={history[0] < history[history.length - 1]}
+                        title={curr}
+                        onPress={this.handlePress(curr)}
+                      />
+                    ) : null;
+                  }}
+                </GetCurrencyHistory>
+              ))}
+            </View>
+          )}
+        </GetCurrencyPrice>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({

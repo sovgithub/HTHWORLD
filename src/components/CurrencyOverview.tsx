@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
   StyleSheet,
   Text,
+  TouchableHighlight,
   View,
 } from 'react-native';
 import SparkLine from 'components/SparkLine';
@@ -14,6 +15,7 @@ interface Props {
   holdingPrice: number;
   positive: boolean;
   title: string;
+  onPress: (e: any) => void
 }
 
 const CurrencyOverview: React.SFC<Props> = ({
@@ -23,25 +25,28 @@ const CurrencyOverview: React.SFC<Props> = ({
   holdingPrice,
   positive,
   title,
+  onPress,
 }) => {
   const themedStyles = getThemedStyles(getColors());
 
   return (
-    <View style={[styles.container, themedStyles.container]}>
-      <View style={styles.titleContainer}>
-        <Text style={[styles.title, themedStyles.title]}>{title}</Text>
-        <Text style={[ styles.currentPrice, positive ? themedStyles.positiveText : themedStyles.negativeText ]}>
-          {currentPrice}
-        </Text>
+    <TouchableHighlight onPress={onPress}>
+      <View style={[styles.container, themedStyles.container]}>
+        <View style={styles.titleContainer}>
+          <Text style={[styles.title, themedStyles.title]}>{title}</Text>
+          <Text style={[ styles.currentPrice, positive ? themedStyles.positiveText : themedStyles.negativeText ]}>
+            {currentPrice}
+          </Text>
+        </View>
+        <View style={styles.chartContainer}>
+          <SparkLine positive={positive}>{history}</SparkLine>
+        </View>
+        <View style={styles.priceContainer}>
+          <Text style={[styles.holdingPrice, themedStyles.holdingPrice]}>{holdingPrice}</Text>
+          <Text style={[styles.amountHeld, themedStyles.amountHeld]}>{amountHeld}</Text>
+        </View>
       </View>
-      <View style={styles.chartContainer}>
-        <SparkLine positive={positive}>{history}</SparkLine>
-      </View>
-      <View style={styles.priceContainer}>
-        <Text style={[styles.holdingPrice, themedStyles.holdingPrice]}>{holdingPrice}</Text>
-        <Text style={[styles.amountHeld, themedStyles.amountHeld]}>{amountHeld}</Text>
-      </View>
-    </View>
+    </TouchableHighlight>
   );
 }
 
