@@ -7,6 +7,7 @@ import CurrencyOverview from 'components/CurrencyOverview';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
 import {getColors, Colors} from 'styles';
+import { NavigationScreenProp, NavigationAction } from 'react-navigation';
 
 const currencies = {
   DASH: 'DASH',
@@ -22,9 +23,13 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-class Wallet extends React.Component<{}, {}> {
+interface Props {
+  navigation: NavigationScreenProp<any, NavigationAction>
+}
+
+class Wallet extends React.Component<Props, {}> {
   handlePress = (curr: string) => () => {
-    console.log(curr);
+    this.props.navigation.navigate('CoinInformation', {coin: curr});
   }
 
   render() {

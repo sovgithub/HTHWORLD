@@ -11,6 +11,7 @@ import {
 import Referral from 'screens/Referral';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
+import CoinInformation from 'screens/CoinInformation';
 import withHeader, {WrappedComponentType} from 'hocs/withHeader';
 import {getColors} from 'styles';
 
@@ -20,7 +21,10 @@ const itemWithHeader = (title: string, screen: WrappedComponentType) => {
 
 const RouteConfigs = {
   Wallet:  {
-    screen: itemWithHeader('Wallet', Wallet),
+    screen: StackNavigator({
+      Main: { screen: withHeader('Wallet', Wallet) },
+      CoinInformation: { screen: CoinInformation }
+    })
   },
   Dashboard:  {
     screen: itemWithHeader('Dashboard', Dashboard),
