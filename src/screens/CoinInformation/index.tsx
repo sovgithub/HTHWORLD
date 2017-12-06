@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {
-  View,
-  Text,
   Button,
+  ScrollView,
+  Text,
+  View,
 } from 'react-native';
 import {
   NavigationAction,
@@ -35,8 +36,8 @@ export default class CoinInformation extends React.Component <Props, State> {
   render() {
     const coin = this.props.navigation.state.params.coin;
     return (
-      <View style={{flex: 1}}>
-        <View>
+      <ScrollView style={{flex: 1, marginTop: 10}}>
+        <View style={{flexDirection: 'row'}}>
           <ValueStatement
             title={`${coin} Price`}
             value="xxxxx"
@@ -50,8 +51,10 @@ export default class CoinInformation extends React.Component <Props, State> {
             positive={true}
           />
         </View>
-        <IntervalSelectionChart currency={coin} />
-      </View>
+        <View style={{height: 250}}>
+          <IntervalSelectionChart currency={coin} />
+        </View>
+      </ScrollView>
     );
   }
 }
