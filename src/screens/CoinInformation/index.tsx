@@ -19,7 +19,6 @@ import ValueStatement from 'components/ValueStatement';
 import RoundedButton from 'components/RoundedButton';
 import SectionHeader from 'components/SectionHeader';
 import InfoItem from 'components/InfoItem';
-{/* import NewsHeadline from 'components/NewsHeadline'; */}
 import TradeItem from 'components/TradeItem';
 
 
@@ -80,28 +79,6 @@ export default class CoinInformation extends React.Component <Props, State> {
           <InfoItem label="24hr Low" value="$40" />
           <InfoItem label="24hr Value" value="+240%" />
         </View>
-        {/* <View>
-          <SectionHeader>News</SectionHeader>
-          <NewsHeadline
-            title="Only 802 People Paid Taxes on LiteCoin Profits"
-            source="Coin Telegraph"
-            date="Nov 9, 2017"
-            url="https://google.com"
-          />
-          <NewsHeadline
-            title="Actually 803 People Paid Taxes, IRS Says"
-            source="Coin Telephone"
-            date="Nov 10, 2017"
-            url="https://google.com"
-          />
-          <NewsHeadline
-            title="Nevermind, They All Have, IRS Reports"
-            source="Coin Telephone"
-            date="Nov 11, 2017"
-            url="https://google.com"
-          />
-      </View>
-      */}
         <View>
           <SectionHeader>Trades</SectionHeader>
           <TradeItem
