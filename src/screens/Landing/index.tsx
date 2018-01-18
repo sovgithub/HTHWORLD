@@ -34,7 +34,7 @@ export default class Landing extends React.Component<Props, State> {
         access_token: credentials.accessToken,
         id_token: credentials.idToken
       }));
-      this.props.navigation.navigate('Referral');
+      this.props.navigation.navigate('Dashboard');
     }
     catch (error) {
       console.log(error);

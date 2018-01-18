@@ -8,7 +8,6 @@ import {
   Dimensions,
   View,
 } from 'react-native';
-import Referral from 'screens/Referral';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
 import CoinInformation from 'screens/CoinInformation';
@@ -28,9 +27,6 @@ const RouteConfigs = {
   },
   Dashboard:  {
     screen: itemWithHeader('Dashboard', Dashboard),
-  },
-  Referral:  {
-    screen: itemWithHeader('Referral', Referral),
   },
 };
 
