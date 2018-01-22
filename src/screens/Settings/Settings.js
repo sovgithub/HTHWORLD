@@ -89,6 +89,6 @@ class Settings extends React.Component {
       </KeyboardAvoidingView>
     );
   }
-};
+}
 
 export default Settings;
