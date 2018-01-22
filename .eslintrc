@@ -1,0 +1,9 @@
+{
+  "parser": "babel-eslint",
+  "plugins": ["react", "react-native"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "rules": {
+    "react/display-name": 0,
+    "semi": [2, "always"]
+  }
+}
