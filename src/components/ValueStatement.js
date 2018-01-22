@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -6,14 +7,7 @@ import {
 } from 'react-native';
 import {getColors, Colors} from 'styles';
 
-interface Props {
-  change: string;
-  positive: boolean;
-  title: string;
-  value: string;
-}
-
-const ValueStatement: React.SFC<Props> = ({
+const ValueStatement = ({
   title,
   value,
   change,
@@ -29,7 +23,14 @@ const ValueStatement: React.SFC<Props> = ({
       </Text>
     </View>
   );
-}
+};
+
+ValueStatement.propTypes = {
+  change: PropTypes.string.isRequired,
+  positive: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     title: {
       color: colors.textSecondary,
@@ -56,6 +57,6 @@ const getThemedStyles = (colors: Colors) => {
       color: colors.textNegative,
     },
   };
-}
+};
 
 export default ValueStatement;

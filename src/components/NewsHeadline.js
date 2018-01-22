@@ -1,14 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-interface Props {
-  title: string;
-  source: string;
-  date: string;
-  url: string;
-}
-
-const NewsHeadline: React.SFC<Props> = ({
+const NewsHeadline = ({
   date,
   source,
   title,
@@ -27,5 +21,12 @@ const NewsHeadline: React.SFC<Props> = ({
     </View>
   </View>
 );
+
+NewsHeadline.propTypes = {
+  title: PropTypes.string.isRequired,
+  source: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
 
 export default NewsHeadline;

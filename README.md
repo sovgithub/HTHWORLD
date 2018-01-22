@@ -4,8 +4,6 @@ This is the main mobile application for Hoard. This is a React Native applicatio
 ### Running application for local development
 - Ensure [yarn](https://yarnpkg.com) is installed in your development environment
 - `yarn` to install dependencies
-- `yarn build` to compile the source code to plain javascript
-- `yarn build --watch` if you will be doing active development, to compile on a file save. Since we're using typescript, you also need to run `yarn postbuild` to update the compiled assets.
 - `yarn start` to start packaging server
 - `yarn ios` or `yarn android` to install and the application on a simulator, for iOS and Android respectively
   - ***Note**: The process for running the android simulator is a bit more complicated than the ios side. Please see the "Building Project with Native Code" tab of the [getting started React Native documentation](https://facebook.github.io/react-native/docs/getting-started.html)*

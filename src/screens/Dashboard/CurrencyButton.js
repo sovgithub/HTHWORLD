@@ -1,23 +1,18 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
-  GestureResponderEvent,
 } from 'react-native';
-import {getColors, Colors} from 'styles';
+import {getColors} from 'styles';
 
-interface Props {
-  children: string;
-  selected: boolean;
-  onPress: (event: GestureResponderEvent) => any;
-}
 
-const CurrencyButton: React.SFC<Props> = ({children, selected, onPress}) => {
+const CurrencyButton = ({children, selected, onPress}) => {
   const themedStyles = getThemedStyles(getColors());
 
-  const containerStyles: any[] = [styles.container];
-  const textStyles: any[] = [styles.text, themedStyles.text];
+  const containerStyles = [styles.container];
+  const textStyles = [styles.text, themedStyles.text];
   if (selected) {
     containerStyles.push(themedStyles.containerSelected);
     textStyles.push(themedStyles.textSelected);
@@ -28,6 +23,12 @@ const CurrencyButton: React.SFC<Props> = ({children, selected, onPress}) => {
     </TouchableHighlight>
   );
 }
+
+CurrencyButton.propTypes = {
+  children: PropTypes.string.isRequired,
+  selected: PropTypes.bool.isRequired,
+  onPress: PropTypes.func.isRequired, // takes event object
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     containerSelected: {
       backgroundColor: colors.interactivePrimary,

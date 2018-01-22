@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import {Image} from 'react-native';
 
-const Logo: React.SFC<{}> = () => {
+const Logo = () => {
   return (
     <Image source={require('assets/logo.png')} />
   );

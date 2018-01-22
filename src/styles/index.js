@@ -1,27 +1,9 @@
-export enum Theme {
-  light = 'light',
-  dark = 'dark'
-}
+export const Theme = {
+  light: 'light',
+  dark: 'dark'
+};
 
-export interface Colors {
-  background: string;
-  chartNegative: string;
-  chartPositive: string;
-  interactivePrimary: string;
-  interactivePrimaryText: string;
-  interactiveSecondary: string;
-  interactiveSecondaryText: string;
-  menu: string;
-  textNegative: string;
-  textPositive: string;
-  textPrimary: string;
-  textSecondary: string;
-}
-
-export const themeColors: {
-  'light': Colors;
-  'dark': Colors;
-} = {
+export const themeColors = {
   [Theme.light]: {
     background: '#FFFFFF',
     chartNegative: '#C30072',
@@ -50,15 +32,15 @@ export const themeColors: {
     textPrimary: '#FFFFFF',
     textSecondary: '#8D9FAE'
   }
-}
+};
 
-let currentTheme: Theme = Theme.dark;
+let currentTheme = Theme.dark;
 
-export function setTheme(theme: Theme): Theme {
+export function setTheme(theme) {
   return currentTheme = theme;
 }
 
-export function getTheme(): Theme {
+export function getTheme() {
   return currentTheme;
 }
 

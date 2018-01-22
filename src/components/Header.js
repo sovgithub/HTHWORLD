@@ -1,19 +1,15 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
   View
 } from 'react-native';
 import Logo from './Logo';
-import {getColors, Colors} from 'styles';
+import {getColors} from 'styles';
 
-interface Props {
-  showSubtitle?: boolean;
-  style?: any;
-  textColor?: string;
-}
 
-const Header: React.SFC<Props> = (props) => {
+const Header = (props) => {
   const themeColors = getColors();
   const themedStyles = getThemedStyles(themeColors);
   const fontStyle = { color: props.textColor || themeColors.textPrimary };
@@ -28,11 +24,17 @@ const Header: React.SFC<Props> = (props) => {
       }
     </View>
   );
-}
+};
+
+Header.propTypes = {
+  showSubtitle: PropTypes.bool,
+  style: PropTypes.any,
+  textColor: PropTypes.string,
+};
 
 Header.defaultProps = {
   showSubtitle: true,
-}
+};
 
 const styles = StyleSheet.create({
   contentContainer: {
@@ -52,7 +54,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     header: {
       color: colors.textPrimary,

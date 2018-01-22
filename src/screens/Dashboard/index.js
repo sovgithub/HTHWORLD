@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {
   Alert,
   Button,
@@ -14,38 +14,33 @@ import GetCurrencyHistory from 'components/GetCurrencyHistory';
 import {getColors, Colors} from 'styles';
 import IntervalSelectionChart from 'components/IntervalSelectionChart';
 
-enum Currencies {
-  DASH = 'DASH',
-  ETH = 'ETH',
-  BTC = 'BTC',
-  LTC = 'LTC',
-  XRP = 'XRP',
+const Currencies = {
+  DASH: 'DASH',
+  ETH: 'ETH',
+  BTC: 'BTC',
+  LTC: 'LTC',
+  XRP: 'XRP',
 };
 
-const CurrencyList: Currencies[] = [];
+const CurrencyList = [];
 
 for (const CurrencyItem in Currencies) {
-  CurrencyList.push(CurrencyItem as Currencies);
+  CurrencyList.push(CurrencyItem);
 }
 
-function getRandomInt(min: number, max: number) {
+function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
-
-interface State {
-  selectedCurrency: Currencies
-}
-
-export default class Dashboard extends React.Component<{}, State> {
+export default class Dashboard extends React.Component {
   state = {
     selectedCurrency: Currencies.BTC
   }
 
-  handleCurrencyChange = (selectedCurrency: Currencies) => () => this.setState({ selectedCurrency })
+  handleCurrencyChange = (selectedCurrency) => () => this.setState({ selectedCurrency })
 
-  triggerBasicAlert = (label: string) => () => Alert.alert('Button Clicked', label)
+  triggerBasicAlert = (label) => () => Alert.alert('Button Clicked', label)
 
   render() {
     const themeColors = getColors();
@@ -56,7 +51,7 @@ export default class Dashboard extends React.Component<{}, State> {
         <Text style={[styles.heading, themedStyles.heading]}>Markets</Text>
         <Text style={[styles.date, themedStyles.date]}>September 2</Text>
         <View style={styles.currencyTitleContainer}>
-        {CurrencyList.map((currency: Currencies) => (
+        {CurrencyList.map((currency) => (
             <CurrencyButton
               key={currency}
               onPress={this.handleCurrencyChange(currency)}
@@ -130,7 +125,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     container: {
       backgroundColor: colors.background,

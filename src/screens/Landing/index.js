@@ -1,6 +1,6 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Alert, Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import { NavigationScreenProp } from 'react-navigation';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
 import {getColors, Colors, setTheme, getTheme, Theme} from 'styles';
@@ -8,22 +8,17 @@ import {getColors, Colors, setTheme, getTheme, Theme} from 'styles';
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
 
-interface Props {
-  navigation: NavigationScreenProp<any, any>;
-}
+export default class Landing extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.any,
+  };
 
-interface State {
-  currentTheme: Theme;
-  loading: boolean;
-}
-
-export default class Landing extends React.Component<Props, State> {
   state = {
     currentTheme: getTheme(),
     loading: false
   };
 
-  handlePress = (initialScreen: string) => async () => {
+  handlePress = (initialScreen) => async () => {
     this.setState({loading: true});
     try {
       const credentials = await auth0
@@ -114,7 +109,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     signInButton: {
       color: colors.textPrimary

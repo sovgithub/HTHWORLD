@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -8,17 +9,7 @@ import {
 import SparkLine from 'components/SparkLine';
 import {getColors, Colors} from 'styles';
 
-interface Props {
-  amountHeld: number;
-  currentPrice: number;
-  history: number[];
-  holdingPrice: number;
-  positive: boolean;
-  title: string;
-  onPress: (e: any) => void
-}
-
-const CurrencyOverview: React.SFC<Props> = ({
+const CurrencyOverview = ({
   amountHeld,
   currentPrice,
   history,
@@ -48,7 +39,17 @@ const CurrencyOverview: React.SFC<Props> = ({
       </View>
     </TouchableHighlight>
   );
-}
+};
+
+CurrencyOverview.propTypes = {
+  amountHeld: PropTypes.number.isRequired,
+  currentPrice: PropTypes.number.isRequired,
+  history: PropTypes.arrayOf(PropTypes.number).isRequired,
+  holdingPrice: PropTypes.number.isRequired,
+  positive: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     container: {
       backgroundColor: colors.background,
@@ -104,6 +105,6 @@ const getThemedStyles = (colors: Colors) => {
       color: colors.textNegative,
     },
   };
-}
+};
 
 export default CurrencyOverview;
