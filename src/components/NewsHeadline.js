@@ -17,7 +17,7 @@ const NewsHeadline = ({
       </View>
     </View>
     <View>
-      <Text>></Text>
+      <Text>&gt;</Text>
     </View>
   </View>
 );
