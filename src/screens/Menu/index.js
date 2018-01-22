@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
+import Settings from 'screens/Settings';
 import CoinInformation from 'screens/CoinInformation';
 import withHeader from 'hocs/withHeader';
 import {getColors} from 'styles';
@@ -29,6 +30,10 @@ const RouteConfigs = {
   Dashboard:  {
     screen: itemWithHeader('Dashboard', Dashboard),
   },
+  Settings:  {
+    screen: itemWithHeader('Settings', Settings),
+  },
+
 };
 
 const drawerNavigatorConfig = {
