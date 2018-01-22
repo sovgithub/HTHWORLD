@@ -1,25 +1,21 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {View, StyleSheet, Text, Dimensions, LayoutChangeEvent} from 'react-native';
 import Svg, {Polyline} from 'react-native-svg';
 import {getColors} from 'styles';
 
-interface Props {
-  positive: boolean;
-  children: number[];
-}
+export default class SparkLine extends React.Component {
+  static propTypes = {
+    positive: PropTypes.bool.isRequired,
+    children: PropTypes.arrayOf(PropTypes.number).isRequired,
+  }
 
-interface State {
-  width: number;
-  height: number;
-}
-
-export default class SparkLine extends React.Component<Props, State> {
   state = {
     width: 0,
     height: 0
   }
 
-  handleLayout: (event: LayoutChangeEvent) => void = ({nativeEvent: {layout: {width, height}}}) => {
+  handleLayout = ({nativeEvent: {layout: {width, height}}}) => {
     this.setState({
       width: width ? width : Dimensions.get('window').width,
       height
@@ -28,7 +24,7 @@ export default class SparkLine extends React.Component<Props, State> {
 
   render() {
     const {width, height} = this.state;
-    const {positive, children}: Props = this.props;
+    const {positive, children} = this.props;
 
     const themeColors = getColors();
 
@@ -42,8 +38,9 @@ export default class SparkLine extends React.Component<Props, State> {
         x: distance * i + (i ? distance : 0)
         }
     )).map((v) =>  `${v.x},${-v.y + height}`);
+
     return (
-        <View onLayout={this.handleLayout} style={styles.container}>
+      <View onLayout={this.handleLayout} style={styles.container}>
         {
           !width || !height ? null : (
               <Svg
@@ -59,9 +56,9 @@ export default class SparkLine extends React.Component<Props, State> {
               </Svg>
           )
         }
-        </View>
-    )
-    }
+      </View>
+    );
+  }
 }
 
 

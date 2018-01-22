@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Alert,
   Button,
@@ -6,13 +7,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  NavigationAction,
-  NavigationScreenProp,
-  NavigationScreenConfigProps,
-  NavigationStackScreenOptions,
-  NavigationLeafRoute
-} from 'react-navigation';
 import {getColors} from 'styles';
 import IntervalSelectionChart from 'components/IntervalSelectionChart';
 import ValueStatement from 'components/ValueStatement';
@@ -21,20 +15,12 @@ import SectionHeader from 'components/SectionHeader';
 import InfoItem from 'components/InfoItem';
 import TradeItem from 'components/TradeItem';
 
+export default class CoinInformation extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.object,
+  };
 
-interface Props {
-  navigation: NavigationScreenProp<
-    NavigationLeafRoute<{
-      coin: string;
-    }>,
-    NavigationAction
-  >
-}
-
-interface State {}
-
-export default class CoinInformation extends React.Component <Props, State> {
-  static navigationOptions: (opts: NavigationScreenConfigProps) => NavigationStackScreenOptions = ({navigation}) => ({
+  static navigationOptions = ({navigation}) => ({
     headerTitle: navigation.state.params.coin
   })
 

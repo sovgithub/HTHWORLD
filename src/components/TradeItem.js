@@ -1,16 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-interface Props {
-  coin: string;
-  date: string;
-  numCoins: number;
-  pricePerCoin: number;
-  totalPrice: number;
-  type: 'buy' | 'sell';
-}
-
-const TradeItem: React.SFC<Props> = ({
+const TradeItem = ({
   coin,
   date,
   numCoins,
@@ -32,5 +24,14 @@ const TradeItem: React.SFC<Props> = ({
     </View>
   </View>
 );
+
+TradeItem.propTypes = {
+  coin: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  numCoins: PropTypes.number.isRequired,
+  pricePerCoin: PropTypes.number.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  type: PropTypes.oneOf(['buy', 'sell']).isRequired,
+};
 
 export default TradeItem;

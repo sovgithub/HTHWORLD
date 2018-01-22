@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { DrawerNavigator, StackNavigator, DrawerItems, DrawerNavigatorConfig } from 'react-navigation';
 import {
   Alert,
@@ -11,10 +12,10 @@ import {
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
 import CoinInformation from 'screens/CoinInformation';
-import withHeader, {WrappedComponentType} from 'hocs/withHeader';
+import withHeader from 'hocs/withHeader';
 import {getColors} from 'styles';
 
-const itemWithHeader = (title: string, screen: WrappedComponentType) => {
+const itemWithHeader = (title, screen) => {
   return StackNavigator({Main: { screen: withHeader(title, screen) }});
 };
 
@@ -30,7 +31,7 @@ const RouteConfigs = {
   },
 };
 
-const drawerNavigatorConfig: DrawerNavigatorConfig = {
+const drawerNavigatorConfig = {
   drawerPosition: 'right',
   drawerWidth: Dimensions.get('window').width,
   contentComponent: props => (

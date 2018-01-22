@@ -1,32 +1,22 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-export interface FetchQuery {
-  name: string;
-  value: string | number
-}
+export default class Fetch extends React.Component {
+  static propTypes = {
+    children: PropTypes.func.isRequired, // recieves {loaded: boolean, data: any}
+    queries: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+      })
+    ),
+    url: PropTypes.string.isRequired,
+    formatter: PropTypes.func.isRequired,
+  };
 
-interface Props {
-  children: FetchRenderType;
-  queries?: FetchQuery[];
-  url: string;
-  formatter: (json: any) => any;
-}
-
-interface FetchArguments {
-  loaded: boolean;
-  data: any;
-}
-
-type State = FetchArguments & {
-  requestNumber: number;
-}
-
-export type FetchRenderType = (props: FetchArguments) => React.ReactNode;
-
-export default class Fetch extends React.Component<Props, State> {
   static defaultProps = {
-    formatter: (json: any) => json
-  }
+    formatter: (json) => json
+  };
 
   state = {
     loaded: false,
@@ -38,7 +28,7 @@ export default class Fetch extends React.Component<Props, State> {
     this.makeRequest(this.props.queries, this.state.requestNumber);
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps) {
     if (this.props.queries != newProps.queries) {
       this.setState(
         { loaded: false, requestNumber: this.state.requestNumber + 1 },
@@ -47,7 +37,7 @@ export default class Fetch extends React.Component<Props, State> {
     }
   }
 
-  makeQueryString: (queries: Props["queries"]) => string = (queries) => {
+  makeQueryString = (queries) => {
     if (queries && queries.length) {
       return `?${ queries.map((q) => `${q.name}=${q.value}`).join('&') }`;
     }
@@ -55,7 +45,7 @@ export default class Fetch extends React.Component<Props, State> {
     return '';
   }
 
-  makeRequest = async (queries: Props["queries"], requestNumber: State["requestNumber"]) => {
+  makeRequest = async (queries, requestNumber) => {
     try {
       const response = await fetch(`${this.props.url}${this.makeQueryString(queries)}`);
       if (this.state.requestNumber === requestNumber) {

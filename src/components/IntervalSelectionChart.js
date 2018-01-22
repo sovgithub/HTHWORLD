@@ -1,10 +1,11 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import SparkLine from 'components/SparkLine';
 import GetCurrencyHistory, { Intervals } from 'components/GetCurrencyHistory';
-import { getColors, Colors } from 'styles';
+import { getColors } from 'styles';
 
-const intervalList: Intervals[] = [
+const intervalList = [
   Intervals.hour,
   Intervals.day,
   Intervals.week,
@@ -14,20 +15,17 @@ const intervalList: Intervals[] = [
   Intervals.all
 ];
 
-interface Props {
-  currency: string;
-}
 
-interface State {
-  selectedInterval: string;
-}
+export default class IntervalSelectionChart extends React.Component {
+  static propTypes = {
+    currency: PropTypes.string.isRequired,
+  };
 
-export default class IntervalSelectionChart extends React.Component<Props, State> {
   state = {
     selectedInterval: Intervals.hour,
   }
 
-  handlePress = (selectedInterval: Intervals) => () => {
+  handlePress = (selectedInterval) => () => {
     this.setState({selectedInterval});
   }
 
@@ -46,7 +44,7 @@ export default class IntervalSelectionChart extends React.Component<Props, State
           }}
         </GetCurrencyHistory>
         <View style={styles.intervalListContainer}>
-          {intervalList.map((interval: Intervals) => (
+          {intervalList.map((interval) => (
             <TouchableHighlight
               key={interval}
               style={styles.interval}
@@ -91,7 +89,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     intervalBorder: {
       borderColor: colors.interactivePrimary,

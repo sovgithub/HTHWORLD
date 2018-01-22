@@ -1,15 +1,12 @@
-import * as React from 'react';
+import React from 'react';
 import {Button, Text} from 'react-native';
-import {NavigationScreenConfigProps, NavigationStackScreenOptions} from 'react-navigation';
 import {getColors} from 'styles';
 
-export type WrappedComponentType = React.ComponentClass<any> | React.StatelessComponent<any>;
-
-export default function withHeader(title: string, WrappedComponent: WrappedComponentType) {
-  return class Wrapper extends React.Component<void, void> {
+export default function withHeader(title, WrappedComponent) {
+  return class Wrapper extends React.Component {
     static displayName = `withHeader(${title})`;
-    static navigationOptions: (opts: NavigationScreenConfigProps) => NavigationStackScreenOptions = ({navigation}) => ({
-      drawerLabel: ({focused}: {focused: boolean}) => (
+    static navigationOptions = ({navigation}) => ({
+      drawerLabel: ({focused}) => (
         <Text
           style={{
             color: focused ? getColors().interactivePrimaryText : getColors().textPrimary,

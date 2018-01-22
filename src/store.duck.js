@@ -1,24 +1,13 @@
-// TYPES
-export type Store = {
-  accessToken?: string | null
-};
-
-export type Action = {
-  type: string;
-  [key: string]: any;
-};
-
-
 // CONSTANTS
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';
 
 // REDUCER
-const initialState: Store = {
+const initialState = {
   accessToken: null
 };
 
-export default function baseReducer(state: Store = initialState, action: Action): Store {
+export default function baseReducer(state = initialState, action) {
   switch(action.type) {
   case LOGIN:
     return {
@@ -37,14 +26,14 @@ export default function baseReducer(state: Store = initialState, action: Action)
 
 
 // ACTIONS
-function makeActionCreator(type: string, ...argNames: string[]) {
-  return function (...args: any[]): Action {
-    let action: Action = { type }
+function makeActionCreator(type, ...argNames) {
+  return function (...args) {
+    let action = { type };
     argNames.forEach((arg, index) => {
-      action[argNames[index]] = args[index]
-    })
-    return action
-  }
+      action[argNames[index]] = args[index];
+    });
+    return action;
+  };
 }
 
 export const login = makeActionCreator(LOGIN, 'payload');

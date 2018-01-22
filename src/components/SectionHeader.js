@@ -1,11 +1,8 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-interface Props {
-  children: string;
-}
-
-const SectionHeader: React.SFC<Props> = ({children}) => (
+const SectionHeader = ({children}) => (
   <View>
     <Text>{children}</Text>
     <View style={{flexDirection: 'row'}}>
@@ -26,5 +23,9 @@ const SectionHeader: React.SFC<Props> = ({children}) => (
     </View>
   </View>
 );
+
+SectionHeader.propTypes = {
+  children: PropTypes.string.isRequired,
+};
 
 export default SectionHeader;

@@ -1,49 +1,39 @@
-import * as React from 'react';
-import Fetch, {FetchRenderType, FetchQuery} from 'components/Fetch';
+import React from 'react';
+import PropTypes from 'prop-types';
+import Fetch from 'components/Fetch';
 
-export enum Intervals {
-  hour = '1H',
-  day = '1D',
-  week = '1W',
-  month = '1M',
-  year = '1Y',
-  multiYear = '5Y',
-  all = 'ALL'
-}
+export const Intervals = {
+  hour: '1H',
+  day: '1D',
+  week: '1W',
+  month: '1M',
+  year: '1Y',
+  multiYear: '5Y',
+  all: 'ALL'
+};
 
-interface Props {
-  children: FetchRenderType;
-  currency: string;
-  interval?: Intervals;
-  limit?: string;
-}
+export default class GetCurrencyHistory extends React.Component {
+  static propTypes = {
+    children: PropTypes.func.isRequired, // recieves {loaded: bool, data: any}
+    currency: PropTypes.string.isRequired,
+    interval: PropTypes.oneOf(Object.values(Intervals)),
+    limit: PropTypes.string,
+  };
 
-interface State {
-  queries: FetchQuery[];
-  url: string;
-}
-
-interface JSONDatum {
-  close: number;
-}
-
-type JSONFormatter = (json: {Data: JSONDatum[]}) => number[];
-
-export default class GetCurrencyHistory extends React.Component<Props, State> {
   static defaultProps = {
     interval: Intervals.hour,
     limit: '60',
   }
 
-  constructor(props: Props) {
-    super(props);
+  constructor(props) {
+    super();
     this.state = {
       queries: this.constructQueries(props.currency, props.limit, props.interval),
       url: this.getUrl(props.interval)
     };
   }
 
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps) {
     if (newProps.currency !== this.props.currency || newProps.limit !== this.props.limit || newProps.interval !== this.props.interval) {
       this.setState({
         queries: this.constructQueries(newProps.currency, newProps.limit, newProps.interval),
@@ -52,7 +42,7 @@ export default class GetCurrencyHistory extends React.Component<Props, State> {
     }
   }
 
-  getAggregateValue = (interval: Intervals) => {
+  getAggregateValue = (interval) => {
     switch(interval) {
     case Intervals.hour:
     case Intervals.day:
@@ -71,14 +61,14 @@ export default class GetCurrencyHistory extends React.Component<Props, State> {
     }
   }
 
-  constructQueries = (currency: Props["currency"], limit: Props["limit"], interval: Props["interval"]) => [
+  constructQueries = (currency, limit, interval) => [
     {name: 'fsym', value: currency},
     {name: 'tsym', value: 'USD'},
     {name: 'limit', value: limit},
     {name: 'aggregate', value: this.getAggregateValue(interval)}
   ];
 
-  getUrl = (interval: Intervals) => {
+  getUrl = (interval) => {
     switch(interval) {
     case Intervals.hour:
       return "https://min-api.cryptocompare.com/data/histohour";
@@ -93,7 +83,7 @@ export default class GetCurrencyHistory extends React.Component<Props, State> {
     }
   }
 
-  formatter: JSONFormatter = (json) =>
+  formatter = (json) =>
     json.Data.map((day) => day.close);
 
   render() {

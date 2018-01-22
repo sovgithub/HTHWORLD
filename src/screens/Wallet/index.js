@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   View,
@@ -17,18 +18,21 @@ const currencies = {
   XRP: 'XRP',
 };
 
-function getRandomInt(min: number, max: number) {
+function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-interface Props {
-  navigation: NavigationScreenProp<any, NavigationAction>
-}
 
-class Wallet extends React.Component<Props, {}> {
-  handlePress = (curr: string) => () => {
+class Wallet extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired,
+    }).isRequired,
+  }
+
+  handlePress = (curr) => () => {
     this.props.navigation.navigate('CoinInformation', {coin: curr});
   }
 
@@ -72,7 +76,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors: Colors) => {
+const getThemedStyles = (colors) => {
   return {
     container: {
       backgroundColor: colors.background,
