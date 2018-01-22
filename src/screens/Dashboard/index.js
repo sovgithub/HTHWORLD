@@ -8,10 +8,8 @@ import {
 } from 'react-native';
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
-import SparkLine from 'components/SparkLine';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
-import GetCurrencyHistory from 'components/GetCurrencyHistory';
-import {getColors, Colors} from 'styles';
+import {getColors} from 'styles';
 import IntervalSelectionChart from 'components/IntervalSelectionChart';
 
 const Currencies = {
@@ -28,11 +26,6 @@ for (const CurrencyItem in Currencies) {
   CurrencyList.push(CurrencyItem);
 }
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
 export default class Dashboard extends React.Component {
   state = {
     selectedCurrency: Currencies.BTC

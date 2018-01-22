@@ -7,8 +7,7 @@ import {
 import CurrencyOverview from 'components/CurrencyOverview';
 import GetCurrencyHistory from 'components/GetCurrencyHistory';
 import GetCurrencyPrice from 'components/GetCurrencyPrice';
-import {getColors, Colors} from 'styles';
-import { NavigationScreenProp, NavigationAction } from 'react-navigation';
+import {getColors} from 'styles';
 
 const currencies = {
   DASH: 'DASH',

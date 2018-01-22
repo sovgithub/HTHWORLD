@@ -87,7 +87,7 @@ export default class GetCurrencyHistory extends React.Component {
     json.Data.map((day) => day.close);
 
   render() {
-    const {children, interval} = this.props;
+    const {children} = this.props;
     const {queries, url} = this.state;
     return (
       <Fetch

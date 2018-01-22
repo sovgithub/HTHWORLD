@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { DrawerNavigator, StackNavigator, DrawerItems, DrawerNavigatorConfig } from 'react-navigation';
+import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation';
 import {
-  Alert,
   Button,
-  StyleSheet,
-  Text,
   Dimensions,
   View,
 } from 'react-native';

@@ -4,7 +4,6 @@ import {
   StyleSheet,
   TextInput
 } from 'react-native';
-import {getColors} from 'styles';
 
 export default class LabeledInput extends React.Component {
   static propTypes = {

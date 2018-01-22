@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, StyleSheet, Text, Dimensions, LayoutChangeEvent} from 'react-native';
+import {View, StyleSheet, Dimensions} from 'react-native';
 import Svg, {Polyline} from 'react-native-svg';
 import {getColors} from 'styles';
 

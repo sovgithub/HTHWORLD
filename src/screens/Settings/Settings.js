@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, TouchableOpacity, Button, DatePickerAndroid, TextInput, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { TouchableOpacity, Button, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './style';
 
 class Settings extends React.Component {

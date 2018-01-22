@@ -5,7 +5,7 @@ import {
   View,
   Text,
 } from 'react-native';
-import {getColors, Colors} from 'styles';
+import {getColors} from 'styles';
 
 const ValueStatement = ({
   title,

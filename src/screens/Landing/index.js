@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
-import {getColors, Colors, setTheme, getTheme, Theme} from 'styles';
+import {getColors, setTheme, getTheme, Theme} from 'styles';
 
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
