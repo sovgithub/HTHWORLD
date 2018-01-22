@@ -5,6 +5,6 @@ const Logo = () => {
   return (
     <Image source={require('assets/logo.png')} />
   );
-}
+};
 
 export default Logo;

@@ -133,4 +133,4 @@ const getThemedStyles = (colors) => {
       color: colors.textPrimary,
     },
   };
-}
+};

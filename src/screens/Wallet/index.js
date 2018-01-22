@@ -80,7 +80,7 @@ const getThemedStyles = (colors) => {
     container: {
       backgroundColor: colors.background,
     },
-  }
-}
+  };
+};
 
 export default Wallet;

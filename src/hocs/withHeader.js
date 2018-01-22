@@ -32,7 +32,7 @@ export default function withHeader(title, WrappedComponent) {
     })
 
     render() {
-      return <WrappedComponent {...this.props} />
+      return <WrappedComponent {...this.props} />;
     }
-  }
+  };
 }

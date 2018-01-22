@@ -51,4 +51,4 @@ const drawerNavigatorConfig = {
   )
 };
 
-export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig)
+export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig);

@@ -33,7 +33,7 @@ export default class Landing extends React.Component {
     }
     catch (error) {
       console.log(error);
-      this.setState({loading: false})
+      this.setState({loading: false});
     }
   }
 
@@ -42,7 +42,7 @@ export default class Landing extends React.Component {
       currentTheme: setTheme(
         getTheme() === Theme.light ? Theme.dark : Theme.light
       )
-    })
+    });
   }
 
   render() {
