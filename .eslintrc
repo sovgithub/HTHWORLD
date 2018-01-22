@@ -5,5 +5,10 @@
   "rules": {
     "react/display-name": 0,
     "semi": [2, "always"]
+  },
+  "globals": {
+    "fetch": true,
+    "require": true,
+    "console": true
   }
 }
