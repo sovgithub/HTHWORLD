@@ -50,7 +50,6 @@ export default class Fetch extends React.Component {
       const response = await fetch(`${this.props.url}${this.makeQueryString(queries)}`);
       if (this.state.requestNumber === requestNumber) {
         const json = await response.json();
-        console.log(json);
         this.setState({
           loaded: true,
           data: this.props.formatter(json)
@@ -58,7 +57,7 @@ export default class Fetch extends React.Component {
       }
     }
     catch(error) {
-      console.log('error! ', error);
+      console.log('error! ', error); // eslint-disable-line no-console
     }
   };
 

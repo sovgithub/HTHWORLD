@@ -24,15 +24,15 @@ export default class Landing extends React.Component {
       const credentials = await auth0
         .webAuth
         .authorize({scope: 'openid email', audience: 'https://oar-dev01.auth0.com/userinfo', initialScreen});
-      console.log(credentials);
-      console.log(JSON.stringify({
+      console.log(credentials); // eslint-disable-line no-console
+      console.log(JSON.stringify({ // eslint-disable-line no-console
         access_token: credentials.accessToken,
         id_token: credentials.idToken
       }));
       this.props.navigation.navigate('Dashboard');
     }
     catch (error) {
-      console.log(error);
+      console.log(error); // eslint-disable-line no-console
       this.setState({loading: false});
     }
   }

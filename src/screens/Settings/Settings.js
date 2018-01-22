@@ -20,7 +20,7 @@ class Settings extends React.Component {
   };
 
   submitForm = () => {
-    console.log(this.state);
+    console.log(this.state); // eslint-disable-line no-console
     this.props.navigation.navigate('Dashboard');
   };
 
