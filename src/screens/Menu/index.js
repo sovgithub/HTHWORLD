@@ -40,7 +40,7 @@ const drawerNavigatorConfig = {
       <View style={{marginTop: 30, alignSelf: 'flex-end'}}>
         <Button
           title="X"
-          onPress={() => props.navigation.navigate('DrawerClose')}
+          onPress={() => props.navigation.navigate('DrawerClose')} // eslint-disable-line react/prop-types
           color={getColors().menu}
         />
       </View>

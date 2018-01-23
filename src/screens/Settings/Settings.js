@@ -1,8 +1,15 @@
-import * as React from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { TouchableOpacity, Button, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './style';
 
 class Settings extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  }
+
   state = {
     email: '',
     firstName: '',
