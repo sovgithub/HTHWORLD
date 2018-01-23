@@ -22,7 +22,7 @@ const CurrencyButton = ({children, selected, onPress}) => {
       <Text style={textStyles}>{children}</Text>
     </TouchableHighlight>
   );
-}
+};
 
 CurrencyButton.propTypes = {
   children: PropTypes.string.isRequired,
@@ -56,6 +56,6 @@ const getThemedStyles = (colors) => {
       color: colors.textPrimary,
     },
   };
-}
+};
 
 export default CurrencyButton;

@@ -1,11 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { DrawerNavigator, StackNavigator, DrawerItems, DrawerNavigatorConfig } from 'react-navigation';
+import { DrawerNavigator, StackNavigator, DrawerItems } from 'react-navigation';
 import {
-  Alert,
   Button,
-  StyleSheet,
-  Text,
   Dimensions,
   View,
 } from 'react-native';
@@ -44,7 +40,7 @@ const drawerNavigatorConfig = {
       <View style={{marginTop: 30, alignSelf: 'flex-end'}}>
         <Button
           title="X"
-          onPress={() => props.navigation.navigate('DrawerClose')}
+          onPress={() => props.navigation.navigate('DrawerClose')} // eslint-disable-line react/prop-types
           color={getColors().menu}
         />
       </View>
@@ -55,4 +51,4 @@ const drawerNavigatorConfig = {
   )
 };
 
-export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig)
+export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig);

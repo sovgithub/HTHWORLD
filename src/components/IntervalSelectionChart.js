@@ -40,7 +40,7 @@ export default class IntervalSelectionChart extends React.Component {
           {({loaded, data}) => {
             return loaded
               ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
-              : <Text style={themedStyles.text}>...</Text>
+              : <Text style={themedStyles.text}>...</Text>;
           }}
         </GetCurrencyHistory>
         <View style={styles.intervalListContainer}>
@@ -98,4 +98,4 @@ const getThemedStyles = (colors) => {
       color: colors.textPrimary
     }
   };
-}
+};

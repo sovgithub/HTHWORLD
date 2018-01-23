@@ -1,8 +1,15 @@
-import * as React from 'react';
-import { View, TouchableOpacity, Button, DatePickerAndroid, TextInput, Animated, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { TouchableOpacity, Button, TextInput, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import styles from './style';
 
 class Settings extends React.Component {
+  static propTypes = {
+    navigation: PropTypes.shape({
+      navigate: PropTypes.func.isRequired
+    }).isRequired
+  }
+
   state = {
     email: '',
     firstName: '',
@@ -20,7 +27,7 @@ class Settings extends React.Component {
   };
 
   submitForm = () => {
-    console.log(this.state)
+    console.log(this.state); // eslint-disable-line no-console
     this.props.navigation.navigate('Dashboard');
   };
 
@@ -89,6 +96,6 @@ class Settings extends React.Component {
       </KeyboardAvoidingView>
     );
   }
-};
+}
 
 export default Settings;

@@ -7,7 +7,7 @@ import {
   View,
 } from 'react-native';
 import SparkLine from 'components/SparkLine';
-import {getColors, Colors} from 'styles';
+import {getColors} from 'styles';
 
 const CurrencyOverview = ({
   amountHeld,

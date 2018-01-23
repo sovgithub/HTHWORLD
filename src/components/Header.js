@@ -12,7 +12,6 @@ import {getColors} from 'styles';
 const Header = (props) => {
   const themeColors = getColors();
   const themedStyles = getThemedStyles(themeColors);
-  const fontStyle = { color: props.textColor || themeColors.textPrimary };
 
   return (
     <View style={[props.style, styles.contentContainer]}>

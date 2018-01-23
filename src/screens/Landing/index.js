@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Alert, Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
+import { Button, ImageBackground, StatusBar, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
 import Header from 'components/Header';
 import RoundedButton from 'components/RoundedButton';
-import {getColors, Colors, setTheme, getTheme, Theme} from 'styles';
+import {getColors, setTheme, getTheme, Theme} from 'styles';
 
 import Auth0 from 'react-native-auth0';
 const auth0 = new Auth0({ domain: 'oar-dev01.auth0.com', clientId: 'JW1RZB9vvkqyq7vyphEo1X7fHTxDXGmm' });
@@ -24,16 +24,16 @@ export default class Landing extends React.Component {
       const credentials = await auth0
         .webAuth
         .authorize({scope: 'openid email', audience: 'https://oar-dev01.auth0.com/userinfo', initialScreen});
-      console.log(credentials);
-      console.log(JSON.stringify({
+      console.log(credentials); // eslint-disable-line no-console
+      console.log(JSON.stringify({ // eslint-disable-line no-console
         access_token: credentials.accessToken,
         id_token: credentials.idToken
       }));
       this.props.navigation.navigate('Dashboard');
     }
     catch (error) {
-      console.log(error);
-      this.setState({loading: false})
+      console.log(error); // eslint-disable-line no-console
+      this.setState({loading: false});
     }
   }
 
@@ -42,7 +42,7 @@ export default class Landing extends React.Component {
       currentTheme: setTheme(
         getTheme() === Theme.light ? Theme.dark : Theme.light
       )
-    })
+    });
   }
 
   render() {

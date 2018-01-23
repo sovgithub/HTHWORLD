@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Alert,
-  Button,
   ScrollView,
-  Text,
   View,
 } from 'react-native';
-import {getColors} from 'styles';
 import IntervalSelectionChart from 'components/IntervalSelectionChart';
 import ValueStatement from 'components/ValueStatement';
 import RoundedButton from 'components/RoundedButton';

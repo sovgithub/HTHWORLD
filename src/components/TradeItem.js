@@ -20,7 +20,7 @@ const TradeItem = ({
       <Text>{numCoins} {coin} at ${pricePerCoin}</Text>
     </View>
     <View>
-      <Text>></Text>
+      <Text>&gt;</Text>
     </View>
   </View>
 );
