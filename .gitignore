@@ -1,5 +1,4 @@
 .expo/
-lib/
 .jest/
 
 # !! THE FOLLOWING IS REACT NATIVE'S DEFAULT GITIGNORE !! #

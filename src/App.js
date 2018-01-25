@@ -1,26 +1,31 @@
-import React from 'react';
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import store from './store.duck';
-import HockeyApp from 'react-native-hockeyapp';
-import Landing from 'screens/Landing';
-import Menu from 'screens/Menu';
-import { StackNavigator } from 'react-navigation';
+import React from "react";
+import { Provider } from "react-redux";
+import NavigatorService from "./navigator";
+import configureStore from "./configureStore";
+import HockeyApp from "react-native-hockeyapp";
+import Login from "screens/Login";
+import Signup from "screens/Signup";
+import Menu from "screens/Menu";
+import { StackNavigator } from "react-navigation";
 
-const storeInstance = createStore(store);
+const store = configureStore();
 
-const RoutingStack = StackNavigator({
-  Landing:  { screen: Landing },
-  Menu: { screen: Menu },
-}, {
-  headerMode: 'none',
-});
+const RoutingStack = StackNavigator(
+  {
+    Login: { screen: Login },
+    Signup: { screen: Signup },
+    Menu: { screen: Menu }
+  },
+  {
+    headerMode: "none"
+  }
+);
 
-
+export let navigatorRef;
 
 export default class App extends React.Component {
   componentWillMount() {
-    HockeyApp.configure('HOCKEYAPP_API_KEY', true);
+    HockeyApp.configure("HOCKEYAPP_API_KEY", true);
   }
 
   componentDidMount() {
@@ -30,8 +35,12 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <Provider store={storeInstance}>
-        <RoutingStack />
+      <Provider store={store}>
+        <RoutingStack
+          ref={navigatorRef => {
+            NavigatorService.setContainer(navigatorRef);
+          }}
+        />
       </Provider>
     );
   }
