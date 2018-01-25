@@ -5,17 +5,10 @@ import {
   View,
 } from 'react-native';
 import CurrencyOverview from 'components/CurrencyOverview';
-import GetCurrencyHistory from 'components/GetCurrencyHistory';
-import GetCurrencyPrice from 'components/GetCurrencyPrice';
+import LoadingSpinner from 'components/LoadingSpinner';
+import {getCurrencyHistory} from 'components/GetCurrencyHistory';
+import {getCurrencyPrice} from 'components/GetCurrencyPrice';
 import {getColors} from 'styles';
-
-const currencies = {
-  DASH: 'DASH',
-  ETH: 'ETH',
-  BTC: 'BTC',
-  LTC: 'LTC',
-  XRP: 'XRP',
-};
 
 function getRandomInt(min, max) {
   min = Math.ceil(min);
@@ -23,12 +16,76 @@ function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+const createInitialCurrencyState = () => {
+  return {
+    priceLoaded: false,
+    historyLoaded: false,
+    price: '',
+    history: [],
+    amountHeld: getRandomInt(1, 20)
+  };
+};
 
 class Wallet extends React.Component {
   static propTypes = {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired,
     }).isRequired,
+  }
+
+  state = {
+    currencies: {
+      DASH: createInitialCurrencyState(),
+      ETH: createInitialCurrencyState(),
+      BTC: createInitialCurrencyState(),
+      LTC: createInitialCurrencyState(),
+      XRP: createInitialCurrencyState(),
+    }
+  }
+
+  componentDidMount() {
+    const listOfCurrencies = Object.keys(this.state.currencies);
+
+    getCurrencyPrice(listOfCurrencies).then((prices) => {
+      const oldState = this.state;
+      const oldCurrenciesState = oldState.currencies;
+      const newCurrenciesState = {};
+
+      listOfCurrencies.map((currencyName) => {
+        newCurrenciesState[currencyName] = {
+          ...oldCurrenciesState[currencyName],
+          priceLoaded: true,
+          price: prices[currencyName].USD
+        };
+      });
+
+      const newState = {
+        ...oldState,
+        currencies: newCurrenciesState
+      };
+
+      this.setState(newState);
+    });
+
+    listOfCurrencies.map((currencyName) => {
+      getCurrencyHistory(currencyName, '3').then((history) => {
+        const oldState = this.state;
+        const oldCurrenciesState = oldState.currencies;
+        const newState = {
+          ...oldState,
+          currencies: {
+            ...oldCurrenciesState,
+            [currencyName]: {
+              ...oldCurrenciesState[currencyName],
+              historyLoaded: true,
+              history
+            }
+          }
+        };
+
+        this.setState(newState);
+      });
+    });
   }
 
   handlePress = (curr) => () => {
@@ -38,32 +95,46 @@ class Wallet extends React.Component {
   render() {
     const themedStyles = getThemedStyles(getColors());
 
+    const { currencies } = this.state;
+    const listOfCurrencies = Object.keys(currencies);
+
+    const allLoaded = listOfCurrencies.reduce(
+      (memo, currencyName) => {
+        const currency = currencies[currencyName];
+        return memo && currency.priceLoaded && currency.historyLoaded;
+      },
+      true
+    );
+
     return (
       <View style={[styles.container, themedStyles.container]}>
-        <GetCurrencyPrice currencies={Object.values(currencies)}>
-          {({data: prices}) => (
+        {allLoaded
+          ? (
             <View>
-              {Object.values(currencies).map((curr) => (
-                <GetCurrencyHistory key={curr} currency={curr} limit={'3'}>
-                  {({loaded, data: history}) => {
-                    const amountHeld = getRandomInt(1, 20);
-                    return loaded ? (
-                      <CurrencyOverview
-                        amountHeld={amountHeld}
-                        currentPrice={prices && prices[curr].USD}
-                        history={history}
-                        holdingPrice={prices && amountHeld * prices[curr].USD}
-                        positive={history[0] < history[history.length - 1]}
-                        title={curr}
-                        onPress={this.handlePress(curr)}
-                      />
-                    ) : null;
-                  }}
-                </GetCurrencyHistory>
-              ))}
+              {listOfCurrencies.map((currencyName) => {
+                const {
+                  amountHeld,
+                  history,
+                  price,
+                } = currencies[currencyName];
+
+                return (
+                  <CurrencyOverview
+                    key={currencyName}
+                    amountHeld={amountHeld}
+                    currentPrice={price}
+                    history={history}
+                    holdingPrice={amountHeld * price}
+                    positive={history[0] < history[history.length - 1]}
+                    title={currencyName}
+                    onPress={this.handlePress(currencyName)}
+                  />
+                );
+              })}
             </View>
-          )}
-        </GetCurrencyPrice>
+          )
+          : <LoadingSpinner />
+        }
       </View>
     );
   }

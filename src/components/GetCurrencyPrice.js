@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Fetch from 'components/Fetch';
+import Fetch, { makeRequest } from 'components/Fetch';
+
+const url = "https://min-api.cryptocompare.com/data/pricemulti";
+
+const constructQueries = (currencies) => [
+  {name: 'fsyms', value: currencies.join(',')},
+  {name: 'tsyms', value: 'USD'}
+];
+
+export async function getCurrencyPrice(currencies) {
+  return makeRequest(url, constructQueries(currencies));
+}
 
 export default class GetCurrencyPrice extends React.Component {
   static propTypes = {
@@ -11,29 +22,24 @@ export default class GetCurrencyPrice extends React.Component {
   constructor(props) {
     super();
     this.state = {
-      queries: this.constructQueries(props.currencies)
+      queries: constructQueries(props.currencies)
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.currencies !== this.props.currencies) {
       this.setState({
-        queries: this.constructQueries(newProps.currencies)
+        queries: constructQueries(newProps.currencies)
       });
     }
   }
-
-  constructQueries = (currencies) => [
-    {name: 'fsyms', value: currencies.join(',')},
-    {name: 'tsyms', value: 'USD'}
-  ];
 
   formatter = (json) => json;
 
   render() {
     return (
       <Fetch
-        url="https://min-api.cryptocompare.com/data/pricemulti"
+        url={url}
         queries={this.state.queries}
         formatter={this.formatter}
       >

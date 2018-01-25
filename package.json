@@ -25,7 +25,7 @@
     "moduleFileExtensions": [
       "js"
     ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.js$",
     "testPathIgnorePatterns": [
       "\\.snap$",
       "<rootDir>/node_modules/"

@@ -1,6 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+export function makeQueryString(queries) {
+  if (queries && queries.length) {
+    return `?${ queries.map((q) => `${q.name}=${q.value}`).join('&') }`;
+  }
+
+  return '';
+}
+
+export async function makeRequest(url, queries) {
+  const response = await fetch(`${url}${makeQueryString(queries)}`);
+  const json = await response.json();
+  return json;
+}
+
 export default class Fetch extends React.Component {
   static propTypes = {
     children: PropTypes.func.isRequired, // recieves {loaded: boolean, data: any}
@@ -25,31 +39,22 @@ export default class Fetch extends React.Component {
   };
 
   componentWillMount() {
-    this.makeRequest(this.props.queries, this.state.requestNumber);
+    this.handleRequest(this.props.queries, this.state.requestNumber);
   }
 
   componentWillReceiveProps(newProps) {
     if (this.props.queries != newProps.queries) {
       this.setState(
         { loaded: false, requestNumber: this.state.requestNumber + 1 },
-        () => this.makeRequest(newProps.queries, this.state.requestNumber)
+        () => this.handleRequest(newProps.queries, this.state.requestNumber)
       );
     }
   }
 
-  makeQueryString = (queries) => {
-    if (queries && queries.length) {
-      return `?${ queries.map((q) => `${q.name}=${q.value}`).join('&') }`;
-    }
-
-    return '';
-  }
-
-  makeRequest = async (queries, requestNumber) => {
+  handleRequest = async (queries, requestNumber) => {
     try {
-      const response = await fetch(`${this.props.url}${this.makeQueryString(queries)}`);
+      const json = await makeRequest(this.props.url, queries);
       if (this.state.requestNumber === requestNumber) {
-        const json = await response.json();
         this.setState({
           loaded: true,
           data: this.props.formatter(json)

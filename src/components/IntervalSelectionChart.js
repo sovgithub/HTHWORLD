@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import SparkLine from 'components/SparkLine';
+import LoadingSpinner from 'components/LoadingSpinner';
 import GetCurrencyHistory, { Intervals } from 'components/GetCurrencyHistory';
 import { getColors } from 'styles';
 
@@ -35,12 +36,12 @@ export default class IntervalSelectionChart extends React.Component {
     const {selectedInterval} = this.state;
 
     return (
-        <View style={styles.container}>
+      <View style={styles.container}>
         <GetCurrencyHistory currency={this.props.currency} interval={this.state.selectedInterval}>
           {({loaded, data}) => {
             return loaded
               ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
-              : <Text style={themedStyles.text}>...</Text>;
+              : <LoadingSpinner />;
           }}
         </GetCurrencyHistory>
         <View style={styles.intervalListContainer}>
@@ -70,9 +71,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 10,
-    marginBottom: 10
+    marginBottom: 10,
+    width: '100%',
   },
   intervalListContainer: {
+    width: '100%',
     flexDirection: 'row',
     marginTop: 10
   },
