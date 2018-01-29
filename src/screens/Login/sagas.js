@@ -11,7 +11,7 @@
 
 import { take, fork, cancel, call, put, cancelled } from "redux-saga/effects";
 import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from "./constants";
-import { handleApiErrors } from "lib/api-errors";
+import api from "lib/api";
 
 // In order to trigger navigation outside of
 // the parent component, we'll use this service.
@@ -25,48 +25,24 @@ import { USER_UNSET } from "screens/User/constants";
 const loginUrl = `https://smaugdev.hoardinvest.com/login/`;
 
 // Handle logging in via the API
-function loginApi(email_address, password) {
-  return (
-    fetch(loginUrl, {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({ email_address, password })
-    })
-      // Check to make sure the response is good
-      .then(handleApiErrors)
-      .then(response => response.json())
-      .then(res => {
-        return { user_uid: res.user_uid };
-      })
-      .catch(error => {
-        throw error;
-      })
-  );
+async function loginApi(email_address, password) {
+  try {
+    const res = await api.post(loginUrl, { email_address, password });
+    return { user_uid: res.user_uid };
+  } catch (error) {
+    throw error;
+  }
 }
 
 // Handle logging in via the API
 // TODO: abstract these into dev/prod files
 const logoutUrl = `https://smaugdev.hoardinvest.com/logout/`;
-function logoutApi() {
-  return (
-    fetch(logoutUrl, {
-      method: "post",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      }
-    })
-      // Check to make sure the response is good
-      .then(handleApiErrors)
-      .then(response => response.json())
-      .catch(error => {
-        throw error;
-      })
-  );
+async function logoutApi() {
+  try {
+    return api.post(logoutUrl);
+  } catch (error) {
+    throw error;
+  }
 }
 
 function* logout() {

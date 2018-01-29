@@ -10,8 +10,8 @@
 */
 
 import { call, put, takeLatest } from "redux-saga/effects";
-import { handleApiErrors } from "lib/api-errors";
 import { SIGNUP_REQUESTING, SIGNUP_SUCCESS, SIGNUP_ERROR } from "./constants";
+import api from "lib/api";
 
 // In order to trigger navigation outside of
 // the parent component, we'll use this service.
@@ -20,31 +20,24 @@ import NavigatorService from "../../navigator";
 // TODO: abstract these into dev/prod files
 const signupUrl = `https://smaugdev.hoardinvest.com/users/`;
 
-function signupApi(
+async function signupApi(
   first_name,
   last_name,
   phone_number,
   email_address,
   password
 ) {
-  return fetch(signupUrl, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      first_name: first_name,
-      last_name: last_name,
-      phone_number: phone_number,
-      email_address: email_address,
-      password: password
-    })
-  })
-    .then(handleApiErrors)
-    .then(response => response.json())
-    .catch(error => {
-      throw error;
+  try {
+    return api.post(signupUrl, {
+      first_name,
+      last_name,
+      phone_number,
+      email_address,
+      password
     });
+  } catch (errors) {
+    throw error;
+  }
 }
 
 // This will be run when the SIGNUP_REQUESTING

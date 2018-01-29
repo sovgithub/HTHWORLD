@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import api from 'lib/api';
 
 export function makeQueryString(queries) {
   if (queries && queries.length) {
@@ -10,9 +11,7 @@ export function makeQueryString(queries) {
 }
 
 export async function makeRequest(url, queries) {
-  const response = await fetch(`${url}${makeQueryString(queries)}`);
-  const json = await response.json();
-  return json;
+  return api.get(`${url}${makeQueryString(queries)}`);
 }
 
 export default class Fetch extends React.Component {
