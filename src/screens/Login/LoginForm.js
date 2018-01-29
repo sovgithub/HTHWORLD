@@ -35,6 +35,10 @@ class LoginForm extends Component {
     this.props.navigation.navigate("Signup");
   };
 
+  handleBypassButton = () => {
+    this.props.navigation.navigate("Dashboard");
+  };
+
   handleFormSubmit = () => {
     if (
       this.state.email_address &&
@@ -92,6 +96,12 @@ class LoginForm extends Component {
         >
           <Text style={styles.buttonTextAlt}>New to Hoard? Sign Up!</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          onPress={this.handleBypassButton}
+          style={styles.buttonContainerBypass}
+        >
+          <Text style={styles.buttonTextBypass}>No thanks, I just want to use the wallet</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -129,5 +139,15 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#fff",
     fontWeight: "700"
+  },
+  buttonContainerBypass: {
+    backgroundColor: "transparent",
+    paddingVertical: 10,
+    marginTop: 50
+  },
+  buttonTextBypass: {
+    textAlign: "center",
+    color: "#fff",
+    fontWeight: "500"
   }
 });
