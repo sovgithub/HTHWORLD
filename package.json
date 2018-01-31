@@ -32,6 +32,11 @@
     ],
     "cacheDirectory": ".jest/cache"
   },
+  "rnpm": {
+    "assets": [
+      "./src/assets/fonts/"
+    ]
+  },
   "dependencies": {
     "prop-types": "^15.5.10",
     "react": "16.0.0-alpha.12",

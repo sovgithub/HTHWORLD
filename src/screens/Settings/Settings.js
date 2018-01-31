@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Input from 'components/Input';
 import Button from 'components/Button';
+import T from 'components/Typography';
 
 class Settings extends React.Component {
   static propTypes = {
@@ -60,15 +61,15 @@ class Settings extends React.Component {
           <ScrollView>
             <View style={styles.formContainer}>
               <View>
-                <Text style={styles.heading}>{LANG_HEADING_TEXT}</Text>
-                <Text style={styles.text}>{LANG_MAIN_TEXT}</Text>
-                <Text style={styles.notification}>
+                <T.Heading style={styles.heading}>{LANG_HEADING_TEXT}</T.Heading>
+                <T.Light style={styles.text}>{LANG_MAIN_TEXT}</T.Light>
+                <T.Small style={styles.notification}>
                   Please note, care about your privacy! Your personal
                   information is never sent to or seen by us. This information
                   is stored locally and is only transmitted once to our
                   compliance authorization service.To learn more about these
                   privacy policies, click here.
-                </Text>
+                </T.Small>
               </View>
               <Input
                 autoCapitalize="none"
@@ -133,7 +134,7 @@ class Settings extends React.Component {
                 onChangeText={this.updateFormField('country')}
                 style={styles.input}
               />
-              <Button onPress={this.submitForm} style={styles.button}>
+              <Button onPress={this.submitForm} style={styles.button} type="primary">
                 Save Settings
               </Button>
             </View>
@@ -158,26 +159,19 @@ const styles = StyleSheet.create({
   },
   heading: {
     backgroundColor: 'transparent',
-    fontSize: 40,
-    fontWeight: '100',
     color: '#ffffff'
   },
   text: {
     backgroundColor: 'transparent',
-    fontSize: 16,
-    lineHeight: 30,
     color: '#ffffff',
     marginBottom: 10
   },
   notification: {
     backgroundColor: '#FDE3A7',
     color: '#F89406',
-    fontSize: 14,
-    fontWeight: '700',
     fontStyle: 'italic',
     padding: 20,
     marginBottom: 20,
-    lineHeight: 30
   },
   formContainer: {
     padding: 20

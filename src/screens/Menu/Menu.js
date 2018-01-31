@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button,
+  Button as RNButton,
   ImageBackground,
   ScrollView,
   StyleSheet,
@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import Button from 'components/Button';
 import { getColors } from 'styles';
 import Animations, { FADE, SLIDE_X } from '../../hocs/Animations';
 import { signOut } from "sagas/authentication";
@@ -75,7 +76,7 @@ class Menu extends Component {
           <ScrollView style={{ paddingTop: 40 }}>
             <View style={{ backgroundColor: 'transparent', flex: 1 }}>
               <View style={{ alignSelf: 'flex-end' }}>
-                <Button
+                <RNButton
                   title="X"
                   onPress={() => this.navigateTo('DrawerClose')}
                   color={
@@ -126,12 +127,9 @@ class Menu extends Component {
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
-            <TouchableOpacity
-              style={styles.buttonContainer}
-              onPress={() => this.props.signOut()}
-            >
-              <Text style={styles.buttonText}>LOG OUT</Text>
-            </TouchableOpacity>
+            <Button type="secondary" onPress={() => this.props.signOut()}>
+              LOG OUT
+            </Button>
           </View>
         </ImageBackground>
       </View>
@@ -159,15 +157,6 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'cover'
-  },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    paddingVertical: 10
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: '#223252',
-    fontWeight: '700'
   },
   linkWrapper: {
     width: '100%',

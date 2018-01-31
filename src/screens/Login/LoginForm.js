@@ -15,6 +15,7 @@ import {
   TouchableOpacity
 } from "react-native";
 import Error from 'components/notifications/Error';
+import Button from 'components/Button';
 
 const LANG_SIGN_UP_TEXT = "LOG IN";
 
@@ -95,12 +96,13 @@ class LoginForm extends Component {
           secureTextEntry
           onChangeText={this.updateFormField("password")}
         />
-        <TouchableOpacity
+        <Button
           style={styles.buttonContainer}
+          type="secondary"
           onPress={this.handleFormSubmit}
         >
-          <Text style={styles.buttonText}>{LANG_SIGN_UP_TEXT}</Text>
-        </TouchableOpacity>
+          {LANG_SIGN_UP_TEXT}
+        </Button>
         <TouchableOpacity
           onPress={this.handleSignupButton}
           style={styles.buttonContainerAlt}
@@ -133,18 +135,11 @@ const styles = StyleSheet.create({
     borderRadius: 8
   },
   buttonContainer: {
-    backgroundColor: "#fff",
-    paddingVertical: 10
-  },
-  buttonText: {
-    textAlign: "center",
-    color: "#223252",
-    fontWeight: "700"
+    marginBottom: 10
   },
   buttonContainerAlt: {
     backgroundColor: "transparent",
-    paddingVertical: 10,
-    marginTop: 20
+    paddingVertical: 10
   },
   buttonTextAlt: {
     textAlign: "center",
