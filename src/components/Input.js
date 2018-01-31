@@ -10,6 +10,10 @@ export default class Input extends Component {
       'words',
       'characters'
     ]),
+    keyboardType: PropTypes.oneOf([
+      'numeric',
+      'default'
+    ]),
     placeholder: PropTypes.string,
     style: TextInput.propTypes.style,
     value: PropTypes.string.isRequired,
@@ -20,6 +24,7 @@ export default class Input extends Component {
   static defaultProps = {
     placeholder: '',
     autoCapitalize: 'none',
+    keyboardType: 'default',
     style: {},
     onSubmitEditing: () => false
   };
@@ -51,6 +56,7 @@ export default class Input extends Component {
         value={this.props.value}
         placeholder={this.props.placeholder}
         autoCapitalize={this.props.autoCapitalize}
+        keyboardType={this.props.keyboardType}
         onChangeText={this.props.onChangeText}
         onSubmitEditing={this.props.onSubmitEditing}
         onFocus={this.handleFocus}

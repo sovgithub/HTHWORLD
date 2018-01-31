@@ -112,6 +112,12 @@ class Menu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('ICO')}
+                >
+                  <Text style={styles.linkContent}>ICO</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.linkWrapper}
                   onPress={() => this.navigateTo('Settings')}
                 >
                   <Text style={styles.linkContent}>Settings</Text>
