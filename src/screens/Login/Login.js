@@ -41,6 +41,7 @@ export default class Login extends React.Component {
             <LoginForm
               navigation={this.props.navigation}
               loginRequest={this.props.loginRequest}
+              errors={this.props.login.errors}
             />
           </View>
         </ImageBackground>

@@ -28,7 +28,7 @@ export default function loginReducer(state = initialState, action) {
         requesting: false,
         successful: false,
         messages: [],
-        errors: [...state.errors, { body: action.error.toString() }]
+        errors: [...state.errors, ...action.errors]
       };
 
     default:

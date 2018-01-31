@@ -13,9 +13,8 @@ yield all([example(), ...otherSagas]);
 
 import { all } from "redux-saga/effects";
 
-import loginSagas from "./screens/Login/sagas";
-import signupSagas from "./screens/Signup/sagas";
+import authSagas from "sagas/authentication";
 
 export default function* rootSaga() {
-  yield all([loginSagas(), signupSagas()]);
+  yield all([authSagas()]);
 }

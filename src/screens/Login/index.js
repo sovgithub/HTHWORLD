@@ -6,11 +6,14 @@
 */
 import { connect } from "react-redux";
 import loginRequest from "./actions";
-
 import Login from "./Login";
 
 function mapStateToProps(state) {
   return { login: state.login };
 }
 
-export default connect(mapStateToProps, { loginRequest })(Login);
+const mapDispatchToProps = {
+  loginRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

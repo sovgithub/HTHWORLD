@@ -14,6 +14,7 @@ import {
   StyleSheet,
   TouchableOpacity
 } from "react-native";
+import Error from 'components/notifications/Error';
 
 const LANG_SIGN_UP_TEXT = "LOG IN";
 
@@ -60,8 +61,18 @@ class LoginForm extends Component {
   render() {
     const placeholderTextColor = "rgba(255,255,255,0.75)";
 
+    const { errors } = this.props;
     return (
       <View style={styles.container}>
+        {errors.map(error => {
+          return (
+            <Error
+              key={`error-${error.code}`}
+              title="Oops!"
+              message={error.message}
+            />
+          );
+        })}
         <TextInput
           style={styles.input}
           autoCapitalize="none"

@@ -2,7 +2,7 @@ import { handleApiErrors } from "lib/api-errors";
 
 async function apiWrapper(url, options) {
   const response = await fetch(url, options);
-  handleApiErrors(response);
+  await handleApiErrors(response);
   return response.json();
 }
 

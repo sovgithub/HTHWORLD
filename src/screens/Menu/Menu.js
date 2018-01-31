@@ -13,14 +13,14 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { unsetUser } from 'screens/User/actions';
 import { getColors } from 'styles';
 import Animations, { FADE, SLIDE_X } from '../../hocs/Animations';
+import { signOut } from "sagas/authentication";
 
 class Menu extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    unsetUser: PropTypes.func.isRequired
+    signOut: PropTypes.func.isRequired
   };
 
   state = {
@@ -128,7 +128,7 @@ class Menu extends Component {
           <View style={styles.footerContainer}>
             <TouchableOpacity
               style={styles.buttonContainer}
-              onPress={() => this.props.unsetUser()}
+              onPress={() => this.props.signOut()}
             >
               <Text style={styles.buttonText}>LOG OUT</Text>
             </TouchableOpacity>
@@ -143,7 +143,7 @@ function mapStateToProps(state) {
   return { user: state.user };
 }
 
-export default connect(mapStateToProps, { unsetUser })(Menu);
+export default connect(mapStateToProps, { signOut })(Menu);
 
 const styles = StyleSheet.create({
   container: {
