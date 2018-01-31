@@ -39,7 +39,7 @@
     "react-native-auth0": "^1.2.0",
     "react-native-hockeyapp": "^0.5.1",
     "react-native-svg": "^5.4.2",
-    "react-navigation": "^1.0.0-beta.11",
+    "react-navigation": "https://github.com/react-navigation/react-navigation.git",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "0.16.0"

@@ -1,16 +1,21 @@
 import React from 'react';
-import {Button, Text} from 'react-native';
-import {getColors} from 'styles';
+import { Button, Text } from 'react-native';
+import { getColors } from 'styles';
+import NavigatorService from '../navigator';
 
 export default function withHeader(title, WrappedComponent) {
   return class Wrapper extends React.Component {
     static displayName = `withHeader(${title})`;
-    static navigationOptions = ({navigation}) => ({
-      drawerLabel: ({focused}) => (
+    static navigationOptions = () => ({
+      drawerLabel: ({ focused }) => (
         <Text
           style={{
-            color: focused ? getColors().interactivePrimaryText : getColors().textPrimary,
-            backgroundColor: focused ? getColors().interactivePrimary : getColors().background,
+            color: focused
+              ? getColors().interactivePrimaryText
+              : getColors().textPrimary,
+            backgroundColor: focused
+              ? getColors().interactivePrimary
+              : getColors().background,
             padding: 20,
             textAlign: 'center',
             width: '100%'
@@ -21,15 +26,15 @@ export default function withHeader(title, WrappedComponent) {
       ),
       headerTitle: title,
       headerTintColor: getColors().textPrimary,
-      headerStyle: {backgroundColor: getColors().background},
+      headerStyle: { backgroundColor: getColors().background },
       headerRight: (
         <Button
           title="="
-          onPress={() => navigation.navigate('DrawerOpen')}
+          onPress={() => NavigatorService.navigate('DrawerOpen')}
           color={getColors().menu}
         />
       )
-    })
+    });
 
     render() {
       return <WrappedComponent {...this.props} />;
