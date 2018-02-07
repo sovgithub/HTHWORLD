@@ -6,9 +6,10 @@ import {
   ScrollView,
   StyleSheet
 } from "react-native";
-import Modal from "./Modal";
-import SelectableCoin from "./SelectableCoin";
+import Modal from "components/Modal";
+import SelectableCoin from "components/SelectableCoin";
 import { convertCurrency, SOLVE_FOR } from "lib/currency-helpers";
+import {limitNumber, formatDecimalInput} from 'lib/formatters';
 import Button from 'components/Button';
 import Input from 'components/Input';
 
@@ -18,22 +19,8 @@ const PRICE_PRECISION = 8;
 const OAR_LIMIT = 10000;
 const FIAT_LIMIT = 1000000;
 
-const limitNumber = value => Number(value.toFixed(PRICE_PRECISION));
-
-const limitString = value => {
-  const halves = value.split(".");
-  const [integers, decimals] = halves;
-  if (halves.length === 2) {
-    return `${integers}.${decimals.substring(0, PRICE_PRECISION)}`;
-  } else {
-    return integers;
-  }
-};
-
-const filterNonNumericCharacters = value => {
-  const matches = String(value).match(/(\d+)?(\.)?(\d+)?/);
-  return matches ? matches[0] : "";
-};
+const numberLimiter = limitNumber(PRICE_PRECISION);
+const decimalInputFormatter = formatDecimalInput(PRICE_PRECISION);
 
 export default class ICO extends Component {
   state = {
@@ -97,10 +84,9 @@ export default class ICO extends Component {
   handleChangePaid = value => {
     const { oarPrice, prices, selectedCurrency } = this.state;
 
-    const filteredValue = filterNonNumericCharacters(value);
-    const limitedString = limitString(filteredValue);
+    const formattedValue = decimalInputFormatter(value);
 
-    const valueAsNumber = Number(limitedString) || 0;
+    const valueAsNumber = Number(formattedValue) || 0;
     const { destination, totalCost } = convertCurrency({
       source: {
         pair: "USD",
@@ -116,9 +102,9 @@ export default class ICO extends Component {
 
     this.setState({
       // TODO: address rounding issues
-      oarTotal: limitNumber(destination.amount),
+      oarTotal: numberLimiter(destination.amount),
       priceTotal: totalCost,
-      amountPaid: limitedString
+      amountPaid: formattedValue
     });
   };
 
@@ -228,7 +214,10 @@ export default class ICO extends Component {
           show={modalOpen}
           title="Select Currency"
           onCancel={this.cancelModal}
-          onDone={this.confirmSelection}
+          actionButtons={[
+            {text: 'Done', type: 'primary', onPress: this.confirmSelection},
+            {text: 'Cancel', type: 'text', onPress: this.cancelModal}
+          ]}
         >
           <ScrollView bounces={false} style={styles.scrollView}>
             {allowedCurrencies.map(currency => (

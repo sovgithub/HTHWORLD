@@ -14,6 +14,7 @@ export default class Input extends Component {
       'numeric',
       'default'
     ]),
+    light: PropTypes.bool,
     placeholder: PropTypes.string,
     style: TextInput.propTypes.style,
     value: PropTypes.string.isRequired,
@@ -46,12 +47,16 @@ export default class Input extends Component {
 
   render() {
     const activeStyle = this.state.active
-      ? styles.input_active
-      : styles.input_inactive;
+      ? this.props.light ? styles.input_active_light : styles.input_active
+      : this.props.light ? styles.input_inactive_light : styles.input_inactive;
+
+    const inputColors = this.props.light ? styles.input_light : styles.input_dark;
+
+    const placeholderTextColor = this.props.light ? placeholderTextColorLight : placeholderTextColorDark;
 
     return (
       <TextInput
-        style={[styles.input, activeStyle, this.props.style]}
+        style={[styles.input, inputColors, activeStyle, this.props.style]}
         placeholderTextColor={placeholderTextColor}
         value={this.props.value}
         placeholder={this.props.placeholder}
@@ -68,16 +73,19 @@ export default class Input extends Component {
   }
 }
 
-const placeholderTextColor = 'rgba(255,255,255,0.5)';
+const placeholderTextColorDark = 'rgba(255,255,255,0.5)';
+const placeholderTextColorLight = 'rgba(0,0,0,0.4)';
 
 const styles = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 1,
-    backgroundColor: 'rgba(0,0,20, 0.25)',
-    color: '#fff',
     paddingHorizontal: 10,
     borderRadius: 8
+  },
+  input_dark: {
+    backgroundColor: 'rgba(0,0,20, 0.25)',
+    color: '#fff',
   },
   input_active: {
     borderColor: 'rgba(255,255,255, 1)',
@@ -85,5 +93,16 @@ const styles = StyleSheet.create({
   },
   input_inactive: {
     borderColor: 'rgba(255,255,255, 0.25)'
+  },
+  input_light: {
+    backgroundColor: 'rgba(0,0,20, 0.05)',
+    color: '#000',
+  },
+  input_active_light: {
+    borderColor: 'rgba(0,0,0, 1)',
+    color: '#000'
+  },
+  input_inactive_light: {
+    borderColor: 'rgba(0,0,0, 0.4)'
   }
 });

@@ -22,7 +22,7 @@ const SubHeading = ({style, ...otherProps}) => (
 SubHeading.propTypes = Text.propTypes;
 
 const GrayedOut = ({style, ...otherProps}) => (
-    <Text style={[styles.heading, style]} {...otherProps} />
+    <Text style={[styles.grayedOut, style]} {...otherProps} />
 );
 GrayedOut.propTypes = Text.propTypes;
 

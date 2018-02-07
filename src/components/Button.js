@@ -58,7 +58,7 @@ const stylesForType = {
   text: StyleSheet.create({
     buttonContainer: {
       backgroundColor: 'transparent',
-      paddingVertical: 20,
+      paddingVertical: 0,
       marginBottom: 30
     },
     buttonText: {

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
+import Button from 'components/Button';
 
 export default function Modal({
   children,
@@ -13,7 +14,7 @@ export default function Modal({
   show,
   title,
   onCancel,
-  onDone,
+  actionButtons
 }) {
   return (
     <View style={[styles.container, {display: show ? 'flex' : 'none', height}]}>
@@ -23,12 +24,16 @@ export default function Modal({
       <Text style={styles.header}>{title}</Text>
       {children}
       <View style={styles.actionButtons}>
-        <TouchableOpacity style={styles.done} onPress={onDone}>
-          <Text>Done</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.cancel} onPress={onCancel}>
-          <Text>Cancel</Text>
-        </TouchableOpacity>
+        {actionButtons.map(({type, onPress, text, disabled}) => (
+          <Button
+            key={text}
+            disabled={disabled}
+            type={type}
+            style={styles.button}
+            onPress={onPress}>
+            {text}
+          </Button>
+        ))}
       </View>
     </View>
   );
@@ -40,17 +45,23 @@ Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
-  onDone: PropTypes.func.isRequired,
+  actionButtons: PropTypes.arrayOf(PropTypes.shape({
+    disabled: PropTypes.bool,
+    text: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    onPress: PropTypes.func.isRequired
+  }))
 };
 
 Modal.defaultProps = {
-  height: '95%'
+  height: '95%',
+  actionButtons: [],
 };
 
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     paddingTop: 30,
     left: 10,
     right: 10,
@@ -76,16 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     alignItems: 'center',
   },
-  done: {
+  button: {
     width: '100%',
-    alignItems: 'center',
-    borderColor: 'grey',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderStyle: 'solid',
-    borderRadius: 30,
-    padding: 20,
-  },
-  cancel: {
-    padding: 20,
   },
 });
