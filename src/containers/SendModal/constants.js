@@ -1,0 +1,2 @@
+export const SHOW_SEND_MODAL = 'SHOW_SEND_MODAL';
+export const HIDE_SEND_MODAL = 'HIDE_SEND_MODAL';

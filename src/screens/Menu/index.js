@@ -1,39 +1,30 @@
-import { DrawerNavigator, StackNavigator } from "react-navigation";
-import { Dimensions } from "react-native";
-import Dashboard from "screens/Dashboard";
-import ICO from 'screens/ICO';
-import Wallet from "screens/Wallet";
-import Settings from "screens/Settings";
-import CoinInformation from "screens/CoinInformation";
-import withHeader from "hocs/withHeader";
-import Menu from "./Menu";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {View, StyleSheet} from 'react-native';
+import ReceiveModal from 'containers/ReceiveModal';
+import SendModal from 'containers/SendModal';
+import Navigator from './Navigator.js';
 
-const itemWithHeader = (title, screen) => {
-  return StackNavigator({ Main: { screen: withHeader(title, screen) } });
-};
-
-const RouteConfigs = {
-  Wallet: {
-    screen: StackNavigator({
-      Main: { screen: withHeader("Wallet", Wallet) },
-      CoinInformation: { screen: CoinInformation }
-    })
-  },
-  Dashboard: {
-    screen: itemWithHeader("Dashboard", Dashboard)
-  },
-  ICO:  {
-    screen: itemWithHeader("ICO", ICO)
-  },
-  Settings: {
-    screen: itemWithHeader("Settings", Settings)
+export default class RootMenuView extends Component {
+  static propTypes = {
+    navigation: PropTypes.object
   }
-};
 
-const drawerNavigatorConfig = {
-  drawerPosition: "right",
-  drawerWidth: Dimensions.get("window").width,
-  contentComponent: Menu
-};
+  static router = Navigator.router
 
-export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig);
+  render() {
+    return (
+      <View style={styles.container}>
+        <Navigator navigation={this.props.navigation} />
+        <ReceiveModal />
+        <SendModal />
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
