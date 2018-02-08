@@ -10,6 +10,7 @@ import signupFlow from 'screens/Signup/sagas';
 
 export const AUTH_USER_SET = 'AUTH_USER_SET';
 export const AUTH_SIGNOUT = 'AUTH_SIGNOUT';
+export const AUTH_USER_STORAGE_KEY = 'auth/user';
 
 /**
  * Sign Out - Redux action
@@ -25,8 +26,8 @@ export function signOut() {
  * Get User from AsyncStorage
  * @return {object} the user object describing the current user.
  */
-async function getUser() {
-  const user = await AsyncStorage.getItem('auth/user');
+export async function getUser() {
+  const user = await AsyncStorage.getItem(AUTH_USER_STORAGE_KEY);
   return JSON.parse(user);
 }
 
@@ -36,8 +37,8 @@ async function getUser() {
  * @return {async function} Handles setting the user in localstorage during each
  * session
  */
-async function setUser(user) {
-  return await AsyncStorage.setItem('auth/user', JSON.stringify(user));
+export async function setUser(user) {
+  return await AsyncStorage.setItem(AUTH_USER_STORAGE_KEY, JSON.stringify(user));
 }
 
 // TODO: abstract these into dev/prod files
@@ -46,7 +47,7 @@ const logoutUrl = `https://smaugdev.hoardinvest.com/logout/`;
  * Logout
  * @return {async function} Calls the backen to remove the user's session.
  */
-async function logoutApi() {
+export async function logoutApi() {
   try {
     return api.post(logoutUrl);
   } catch (error) {
@@ -58,7 +59,7 @@ async function logoutApi() {
  * LogoutFlow saga
  * @return {Generator} This saga handles all events to log a user out.
  */
-function* logoutFlow() {
+export function* logoutFlow() {
   // First, let's log the user out of the backend
   yield call(logoutApi);
   // Then, let's clear the user from our local storage

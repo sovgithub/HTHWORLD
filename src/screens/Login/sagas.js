@@ -17,7 +17,7 @@ import api from "lib/api";
 const loginUrl = `https://smaugdev.hoardinvest.com/login/`;
 
 // Handle logging in via the API
-async function loginApi(email_address, password) {
+export async function loginApi(email_address, password) {
   try {
     const res = await api.post(loginUrl, { email_address, password });
     return { user_uid: res.user_uid };
@@ -25,6 +25,7 @@ async function loginApi(email_address, password) {
     throw error;
   }
 }
+
 export default function* loginFlow({ email_address, password }) {
   let currentUser;
 

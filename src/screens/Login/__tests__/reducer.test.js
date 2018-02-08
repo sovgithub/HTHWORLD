@@ -45,16 +45,15 @@ describe("Login Reducer", () => {
     expect(
       reducer(defaultInitialState, {
         type: LOGIN_ERROR,
-        error: "a sample error"
+        errors: ["a sample error", "another error"]
       })
     ).toEqual({
       requesting: false,
       successful: false,
       messages: [],
       errors: [
-        {
-          body: "a sample error"
-        }
+        "a sample error",
+        "another error"
       ]
     });
   });
