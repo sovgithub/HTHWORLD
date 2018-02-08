@@ -3,9 +3,8 @@
  * Login Form
  *
  */
-
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   View,
@@ -13,11 +12,11 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity
-} from "react-native";
+} from 'react-native';
 import Error from 'components/notifications/Error';
 import Button from 'components/Button';
 
-const LANG_SIGN_UP_TEXT = "LOG IN";
+const LANG_SIGN_UP_TEXT = 'LOG IN';
 
 class LoginForm extends Component {
   static propTypes = {
@@ -34,11 +33,11 @@ class LoginForm extends Component {
   };
 
   handleSignupButton = () => {
-    this.props.navigation.navigate("Signup");
+    this.props.navigation.navigate('Signup');
   };
 
   handleBypassButton = () => {
-    this.props.navigation.navigate("Dashboard");
+    this.props.navigation.navigate('Dashboard');
   };
 
   handleFormSubmit = () => {
@@ -60,7 +59,7 @@ class LoginForm extends Component {
   };
 
   render() {
-    const placeholderTextColor = "rgba(255,255,255,0.75)";
+    const placeholderTextColor = 'rgba(255,255,255,0.75)';
 
     const { errors } = this.props;
     return (
@@ -83,7 +82,7 @@ class LoginForm extends Component {
           returnKeyType="next"
           keyboardType="email-address"
           onSubmitEditing={() => this.loginPasswordInput.focus()}
-          onChangeText={this.updateFormField("email_address")}
+          onChangeText={this.updateFormField('email_address')}
         />
         <TextInput
           ref={el => (this.loginPasswordInput = el)}
@@ -94,7 +93,7 @@ class LoginForm extends Component {
           placeholderTextColor={placeholderTextColor}
           returnKeyType="go"
           secureTextEntry
-          onChangeText={this.updateFormField("password")}
+          onChangeText={this.updateFormField('password')}
         />
         <Button
           style={styles.buttonContainer}
@@ -113,7 +112,9 @@ class LoginForm extends Component {
           onPress={this.handleBypassButton}
           style={styles.buttonContainerBypass}
         >
-          <Text style={styles.buttonTextBypass}>No thanks, I just want to use the wallet</Text>
+          <Text style={styles.buttonTextBypass}>
+            No thanks, I just want to use the wallet
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -128,9 +129,9 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    backgroundColor: "rgba(0,0,20, 0.25)",
+    backgroundColor: 'rgba(0,0,20, 0.25)',
     marginBottom: 15,
-    color: "#fff",
+    color: '#fff',
     paddingHorizontal: 10,
     borderRadius: 8
   },
@@ -138,22 +139,22 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   buttonContainerAlt: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     paddingVertical: 10
   },
   buttonTextAlt: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "700"
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '700'
   },
   buttonContainerBypass: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     paddingVertical: 10,
     marginTop: 50
   },
   buttonTextBypass: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "500"
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '500'
   }
 });

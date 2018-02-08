@@ -88,12 +88,17 @@ export function slideYStyle(animatedValue, parameters) {
     return {};
   }
   return {
-    translateY: animatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [parameters.start || 0, parameters.end || 1],
-      extrapolate: 'clamp',
-      useNativeDriver: true
-    })
+    transform: [
+      {
+        translateY: animatedValue.interpolate({
+          inputRange: [0, 1],
+          outputRange: [parameters.start || 0, parameters.end || 1],
+          extrapolate: 'clamp',
+          useNativeDriver: true
+        })
+      }
+    ]
+
   };
 }
 

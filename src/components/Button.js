@@ -5,12 +5,7 @@ import T from 'components/Typography';
 
 export default class Button extends Component {
   static propTypes = {
-    type: PropTypes.oneOf([
-      'base',
-      'primary',
-      'secondary',
-      'text'
-    ]),
+    type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
     disabled: PropTypes.bool,
     style: View.propTypes.style,
     onPress: PropTypes.func.isRequired,
@@ -27,8 +22,11 @@ export default class Button extends Component {
   };
 
   render() {
-    const styles = stylesForType[this.props.disabled ? 'disabled' : this.props.type];
-    const shouldUpperCase = ['primary', 'text', 'secondary'].includes(this.props.type);
+    const styles =
+      stylesForType[this.props.disabled ? 'disabled' : this.props.type];
+    const shouldUpperCase = ['primary', 'text', 'secondary'].includes(
+      this.props.type
+    );
 
     let buttonContent;
     if (typeof this.props.children === 'string') {
@@ -58,13 +56,12 @@ const stylesForType = {
   text: StyleSheet.create({
     buttonContainer: {
       backgroundColor: 'transparent',
-      paddingVertical: 0,
-      marginBottom: 30
+      paddingVertical: 0
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#000',
+      color: '#000'
     }
   }),
   primary: StyleSheet.create({
@@ -78,13 +75,12 @@ const stylesForType = {
       shadowOffset: {
         width: 0,
         height: 1
-      },
-      marginBottom: 30
+      }
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#FFF',
+      color: '#FFF'
     }
   }),
   secondary: StyleSheet.create({
@@ -98,13 +94,12 @@ const stylesForType = {
       shadowOffset: {
         width: 0,
         height: 1
-      },
-      marginBottom: 30
+      }
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#000',
+      color: '#000'
     }
   }),
   disabled: StyleSheet.create({
@@ -113,20 +108,18 @@ const stylesForType = {
       borderRadius: 100,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: '#EEE',
-      paddingVertical: 20,
-      marginBottom: 30
+      paddingVertical: 20
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#EEE',
+      color: '#EEE'
     }
   }),
   base: StyleSheet.create({
     buttonContainer: {
       backgroundColor: '#fff',
-      paddingVertical: 10,
-      marginBottom: 30
+      paddingVertical: 10
     },
     buttonText: {
       textAlign: 'center',
@@ -136,4 +129,3 @@ const stylesForType = {
   }),
   unstyled: {}
 };
-
