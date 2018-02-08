@@ -1,4 +1,4 @@
-import { handleApiErrors } from "lib/api-errors";
+import { handleApiErrors } from 'lib/api-errors';
 
 async function apiWrapper(url, options) {
   const response = await fetch(url, options);
@@ -9,9 +9,9 @@ async function apiWrapper(url, options) {
 const api = {
   async get(url, options = {}) {
     return apiWrapper(url, {
-      method: "DELETE",
+      method: 'GET',
       headers: {
-        Accept: "application/json"
+        Accept: 'application/json'
       },
       ...options
     });
@@ -19,10 +19,10 @@ const api = {
 
   async post(url, body, options = {}) {
     return apiWrapper(url, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       body: body && JSON.stringify(body),
       ...options
@@ -31,10 +31,10 @@ const api = {
 
   async put(url, body, options = {}) {
     return apiWrapper(url, {
-      method: "PUT",
+      method: 'PUT',
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
       },
       body: body && JSON.stringify(body),
       ...options
@@ -43,7 +43,7 @@ const api = {
 
   async delete(url, options = {}) {
     return apiWrapper(url, {
-      method: "DELETE",
+      method: 'DELETE',
       ...options
     });
   }
