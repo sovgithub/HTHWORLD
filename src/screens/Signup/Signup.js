@@ -10,6 +10,9 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import SignupForm from "./SignupForm";
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+
+const DismissableView = withDismissableKeyboard(View);
 
 export default class Signup extends React.Component {
   static propTypes = {
@@ -24,26 +27,28 @@ export default class Signup extends React.Component {
         behavior="padding"
         style={styles.container}
       >
-        <StatusBar barStyle="light-content" />
-        <ImageBackground
-          style={styles.imageView}
-          imageStyle={styles.image}
-          source={require("assets/BackgroundBlue.png")}
-        >
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={require("assets/HoardLogoWhite.png")}
-            />
-            <Text style={styles.title}>Sign Up</Text>
-          </View>
-          <View style={styles.formContainer}>
-            <SignupForm
-              navigation={this.props.navigation}
-              signupRequest={this.props.signupRequest}
-            />
-          </View>
-        </ImageBackground>
+        <DismissableView style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <ImageBackground
+            style={styles.imageView}
+            imageStyle={styles.image}
+            source={require("assets/BackgroundBlue.png")}
+          >
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require("assets/HoardLogoWhite.png")}
+              />
+              <Text style={styles.title}>Sign Up</Text>
+            </View>
+            <View style={styles.formContainer}>
+              <SignupForm
+                navigation={this.props.navigation}
+                signupRequest={this.props.signupRequest}
+              />
+            </View>
+          </ImageBackground>
+        </DismissableView>
       </KeyboardAvoidingView>
     );
   }

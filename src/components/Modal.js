@@ -7,6 +7,9 @@ import {
   StyleSheet
 } from 'react-native';
 import Button from 'components/Button';
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+
+const DismissableView = withDismissableKeyboard(View);
 
 export default function Modal({
   children,
@@ -17,7 +20,7 @@ export default function Modal({
   actionButtons
 }) {
   return (
-    <View style={[styles.container, {display: show ? 'flex' : 'none', height}]}>
+    <DismissableView style={[styles.container, {display: show ? 'flex' : 'none', height}]}>
       <TouchableOpacity onPress={onCancel}>
         <Text style={styles.xButton}>X</Text>
       </TouchableOpacity>
@@ -35,7 +38,7 @@ export default function Modal({
           </Button>
         ))}
       </View>
-    </View>
+    </DismissableView>
   );
 }
 

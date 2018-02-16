@@ -8,11 +8,13 @@ import {
 } from "react-native";
 import Modal from "components/Modal";
 import SelectableCoin from "components/SelectableCoin";
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
 import { convertCurrency, SOLVE_FOR } from "lib/currency-helpers";
 import {limitNumber, formatDecimalInput} from 'lib/formatters';
 import Button from 'components/Button';
 import Input from 'components/Input';
 
+const DismissableView = withDismissableKeyboard(View);
 const allowedCurrencies = ["BTC", "ETH"];
 
 const PRICE_PRECISION = 8;
@@ -185,7 +187,7 @@ export default class ICO extends Component {
     } = this.state;
 
     return (
-      <View style={styles.container}>
+      <DismissableView style={styles.container}>
         <Text style={styles.heading}>Participate in the OAR ICO</Text>
         <View style={styles.form}>
           <Text style={[styles.infoText, styles.formItem]}>
@@ -230,7 +232,7 @@ export default class ICO extends Component {
             ))}
           </ScrollView>
         </Modal>
-      </View>
+      </DismissableView>
     );
   }
 }

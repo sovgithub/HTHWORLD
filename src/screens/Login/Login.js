@@ -10,6 +10,9 @@ import {
   KeyboardAvoidingView
 } from "react-native";
 import LoginForm from "./LoginForm";
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+
+const DismissableView = withDismissableKeyboard(View);
 
 export default class Login extends React.Component {
   static propTypes = {
@@ -24,27 +27,29 @@ export default class Login extends React.Component {
         behavior="padding"
         style={styles.container}
       >
-        <StatusBar barStyle="light-content" />
-        <ImageBackground
-          style={styles.imageView}
-          imageStyle={styles.image}
-          source={require("assets/BackgroundBlue.png")} // eslint-disable-line no-undef
-        >
-          <View style={styles.logoContainer}>
-            <Image
-              style={styles.logo}
-              source={require("assets/HoardLogoWhite.png")} // eslint-disable-line no-undef
-            />
-            <Text style={styles.title}>Log In</Text>
-          </View>
-          <View style={styles.formContainer}>
-            <LoginForm
-              navigation={this.props.navigation}
-              loginRequest={this.props.loginRequest}
-              errors={this.props.login.errors}
-            />
-          </View>
-        </ImageBackground>
+        <DismissableView style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <ImageBackground
+            style={styles.imageView}
+            imageStyle={styles.image}
+            source={require("assets/BackgroundBlue.png")} // eslint-disable-line no-undef
+          >
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require("assets/HoardLogoWhite.png")} // eslint-disable-line no-undef
+              />
+              <Text style={styles.title}>Log In</Text>
+            </View>
+            <View style={styles.formContainer}>
+              <LoginForm
+                navigation={this.props.navigation}
+                loginRequest={this.props.loginRequest}
+                errors={this.props.login.errors}
+              />
+            </View>
+          </ImageBackground>
+        </DismissableView>
       </KeyboardAvoidingView>
     );
   }

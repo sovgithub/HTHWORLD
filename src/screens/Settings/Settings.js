@@ -12,6 +12,9 @@ import {
 import Input from 'components/Input';
 import Button from 'components/Button';
 import T from 'components/Typography';
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+
+const DismissableView = withDismissableKeyboard(View);
 
 class Settings extends React.Component {
   static propTypes = {
@@ -59,7 +62,7 @@ class Settings extends React.Component {
           source={require('assets/BackgroundBlue.png')}
         >
           <ScrollView>
-            <View style={styles.formContainer}>
+            <DismissableView style={styles.formContainer}>
               <View>
                 <T.Heading style={styles.heading}>{LANG_HEADING_TEXT}</T.Heading>
                 <T.Light style={styles.text}>{LANG_MAIN_TEXT}</T.Light>
@@ -137,7 +140,7 @@ class Settings extends React.Component {
               <Button onPress={this.submitForm} style={styles.button} type="primary">
                 Save Settings
               </Button>
-            </View>
+            </DismissableView>
           </ScrollView>
         </ImageBackground>
       </KeyboardAvoidingView>

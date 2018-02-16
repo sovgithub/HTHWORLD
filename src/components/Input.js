@@ -11,6 +11,13 @@ export default class Input extends Component {
       'characters'
     ]),
     keyboardType: PropTypes.oneOf(['numeric', 'default']),
+    returnKeyType: PropTypes.oneOf([
+      'done',
+      'go',
+      'next',
+      'search',
+      'send'
+    ]),
     light: PropTypes.bool,
     placeholder: PropTypes.string,
     style: TextInput.propTypes.style,
@@ -25,6 +32,7 @@ export default class Input extends Component {
     placeholder: '',
     autoCapitalize: 'none',
     keyboardType: 'default',
+    returnKeyType: 'done',
     style: {},
     onSubmitEditing: () => false
   };
@@ -65,6 +73,7 @@ export default class Input extends Component {
         placeholder={this.props.placeholder}
         autoCapitalize={this.props.autoCapitalize}
         keyboardType={this.props.keyboardType}
+        returnKeyType={this.props.returnKeyType}
         onChangeText={this.props.onChangeText}
         onSubmitEditing={this.props.onSubmitEditing}
         onEndEditing={this.props.onEndEditing}

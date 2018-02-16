@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, TextInput } from 'react-native';
 
+
 import Button from 'components/Button';
 import T from 'components/Typography';
 import LottieView from 'lottie-react-native';
+import withDismissableKeyboard from "hocs/withDismissableKeyboard";
 
 import success from 'assets/animations/check.json';
 import error from 'assets/animations/error.json';
+
+const DismissableView = withDismissableKeyboard(View);
 
 const LANG_PREV_TEXT = 'Go back and review...';
 
@@ -78,7 +82,7 @@ export default class Confirm extends Component {
     const placeholderTextColor = 'rgba(0,0,0,0.35)';
 
     return (
-      <View style={styles.container}>
+      <DismissableView style={styles.container}>
         <View style={styles.headerContainer}>
           <T.Heading style={{ color: '#ffffff' }}>Confirm Word List </T.Heading>
         </View>
@@ -138,7 +142,7 @@ export default class Confirm extends Component {
             {LANG_PREV_TEXT}
           </Button>
         </View>
-      </View>
+      </DismissableView>
     );
   }
 }
