@@ -18,6 +18,7 @@ export default class SelectWalletSection extends Component {
       symbol: PropTypes.string.isRequired
     })).isRequired,
     selectedAddress: PropTypes.string,
+    showHeader: PropTypes.bool,
     title: PropTypes.string,
     selecting: PropTypes.bool.isRequired,
     children: PropTypes.node,
@@ -25,10 +26,14 @@ export default class SelectWalletSection extends Component {
     onToggleSelecting: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    showHeader: true
+  }
+
   handleSelectCoin = (value) => () => this.props.onSelect(value);
 
   render() {
-    const {wallets, selectedAddress, selecting, children, title} = this.props;
+    const {showHeader, wallets, selectedAddress, selecting, children, title} = this.props;
 
     const selectedWallet = wallets.find((wallet) => wallet.publicAddress === selectedAddress);
 
@@ -39,7 +44,9 @@ export default class SelectWalletSection extends Component {
     return selecting
       ? (
         <View>
-          <T.SubHeading style={styles.subheading}>Select cryptocurrency</T.SubHeading>
+          {showHeader &&
+            <T.SubHeading style={styles.subheading}>Select cryptocurrency</T.SubHeading>
+          }
           <ScrollView bounces={false}>
             {wallets.map((wallet) => (
               <SelectableCoin
@@ -54,23 +61,22 @@ export default class SelectWalletSection extends Component {
       )
       : (
         <View>
-          <View style={styles.subheadingContainer}>
-            <View style={styles.subheading}>
-              <T.SubHeading>
+          {showHeader &&
+            <View style={styles.subheadingContainer}>
+              <T.SubHeading style={styles.subheading}>
                 {selectedAddress ? title : 'No Wallet Selected'}
               </T.SubHeading>
+              <TouchableOpacity onPress={this.props.onToggleSelecting}>
+                <View style={styles.changeCoin}>
+                  <T.Small>Change</T.Small>
+                  {selectedAddress &&
+                    <Image style={styles.coinImage} source={getCoinMetadata(selectedWallet.symbol).image}/>
+                  }
+                </View>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity onPress={this.props.onToggleSelecting}>
-              <View style={styles.changeCoin}>
-                <T.Small>Change</T.Small>
-                {selectedAddress
-                  ? <Image style={styles.coinImage} source={getCoinMetadata(selectedWallet.symbol).image}/>
-                  : null
-                }
-              </View>
-            </TouchableOpacity>
-          </View>
-          {selectedAddress ? (<View>{children}</View>) : null}
+          }
+          {selectedAddress && (<View>{children}</View>)}
         </View>
       );
   }

@@ -25,6 +25,11 @@ export function getCoinMetadata(symbol) {
         image: require('assets/eth_logo.png'),
         fullName: 'Ethereum'
       };
+    case 'BOAR':
+      return {
+        image: require('assets/boar_logo.png'),
+        fullName: 'BefOAR'
+      };
     default:
       return {
         image: null,

@@ -28,10 +28,10 @@ export default function reducer(state = initialState, action) {
     case WALLET_CREATE_REQUESTING:
       return {
         ...state,
-        requesting: true,
-        successful: false,
-        messages: [],
-        errors: []
+        create_requesting: true,
+        create_successful: false,
+        create_messages: [],
+        create_errors: []
       };
 
     case WALLET_CREATE_SUCCESS: {

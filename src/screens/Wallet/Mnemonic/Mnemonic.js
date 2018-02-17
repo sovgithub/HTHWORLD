@@ -4,6 +4,7 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 
 import T from 'components/Typography';
 import { initializeWallet } from '../WalletInstances';
+import SelectCoin from './SelectCoin';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Confirm from './Confirm';
@@ -24,8 +25,9 @@ export default class Mnemonic extends Component {
     super();
     this.state = {
       step: 1,
+      coin: null,
       modalOpen: false,
-      wallet: this.generateNewWallet()
+      wallet: null
     };
   }
 
@@ -35,8 +37,8 @@ export default class Mnemonic extends Component {
     }
   }
 
-  generateNewWallet() {
-    const wallet = initializeWallet(SYMBOL_ETH);
+  generateNewWallet(symbol) {
+    const wallet = initializeWallet(symbol);
     return wallet;
   }
 
@@ -52,6 +54,13 @@ export default class Mnemonic extends Component {
     return confirmList;
   };
 
+  selectCoin = (coin) => {
+    this.setState({
+      coin,
+      wallet: this.generateNewWallet(coin)
+    }, this.saveAndContinue);
+  }
+
   saveAndContinue = () => {
     const currentStep = this.state.step;
 
@@ -65,7 +74,7 @@ export default class Mnemonic extends Component {
   };
 
   goBack = () => {
-    const nextStep = 1;
+    const nextStep = 2;
 
     const newState = {
       ...this.state,
@@ -87,7 +96,7 @@ export default class Mnemonic extends Component {
   };
 
   saveNewWallet = () => {
-    this.props.createWallet(SYMBOL_ETH, this.state.wallet._wallet.mnemonic);
+    this.props.createWallet(this.state.coin, this.state.wallet._wallet.mnemonic);
   };
 
   handleRedirect = () => {
@@ -97,29 +106,31 @@ export default class Mnemonic extends Component {
     ]);
   };
 
-  render() {
-    const { step, modalOpen } = this.state;
-    //eslint-disable-next-line no-console
-    console.log(
-      'Mnemonic List:',
-      this.state.wallet._wallet.mnemonic.split(' ')
-    );
-    let currentStep;
-
+  getComponentForStep = (step) => {
     if (step === 1) {
-      const mnemonicList = this.state.wallet._wallet.mnemonic
-        .split(' ')
-        .slice(0, 6);
-      currentStep = (
-        <Step1 list={mnemonicList} saveAndContinue={this.saveAndContinue} />
+      return (
+        <SelectCoin saveAndContinue={this.selectCoin} />
       );
     }
     if (step === 2) {
+      //eslint-disable-next-line no-console
+      console.log(
+        'Mnemonic List:',
+        this.state.wallet._wallet.mnemonic.split(' ')
+      );
+      const mnemonicList = this.state.wallet._wallet.mnemonic
+        .split(' ')
+        .slice(0, 6);
+      return (
+        <Step1 list={mnemonicList} saveAndContinue={this.saveAndContinue} />
+      );
+    }
+    if (step === 3) {
       const mnemonicList = this.state.wallet._wallet.mnemonic
         .split(' ')
         .slice(6, 12);
 
-      currentStep = (
+      return (
         <Step2
           list={mnemonicList}
           saveAndContinue={this.saveAndContinue}
@@ -127,9 +138,9 @@ export default class Mnemonic extends Component {
         />
       );
     }
-    if (step === 3) {
+    if (step === 4) {
       const confirmList = this.generateConfirmationList();
-      currentStep = (
+      return (
         <Confirm
           list={confirmList}
           saveAndContinue={this.saveAndContinue}
@@ -138,10 +149,14 @@ export default class Mnemonic extends Component {
         />
       );
     }
+  }
+
+  render() {
+    const { step, modalOpen } = this.state;
 
     return (
       <View style={styles.container}>
-        {currentStep}
+        {this.getComponentForStep(step)}
         <Modal
           show={modalOpen}
           title="Select Currency"

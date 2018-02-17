@@ -1,5 +1,6 @@
-import {SYMBOL_ETH} from '../constants';
-import EthWallet from './EthWallet';
+import { SYMBOL_ETH, SYMBOL_BOAR } from "../constants";
+import EthWallet from "./EthWallet";
+import BoarWallet from "./BoarWallet";
 
 /*
   class Wallet {
@@ -12,15 +13,23 @@ import EthWallet from './EthWallet';
 */
 
 
+export const SUPPORTED_WALLETS = [
+  SYMBOL_ETH,
+  SYMBOL_BOAR
+];
+
 export function initializeWallet(symbol, isMnemonic, mnemonicOrPrivateKey) {
-  switch(symbol) {
-  case SYMBOL_ETH: {
-    return new EthWallet(isMnemonic, mnemonicOrPrivateKey);
-  }
+  switch (symbol) {
+    case SYMBOL_ETH: {
+      return new EthWallet(isMnemonic, mnemonicOrPrivateKey);
+    }
+    case SYMBOL_BOAR: {
+      return new BoarWallet(isMnemonic, mnemonicOrPrivateKey);
+    }
     // case SYMBOL_BTC: {
     //   return new BtcWallet(isMnemonic, mnemonicOrPrivateKey);
     // }
-  default:
-    throw Error(`there is no wallet generation method for ${symbol}`);
+    default:
+      throw Error(`there is no wallet generation method for ${symbol}`);
   }
 }
