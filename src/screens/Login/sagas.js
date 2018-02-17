@@ -10,7 +10,7 @@
 */
 
 import { call, put } from "redux-saga/effects";
-import { LOGIN_REQUESTING, LOGIN_SUCCESS, LOGIN_ERROR } from "./constants";
+import { LOGIN_SUCCESS, LOGIN_ERROR } from "./constants";
 import api from "lib/api";
 
 // TODO: abstract these into dev/prod files

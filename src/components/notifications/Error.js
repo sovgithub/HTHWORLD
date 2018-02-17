@@ -9,6 +9,11 @@ const Error = props => (
   </View>
 );
 
+Error.propTypes = {
+  title: PropTypes.string,
+  message: PropTypes.message
+};
+
 export default Error;
 
 const styles = StyleSheet.create({

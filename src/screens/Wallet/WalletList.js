@@ -13,7 +13,8 @@ const WalletList = props => {
 export default WalletList;
 
 WalletList.propTypes = {
-  children: PropTypes.array.isRequired
+  children: PropTypes.array.isRequired,
+  style: ScrollView.propTypes.style
 };
 
 const styles = StyleSheet.create({

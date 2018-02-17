@@ -7,6 +7,10 @@
     "semi": [2, "always"]
   },
   "globals": {
+    "it": true,
+    "describe": true,
+    "expect": true,
+    "jest": true,
     "fetch": true,
     "require": true,
     "console": true

@@ -21,7 +21,11 @@ const LANG_SIGN_UP_TEXT = 'LOG IN';
 class LoginForm extends Component {
   static propTypes = {
     navigation: PropTypes.any,
-    loginRequest: PropTypes.func.isRequired
+    loginRequest: PropTypes.func.isRequired,
+    errors: PropTypes.arrayOf(PropTypes.shape({
+      code: PropTypes.number,
+      message: PropTypes.string
+    }))
   };
 
   state = {

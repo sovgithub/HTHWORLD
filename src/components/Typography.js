@@ -3,8 +3,7 @@ import {
   StyleSheet,
 } from "react-native";
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 
 const Light = ({style, ...otherProps}) => (
   <Text style={[styles.light, style]} {...otherProps} />
@@ -12,32 +11,32 @@ const Light = ({style, ...otherProps}) => (
 Light.propTypes = Text.propTypes;
 
 const Heading = ({style, ...otherProps}) => (
-    <Text style={[styles.heading, style]} {...otherProps} />
+  <Text style={[styles.heading, style]} {...otherProps} />
 );
 Heading.propTypes = Text.propTypes;
 
 const SubHeading = ({style, ...otherProps}) => (
-    <Text style={[styles.subheading, style]} {...otherProps} />
+  <Text style={[styles.subheading, style]} {...otherProps} />
 );
 SubHeading.propTypes = Text.propTypes;
 
 const GrayedOut = ({style, ...otherProps}) => (
-    <Text style={[styles.grayedOut, style]} {...otherProps} />
+  <Text style={[styles.grayedOut, style]} {...otherProps} />
 );
 GrayedOut.propTypes = Text.propTypes;
 
 const SemiBold = ({style, ...otherProps}) => (
-    <Text style={[styles.semiBold, style]} {...otherProps} />
+  <Text style={[styles.semiBold, style]} {...otherProps} />
 );
 SemiBold.propTypes = Text.propTypes;
 
 const Small = ({style, ...otherProps}) => (
-    <Text style={[styles.small, style]} {...otherProps} />
+  <Text style={[styles.small, style]} {...otherProps} />
 );
 Small.propTypes = Text.propTypes;
 
 const ButtonText = ({style, ...otherProps}) => (
-    <Text style={[styles.small, style]} {...otherProps} />
+  <Text style={[styles.small, style]} {...otherProps} />
 );
 ButtonText.propTypes = Text.propTypes;
 

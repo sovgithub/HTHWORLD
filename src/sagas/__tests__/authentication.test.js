@@ -166,7 +166,7 @@ describe("Authentication Saga", () => {
 
 const runTillDone = (saga) => {
   const values = [];
-  while (true) {
+  while (true) { // eslint-disable-line no-constant-condition
     const result = saga.next();
     if (!result.done) {
       values.push(result.value);

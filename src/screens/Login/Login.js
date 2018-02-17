@@ -17,7 +17,10 @@ const DismissableView = withDismissableKeyboard(View);
 export default class Login extends React.Component {
   static propTypes = {
     navigation: PropTypes.any,
-    loginRequest: PropTypes.func.isRequired
+    loginRequest: PropTypes.func.isRequired,
+    login: PropTypes.shape({
+      errors: PropTypes.arrayOf(PropTypes.object)
+    })
   };
 
   render() {

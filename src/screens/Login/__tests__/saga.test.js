@@ -1,13 +1,12 @@
-import { LOGIN_SUCCESS, LOGIN_REQUESTING } from 'screens/Login/constants';
+import { LOGIN_SUCCESS } from 'screens/Login/constants';
 import loginFlow, {loginApi} from 'screens/Login/sagas';
-import { call } from "redux-saga/effects";
 
 const foundUser = 'someuser';
 
 const runTillDone = (saga) => {
   const values = [];
   let isYieldingForUser = false;
-  while (true) {
+  while (true) { // eslint-disable-line no-constant-condition
     let result;
 
     if (isYieldingForUser) {
@@ -51,10 +50,6 @@ describe("Login Saga", () => {
   });
 
   it("should return the found user", () => {
-    const success = values.find(
-      (value) => value.PUT
-        && value.PUT.action.type === LOGIN_SUCCESS
-    );
     expect(values[values.length - 1]).toBe(foundUser);
   });
 

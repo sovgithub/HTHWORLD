@@ -9,13 +9,9 @@
 *  
 */
 
-import { call, put, takeLatest } from "redux-saga/effects";
-import { SIGNUP_REQUESTING, SIGNUP_SUCCESS, SIGNUP_ERROR } from "./constants";
+import { call, put } from "redux-saga/effects";
+import { SIGNUP_SUCCESS, SIGNUP_ERROR } from "./constants";
 import api from "lib/api";
-
-// In order to trigger navigation outside of
-// the parent component, we'll use this service.
-import NavigatorService from "../../navigator";
 
 // TODO: abstract these into dev/prod files
 const signupUrl = `https://smaugdev.hoardinvest.com/users/`;
@@ -35,7 +31,7 @@ async function signupApi(
       email_address,
       password
     });
-  } catch (errors) {
+  } catch (error) {
     throw error;
   }
 }

@@ -102,7 +102,7 @@ export default function* authenticationWatcher() {
       if (!currentUser) {
         // TODO: throw a helpful error to tell the user to try again?
         //  yield put({ type: LOGIN_OR_SIGNUP_ERROR, errors: [errors] });
-        console.log(
+        console.log( // eslint-disable-line no-console
           'hmmm... try again soon. maybe the api is down, or you made a bad request?'
         );
 

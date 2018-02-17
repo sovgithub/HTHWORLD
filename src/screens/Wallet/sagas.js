@@ -1,9 +1,7 @@
 import {
   all,
-  takeEvery,
   takeLatest,
   call,
-  take,
   put
 } from 'redux-saga/effects';
 import { initializeWallet } from './WalletInstances';
@@ -15,7 +13,6 @@ import {
   WALLET_UPDATE_BALANCE_REQUESTING,
   WALLET_UPDATE_BALANCE_SUCCESS,
   WALLET_SEND_FUNDS_REQUESTING,
-  WALLET_SEND_FUNDS_SUCCESS,
   WALLET_SEND_FUNDS_ERROR
 } from './constants';
 
@@ -43,13 +40,11 @@ async function sendFunds(fromPublicAddress, toPublicAddress, amount) {
     amount,
     toPublicAddress
   );
-  console.log(response);
   return response;
 }
 
 async function getBalance(publicAddress) {
   const balance = await wallets[publicAddress].getBalance();
-  console.log(balance);
 
   return {
     publicAddress,
@@ -80,7 +75,7 @@ function* sendFundsFlow(action) {
   try {
     const { fromPublicAddress, toPublicAddress, amount } = action;
 
-    const request = yield call(
+    yield call(
       sendFunds,
       fromPublicAddress,
       toPublicAddress,
@@ -89,7 +84,6 @@ function* sendFundsFlow(action) {
 
     // refetch balance or keep an eye on the status of the request.
   } catch (error) {
-    console.log(error);
 
     yield put({
       type: WALLET_SEND_FUNDS_ERROR,
@@ -101,7 +95,6 @@ function* sendFundsFlow(action) {
 function* updateBalanceFlow(action) {
   try {
     const { publicAddress } = action;
-    console.log('hey');
 
     const payload = yield call(getBalance, publicAddress);
 
@@ -110,7 +103,6 @@ function* updateBalanceFlow(action) {
       payload
     });
   } catch (error) {
-    console.log(error);
 
     yield put({
       type: WALLET_UPDATE_BALANCE_ERROR,
