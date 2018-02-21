@@ -6,7 +6,6 @@ import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.slowpath.hockeyapp.RNHockeyAppPackage;
 import com.horcrux.svg.SvgPackage;
-import com.auth0.react.A0Auth0Package;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -31,9 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNHockeyAppPackage(MainApplication.this),
           new MainReactPackage(),
             new LottiePackage(),
-            new RNHockeyAppPackage(),
-            new SvgPackage(),
-            new A0Auth0Package()
+            new SvgPackage()
       );
     }
   };
