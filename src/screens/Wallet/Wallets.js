@@ -27,6 +27,10 @@ class Wallet extends React.Component {
     this.props.navigation.navigate('Mnemonic');
   };
 
+  handleWalletRecover = () => {
+    this.props.navigation.navigate('Recover');
+  };
+
   render() {
     const themedStyles = getThemedStyles(getColors());
 
@@ -50,13 +54,16 @@ class Wallet extends React.Component {
               );
             })}
           {Object.keys(walletList).length === 0 && (
-            <T.Heading>Create a new wallet!</T.Heading>
+            <T.Heading>Create or recover a wallet!</T.Heading>
           )}
         </WalletList>
 
         <View style={styles.footerContainer}>
-          <Button type="secondary" onPress={this.handleWalletGenerate}>
-            Create New Wallet
+          <Button style={styles.buttonLeft} type="secondary" onPress={this.handleWalletGenerate}>
+            Create
+          </Button>
+          <Button style={styles.buttonRight} type="secondary" onPress={this.handleWalletRecover}>
+            Recover
           </Button>
         </View>
       </View>
@@ -72,7 +79,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
   footerContainer: {
+    flexDirection: 'row',
     padding: 20
+  },
+  buttonLeft: {
+    flex: 1,
+    marginRight: 7.5
+  },
+  buttonRight: {
+    flex: 1,
+    marginLeft: 7.5
   }
 });
 

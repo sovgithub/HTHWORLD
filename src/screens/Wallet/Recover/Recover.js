@@ -5,15 +5,13 @@ import { StyleSheet, View, ScrollView } from 'react-native';
 import T from 'components/Typography';
 import { initializeWallet } from '../WalletInstances';
 import SelectCoin from '../components/SelectCoin';
-import Step1 from './Step1';
-import Step2 from './Step2';
+import InputList from './InputList';
 import Confirm from './Confirm';
-import { SYMBOL_ETH } from '../constants';
 import NavigatorService from '../../../navigator';
 import Modal from '../Modal';
 import Button from 'components/Button';
 
-export default class Mnemonic extends Component {
+export default class Recover extends Component {
   static propTypes = {
     createWallet: PropTypes.func.isRequired,
     wallet: PropTypes.shape({
@@ -21,14 +19,15 @@ export default class Mnemonic extends Component {
     }).isRequired
   };
 
-  constructor() {
-    super();
-    this.state = {
-      step: 1,
-      coin: null,
-      modalOpen: false,
-      wallet: null
-    };
+
+  state = {
+    step: 1,
+    coin: null,
+    modalOpen: false,
+    answers: {
+      step1: Array.from({length: 6}, () => ''),
+      step2: Array.from({length: 6}, () => '')
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,50 +36,41 @@ export default class Mnemonic extends Component {
     }
   }
 
-  generateNewWallet(symbol) {
-    const wallet = initializeWallet(symbol);
-    return wallet;
-  }
-
-  generateConfirmationList = () => {
-    const rand1 = Math.floor(Math.random() * 12);
-    const rand2 = Math.floor(Math.random() * 12);
-
-    const list = this.state.wallet._wallet.mnemonic.split(' ');
-    const confirmList = [
-      { i: list.indexOf(list[rand1]), word: list[rand1] },
-      { i: list.indexOf(list[rand2]), word: list[rand2] }
-    ];
-    return confirmList;
-  };
-
   selectCoin = (coin) => {
+    // eslint-disable-next-line
+    console.log(
+      'Test Recovery Phrase:',
+      initializeWallet(coin)._wallet.mnemonic
+    );
     this.setState({
-      coin,
-      wallet: this.generateNewWallet(coin)
-    }, this.saveAndContinue);
+      coin
+    }, this.goForward);
   }
 
-  saveAndContinue = () => {
-    const currentStep = this.state.step;
+  saveAnswers = (step) => (stepAnswers) => {
+    this.setState({
+      answers: {
+        ...this.state.answers,
+        [step]: stepAnswers
+      }
+    });
+  }
 
+  goForward = () => {
+    const currentStep = this.state.step;
     const nextStep = currentStep < 4 ? currentStep + 1 : 1;
 
-    const newState = {
+    this.setState({
       ...this.state,
       step: nextStep
-    };
-    this.setState(newState);
+    });
   };
 
   goBack = () => {
-    const nextStep = 2;
-
-    const newState = {
+    this.setState({
       ...this.state,
-      step: nextStep
-    };
-    this.setState(newState);
+      step: 2
+    });
   };
 
   openModal = () => {
@@ -95,8 +85,13 @@ export default class Mnemonic extends Component {
     });
   };
 
-  saveNewWallet = () => {
-    this.props.createWallet(this.state.coin, this.state.wallet._wallet.mnemonic);
+  testWallet = (answers) => {
+    initializeWallet(this.state.coin, true, answers.join(' '));
+  }
+
+  saveNewWallet = (answers) => {
+    this.props.createWallet(this.state.coin, answers.join(' '));
+    this.openModal();
   };
 
   handleRedirect = () => {
@@ -113,37 +108,30 @@ export default class Mnemonic extends Component {
       );
     }
     if (step === 2) {
-      //eslint-disable-next-line no-console
-      console.log(
-        'Mnemonic List:',
-        this.state.wallet._wallet.mnemonic.split(' ')
-      );
-      const mnemonicList = this.state.wallet._wallet.mnemonic
-        .split(' ')
-        .slice(0, 6);
       return (
-        <Step1 list={mnemonicList} saveAndContinue={this.saveAndContinue} />
+        <InputList
+          offset={1}
+          answers={this.state.answers.step1}
+          updateAnswers={this.saveAnswers('step1')}
+          saveAndContinue={this.goForward}
+        />
       );
     }
     if (step === 3) {
-      const mnemonicList = this.state.wallet._wallet.mnemonic
-        .split(' ')
-        .slice(6, 12);
-
       return (
-        <Step2
-          list={mnemonicList}
-          saveAndContinue={this.saveAndContinue}
-          goBack={this.goBack}
+        <InputList
+          offset={this.state.answers.step1.length + 1}
+          answers={this.state.answers.step2}
+          updateAnswers={this.saveAnswers('step2')}
+          saveAndContinue={this.goForward}
         />
       );
     }
     if (step === 4) {
-      const confirmList = this.generateConfirmationList();
       return (
         <Confirm
-          list={confirmList}
-          saveAndContinue={this.saveAndContinue}
+          answers={[...this.state.answers.step1, ...this.state.answers.step2]}
+          testWallet={this.testWallet}
           saveWallet={this.saveNewWallet}
           goBack={this.goBack}
         />
