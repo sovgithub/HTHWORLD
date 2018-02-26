@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -44,7 +45,9 @@
 		93ABF7C4E6CE46BF8D859F9E /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5261838734524947BEDE3B28 /* OpenSans-Bold.ttf */; };
 		9822A4AA80F74653A0784AAA /* OpenSans-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59364CD23E6E4555A930DFE1 /* OpenSans-ExtraBold.ttf */; };
 		AA9203E01F8D9E0C00C872F3 /* RNHockeyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = AA9203DE1F8D9E0B00C872F3 /* RNHockeyApp.m */; };
+		AAED182920322EBB005CDB1D /* JumioMobileSDKNetverify.m in Sources */ = {isa = PBXBuildFile; fileRef = AAED182720322EBA005CDB1D /* JumioMobileSDKNetverify.m */; };
 		BDC1E501089E49409A8863FF /* OpenSans-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D31B170FDB7D43B79621F6DC /* OpenSans-BoldItalic.ttf */; };
+		BFDD2E9A685E41359EC769FC /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 439FB7AC54FF4AB3A6281CBF /* libRCTActionSheet.a */; };
 		C4E61216CBC54C8CAA0674E8 /* OpenSans-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 606FD8E757C64D8BA02DC6D6 /* OpenSans-Light.ttf */; };
 		CED5C5612AF34EB297C74AC3 /* OpenSans-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1684BE8CF3AB4704B6D942B0 /* OpenSans-SemiBoldItalic.ttf */; };
 		DA1325F34967482B84B099A3 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BA727425D2243ACAC4FE9FE /* libLottieReactNative.a */; };
@@ -350,6 +353,13 @@
 			remoteGlobalIDString = 6804402112A4034314970D8A8AD593F7;
 			remoteInfo = "Pods-hoardinvestTests";
 		};
+		AAED182520322A8E005CDB1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 65997DD56F7343EAB5F9EA14 /* DemoApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 13B07F961A680F5B00A75B9A;
+			remoteInfo = DemoApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -395,6 +405,7 @@
 		2D02E4901E0B4A5D006451C7 /* hoardinvest-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "hoardinvest-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34783A9B2A73F91A96ADF47C /* Pods-hoardinvest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvest.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest.debug.xcconfig"; sourceTree = "<group>"; };
 		3F021398E07B451F8DDA5A92 /* libPods-hoardinvestTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoardinvestTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		439FB7AC54FF4AB3A6281CBF /* libRCTActionSheet.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTActionSheet.a; sourceTree = "<group>"; };
 		48C297C136CEAB1EDFA3EB87 /* Pods-hoardinvestTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvestTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvestTests/Pods-hoardinvestTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5261838734524947BEDE3B28 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Bold.ttf"; path = "../src/assets/fonts/OpenSans-Bold.ttf"; sourceTree = "<group>"; };
 		59364CD23E6E4555A930DFE1 /* OpenSans-ExtraBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBold.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBold.ttf"; sourceTree = "<group>"; };
@@ -402,6 +413,7 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		5FBEFC247620B6D79F4747A7 /* Pods-hoardinvest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hoardinvest.release.xcconfig"; path = "Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest.release.xcconfig"; sourceTree = "<group>"; };
 		606FD8E757C64D8BA02DC6D6 /* OpenSans-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Light.ttf"; path = "../src/assets/fonts/OpenSans-Light.ttf"; sourceTree = "<group>"; };
+		65997DD56F7343EAB5F9EA14 /* DemoApp.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = DemoApp.xcodeproj; path = "../node_modules/react-native-jumio-mobilesdk/DemoApp/ios/DemoApp.xcodeproj"; sourceTree = "<group>"; };
 		70F7E97149234B94B688E129 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-Regular.ttf"; path = "../src/assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; };
 		754F878F4115457D96F8BD1E /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		7699B5F7717B755B4A096645 /* libPods-hoardinvest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-hoardinvest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -410,6 +422,8 @@
 		AA9203AF1F8D98B100C872F3 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		AA9203DE1F8D9E0B00C872F3 /* RNHockeyApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNHockeyApp.m; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.m"; sourceTree = "<group>"; };
 		AA9203DF1F8D9E0B00C872F3 /* RNHockeyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNHockeyApp.h; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.h"; sourceTree = "<group>"; };
+		AAED182720322EBA005CDB1D /* JumioMobileSDKNetverify.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JumioMobileSDKNetverify.m; path = "../node_modules/react-native-jumio-mobilesdk/ios/JumioMobileSDKNetverify.m"; sourceTree = "<group>"; };
+		AAED182820322EBB005CDB1D /* JumioMobileSDKNetverify.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JumioMobileSDKNetverify.h; path = "../node_modules/react-native-jumio-mobilesdk/ios/JumioMobileSDKNetverify.h"; sourceTree = "<group>"; };
 		ADE6844517614ED48DCE9923 /* libLottie.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottie.a; sourceTree = "<group>"; };
 		C7229BC6266B43B3AD8F6A5B /* LottieReactNative.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = LottieReactNative.xcodeproj; path = "../node_modules/lottie-react-native/lib/ios/LottieReactNative.xcodeproj"; sourceTree = "<group>"; };
 		D31B170FDB7D43B79621F6DC /* OpenSans-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-BoldItalic.ttf"; path = "../src/assets/fonts/OpenSans-BoldItalic.ttf"; sourceTree = "<group>"; };
@@ -448,6 +462,7 @@
 				3701030399AE48B3B0E45130 /* libRNSVG.a in Frameworks */,
 				E0006F2C0C0240CAB5D8EA5C /* libLottie.a in Frameworks */,
 				DA1325F34967482B84B099A3 /* libLottieReactNative.a in Frameworks */,
+				BFDD2E9A685E41359EC769FC /* libRCTActionSheet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -652,6 +667,7 @@
 				5B3EC959471A4F43B6A2010E /* RNSVG.xcodeproj */,
 				21F455117F0C4F13BF19AFC3 /* Lottie.xcodeproj */,
 				C7229BC6266B43B3AD8F6A5B /* LottieReactNative.xcodeproj */,
+				65997DD56F7343EAB5F9EA14 /* DemoApp.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -668,6 +684,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				AAED182820322EBB005CDB1D /* JumioMobileSDKNetverify.h */,
+				AAED182720322EBA005CDB1D /* JumioMobileSDKNetverify.m */,
 				13B07FAE1A68108700A75B9A /* hoardinvest */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* hoardinvestTests */,
@@ -727,6 +745,7 @@
 				FE32B79DCAE24714BDD449A7 /* libRNSVG.a */,
 				ADE6844517614ED48DCE9923 /* libLottie.a */,
 				0BA727425D2243ACAC4FE9FE /* libLottieReactNative.a */,
+				439FB7AC54FF4AB3A6281CBF /* libRCTActionSheet.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -746,6 +765,14 @@
 				AA9203B71F8D98B100C872F3 /* HockeySDKResources.bundle */,
 				AA9203B91F8D98B100C872F3 /* libPods-hoardinvest.a */,
 				AA9203BB1F8D98B100C872F3 /* libPods-hoardinvestTests.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AAED182220322A8E005CDB1D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AAED182620322A8E005CDB1D /* DemoApp.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -844,7 +871,11 @@
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
 						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = 72LCGV4DW6;
 						TestTargetID = 13B07F861A680F5B00A75B9A;
+					};
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = 72LCGV4DW6;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -869,6 +900,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = AAED182220322A8E005CDB1D /* Products */;
+					ProjectRef = 65997DD56F7343EAB5F9EA14 /* DemoApp.xcodeproj */;
+				},
 				{
 					ProductGroup = 077C3D192023612D00F19B5E /* Products */;
 					ProjectRef = 21F455117F0C4F13BF19AFC3 /* Lottie.xcodeproj */;
@@ -1214,6 +1249,13 @@
 			remoteRef = AA9203BA1F8D98B100C872F3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		AAED182620322A8E005CDB1D /* DemoApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = DemoApp.app;
+			remoteRef = AAED182520322A8E005CDB1D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -1347,11 +1389,11 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest-resources.sh",
-				$PODS_CONFIGURATION_BUILD_DIR/HockeySDK/HockeySDKResources.bundle,
+				"${PODS_CONFIGURATION_BUILD_DIR}/HockeySDK/HockeySDKResources.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HockeySDKResources.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1382,9 +1424,18 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-hoardinvest/Pods-hoardinvest-frameworks.sh",
+				"${PODS_ROOT}/JumioMobileSDK/frameworks/JumioCore.framework",
+				"${PODS_ROOT}/JumioMobileSDK/frameworks/Netverify.framework",
+				"${PODS_ROOT}/JumioMobileSDK/frameworks/MicroBlink.framework",
+				"${PODS_ROOT}/JumioMobileSDK/frameworks/Umoove.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JumioCore.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Netverify.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MicroBlink.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Umoove.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1408,6 +1459,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				AAED182920322EBB005CDB1D /* JumioMobileSDKNetverify.m in Sources */,
 				AA9203E01F8D9E0C00C872F3 /* RNHockeyApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1467,6 +1519,7 @@
 			baseConfigurationReference = 48C297C136CEAB1EDFA3EB87 /* Pods-hoardinvestTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1476,12 +1529,14 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = hoardinvestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1498,17 +1553,20 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
+				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = hoardinvestTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1526,11 +1584,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = hoardinvest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1550,11 +1610,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = hoardinvest/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1585,11 +1647,13 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = "hoardinvest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1620,11 +1684,13 @@
 					"$(SRCROOT)/../node_modules/react-native-svg/ios/**",
 					"$(SRCROOT)/../node_modules/lottie-ios/lottie-ios/Classes/**",
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
+					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 				);
 				INFOPLIST_FILE = "hoardinvest-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
@@ -1653,6 +1719,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.hoardinvest-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1677,6 +1744,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.facebook.REACT.hoardinvest-tvOSTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";

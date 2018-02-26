@@ -22,6 +22,7 @@ import wallet from 'screens/Wallet/reducer';
 import receiveModal from 'containers/ReceiveModal/reducer';
 import sendModal from 'containers/SendModal/reducer';
 import pricing from 'sagas/pricing/reducer';
+import kyc from 'screens/Settings/reducer';
 
 const rootReducer = combineReducers({
   app,
@@ -30,7 +31,8 @@ const rootReducer = combineReducers({
   wallet,
   receiveModal,
   sendModal,
-  pricing
+  pricing,
+  kyc
 });
 
 export default rootReducer;

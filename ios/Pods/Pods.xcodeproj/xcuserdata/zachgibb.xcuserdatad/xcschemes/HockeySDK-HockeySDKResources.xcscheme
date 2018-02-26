@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'EB9AD825427F216B54E693242E671FA1'
-               BlueprintName = 'HockeySDK-HockeySDKResources'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'HockeySDKResources.bundle'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "27ED6C421436A7057C3D06C959EB897C"
+               BlueprintName = "HockeySDK-HockeySDKResources"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "HockeySDK-HockeySDKResources.bundle">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

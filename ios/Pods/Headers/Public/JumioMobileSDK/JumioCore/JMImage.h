@@ -1,0 +1,1 @@
+../../../../JumioMobileSDK/frameworks/JumioCore.framework/Headers/JMImage.h

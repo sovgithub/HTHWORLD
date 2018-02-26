@@ -1,0 +1,1 @@
+../../../../JumioMobileSDK/frameworks/Netverify.framework/Headers/NetverifyScanOverlayView.h

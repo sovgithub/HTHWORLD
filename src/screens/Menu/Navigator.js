@@ -26,7 +26,7 @@ const RouteConfigs = {
     screen: itemWithHeader("ICO", ICO)
   },
   Settings: {
-    screen: itemWithHeader("Settings", Settings)
+    screen: Settings,
   }
 };
 

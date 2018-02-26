@@ -17,12 +17,14 @@ import authSagas from 'sagas/authentication';
 import initSagas from 'sagas/init';
 import walletSagas from 'screens/Wallet/sagas';
 import pricingSagas from 'sagas/pricing/saga';
+import kycStatusWatcher from 'screens/Settings/sagas';
 
 export default function* rootSaga() {
   yield all([
     initSagas(),
     authSagas(),
     walletSagas(),
-    pricingSagas()
+    pricingSagas(),
+    kycStatusWatcher()
   ]);
 }

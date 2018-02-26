@@ -4191,6 +4191,10 @@ react-native-hockeyapp@^0.5.1:
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/react-native-hockeyapp/-/react-native-hockeyapp-0.5.1.tgz#409fddd7f0252feeb9ca5546a916aa51a06c5fca"
 
+"react-native-jumio-mobilesdk@https://github.com/Jumio/mobile-react.git#v2.10.0":
+  version "2.10.0"
+  resolved "https://github.com/Jumio/mobile-react.git#6f0a5a0087e4e7b055f61ec8b49044c7da6b5101"
+
 react-native-safe-module@^1.1.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/react-native-safe-module/-/react-native-safe-module-1.2.0.tgz#a23824ca24edc2901913694a76646475113d570d"

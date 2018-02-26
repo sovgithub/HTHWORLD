@@ -25,7 +25,8 @@ export default class Input extends Component {
     onChangeText: PropTypes.func.isRequired,
     onSubmitEditing: PropTypes.func,
     onEndEditing: PropTypes.func,
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    editable: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -33,6 +34,7 @@ export default class Input extends Component {
     autoCapitalize: 'none',
     keyboardType: 'default',
     returnKeyType: 'done',
+    editable: true,
     style: {},
     onSubmitEditing: () => false
   };
@@ -67,6 +69,7 @@ export default class Input extends Component {
 
     return (
       <TextInput
+        editable={this.props.editable}
         style={[styles.input, inputColors, activeStyle, this.props.style]}
         placeholderTextColor={placeholderTextColor}
         value={this.props.value}

@@ -1,0 +1,1 @@
+../../../../JumioMobileSDK/frameworks/MicroBlink.framework/Headers/PPMetadataSettings.h
