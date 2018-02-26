@@ -6,48 +6,72 @@ import {
   Text,
   View,
 } from 'react-native';
+
 import CurrencyButton from './CurrencyButton';
 import ValueStatement from 'components/ValueStatement';
-import GetCurrencyPrice from 'components/GetCurrencyPrice';
-import {getColors} from 'styles';
 import IntervalSelectionChart from 'components/IntervalSelectionChart';
 
-const Currencies = {
-  DASH: 'DASH',
-  ETH: 'ETH',
-  BTC: 'BTC',
-  LTC: 'LTC',
-  XRP: 'XRP',
-};
-
-const CurrencyList = [];
-
-for (const CurrencyItem in Currencies) {
-  CurrencyList.push(CurrencyItem);
-}
+import { Intervals } from 'components/GetCurrencyHistory';
+import {getColors} from 'styles';
+import { SYMBOL_BTC, SUPPORTED_COINS_PRICING } from 'containers/App/constants';
 
 export default class Dashboard extends React.Component {
   static propTypes = {
+    pricing: PropTypes.objectOf(PropTypes.shape({
+      price: PropTypes.shape({
+        price: PropTypes.number,
+        requesting: PropTypes.bool
+      }).isRequired,
+      history: PropTypes.shape({
+        data: PropTypes.arrayOf(PropTypes.number),
+        change: PropTypes.string,
+        positive: PropTypes.bool,
+        requesting: PropTypes.bool
+      }).isRequired
+    })).isRequired,
+    getCurrencyHistory: PropTypes.func.isRequired,
+    getCurrencyPrice: PropTypes.func.isRequired,
     showReceiveModal: PropTypes.func.isRequired,
     showSendModal: PropTypes.func.isRequired
   }
 
   state = {
-    selectedCurrency: Currencies.BTC
+    selectedCurrency: SYMBOL_BTC,
+    selectedInterval: Intervals.hour,
   }
 
-  handleCurrencyChange = (selectedCurrency) => () => this.setState({ selectedCurrency })
+  componentDidMount() {
+    this.triggerPriceRefresh();
+  }
+
+  handleChangeInterval = (selectedInterval) =>
+    this.setState(
+      {selectedInterval},
+      this.triggerPriceRefresh
+    )
+
+  triggerPriceRefresh = () => {
+    this.props.getCurrencyPrice(this.state.selectedCurrency);
+    this.props.getCurrencyHistory(
+      this.state.selectedCurrency,
+      {interval: this.state.selectedInterval}
+    );
+  }
+
+  handleCurrencyChange = (selectedCurrency) => () => this.setState({ selectedCurrency }, this.triggerPriceRefresh)
 
   render() {
     const themeColors = getColors();
     const themedStyles = getThemedStyles(themeColors);
+
+    const {price, history} = this.props.pricing[this.state.selectedCurrency];
 
     return (
       <View style={[styles.container, themedStyles.container]}>
         <Text style={[styles.heading, themedStyles.heading]}>Markets</Text>
         <Text style={[styles.date, themedStyles.date]}>September 2</Text>
         <View style={styles.currencyTitleContainer}>
-        {CurrencyList.map((currency) => (
+        {SUPPORTED_COINS_PRICING.map((currency) => (
             <CurrencyButton
               key={currency}
               onPress={this.handleCurrencyChange(currency)}
@@ -58,19 +82,28 @@ export default class Dashboard extends React.Component {
           ))}
         </View>
         <View style={styles.pricingContainer}>
-          <GetCurrencyPrice currencies={[ this.state.selectedCurrency ]}>
-            {({loaded, data}) => (
+          {!price.requesting && !history.requesting
+            ? (
               <ValueStatement
                 title={`${this.state.selectedCurrency} price`}
-                value={loaded ? `$${data[this.state.selectedCurrency].USD}` : '...'}
-                change="+34.55(0.23%)"
-                positive={true}
+                value={`$${price.price.toFixed(2)}`}
+                change={history.change}
+                positive={history.positive}
               />
-            )}
-          </GetCurrencyPrice>
+            )
+            : (
+              <Text>...</Text>
+            )
+          }
         </View>
         <View style={styles.carouselContainer}>
-          <IntervalSelectionChart currency={this.state.selectedCurrency} />
+          <IntervalSelectionChart
+            interval={this.state.selectedInterval}
+            positive={history.positive || false}
+            loading={history.requesting}
+            onChangeInterval={this.handleChangeInterval}
+            history={history.data}
+          />
         </View>
         <View style={styles.buttonContainer}>
           <Button

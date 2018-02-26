@@ -8,7 +8,6 @@ import SelectCoin from '../components/SelectCoin';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Confirm from './Confirm';
-import { SYMBOL_ETH } from '../constants';
 import NavigatorService from '../../../navigator';
 import Modal from '../Modal';
 import Button from 'components/Button';

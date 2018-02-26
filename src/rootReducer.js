@@ -14,19 +14,23 @@ combineReducers({
 
 */
 
-import { combineReducers } from "redux";
-import login from "screens/Login/reducer";
-import signup from "screens/Signup/reducer";
-import wallet from "screens/Wallet/reducer";
-import receiveModal from "containers/ReceiveModal/reducer";
-import sendModal from "containers/SendModal/reducer";
+import { combineReducers } from 'redux';
+import app from 'containers/App/reducer';
+import login from 'screens/Login/reducer';
+import signup from 'screens/Signup/reducer';
+import wallet from 'screens/Wallet/reducer';
+import receiveModal from 'containers/ReceiveModal/reducer';
+import sendModal from 'containers/SendModal/reducer';
+import pricing from 'sagas/pricing/reducer';
 
 const rootReducer = combineReducers({
+  app,
   login,
   signup,
   wallet,
   receiveModal,
-  sendModal
+  sendModal,
+  pricing
 });
 
 export default rootReducer;

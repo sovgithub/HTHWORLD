@@ -7,12 +7,6 @@ import WalletListEntry from './WalletListEntry';
 import { getColors } from 'styles';
 import Button from 'components/Button';
 
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
-}
-
 class Wallet extends React.Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -20,8 +14,19 @@ class Wallet extends React.Component {
     }).isRequired,
     wallet: PropTypes.shape({
       wallets: PropTypes.object.isRequired
-    }).isRequired
+    }).isRequired,
+    prices: PropTypes.objectOf(PropTypes.number),
+    getCurrencyPrice: PropTypes.func.isRequired
   };
+
+  componentDidMount() {
+    const walletList = this.props.wallet.wallets;
+    Object.keys(walletList).map(wallet =>
+      this.props.getCurrencyPrice(
+        walletList[wallet].symbol
+      )
+    );
+  }
 
   handleWalletGenerate = () => {
     this.props.navigation.navigate('Mnemonic');
@@ -39,20 +44,25 @@ class Wallet extends React.Component {
     return (
       <View style={[styles.container, themedStyles.container]}>
         <WalletList style={styles.walletList}>
-          {Object.keys(walletList).length > 0 &&
-            Object.keys(walletList).map((wallet, i) => {
-              return (
-                <WalletListEntry
-                  key={`wallet-${i}`}
-                  name={`My ${walletList[wallet].symbol} Wallet`}
-                  symbol={walletList[wallet].symbol}
-                  balance={walletList[wallet].balance}
-                  publicAddress={walletList[wallet].publicAddress}
-                  value={getRandomInt(100, 20000).toString()}
-                  change={getRandomInt(1, 20).toString()}
-                />
-              );
-            })}
+          {Object.keys(walletList).map((wallet, i) => {
+            const {
+              balance,
+              symbol,
+              publicAddress
+            } = walletList[wallet];
+            const price = this.props.prices[symbol];
+
+            return (
+              <WalletListEntry
+                key={`wallet-${i}`}
+                name={`My ${symbol} Wallet`}
+                symbol={symbol}
+                balance={balance}
+                publicAddress={publicAddress}
+                value={(price * balance).toFixed(2)}
+              />
+            );
+          })}
           {Object.keys(walletList).length === 0 && (
             <T.Heading>Create or recover a wallet!</T.Heading>
           )}

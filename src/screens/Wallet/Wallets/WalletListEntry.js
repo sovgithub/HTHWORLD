@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const WalletListEntry = ({ name, symbol, balance, value, change }) => {
+const WalletListEntry = ({ name, symbol, balance, value }) => {
   return (
     <TouchableOpacity style={styles.container}>
       <View style={styles.left}>
@@ -13,7 +13,6 @@ const WalletListEntry = ({ name, symbol, balance, value, change }) => {
       </View>
       <View style={styles.right}>
         <Text style={styles.value}>{value}</Text>
-        <Text style={styles.change}>{change}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -26,7 +25,6 @@ WalletListEntry.propTypes = {
   symbol: PropTypes.string.isRequired,
   balance: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
-  change: PropTypes.string.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -55,9 +53,5 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 30,
     fontWeight: '200'
-  },
-  change: {
-    fontSize: 12,
-    fontWeight: '900'
   }
 });

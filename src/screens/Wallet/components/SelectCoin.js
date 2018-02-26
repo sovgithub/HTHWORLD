@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Button from "components/Button";
 import T from "components/Typography";
-import Animations, { FADE, SLIDE_Y } from "hocs/Animations";
-import { SUPPORTED_WALLETS } from "screens/Wallet/WalletInstances";
+import { SUPPORTED_COINS_WALLET } from "containers/App/constants";
 import SelectWalletSection from "components/SelectWalletSection";
 import NavigatorService from "../../../navigator";
 
@@ -40,7 +39,7 @@ export default class Step1 extends Component {
         </View>
         <View style={styles.bodyContainer}>
           <SelectWalletSection
-            wallets={SUPPORTED_WALLETS.map(symbol => ({
+            wallets={SUPPORTED_COINS_WALLET.map(symbol => ({
               publicAddress: symbol,
               symbol
             }))}

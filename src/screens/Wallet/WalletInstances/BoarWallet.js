@@ -25,7 +25,6 @@ export default class BoarWallet extends EthWallet {
       toAddress,
       amount
     );
-    console.log(response);
     return response;
   };
 }

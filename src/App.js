@@ -9,7 +9,7 @@ import Recover from 'screens/Wallet/Recover';
 import Signup from 'screens/Signup';
 import Menu from 'screens/Menu';
 import { StackNavigator } from 'react-navigation';
-
+import { INIT_REQUESTING } from './containers/App/constants';
 const store = configureStore();
 
 const RoutingStack = StackNavigator(
@@ -35,6 +35,7 @@ export default class App extends React.Component {
   componentDidMount() {
     HockeyApp.start();
     HockeyApp.checkForUpdate();
+    store.dispatch({ type: INIT_REQUESTING });
   }
 
   render() {

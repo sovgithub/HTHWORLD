@@ -1,5 +1,5 @@
-import { SYMBOL_ETH, SYMBOL_BOAR } from "../constants";
-import EthWallet from "./EthWallet";
+import { SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
+import EthWallet from './EthWallet';
 import BoarWallet from "./BoarWallet";
 
 /*
@@ -12,11 +12,6 @@ import BoarWallet from "./BoarWallet";
   }
 */
 
-
-export const SUPPORTED_WALLETS = [
-  SYMBOL_ETH,
-  SYMBOL_BOAR
-];
 
 export function initializeWallet(symbol, isMnemonic, mnemonicOrPrivateKey) {
   switch (symbol) {

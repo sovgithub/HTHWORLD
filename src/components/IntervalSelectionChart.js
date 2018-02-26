@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { View, Text, TouchableHighlight, StyleSheet } from 'react-native';
 import SparkLine from 'components/SparkLine';
 import LoadingSpinner from 'components/LoadingSpinner';
-import GetCurrencyHistory, { Intervals } from 'components/GetCurrencyHistory';
+import { Intervals } from 'components/GetCurrencyHistory';
 import { getColors } from 'styles';
 
 const intervalList = [
@@ -19,31 +19,27 @@ const intervalList = [
 
 export default class IntervalSelectionChart extends React.Component {
   static propTypes = {
-    currency: PropTypes.string.isRequired,
+    interval: PropTypes.string.isRequired,
+    positive: PropTypes.bool.isRequired,
+    loading: PropTypes.bool.isRequired,
+    history: PropTypes.arrayOf(PropTypes.number).isRequired,
+    onChangeInterval: PropTypes.func.isRequired
   };
 
-  state = {
-    selectedInterval: Intervals.hour,
-  }
-
   handlePress = (selectedInterval) => () => {
-    this.setState({selectedInterval});
+    this.props.onChangeInterval(selectedInterval);
   }
 
   render() {
     const themeColors = getColors();
     const themedStyles = getThemedStyles(themeColors);
-    const {selectedInterval} = this.state;
 
     return (
       <View style={styles.container}>
-        <GetCurrencyHistory currency={this.props.currency} interval={this.state.selectedInterval}>
-          {({loaded, data}) => {
-            return loaded
-              ? <SparkLine positive={data[0] < data[data.length - 1]}>{data}</SparkLine>
-              : <LoadingSpinner />;
-          }}
-        </GetCurrencyHistory>
+        {this.props.loading
+          ? <LoadingSpinner />
+          : <SparkLine positive={this.props.positive}>{this.props.history}</SparkLine>
+        }
         <View style={styles.intervalListContainer}>
           {intervalList.map((interval) => (
             <TouchableHighlight
@@ -56,7 +52,7 @@ export default class IntervalSelectionChart extends React.Component {
                 <View style={[
                   styles.intervalBorder,
                   themedStyles.intervalBorder,
-                  {borderWidth: selectedInterval === interval ? 2 : 0}
+                  {borderWidth: this.props.interval === interval ? 2 : 0}
                 ]} />
               </View>
             </TouchableHighlight>

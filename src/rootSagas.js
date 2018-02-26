@@ -11,11 +11,18 @@ yield all([example(), ...otherSagas]);
 
 */
 
-import { all } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
 
-import authSagas from "sagas/authentication";
-import walletSagas from "screens/Wallet/sagas";
+import authSagas from 'sagas/authentication';
+import initSagas from 'sagas/init';
+import walletSagas from 'screens/Wallet/sagas';
+import pricingSagas from 'sagas/pricing/saga';
 
 export default function* rootSaga() {
-  yield all([authSagas(), walletSagas()]);
+  yield all([
+    initSagas(),
+    authSagas(),
+    walletSagas(),
+    pricingSagas()
+  ]);
 }
