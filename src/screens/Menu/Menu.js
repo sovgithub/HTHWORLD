@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  Button as RNButton,
   ImageBackground,
   ScrollView,
   StyleSheet,
@@ -14,9 +13,9 @@ import {
   View
 } from 'react-native';
 import Button from 'components/Button';
-import { getColors } from 'styles';
+import Icon from 'components/Icon';
 import Animations, { FADE, SLIDE_X } from '../../hocs/Animations';
-import { signOut } from "sagas/authentication";
+import { signOut } from 'sagas/authentication';
 
 class Menu extends Component {
   static propTypes = {
@@ -76,13 +75,15 @@ class Menu extends Component {
           <ScrollView style={{ paddingTop: 40 }}>
             <View style={{ backgroundColor: 'transparent', flex: 1 }}>
               <View style={{ alignSelf: 'flex-end' }}>
-                <RNButton
-                  title="X"
+                <TouchableOpacity
+                  style={{
+                    paddingVertical: 10,
+                    paddingHorizontal: 20
+                  }}
                   onPress={() => this.navigateTo('DrawerClose')}
-                  color={
-                    getColors().menu // eslint-disable-line react/prop-types
-                  }
-                />
+                >
+                  <Icon icon="ios-close-outline" />
+                </TouchableOpacity>
               </View>
 
               <Animations
@@ -99,6 +100,12 @@ class Menu extends Component {
                 startAnimation={this.state.startAnimation}
                 exitAnimation={this.state.exitAnimation}
               >
+                <TouchableOpacity
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Intro')}
+                >
+                  <Text style={styles.linkContent}>Intro</Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.linkWrapper}
                   onPress={() => this.navigateTo('Wallet')}

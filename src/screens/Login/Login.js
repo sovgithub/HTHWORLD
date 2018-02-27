@@ -1,5 +1,5 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ImageBackground,
   StatusBar,
@@ -8,9 +8,9 @@ import {
   Image,
   View,
   KeyboardAvoidingView
-} from "react-native";
-import LoginForm from "./LoginForm";
-import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+} from 'react-native';
+import LoginForm from './LoginForm';
+import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
 const DismissableView = withDismissableKeyboard(View);
 
@@ -35,12 +35,12 @@ export default class Login extends React.Component {
           <ImageBackground
             style={styles.imageView}
             imageStyle={styles.image}
-            source={require("assets/BackgroundBlue.png")} // eslint-disable-line no-undef
+            source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
           >
             <View style={styles.logoContainer}>
               <Image
                 style={styles.logo}
-                source={require("assets/HoardLogoWhite.png")} // eslint-disable-line no-undef
+                source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
               />
               <Text style={styles.title}>Log In</Text>
             </View>
@@ -60,35 +60,35 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     flex: 1
   },
   logoContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flexGrow: 1,
-    justifyContent: "center",
-    flexDirection: "row",
-    alignContent: "center"
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignContent: 'center'
   },
   logo: {
     width: 40,
     height: 40,
-    resizeMode: "contain",
+    resizeMode: 'contain',
     marginTop: 10,
     marginRight: 10
   },
   title: {
-    color: "#fff",
+    color: '#fff',
     marginTop: 10,
     fontSize: 40,
-    fontWeight: "100",
-    textAlign: "center"
+    fontWeight: '100',
+    textAlign: 'center'
   },
   subtext: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 14,
-    fontWeight: "700",
-    textAlign: "center"
+    fontWeight: '700',
+    textAlign: 'center'
   },
   imageView: {
     flex: 1,
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   image: {
     width: null,
     height: null,
-    resizeMode: "cover"
+    resizeMode: 'cover'
   },
   formContainer: {
     marginBottom: 10

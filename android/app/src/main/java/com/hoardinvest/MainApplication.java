@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.jumio.react.JumioPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.slowpath.hockeyapp.RNHockeyAppPackage;
 import com.horcrux.svg.SvgPackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
           new RNHockeyAppPackage(MainApplication.this),
           new MainReactPackage(),
             new JumioPackage(),
+            new VectorIconsPackage(),
             new LottiePackage(),
             new SvgPackage()
       );

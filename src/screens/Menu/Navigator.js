@@ -2,17 +2,21 @@ import { DrawerNavigator, StackNavigator } from "react-navigation";
 import { Dimensions } from "react-native";
 import Dashboard from "screens/Dashboard";
 import ICO from 'screens/ICO';
-import Wallet from "screens/Wallet";
-import Settings from "screens/Settings";
-import CoinInformation from "screens/CoinInformation";
-import withHeader from "hocs/withHeader";
-import Menu from "./Menu";
+import Wallet from 'screens/Wallet';
+import Settings from 'screens/Settings';
+import Intro from 'screens/Intro';
+import CoinInformation from 'screens/CoinInformation';
+import withHeader from 'hocs/withHeader';
+import Menu from './Menu';
 
 const itemWithHeader = (title, screen) => {
   return StackNavigator({ Main: { screen: withHeader(title, screen) } });
 };
 
 const RouteConfigs = {
+  Intro: {
+    screen: Intro
+  },
   Wallet: {
     screen: StackNavigator({
       Main: { screen: withHeader("Wallet", Wallet) },

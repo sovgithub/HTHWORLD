@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Text } from 'react-native';
+import { TouchableOpacity, Text } from 'react-native';
 import { getColors } from 'styles';
 import NavigatorService from '../navigator';
+import Icon from 'components/Icon';
 
 export default function withHeader(title, WrappedComponent) {
   return class Wrapper extends React.Component {
@@ -28,11 +29,15 @@ export default function withHeader(title, WrappedComponent) {
       headerTintColor: getColors().textPrimary,
       headerStyle: { backgroundColor: getColors().background },
       headerRight: (
-        <Button
-          title="="
+        <TouchableOpacity
+          style={{
+            paddingVertical: 10,
+            paddingHorizontal: 20
+          }}
           onPress={() => NavigatorService.navigate('DrawerOpen')}
-          color={getColors().menu}
-        />
+        >
+          <Icon icon="ios-menu-outline" style={{ size: 25 }} />
+        </TouchableOpacity>
       )
     });
 
