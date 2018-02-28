@@ -14,17 +14,20 @@ import Button from 'components/Button';
 import T from 'components/Typography';
 import NavigatorService from 'lib/navigator';
 
-import {keyMapper} from 'lib/object-helpers';
+import { keyMapper } from 'lib/object-helpers';
 
 const { JumioMobileSDKNetverify } = NativeModules;
 
 const JumioArgs = [
-  'JUMIO_API_KEY', 'JUMIO_API_SECRET', 'us', {
+  'JUMIO_API_KEY',
+  'JUMIO_API_SECRET',
+  'us',
+  {
     requireVerification: true,
-    customerId: "CUSTOMERID",
-    preselectedCountry: "USA",
-    cameraPosition: "BACK",
-    documentTypes: ["DRIVER_LICENSE", "PASSPORT", "IDENTITY_CARD", "VISA"]
+    customerId: 'CUSTOMERID',
+    preselectedCountry: 'USA',
+    cameraPosition: 'BACK',
+    documentTypes: ['DRIVER_LICENSE', 'PASSPORT', 'IDENTITY_CARD', 'VISA']
   }
 ];
 
@@ -62,37 +65,36 @@ Jumio returns Netverify success response like:
 }
 */
 
-const SAMPLE_JUMIO_DATA =
-{
-  "selectedCountry": "USA",
-  "addressLine":"123 MAIN STREET",
-  "expiryDate": "20200101T00",
-  "postCode": "02255",
-  "city": "BOSTON",
-  "scanReference": "12345-12345-12345",
-  "idNumber": "12345",
-  "lastName": "DOE",
-  "issuingCountry": "USA",
-  "firstName": "JOHN",
-  "dob": "19800101T00000000",
-  "issuingDate": "20150111T00000000",
-  "middleName": "W",
-  "selectedDocumentType": "DRIVER_LICENSE",
-  "subdivision": "RI",
-  "extractionMethod": "BARCODE",
-  "gender": "m",
+const SAMPLE_JUMIO_DATA = {
+  selectedCountry: 'USA',
+  addressLine:'123 MAIN STREET',
+  expiryDate: '20200101T00',
+  postCode: '02255',
+  city: 'BOSTON',
+  scanReference: '12345-12345-12345',
+  idNumber: '12345',
+  lastName: 'DOE',
+  issuingCountry: 'USA',
+  firstName: 'JOHN',
+  dob: '19800101T00000000',
+  issuingDate: '20150111T00000000',
+  middleName: 'W',
+  selectedDocumentType: 'DRIVER_LICENSE',
+  subdivision: 'RI',
+  extractionMethod: 'BARCODE',
+  gender: 'm'
 };
 
 const JUMIO_TO_NORMALIZED_MAP = {
-  addressLine : 'streetAddress',
-  postCode : 'postal_code',
-  idNumber : 'id_number',
-  lastName : 'last_name',
-  issuingCountry : 'country',
-  firstName : 'first_name',
-  dob : 'birthdate',
-  middleName : 'middle_name',
-  subdivision : 'state',
+  addressLine: 'streetAddress',
+  postCode: 'postal_code',
+  idNumber: 'id_number',
+  lastName: 'last_name',
+  issuingCountry: 'country',
+  firstName: 'first_name',
+  dob: 'birthdate',
+  middleName: 'middle_name',
+  subdivision: 'state'
 };
 
 export default class Verification extends React.Component {
@@ -105,7 +107,7 @@ export default class Verification extends React.Component {
   };
 
   state = {
-    documentScan: false,
+    documentScan: false
   };
 
   componentDidMount() {
@@ -113,10 +115,12 @@ export default class Verification extends React.Component {
       'EventDocumentData',
       this.handleNetverifySuccess
     );
-    emitterNetverify.addListener('EventError', EventError =>
-      //eslint-disable-next-line no-console
-      console.log('EventError: ' + JSON.stringify(EventError))
-    );
+    emitterNetverify.addListener('EventError', EventError => {
+      if (__DEV__) {
+        //eslint-disable-next-line no-console
+        console.log('EventError: ' + JSON.stringify(EventError));
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -125,10 +129,12 @@ export default class Verification extends React.Component {
       this.handleNetverifySuccess
     );
 
-    emitterNetverify.removeListener('EventError', EventError =>
-      //eslint-disable-next-line no-console
-      console.log('EventError: ' + JSON.stringify(EventError))
-    );
+    emitterNetverify.removeListener('EventError', EventError => {
+      if (__DEV__) {
+        //eslint-disable-next-line no-console
+        console.log('EventError: ' + JSON.stringify(EventError));
+      }
+    });
   }
 
   handleNetverifySuccess = response => {
@@ -164,11 +170,11 @@ export default class Verification extends React.Component {
               <T.Heading style={styles.heading}>{LANG_HEADING_TEXT}</T.Heading>
               <T.Light style={styles.text}>{LANG_MAIN_TEXT}</T.Light>
               <T.Small style={styles.notification}>
-                Please note, care about your privacy! Your personal
-                information is never sent to or seen by us. This information
-                is stored locally and is only transmitted once to our
-                compliance authorization service.To learn more about these
-                privacy policies, click here.
+                Please note, care about your privacy! Your personal information
+                is never sent to or seen by us. This information is stored
+                locally and is only transmitted once to our compliance
+                authorization service.To learn more about these privacy
+                policies, click here.
               </T.Small>
             </View>
             <Button
@@ -204,7 +210,7 @@ const styles = StyleSheet.create({
     color: '#F89406',
     fontStyle: 'italic',
     padding: 20,
-    marginBottom: 20,
+    marginBottom: 20
   },
   formContainer: {
     padding: 20

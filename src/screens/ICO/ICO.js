@@ -1,22 +1,16 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert,
-  View,
-  Text,
-  ScrollView,
-  StyleSheet
-} from "react-native";
+import { Alert, View, Text, ScrollView, StyleSheet } from 'react-native';
 
-import Modal from "components/Modal";
-import SelectableCoin from "components/SelectableCoin";
+import Modal from 'components/Modal';
+import SelectableCoin from 'components/SelectableCoin';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import LoadingSpinner from 'components/LoadingSpinner';
-import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
-import { convertCurrency, SOLVE_FOR } from "lib/currency-helpers";
-import {limitNumber, formatDecimalInput} from 'lib/formatters';
+import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
+import { limitNumber, formatDecimalInput } from 'lib/formatters';
 import { SUPPORTED_COINS_ICO } from 'containers/App/constants';
 
 const DismissableView = withDismissableKeyboard(View);
@@ -35,7 +29,7 @@ export default class ICO extends Component {
       BTC: PropTypes.number,
       ETH: PropTypes.number
     })
-  }
+  };
 
   state = {
     modalOpen: false,
@@ -44,13 +38,11 @@ export default class ICO extends Component {
     selectedCurrency: SUPPORTED_COINS_ICO[0],
     pickerSelection: SUPPORTED_COINS_ICO[0],
     amountPaid: '',
-    priceTotal: 0,
+    priceTotal: 0
   };
 
   componentDidMount() {
-    SUPPORTED_COINS_ICO.map(
-      coin => this.props.getCurrencyPrice(coin)
-    );
+    SUPPORTED_COINS_ICO.map(coin => this.props.getCurrencyPrice(coin));
   }
 
   openModal = () => {
@@ -70,27 +62,30 @@ export default class ICO extends Component {
   };
 
   confirmSelection = () => {
-    this.setState({
-      modalOpen: false,
-      selectedCurrency: this.state.pickerSelection
-    }, () => {
-      const { prices } = this.props;
-      const { oarPrice, selectedCurrency, oarTotal } = this.state;
-      const { source } = convertCurrency({
-        source: {
-          pair: "USD",
-          price: prices[selectedCurrency],
-          amount: SOLVE_FOR
-        },
-        destination: {
-          pair: "USD",
-          price: oarPrice,
-          amount: oarTotal
-        }
-      });
+    this.setState(
+      {
+        modalOpen: false,
+        selectedCurrency: this.state.pickerSelection
+      },
+      () => {
+        const { prices } = this.props;
+        const { oarPrice, selectedCurrency, oarTotal } = this.state;
+        const { source } = convertCurrency({
+          source: {
+            pair: 'USD',
+            price: prices[selectedCurrency],
+            amount: SOLVE_FOR
+          },
+          destination: {
+            pair: 'USD',
+            price: oarPrice,
+            amount: oarTotal
+          }
+        });
 
-      this.handleChangePaid(source.amount.toString());
-    });
+        this.handleChangePaid(source.amount.toString());
+      }
+    );
   };
 
   handleChangePaid = value => {
@@ -102,12 +97,12 @@ export default class ICO extends Component {
     const valueAsNumber = Number(formattedValue) || 0;
     const { destination, totalCost } = convertCurrency({
       source: {
-        pair: "USD",
+        pair: 'USD',
         price: prices[selectedCurrency],
         amount: valueAsNumber
       },
       destination: {
-        pair: "USD",
+        pair: 'USD',
         price: oarPrice,
         amount: SOLVE_FOR
       }
@@ -126,45 +121,45 @@ export default class ICO extends Component {
     const { oarPrice, selectedCurrency } = this.state;
     const { source } = convertCurrency({
       source: {
-        pair: "USD",
+        pair: 'USD',
         price: prices[selectedCurrency],
         amount: SOLVE_FOR
       },
       destination: {
-        pair: "USD",
+        pair: 'USD',
         price: oarPrice,
         amount: OAR_LIMIT
       }
     });
 
     this.handleChangePaid(source.amount.toString());
-  }
+  };
 
   resetToFiatMaximum = () => {
     const { prices } = this.props;
     const { selectedCurrency } = this.state;
     const { source } = convertCurrency({
       source: {
-        pair: "USD",
+        pair: 'USD',
         price: prices[selectedCurrency],
         amount: SOLVE_FOR
       },
       destination: {
-        pair: "USD",
+        pair: 'USD',
         price: 1,
         amount: FIAT_LIMIT
       }
     });
 
     this.handleChangePaid(source.amount.toString());
-  }
+  };
 
   validatePurchase = () => {
     if (this.state.oarTotal > OAR_LIMIT) {
       Alert.alert(
         'OAR limit reached',
         `We cap our ICO purchase limit to ${OAR_LIMIT} OAR. We have reduced you to that amount`,
-        [{text: 'OK', onPress: this.resetToOarMaximum}]
+        [{ text: 'OK', onPress: this.resetToOarMaximum }]
       );
       return false;
     }
@@ -173,19 +168,21 @@ export default class ICO extends Component {
       Alert.alert(
         'OAR limit reached',
         `We cap our ICO purchase limit to ${FIAT_LIMIT} USD. We have reduced you to that amount`,
-        [{text: 'OK', onPress: this.resetToFiatMaximum}]
+        [{ text: 'OK', onPress: this.resetToFiatMaximum }]
       );
       return false;
     }
 
     return true;
-  }
+  };
 
   handleSubmit = () => {
     if (this.validatePurchase()) {
-      console.log(this.state); // eslint-disable-line no-console
+      if (__DEV__) {
+        console.log(this.state); // eslint-disable-line no-console
+      }
     }
-  }
+  };
 
   render() {
     const { prices } = this.props;
@@ -204,32 +201,37 @@ export default class ICO extends Component {
     return (
       <DismissableView style={styles.container}>
         <Text style={styles.heading}>Participate in the OAR ICO</Text>
-        {loaded
-          ? (
-            <View style={styles.form}>
-              <Text style={[styles.infoText, styles.formItem]}>
-                Current Price: ${oarPrice}
-              </Text>
-              <Button style={styles.formItem} onPress={this.openModal}>
-                {`Select Currency: ${selectedCurrency}`}
-              </Button>
-              <Text style={styles.infoText}>
-                {selectedCurrency} Price: ${prices[selectedCurrency]}
-              </Text>
-              <Input
-                style={styles.formItem}
-                keyboardType="numeric"
-                placeholder={`Amount of ${selectedCurrency}`}
-                value={amountPaid}
-                onChangeText={this.handleChangePaid}
-              />
-              <Text style={styles.infoText}>Price Total: ${priceTotal.toFixed(2)}</Text>
-              <Text style={styles.infoText}>Oar Received: {oarTotal}</Text>
-            </View>
-          )
-          : <LoadingSpinner />
-        }
-        <Button style={styles.confirm} onPress={this.handleSubmit} disabled={!loaded}>
+        {loaded ? (
+          <View style={styles.form}>
+            <Text style={[styles.infoText, styles.formItem]}>
+              Current Price: ${oarPrice}
+            </Text>
+            <Button style={styles.formItem} onPress={this.openModal}>
+              {`Select Currency: ${selectedCurrency}`}
+            </Button>
+            <Text style={styles.infoText}>
+              {selectedCurrency} Price: ${prices[selectedCurrency]}
+            </Text>
+            <Input
+              style={styles.formItem}
+              keyboardType="numeric"
+              placeholder={`Amount of ${selectedCurrency}`}
+              value={amountPaid}
+              onChangeText={this.handleChangePaid}
+            />
+            <Text style={styles.infoText}>
+              Price Total: ${priceTotal.toFixed(2)}
+            </Text>
+            <Text style={styles.infoText}>Oar Received: {oarTotal}</Text>
+          </View>
+        ) : (
+          <LoadingSpinner />
+        )}
+        <Button
+          style={styles.confirm}
+          onPress={this.handleSubmit}
+          disabled={!loaded}
+        >
           Confirm Purchase
         </Button>
         <Modal
@@ -237,8 +239,8 @@ export default class ICO extends Component {
           title="Select Currency"
           onCancel={this.cancelModal}
           actionButtons={[
-            {text: 'Done', type: 'primary', onPress: this.confirmSelection},
-            {text: 'Cancel', type: 'text', onPress: this.cancelModal}
+            { text: 'Done', type: 'primary', onPress: this.confirmSelection },
+            { text: 'Cancel', type: 'text', onPress: this.cancelModal }
           ]}
         >
           <ScrollView bounces={false} style={styles.scrollView}>
@@ -260,27 +262,27 @@ export default class ICO extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#1B273F",
-    justifyContent: "space-between"
+    backgroundColor: '#1B273F',
+    justifyContent: 'space-between'
   },
   heading: {
     marginTop: 50,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 24,
-    color: "#FFF",
-    fontWeight: "900"
+    color: '#FFF',
+    fontWeight: '900'
   },
   form: {
-    justifyContent: "center",
+    justifyContent: 'center',
     flex: 1
   },
   formItem: {
     margin: 10
   },
   infoText: {
-    textAlign: "center",
-    color: "#FFF",
-    fontWeight: "700"
+    textAlign: 'center',
+    color: '#FFF',
+    fontWeight: '700'
   },
   confirm: {
     marginVertical: 50,

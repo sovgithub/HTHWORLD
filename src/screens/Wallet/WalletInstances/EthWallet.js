@@ -2,7 +2,10 @@ import ethers from 'ethers';
 
 const network = ethers.providers.networks.ropsten;
 const provider = ethers.providers.getDefaultProvider(network);
-console.log(network, provider); //eslint-disable-line no-console
+
+if (__DEV__) {
+  console.log(network, provider); //eslint-disable-line no-console
+}
 
 export default class EthWallet {
   constructor(isMnemonic, mnemonicOrPrivateKey) {

@@ -34,7 +34,6 @@ const mockKYCcheckAPI = user_information => {
     // setKYCKey(key, value) {
     // const user = await AsyncStorage.getItem('kyc/user');
     // const parsed = JSON.parse(user);
-    // console.log(parsed);
     // return parsed;
   } else if (rand === 0) {
     return {
@@ -90,8 +89,7 @@ function* peridociallyCheckKycStatus(user_credentials) {
   }
 }
 
-function* kycCheck({user_credentials}) {
-
+function* kycCheck({ user_credentials }) {
   let currentUser = yield call(getKYC);
 
   const kycStatus = yield call(peridociallyCheckKycStatus, user_credentials);

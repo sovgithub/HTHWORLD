@@ -38,7 +38,10 @@ export async function getUser() {
  * session
  */
 export async function setUser(user) {
-  return await AsyncStorage.setItem(AUTH_USER_STORAGE_KEY, JSON.stringify(user));
+  return await AsyncStorage.setItem(
+    AUTH_USER_STORAGE_KEY,
+    JSON.stringify(user)
+  );
 }
 
 // TODO: abstract these into dev/prod files
@@ -102,9 +105,12 @@ export default function* authenticationWatcher() {
       if (!currentUser) {
         // TODO: throw a helpful error to tell the user to try again?
         //  yield put({ type: LOGIN_OR_SIGNUP_ERROR, errors: [errors] });
-        console.log( // eslint-disable-line no-console
-          'hmmm... try again soon. maybe the api is down, or you made a bad request?'
-        );
+        if (__DEV__) {
+          // eslint-disable-next-line no-console
+          console.log(
+            'hmmm... try again soon. maybe the api is down, or you made a bad request?'
+          );
+        }
 
         //restart the authentication loop so they try can login or signup again
         continue;

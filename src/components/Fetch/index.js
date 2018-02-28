@@ -4,7 +4,7 @@ import api from 'lib/api';
 
 export function makeQueryString(queries) {
   if (queries && queries.length) {
-    return `?${ queries.map((q) => `${q.name}=${q.value}`).join('&') }`;
+    return `?${queries.map(q => `${q.name}=${q.value}`).join('&')}`;
   }
 
   return '';
@@ -24,17 +24,17 @@ export default class Fetch extends React.Component {
       })
     ),
     url: PropTypes.string.isRequired,
-    formatter: PropTypes.func.isRequired,
+    formatter: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    formatter: (json) => json
+    formatter: json => json
   };
 
   state = {
     loaded: false,
-    data: "",
-    requestNumber: 0,
+    data: '',
+    requestNumber: 0
   };
 
   componentWillMount() {
@@ -59,9 +59,10 @@ export default class Fetch extends React.Component {
           data: this.props.formatter(json)
         });
       }
-    }
-    catch(error) {
-      console.log('error! ', error); // eslint-disable-line no-console
+    } catch (error) {
+      if (__DEV__) {
+        console.log('error! ', error); // eslint-disable-line no-console
+      }
     }
   };
 

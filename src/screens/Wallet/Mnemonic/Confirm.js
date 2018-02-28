@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, TextInput } from 'react-native';
 
-
 import Button from 'components/Button';
 import T from 'components/Typography';
 import LottieView from 'lottie-react-native';
-import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
 import success from 'assets/animations/check.json';
 import error from 'assets/animations/error.json';
@@ -73,12 +72,14 @@ export default class Confirm extends Component {
   };
 
   render() {
-    //eslint-disable-next-line no-console
-    console.log(
-      'The words you need are',
-      this.props.list[0].word,
-      this.props.list[1].word
-    );
+    if (__DEV__) {
+      //eslint-disable-next-line no-console
+      console.log(
+        'The words you need are',
+        this.props.list[0].word,
+        this.props.list[1].word
+      );
+    }
     const placeholderTextColor = 'rgba(0,0,0,0.35)';
 
     return (

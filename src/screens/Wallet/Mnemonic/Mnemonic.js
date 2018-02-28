@@ -53,12 +53,15 @@ export default class Mnemonic extends Component {
     return confirmList;
   };
 
-  selectCoin = (coin) => {
-    this.setState({
-      coin,
-      wallet: this.generateNewWallet(coin)
-    }, this.saveAndContinue);
-  }
+  selectCoin = coin => {
+    this.setState(
+      {
+        coin,
+        wallet: this.generateNewWallet(coin)
+      },
+      this.saveAndContinue
+    );
+  };
 
   saveAndContinue = () => {
     const currentStep = this.state.step;
@@ -95,7 +98,10 @@ export default class Mnemonic extends Component {
   };
 
   saveNewWallet = () => {
-    this.props.createWallet(this.state.coin, this.state.wallet._wallet.mnemonic);
+    this.props.createWallet(
+      this.state.coin,
+      this.state.wallet._wallet.mnemonic
+    );
   };
 
   handleRedirect = () => {
@@ -105,18 +111,18 @@ export default class Mnemonic extends Component {
     ]);
   };
 
-  getComponentForStep = (step) => {
+  getComponentForStep = step => {
     if (step === 1) {
-      return (
-        <SelectCoin saveAndContinue={this.selectCoin} />
-      );
+      return <SelectCoin saveAndContinue={this.selectCoin} />;
     }
     if (step === 2) {
-      //eslint-disable-next-line no-console
-      console.log(
-        'Mnemonic List:',
-        this.state.wallet._wallet.mnemonic.split(' ')
-      );
+      if (__DEV__) {
+        //eslint-disable-next-line no-console
+        console.log(
+          'Mnemonic List:',
+          this.state.wallet._wallet.mnemonic.split(' ')
+        );
+      }
       const mnemonicList = this.state.wallet._wallet.mnemonic
         .split(' ')
         .slice(0, 6);
@@ -148,7 +154,7 @@ export default class Mnemonic extends Component {
         />
       );
     }
-  }
+  };
 
   render() {
     const { step, modalOpen } = this.state;

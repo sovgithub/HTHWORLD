@@ -19,16 +19,15 @@ export default class Recover extends Component {
     }).isRequired
   };
 
-
   state = {
     step: 1,
     coin: null,
     modalOpen: false,
     answers: {
-      step1: Array.from({length: 6}, () => ''),
-      step2: Array.from({length: 6}, () => '')
+      step1: Array.from({ length: 6 }, () => ''),
+      step2: Array.from({ length: 6 }, () => '')
     }
-  }
+  };
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.wallet.create_successful) {
@@ -36,25 +35,30 @@ export default class Recover extends Component {
     }
   }
 
-  selectCoin = (coin) => {
-    // eslint-disable-next-line
-    console.log(
-      'Test Recovery Phrase:',
-      initializeWallet(coin)._wallet.mnemonic
+  selectCoin = coin => {
+    if (__DEV__) {
+      // eslint-disable-next-line
+      console.log(
+        'Test Recovery Phrase:',
+        initializeWallet(coin)._wallet.mnemonic
+      );
+    }
+    this.setState(
+      {
+        coin
+      },
+      this.goForward
     );
-    this.setState({
-      coin
-    }, this.goForward);
-  }
+  };
 
-  saveAnswers = (step) => (stepAnswers) => {
+  saveAnswers = step => stepAnswers => {
     this.setState({
       answers: {
         ...this.state.answers,
         [step]: stepAnswers
       }
     });
-  }
+  };
 
   goForward = () => {
     const currentStep = this.state.step;
@@ -85,11 +89,11 @@ export default class Recover extends Component {
     });
   };
 
-  testWallet = (answers) => {
+  testWallet = answers => {
     initializeWallet(this.state.coin, true, answers.join(' '));
-  }
+  };
 
-  saveNewWallet = (answers) => {
+  saveNewWallet = answers => {
     this.props.createWallet(this.state.coin, answers.join(' '));
     this.openModal();
   };
@@ -101,11 +105,9 @@ export default class Recover extends Component {
     ]);
   };
 
-  getComponentForStep = (step) => {
+  getComponentForStep = step => {
     if (step === 1) {
-      return (
-        <SelectCoin saveAndContinue={this.selectCoin} />
-      );
+      return <SelectCoin saveAndContinue={this.selectCoin} />;
     }
     if (step === 2) {
       return (
@@ -137,7 +139,7 @@ export default class Recover extends Component {
         />
       );
     }
-  }
+  };
 
   render() {
     const { step, modalOpen } = this.state;
