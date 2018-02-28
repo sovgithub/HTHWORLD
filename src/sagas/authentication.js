@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import { call, take } from 'redux-saga/effects';
-import NavigatorService from '../navigator';
+import NavigatorService from 'lib/navigator';
 import api from 'lib/api';
 
 import loginFlow from 'screens/Login/sagas';

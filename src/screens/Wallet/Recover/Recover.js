@@ -7,7 +7,7 @@ import { initializeWallet } from '../WalletInstances';
 import SelectCoin from '../components/SelectCoin';
 import InputList from './InputList';
 import Confirm from './Confirm';
-import NavigatorService from '../../../navigator';
+import NavigatorService from 'lib/navigator';
 import Modal from '../Modal';
 import Button from 'components/Button';
 

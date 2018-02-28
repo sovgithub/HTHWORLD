@@ -13,7 +13,7 @@ In /src/App.js, we've added a ref in <RoutingStack>.
 
 Usage:
 // from some/other/component.js
-import NavigatorService from "path/to/this/navigator";
+import NavigatorService from "lib/navigator";
  
 // Navigate to a route defined in App.js's RoutingStack:
 NavigatorService.navigate("Menu");
@@ -26,7 +26,7 @@ NavigatorService.navigate("Menu");
 ]);
 */
 
-import { NavigationActions } from "react-navigation";
+import { NavigationActions } from 'react-navigation';
 
 let _container; // eslint-disable-line
 
@@ -40,7 +40,7 @@ function reset(routeName, params) {
       index: 0,
       actions: [
         NavigationActions.navigate({
-          type: "Navigation/NAVIGATE",
+          type: 'Navigation/NAVIGATE',
           routeName,
           params
         })
@@ -52,7 +52,7 @@ function reset(routeName, params) {
 function navigate(routeName, params) {
   _container.dispatch(
     NavigationActions.navigate({
-      type: "Navigation/NAVIGATE",
+      type: 'Navigation/NAVIGATE',
       routeName,
       params
     })
@@ -64,7 +64,7 @@ function navigateDeep(actions) {
     actions.reduceRight(
       (prevAction, action) =>
         NavigationActions.navigate({
-          type: "Navigation/NAVIGATE",
+          type: 'Navigation/NAVIGATE',
           routeName: action.routeName,
           params: action.params,
           action: prevAction

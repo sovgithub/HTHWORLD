@@ -12,7 +12,7 @@ import {
 
 import Button from 'components/Button';
 import T from 'components/Typography';
-import NavigatorService from '../../../navigator';
+import NavigatorService from 'lib/navigator';
 
 import {keyMapper} from 'lib/object-helpers';
 

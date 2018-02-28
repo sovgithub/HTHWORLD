@@ -3,7 +3,7 @@ import { SIGNUP_REQUESTING } from 'screens/Signup/constants';
 import signupFlow from 'screens/Signup/sagas';
 import loginFlow from 'screens/Login/sagas';
 import authenticationWatcher, {getUser, setUser, logoutFlow, logoutApi, AUTH_SIGNOUT} from '../authentication';
-import NavigatorService from 'navigator';
+import NavigatorService from 'lib/navigator';
 
 const DashboardRedirectTest = (watcher, nextArg) => {
   const dispatch = jest.fn();

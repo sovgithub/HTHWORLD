@@ -6,7 +6,7 @@ import {
   View
 } from 'react-native';
 
-import NavigatorService from '../../../navigator';
+import NavigatorService from 'lib/navigator';
 import Button from 'components/Button';
 import T from 'components/Typography';
 

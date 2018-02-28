@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import NavigatorService from './navigator';
+import NavigatorService from 'lib/navigator';
 import configureStore from './configureStore';
 import HockeyApp from 'react-native-hockeyapp';
 import Login from 'screens/Login';

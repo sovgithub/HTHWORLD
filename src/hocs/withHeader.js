@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
 import { getColors } from 'styles';
-import NavigatorService from '../navigator';
+import NavigatorService from 'lib/navigator';
 import Icon from 'components/Icon';
 
 export default function withHeader(title, WrappedComponent) {

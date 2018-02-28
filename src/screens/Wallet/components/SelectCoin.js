@@ -5,7 +5,7 @@ import Button from "components/Button";
 import T from "components/Typography";
 import { SUPPORTED_COINS_WALLET } from "containers/App/constants";
 import SelectWalletSection from "components/SelectWalletSection";
-import NavigatorService from "../../../navigator";
+import NavigatorService from 'lib/navigator';
 
 const LANG_NEXT_TEXT = "Next";
 const LANG_CANCEL_TEXT = "Cancel";
