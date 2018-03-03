@@ -1,5 +1,6 @@
 import ethers from "ethers";
 import EthWallet from "./EthWallet";
+import { SYMBOL_BOAR } from "containers/App/constants";
 
 export default class BoarWallet extends EthWallet {
   constructor(isMnemonic, mnemonicOrPrivateKey) {
@@ -10,6 +11,8 @@ export default class BoarWallet extends EthWallet {
       this._wallet
     );
   }
+
+  symbol = SYMBOL_BOAR;
 
   getBalance = async () => {
     const address = await this.getPublicAddress();

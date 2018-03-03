@@ -1,31 +1,35 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, View, ScrollView } from "react-native";
 
-import T from 'components/Typography';
-import { initializeWallet } from '../WalletInstances';
-import SelectCoin from '../components/SelectCoin';
-import InputList from './InputList';
-import Confirm from './Confirm';
-import NavigatorService from 'lib/navigator';
-import Modal from '../Modal';
-import Button from 'components/Button';
+import T from "components/Typography";
+import { initializeWallet } from "../WalletInstances";
+import SelectType from "./Type";
+import SelectCoin from "../components/SelectCoin";
+import InputList from "./InputList";
+import PrivateKey from "./PrivateKey";
+import Confirm from "./Confirm";
+import NavigatorService from "lib/navigator";
+import Modal from "../Modal";
+import Button from "components/Button";
 
 export default class Recover extends Component {
   static propTypes = {
     createWallet: PropTypes.func.isRequired,
+    recoverWallet: PropTypes.func.isRequired,
     wallet: PropTypes.shape({
       create_successful: PropTypes.bool.isRequired
     }).isRequired
   };
 
   state = {
-    step: 1,
+    step: 0,
     coin: null,
+    isMnemonicPhrase: false,
     modalOpen: false,
     answers: {
-      step1: Array.from({ length: 6 }, () => ''),
-      step2: Array.from({ length: 6 }, () => '')
+      step1: Array.from({ length: 6 }, () => ""),
+      step2: Array.from({ length: 6 }, () => "")
     }
   };
 
@@ -35,12 +39,22 @@ export default class Recover extends Component {
     }
   }
 
+  selectRecoveryOption = isMnemonicPhrase => () => {
+    this.setState({ isMnemonicPhrase }, this.goForward);
+  };
+
   selectCoin = coin => {
     if (__DEV__) {
       // eslint-disable-next-line
       console.log(
-        'Test Recovery Phrase:',
+        "Test Recovery Phrase:",
         initializeWallet(coin)._wallet.mnemonic
+      );
+
+      // eslint-disable-next-line
+      console.log(
+        "Test Private Key:",
+        initializeWallet(coin)._wallet.privateKey
       );
     }
     this.setState(
@@ -90,32 +104,35 @@ export default class Recover extends Component {
   };
 
   testWallet = answers => {
-    initializeWallet(this.state.coin, true, answers.join(' '));
+    initializeWallet(this.state.coin, true, answers.join(" "));
   };
 
   saveNewWallet = answers => {
-    this.props.createWallet(this.state.coin, answers.join(' '));
+    this.props.createWallet(this.state.coin, answers.join(" "));
+    this.openModal();
+  };
+
+  recoverWallet = privateKey => {
+    this.props.recoverWallet(this.state.coin, privateKey);
     this.openModal();
   };
 
   handleRedirect = () => {
     NavigatorService.navigateDeep([
-      { routeName: 'Menu' },
-      { routeName: 'Wallets' }
+      { routeName: "Menu" },
+      { routeName: "Wallets" }
     ]);
   };
 
-  getComponentForStep = step => {
-    if (step === 1) {
-      return <SelectCoin saveAndContinue={this.selectCoin} />;
-    }
+  getMnemonicComponentForStep = step => {
     if (step === 2) {
       return (
         <InputList
           offset={1}
           answers={this.state.answers.step1}
-          updateAnswers={this.saveAnswers('step1')}
+          updateAnswers={this.saveAnswers("step1")}
           saveAndContinue={this.goForward}
+          onCancel={this.handleRedirect}
         />
       );
     }
@@ -124,8 +141,9 @@ export default class Recover extends Component {
         <InputList
           offset={this.state.answers.step1.length + 1}
           answers={this.state.answers.step2}
-          updateAnswers={this.saveAnswers('step2')}
+          updateAnswers={this.saveAnswers("step2")}
           saveAndContinue={this.goForward}
+          onCancel={this.handleRedirect}
         />
       );
     }
@@ -138,6 +156,37 @@ export default class Recover extends Component {
           goBack={this.goBack}
         />
       );
+    }
+  };
+
+  getPrivateKeyComponentForStep = () => {
+    return (
+      <PrivateKey
+        onSubmit={this.recoverWallet}
+        onCancel={this.handleRedirect}
+      />
+    );
+  };
+
+  getComponentForStep = step => {
+    if (step === 0) {
+      return (
+        <SelectType
+          onPressPrivateKey={this.selectRecoveryOption(false)}
+          onPressMnemonicPhrase={this.selectRecoveryOption(true)}
+          handleCancel={this.handleRedirect}
+        />
+      );
+    }
+
+    if (step === 1) {
+      return <SelectCoin saveAndContinue={this.selectCoin} />;
+    }
+
+    if (this.state.isMnemonicPhrase) {
+      return this.getMnemonicComponentForStep(step);
+    } else {
+      return this.getPrivateKeyComponentForStep(step);
     }
   };
 
@@ -180,10 +229,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: '#223252'
+    backgroundColor: "#223252"
   },
   headingStyle: {
-    color: '#ffffff'
+    color: "#ffffff"
   },
   bodyContainer: {
     flexGrow: 1,
@@ -198,18 +247,18 @@ const styles = StyleSheet.create({
   mnemonicChoice: {
     padding: 10,
     borderRadius: 8,
-    backgroundColor: '#223252',
+    backgroundColor: "#223252",
     marginBottom: 20,
-    flexDirection: 'column'
+    flexDirection: "column"
   },
   mnemonicChoiceNumner: {
-    textAlign: 'center',
-    color: '#ffffff',
+    textAlign: "center",
+    color: "#ffffff",
     fontSize: 12
   },
   mnemonicChoiceText: {
-    textAlign: 'center',
-    color: '#ffffff',
+    textAlign: "center",
+    color: "#ffffff",
     fontSize: 14
   },
   scrollView: {

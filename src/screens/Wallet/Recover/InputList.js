@@ -1,17 +1,19 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { StyleSheet, ScrollView, View } from "react-native";
 
-import Button from 'components/Button';
-import Input from 'components/Input';
-import T from 'components/Typography';
+import Button from "components/Button";
+import Input from "components/Input";
+import T from "components/Typography";
 
-const LANG_NEXT_TEXT = 'Next';
+const LANG_NEXT_TEXT = "Next";
+const LANG_CANCEL_TEXT = "Cancel";
 
 export default class InputList extends Component {
   static propTypes = {
     answers: PropTypes.arrayOf(PropTypes.string).isRequired,
     offset: PropTypes.number.isRequired,
+    onCancel: PropTypes.func.isRequired,
     updateAnswers: PropTypes.func.isRequired,
     saveAndContinue: PropTypes.func.isRequired
   };
@@ -32,9 +34,9 @@ export default class InputList extends Component {
     }
   }
 
-  isCompleted = (answers) => {
+  isCompleted = answers => {
     return answers.every(v => !!v);
-  }
+  };
 
   updateAnswer = i => answer => {
     const answers = [
@@ -44,14 +46,14 @@ export default class InputList extends Component {
     ];
 
     this.props.updateAnswers(answers);
-  }
+  };
 
   handleNextButton = () => {
     this.props.saveAndContinue();
   };
 
   render() {
-    const { answers, offset } = this.props;
+    const { answers, offset, onCancel } = this.props;
     const { completed } = this.state;
 
     return (
@@ -84,6 +86,9 @@ export default class InputList extends Component {
             >
               {LANG_NEXT_TEXT}
             </Button>
+            <Button type="text" onPress={onCancel}>
+              {LANG_CANCEL_TEXT}
+            </Button>
           </View>
         </ScrollView>
       </View>
@@ -98,10 +103,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: '#223252'
+    backgroundColor: "#223252"
   },
   headingStyle: {
-    color: '#ffffff'
+    color: "#ffffff"
   },
   bodyContainer: {
     flexGrow: 1,
@@ -113,6 +118,6 @@ const styles = StyleSheet.create({
   },
   input: {
     marginBottom: 20,
-    flexDirection: 'column'
+    flexDirection: "column"
   }
 });

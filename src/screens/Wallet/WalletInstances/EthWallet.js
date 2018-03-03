@@ -1,4 +1,6 @@
-import ethers from 'ethers';
+import ethers from "ethers";
+
+import { SYMBOL_ETH } from "containers/App/constants";
 
 const network = ethers.providers.networks.ropsten;
 const provider = ethers.providers.getDefaultProvider(network);
@@ -19,6 +21,8 @@ export default class EthWallet {
 
     this._wallet.provider = provider;
   }
+
+  symbol = SYMBOL_ETH;
 
   getBalance = async () => {
     return this._wallet.getBalance();

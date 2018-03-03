@@ -1,8 +1,9 @@
 import {
+  WALLET_RECOVER_REQUESTING,
   WALLET_CREATE_REQUESTING,
   WALLET_CREATE_SUCCESS,
   WALLET_UPDATE_BALANCE_SUCCESS
-} from './constants';
+} from "./constants";
 
 const initialState = {
   create_requesting: false,
@@ -25,6 +26,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case WALLET_RECOVER_REQUESTING:
     case WALLET_CREATE_REQUESTING:
       return {
         ...state,
