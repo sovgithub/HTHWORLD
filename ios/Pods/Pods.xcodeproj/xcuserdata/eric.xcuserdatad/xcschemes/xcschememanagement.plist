@@ -7,17 +7,17 @@
 		<key>HockeySDK-HockeySDKResources.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>32</integer>
+			<integer>18</integer>
 		</dict>
 		<key>Pods-hoardinvest.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>33</integer>
+			<integer>34</integer>
 		</dict>
 		<key>Pods-hoardinvestTests.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>34</integer>
+			<integer>35</integer>
 		</dict>
 	</dict>
 </dict>

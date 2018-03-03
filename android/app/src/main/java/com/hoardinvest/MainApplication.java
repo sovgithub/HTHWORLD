@@ -3,6 +3,7 @@ package com.hoardinvest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.jumio.react.JumioPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
@@ -31,6 +32,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNHockeyAppPackage(MainApplication.this),
           new MainReactPackage(),
+            new SplashScreenReactPackage(),
             new JumioPackage(),
             new VectorIconsPackage(),
             new LottiePackage(),

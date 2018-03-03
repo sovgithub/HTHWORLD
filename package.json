@@ -51,6 +51,7 @@
     "react-native-animatable": "^1.2.4",
     "react-native-hockeyapp": "^0.5.1",
     "react-native-jumio-mobilesdk": "https://github.com/Jumio/mobile-react.git#v2.10.0",
+    "react-native-splash-screen": "3.0.6",
     "react-native-svg": "^5.4.2",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "https://github.com/react-navigation/react-navigation.git",

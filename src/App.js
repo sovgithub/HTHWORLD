@@ -1,5 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
+import SplashScreen from 'react-native-splash-screen';
 import NavigatorService from 'lib/navigator';
 import configureStore from './configureStore';
 import HockeyApp from 'react-native-hockeyapp';
@@ -36,6 +37,7 @@ export default class App extends React.Component {
     HockeyApp.start();
     HockeyApp.checkForUpdate();
     store.dispatch({ type: INIT_REQUESTING });
+    SplashScreen.hide();
   }
 
   render() {
