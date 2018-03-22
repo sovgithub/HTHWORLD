@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Animated } from 'react-native';
 
 export default class Input extends Component {
   static propTypes = {
@@ -10,7 +10,7 @@ export default class Input extends Component {
       'words',
       'characters'
     ]),
-    keyboardType: PropTypes.oneOf(['numeric', 'default']),
+    keyboardType: PropTypes.oneOf(['numeric', 'email-address', 'default']),
     returnKeyType: PropTypes.oneOf([
       'done',
       'go',
@@ -19,14 +19,16 @@ export default class Input extends Component {
       'send'
     ]),
     light: PropTypes.bool,
+    label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     style: TextInput.propTypes.style,
-    value: PropTypes.string.isRequired,
+    value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
     onSubmitEditing: PropTypes.func,
     onEndEditing: PropTypes.func,
     onBlur: PropTypes.func,
     editable: PropTypes.bool,
+    secureTextEntry: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -35,6 +37,7 @@ export default class Input extends Component {
     keyboardType: 'default',
     returnKeyType: 'done',
     editable: true,
+    secureTextEntry: false,
     style: {},
     onSubmitEditing: () => false
   };
@@ -42,6 +45,18 @@ export default class Input extends Component {
   state = { active: false };
 
   inputRef = null;
+
+  componentWillMount() {
+    this._animatedIsActive = new Animated.Value(this.props.value === '' ? 0 : 1);
+  }
+
+  componentDidUpdate() {
+    Animated.timing(this._animatedIsActive, {
+      toValue: (this.state.active || this.props.value !== '') ? 1 : 0,
+      duration: 200,
+    }).start();
+  }
+
   setupInputRef = input => (this.inputRef = input);
 
   handleFocus = () =>
@@ -67,24 +82,54 @@ export default class Input extends Component {
       ? placeholderTextColorLight
       : placeholderTextColorDark;
 
+    const {placeholder, ...filteredProps} = this.props; //eslint-disable-line no-unused-vars
+
+      const { label } = this.props;
+      const labelStyle = {
+        position: 'absolute',
+        color: placeholderTextColor,
+        top: this._animatedIsActive.interpolate({
+          inputRange: [0, 1],
+          outputRange: [12, -20],
+        }),
+        left: this._animatedIsActive.interpolate({
+          inputRange: [0, 1],
+          outputRange: [12, 0],
+        }),
+        fontSize: this._animatedIsActive.interpolate({
+          inputRange: [0, 1],
+          outputRange: [14, 12],
+        }),
+      };
+
     return (
-      <TextInput
-        editable={this.props.editable}
-        style={[styles.input, inputColors, activeStyle, this.props.style]}
-        placeholderTextColor={placeholderTextColor}
-        value={this.props.value}
-        placeholder={this.props.placeholder}
-        autoCapitalize={this.props.autoCapitalize}
-        keyboardType={this.props.keyboardType}
-        returnKeyType={this.props.returnKeyType}
-        onChangeText={this.props.onChangeText}
-        onSubmitEditing={this.props.onSubmitEditing}
-        onEndEditing={this.props.onEndEditing}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        underlineColorAndroid="transparent"
-        ref={this.setupInputRef}
-      />
+      <View
+        style={styles.input_wrapper}
+        accessible={true}
+        accessibilityLabel={label}
+      >
+        <Animated.Text style={labelStyle}>
+          {label}
+        </Animated.Text>
+        <TextInput
+          {...filteredProps}
+          editable={this.props.editable}
+          style={[styles.input, inputColors, activeStyle, this.props.style]}
+          value={this.props.value}
+          autoCapitalize={this.props.autoCapitalize}
+          keyboardType={this.props.keyboardType}
+          returnKeyType={this.props.returnKeyType}
+          onChangeText={this.props.onChangeText}
+          onSubmitEditing={this.props.onSubmitEditing}
+          onEndEditing={this.props.onEndEditing}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          underlineColorAndroid="transparent"
+          ref={this.setupInputRef}
+          secureTextEntry={this.props.secureTextEntry}
+        />
+
+      </View>
     );
   }
 }
@@ -93,11 +138,15 @@ const placeholderTextColorDark = 'rgba(255,255,255,0.5)';
 const placeholderTextColorLight = 'rgba(0,0,0,0.4)';
 
 const styles = StyleSheet.create({
+  input_wrapper: {
+    marginTop: 10,
+    marginBottom: 10,
+  },
   input: {
     height: 40,
     borderWidth: 1,
     paddingHorizontal: 10,
-    borderRadius: 8
+    borderRadius: 8,
   },
   input_dark: {
     backgroundColor: 'rgba(0,0,20, 0.25)',

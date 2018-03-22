@@ -122,16 +122,18 @@ export default class SendModal extends Component {
             light={true}
             style={styles.input}
             keyboardType="numeric"
-            placeholder={selectedWallet && `Enter Amount -- ${selectedWallet.balance} available`}
+            label={(selectedWallet && `Enter Amount -- ${selectedWallet.balance} available`) || 'Amount'}
             onChangeText={this.handleChangeAmount}
             value={amount.toString()}
           />
           <Input
             light={true}
             style={styles.input}
-            placeholder="Enter Address"
             onChangeText={this.handleChangeToAddress}
             value={toAddress}
+            label={'Destination Address'}
+            autoCapitalize="none"
+            autoCorrect={false}
           />
         </SelectWalletSection>
       </Modal>

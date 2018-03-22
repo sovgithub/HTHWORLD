@@ -9,12 +9,12 @@ import PropTypes from 'prop-types';
 import {
   View,
   Text,
-  TextInput,
   StyleSheet,
   TouchableOpacity
 } from 'react-native';
 import Error from 'components/notifications/Error';
 import Button from 'components/Button';
+import Input from 'components/Input';
 
 const LANG_SIGN_UP_TEXT = 'LOG IN';
 
@@ -63,8 +63,6 @@ class LoginForm extends Component {
   };
 
   render() {
-    const placeholderTextColor = 'rgba(255,255,255,0.75)';
-
     const { errors } = this.props;
     return (
       <View style={styles.container}>
@@ -77,27 +75,28 @@ class LoginForm extends Component {
             />
           );
         })}
-        <TextInput
+        <Input
           style={styles.input}
+          label="Email"
           autoCapitalize="none"
           autoCorrect={false}
-          placeholder="you@email.com"
-          placeholderTextColor={placeholderTextColor}
           returnKeyType="next"
           keyboardType="email-address"
           onSubmitEditing={() => this.loginPasswordInput.focus()}
           onChangeText={this.updateFormField('email_address')}
+          value={this.state.email_address || ''}
         />
-        <TextInput
+        <Input
           ref={el => (this.loginPasswordInput = el)}
+          label="Password"
           style={styles.input}
           autoCapitalize="none"
           autoCorrect={false}
-          placeholder="password"
-          placeholderTextColor={placeholderTextColor}
           returnKeyType="go"
+          keyboardType="default"
           secureTextEntry
           onChangeText={this.updateFormField('password')}
+          value={this.state.password || ''}
         />
         <Button
           style={styles.buttonContainer}

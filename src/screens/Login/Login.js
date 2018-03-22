@@ -42,7 +42,7 @@ export default class Login extends React.Component {
                 style={styles.logo}
                 source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
               />
-              <Text style={styles.title}>Log In</Text>
+              <View><Text style={styles.title}>Log In</Text></View>
             </View>
             <View style={styles.formContainer}>
               <LoginForm
