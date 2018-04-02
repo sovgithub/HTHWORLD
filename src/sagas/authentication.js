@@ -18,7 +18,7 @@ export const AUTH_USER_STORAGE_KEY = 'auth/user';
  */
 export function signOut() {
   return {
-    type: AUTH_SIGNOUT
+    type: AUTH_SIGNOUT,
   };
 }
 

@@ -19,7 +19,7 @@ export default function withHeader(title, WrappedComponent) {
               : getColors().background,
             padding: 20,
             textAlign: 'center',
-            width: '100%'
+            width: '100%',
           }}
         >
           {title}
@@ -32,13 +32,13 @@ export default function withHeader(title, WrappedComponent) {
         <TouchableOpacity
           style={{
             paddingVertical: 10,
-            paddingHorizontal: 20
+            paddingHorizontal: 20,
           }}
           onPress={() => NavigatorService.navigate('DrawerOpen')}
         >
           <Icon icon="ios-menu-outline" style={{ size: 25 }} />
         </TouchableOpacity>
-      )
+      ),
     });
 
     render() {

@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-const SectionHeader = ({children}) => (
+const SectionHeader = ({ children }) => (
   <View>
     <Text>{children}</Text>
-    <View style={{flexDirection: 'row'}}>
+    <View style={{ flexDirection: 'row' }}>
       <View
         style={{
           height: 2,

@@ -12,13 +12,13 @@ export default class Button extends Component {
     children: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.node,
-      PropTypes.arrayOf(PropTypes.node)
-    ]).isRequired
+      PropTypes.arrayOf(PropTypes.node),
+    ]).isRequired,
   };
 
   static defaultProps = {
     style: {},
-    type: 'base'
+    type: 'base',
   };
 
   render() {
@@ -56,13 +56,13 @@ const stylesForType = {
   text: StyleSheet.create({
     buttonContainer: {
       backgroundColor: 'transparent',
-      paddingVertical: 0
+      paddingVertical: 0,
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#000'
-    }
+      color: '#000',
+    },
   }),
   primary: StyleSheet.create({
     buttonContainer: {
@@ -74,14 +74,14 @@ const stylesForType = {
       shadowRadius: 4,
       shadowOffset: {
         width: 0,
-        height: 1
-      }
+        height: 1,
+      },
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#FFF'
-    }
+      color: '#FFF',
+    },
   }),
   secondary: StyleSheet.create({
     buttonContainer: {
@@ -93,14 +93,14 @@ const stylesForType = {
       shadowRadius: 4,
       shadowOffset: {
         width: 0,
-        height: 1
-      }
+        height: 1,
+      },
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#000'
-    }
+      color: '#000',
+    },
   }),
   disabled: StyleSheet.create({
     buttonContainer: {
@@ -108,24 +108,24 @@ const stylesForType = {
       borderRadius: 100,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: '#EEE',
-      paddingVertical: 20
+      paddingVertical: 20,
     },
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#EEE'
-    }
+      color: '#EEE',
+    },
   }),
   base: StyleSheet.create({
     buttonContainer: {
       backgroundColor: '#fff',
-      paddingVertical: 10
+      paddingVertical: 10,
     },
     buttonText: {
       textAlign: 'center',
       color: '#223252',
-      fontWeight: '700'
-    }
+      fontWeight: '700',
+    },
   }),
-  unstyled: {}
+  unstyled: {},
 };

@@ -11,9 +11,9 @@ const api = {
     return apiWrapper(url, {
       method: 'GET',
       headers: {
-        Accept: 'application/json'
+        Accept: 'application/json',
       },
-      ...options
+      ...options,
     });
   },
 
@@ -22,10 +22,10 @@ const api = {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: body && JSON.stringify(body),
-      ...options
+      ...options,
     });
   },
 
@@ -34,19 +34,19 @@ const api = {
       method: 'PUT',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: body && JSON.stringify(body),
-      ...options
+      ...options,
     });
   },
 
   async delete(url, options = {}) {
     return apiWrapper(url, {
       method: 'DELETE',
-      ...options
+      ...options,
     });
-  }
+  },
 };
 
 export default api;

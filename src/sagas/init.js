@@ -20,12 +20,12 @@ export default function* initFlow() {
   try {
     yield put({
       type: INIT_SUPPORTED_COINS,
-      coins: SUPPORTED_COINS_PRICING
+      coins: SUPPORTED_COINS_PRICING,
     });
   } catch (e) {
     yield put({
       type: INIT_ERROR,
-      errors: e.errors
+      errors: e.errors,
     });
   }
 }

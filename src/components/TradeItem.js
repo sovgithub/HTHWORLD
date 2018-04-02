@@ -10,14 +10,16 @@ const TradeItem = ({
   totalPrice,
   type,
 }) => (
-  <View style={{flexDirection: 'row'}}>
+  <View style={{ flexDirection: 'row' }}>
     <View>
       <Text>{type === 'buy' ? 'Bought' : 'Sold'}</Text>
       <Text>{date}</Text>
     </View>
     <View>
       <Text>${totalPrice}</Text>
-      <Text>{numCoins} {coin} at ${pricePerCoin}</Text>
+      <Text>
+        {numCoins} {coin} at ${pricePerCoin}
+      </Text>
     </View>
     <View>
       <Text>&gt;</Text>

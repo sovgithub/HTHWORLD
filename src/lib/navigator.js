@@ -42,9 +42,9 @@ function reset(routeName, params) {
         NavigationActions.navigate({
           type: 'Navigation/NAVIGATE',
           routeName,
-          params
-        })
-      ]
+          params,
+        }),
+      ],
     })
   );
 }
@@ -54,7 +54,7 @@ function navigate(routeName, params) {
     NavigationActions.navigate({
       type: 'Navigation/NAVIGATE',
       routeName,
-      params
+      params,
     })
   );
 }
@@ -67,7 +67,7 @@ function navigateDeep(actions) {
           type: 'Navigation/NAVIGATE',
           routeName: action.routeName,
           params: action.params,
-          action: prevAction
+          action: prevAction,
         }),
       undefined
     )
@@ -87,5 +87,5 @@ export default {
   navigateDeep,
   navigate,
   reset,
-  getCurrentRoute
+  getCurrentRoute,
 };

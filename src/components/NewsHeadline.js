@@ -2,15 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text } from 'react-native';
 
-const NewsHeadline = ({
-  date,
-  source,
-  title,
-}) => (
-  <View style={{flexDirection: 'row'}}>
+const NewsHeadline = ({ date, source, title }) => (
+  <View style={{ flexDirection: 'row' }}>
     <View>
       <Text>{title}</Text>
-      <View style={{flexDirection: 'row'}}>
+      <View style={{ flexDirection: 'row' }}>
         <Text>{source}</Text>
         <Text>-</Text>
         <Text>{date}</Text>

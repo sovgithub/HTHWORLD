@@ -8,20 +8,20 @@ export default class Scene extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
-      PropTypes.node
+      PropTypes.node,
     ]).isRequired,
     delay: PropTypes.number,
-    duration: PropTypes.number
+    duration: PropTypes.number,
   };
 
   static defaultProps = {
     delay: 2000,
-    duration: 750
+    duration: 750,
   };
 
   state = {
     isReady: false,
-    hasFaded: false
+    hasFaded: false,
   };
 
   handleAnimatingViewRef = ref => (this.animatedView = ref);
@@ -59,7 +59,7 @@ export default class Scene extends Component {
         style={{
           height: 40,
           width: 40,
-          alignItems: 'center'
+          alignItems: 'center',
         }}
       >
         <Icon icon="ios-ionic" style={{ position: 'absolute' }} />
@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     bottom: 0,
-    left: 0
+    left: 0,
   },
   loadingContainer: {
     position: 'absolute',
@@ -105,10 +105,10 @@ const styles = StyleSheet.create({
     left: 0,
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   loadingText: {
     color: '#ffffff',
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 });

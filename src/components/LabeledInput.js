@@ -1,28 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  TextInput
-} from 'react-native';
+import { StyleSheet, TextInput } from 'react-native';
 
 export default class LabeledInput extends React.Component {
   static propTypes = {
     activeColor: PropTypes.string.isRequired,
-    autoCapitalize: PropTypes.oneOf(['none', 'sentences', 'words', 'characters']),
+    autoCapitalize: PropTypes.oneOf([
+      'none',
+      'sentences',
+      'words',
+      'characters',
+    ]),
     inactiveColor: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
     style: PropTypes.object,
     value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
     onSubmitEditing: PropTypes.func.isRequired,
-  }
+  };
 
-  state = { active: false }
+  state = { active: false };
 
-  inputRef = null
-  setupInputRef = (input) => this.inputRef = input
+  inputRef = null;
+  setupInputRef = input => (this.inputRef = input);
 
-  toggleFocus = () => this.setState({ active: !this.state.active })
+  toggleFocus = () => this.setState({ active: !this.state.active });
 
   render() {
     const {
@@ -33,7 +35,7 @@ export default class LabeledInput extends React.Component {
       style,
       value,
       onChangeText,
-      onSubmitEditing
+      onSubmitEditing,
     } = this.props;
 
     const color = this.state.active ? activeColor : inactiveColor;
@@ -44,9 +46,9 @@ export default class LabeledInput extends React.Component {
           styles.textInput,
           {
             borderBottomColor: color,
-            color
+            color,
           },
-          style
+          style,
         ]}
         value={value}
         placeholder={placeholder}

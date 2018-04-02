@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Button from 'components/Button';
-import withDismissableKeyboard from "hocs/withDismissableKeyboard";
+import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
 const DismissableView = withDismissableKeyboard(View);
 
@@ -17,23 +12,26 @@ export default function Modal({
   show,
   title,
   onCancel,
-  actionButtons
+  actionButtons,
 }) {
   return (
-    <DismissableView style={[styles.container, {display: show ? 'flex' : 'none', height}]}>
+    <DismissableView
+      style={[styles.container, { display: show ? 'flex' : 'none', height }]}
+    >
       <TouchableOpacity onPress={onCancel}>
         <Text style={styles.xButton}>X</Text>
       </TouchableOpacity>
       <Text style={styles.header}>{title}</Text>
       {children}
       <View style={styles.actionButtons}>
-        {actionButtons.map(({type, onPress, text, disabled}) => (
+        {actionButtons.map(({ type, onPress, text, disabled }) => (
           <Button
             key={text}
             disabled={disabled}
             type={type}
             style={styles.button}
-            onPress={onPress}>
+            onPress={onPress}
+          >
             {text}
           </Button>
         ))}
@@ -48,12 +46,14 @@ Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
-  actionButtons: PropTypes.arrayOf(PropTypes.shape({
-    disabled: PropTypes.bool,
-    text: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-    onPress: PropTypes.func.isRequired
-  }))
+  actionButtons: PropTypes.arrayOf(
+    PropTypes.shape({
+      disabled: PropTypes.bool,
+      text: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+      onPress: PropTypes.func.isRequired,
+    })
+  ),
 };
 
 Modal.defaultProps = {

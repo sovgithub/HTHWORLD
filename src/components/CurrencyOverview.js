@@ -1,13 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import SparkLine from 'components/SparkLine';
-import {getColors} from 'styles';
+import { getColors } from 'styles';
 
 const CurrencyOverview = ({
   amountHeld,
@@ -25,7 +20,12 @@ const CurrencyOverview = ({
       <View style={[styles.container, themedStyles.container]}>
         <View style={styles.titleContainer}>
           <Text style={[styles.title, themedStyles.title]}>{title}</Text>
-          <Text style={[ styles.currentPrice, positive ? themedStyles.positiveText : themedStyles.negativeText ]}>
+          <Text
+            style={[
+              styles.currentPrice,
+              positive ? themedStyles.positiveText : themedStyles.negativeText,
+            ]}
+          >
             {currentPrice}
           </Text>
         </View>
@@ -33,8 +33,12 @@ const CurrencyOverview = ({
           <SparkLine positive={positive}>{history}</SparkLine>
         </View>
         <View style={styles.priceContainer}>
-          <Text style={[styles.holdingPrice, themedStyles.holdingPrice]}>{holdingPrice}</Text>
-          <Text style={[styles.amountHeld, themedStyles.amountHeld]}>{amountHeld}</Text>
+          <Text style={[styles.holdingPrice, themedStyles.holdingPrice]}>
+            {holdingPrice}
+          </Text>
+          <Text style={[styles.amountHeld, themedStyles.amountHeld]}>
+            {amountHeld}
+          </Text>
         </View>
       </View>
     </TouchableHighlight>
@@ -48,7 +52,7 @@ CurrencyOverview.propTypes = {
   holdingPrice: PropTypes.number.isRequired,
   positive: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -74,17 +78,15 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontSize: 20,
   },
-  currentPrice: {
-  },
+  currentPrice: {},
   holdingPrice: {
     marginBottom: 5,
     fontSize: 20,
   },
-  amountHeld: {
-  },
+  amountHeld: {},
 });
 
-const getThemedStyles = (colors) => {
+const getThemedStyles = colors => {
   return {
     container: {
       backgroundColor: colors.background,

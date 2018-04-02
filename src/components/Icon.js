@@ -4,17 +4,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const defaultIconStyles = {
   size: 40,
-  color: '#FFFFFF'
+  color: '#FFFFFF',
 };
 
 export default class CustomIcon extends Component {
   static propTypes = {
     style: PropTypes.object,
-    icon: PropTypes.string.isRequired
+    icon: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
-    style: {}
+    style: {},
   };
 
   render() {

@@ -1,26 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  TouchableHighlight
-} from 'react-native';
+import { StyleSheet, Text, TouchableHighlight } from 'react-native';
 
-const RoundedButton = (props) => {
+const RoundedButton = props => {
   return (
     <TouchableHighlight
       style={[
         styles.container,
         {
           backgroundColor: props.backgroundColor,
-          borderColor: props.color
+          borderColor: props.color,
         },
-        props.style
+        props.style,
       ]}
       underlayColor={props.underlayColor}
       onPress={props.onPress}
     >
-    <Text style={[styles.text, {color: props.color}]}>{props.children}</Text>
+      <Text style={[styles.text, { color: props.color }]}>
+        {props.children}
+      </Text>
     </TouchableHighlight>
   );
 };
@@ -50,7 +48,7 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: 'center',
     fontWeight: 'bold',
-  }
+  },
 });
 
 export default RoundedButton;

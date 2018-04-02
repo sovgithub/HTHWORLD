@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Fetch, {makeRequest} from 'components/Fetch';
+import Fetch, { makeRequest } from 'components/Fetch';
 
 export const Intervals = {
   hour: '1H',
@@ -9,11 +9,11 @@ export const Intervals = {
   month: '1M',
   year: '1Y',
   multiYear: '5Y',
-  all: 'ALL'
+  all: 'ALL',
 };
 
-const getAggregateValue = (interval) => {
-  switch(interval) {
+const getAggregateValue = interval => {
+  switch (interval) {
     case Intervals.hour:
     case Intervals.day:
       return 1;
@@ -32,16 +32,16 @@ const getAggregateValue = (interval) => {
 };
 
 const constructQueries = (currency, limit, interval) => [
-  {name: 'fsym', value: currency},
-  {name: 'tsym', value: 'USD'},
-  {name: 'limit', value: limit},
-  {name: 'aggregate', value: getAggregateValue(interval)}
+  { name: 'fsym', value: currency },
+  { name: 'tsym', value: 'USD' },
+  { name: 'limit', value: limit },
+  { name: 'aggregate', value: getAggregateValue(interval) },
 ];
 
-const getUrl = (interval) => {
-  switch(interval) {
+const getUrl = interval => {
+  switch (interval) {
     case Intervals.hour:
-      return "https://min-api.cryptocompare.com/data/histohour";
+      return 'https://min-api.cryptocompare.com/data/histohour';
     case Intervals.day:
     case Intervals.week:
     case Intervals.month:
@@ -49,14 +49,21 @@ const getUrl = (interval) => {
     case Intervals.multiYear:
     case Intervals.all:
     default:
-      return "https://min-api.cryptocompare.com/data/histoday";
+      return 'https://min-api.cryptocompare.com/data/histoday';
   }
 };
 
-const formatter = (json) => json.Data.map((day) => day.close);
+const formatter = json => json.Data.map(day => day.close);
 
-export async function getCurrencyHistory(currency, limit = '60', interval = Intervals.hour) {
-  const json = await makeRequest(getUrl(interval), constructQueries(currency, limit, interval));
+export async function getCurrencyHistory(
+  currency,
+  limit = '60',
+  interval = Intervals.hour
+) {
+  const json = await makeRequest(
+    getUrl(interval),
+    constructQueries(currency, limit, interval)
+  );
   return formatter(json);
 }
 
@@ -71,34 +78,38 @@ export default class GetCurrencyHistory extends React.Component {
   static defaultProps = {
     interval: Intervals.hour,
     limit: '60',
-  }
+  };
 
   constructor(props) {
     super();
     this.state = {
       queries: constructQueries(props.currency, props.limit, props.interval),
-      url: getUrl(props.interval)
+      url: getUrl(props.interval),
     };
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.currency !== this.props.currency || newProps.limit !== this.props.limit || newProps.interval !== this.props.interval) {
+    if (
+      newProps.currency !== this.props.currency ||
+      newProps.limit !== this.props.limit ||
+      newProps.interval !== this.props.interval
+    ) {
       this.setState({
-        queries: constructQueries(newProps.currency, newProps.limit, newProps.interval),
-        url: getUrl(newProps.interval)
+        queries: constructQueries(
+          newProps.currency,
+          newProps.limit,
+          newProps.interval
+        ),
+        url: getUrl(newProps.interval),
       });
     }
   }
 
   render() {
-    const {children} = this.props;
-    const {queries, url} = this.state;
+    const { children } = this.props;
+    const { queries, url } = this.state;
     return (
-      <Fetch
-        url={url}
-        queries={queries}
-        formatter={formatter}
-      >
+      <Fetch url={url} queries={queries} formatter={formatter}>
         {children}
       </Fetch>
     );

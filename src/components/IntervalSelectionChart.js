@@ -13,9 +13,8 @@ const intervalList = [
   Intervals.month,
   Intervals.year,
   Intervals.multiYear,
-  Intervals.all
+  Intervals.all,
 ];
-
 
 export default class IntervalSelectionChart extends React.Component {
   static propTypes = {
@@ -23,12 +22,12 @@ export default class IntervalSelectionChart extends React.Component {
     positive: PropTypes.bool.isRequired,
     loading: PropTypes.bool.isRequired,
     history: PropTypes.arrayOf(PropTypes.number).isRequired,
-    onChangeInterval: PropTypes.func.isRequired
+    onChangeInterval: PropTypes.func.isRequired,
   };
 
-  handlePress = (selectedInterval) => () => {
+  handlePress = selectedInterval => () => {
     this.props.onChangeInterval(selectedInterval);
-  }
+  };
 
   render() {
     const themeColors = getColors();
@@ -36,24 +35,31 @@ export default class IntervalSelectionChart extends React.Component {
 
     return (
       <View style={styles.container}>
-        {this.props.loading
-          ? <LoadingSpinner />
-          : <SparkLine positive={this.props.positive}>{this.props.history}</SparkLine>
-        }
+        {this.props.loading ? (
+          <LoadingSpinner />
+        ) : (
+          <SparkLine positive={this.props.positive}>
+            {this.props.history}
+          </SparkLine>
+        )}
         <View style={styles.intervalListContainer}>
-          {intervalList.map((interval) => (
+          {intervalList.map(interval => (
             <TouchableHighlight
               key={interval}
               style={styles.interval}
               onPress={this.handlePress(interval)}
             >
               <View>
-                <Text style={[styles.intervalText, themedStyles.text]}>{interval}</Text>
-                <View style={[
-                  styles.intervalBorder,
-                  themedStyles.intervalBorder,
-                  {borderWidth: this.props.interval === interval ? 2 : 0}
-                ]} />
+                <Text style={[styles.intervalText, themedStyles.text]}>
+                  {interval}
+                </Text>
+                <View
+                  style={[
+                    styles.intervalBorder,
+                    themedStyles.intervalBorder,
+                    { borderWidth: this.props.interval === interval ? 2 : 0 },
+                  ]}
+                />
               </View>
             </TouchableHighlight>
           ))}
@@ -73,28 +79,28 @@ const styles = StyleSheet.create({
   intervalListContainer: {
     width: '100%',
     flexDirection: 'row',
-    marginTop: 10
+    marginTop: 10,
   },
   interval: {
-    flex: 1
+    flex: 1,
   },
   intervalText: {
     textAlign: 'center',
-    marginBottom: 5
+    marginBottom: 5,
   },
   intervalBorder: {
     borderStyle: 'solid',
-    borderRadius: 2
+    borderRadius: 2,
   },
 });
 
-const getThemedStyles = (colors) => {
+const getThemedStyles = colors => {
   return {
     intervalBorder: {
       borderColor: colors.interactivePrimary,
     },
     text: {
-      color: colors.textPrimary
-    }
+      color: colors.textPrimary,
+    },
   };
 };

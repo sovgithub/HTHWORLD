@@ -1,15 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  StyleSheet,
-  Text,
-  View
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import Logo from './Logo';
-import {getColors} from 'styles';
+import { getColors } from 'styles';
 
-
-const Header = (props) => {
+const Header = props => {
   const themeColors = getColors();
   const themedStyles = getThemedStyles(themeColors);
 
@@ -17,10 +12,11 @@ const Header = (props) => {
     <View style={[props.style, styles.contentContainer]}>
       <Logo />
       <Text style={[styles.header, themedStyles.header]}>Hoard</Text>
-      { props.showSubtitle
-        ? <Text style={[styles.subtitle, themedStyles.subtitle]}>Digital currency for everyone</Text>
-        : null
-      }
+      {props.showSubtitle ? (
+        <Text style={[styles.subtitle, themedStyles.subtitle]}>
+          Digital currency for everyone
+        </Text>
+      ) : null}
     </View>
   );
 };
@@ -53,7 +49,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const getThemedStyles = (colors) => {
+const getThemedStyles = colors => {
   return {
     header: {
       color: colors.textPrimary,

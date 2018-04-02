@@ -1,11 +1,11 @@
 export const CONVERT_CURRENCY_ERROR_EXISTENCE =
-  "ERROR: you must pass both a source and destination keys as a parameter";
+  'ERROR: you must pass both a source and destination keys as a parameter';
 export const CONVERT_CURRENCY_ERROR_PAIR =
-  "ERROR: you must trade with a common trading pair";
+  'ERROR: you must trade with a common trading pair';
 export const CONVERT_CURRENCY_ERROR_PRICE =
-  "ERROR: source and destination must both contain both a price at which to trade";
+  'ERROR: source and destination must both contain both a price at which to trade';
 export const CONVERT_CURRENCY_ERROR_AMOUNT_MISSING =
-  "ERROR: both source and destination must contain an amount key";
+  'ERROR: both source and destination must contain an amount key';
 export const CONVERT_CURRENCY_ERROR_SOLVE_FOR_MISSING =
   "ERROR: either source and destination must have SOLVE_FOR as the value for the 'amount' key";
 export const CONVERT_CURRENCY_ERROR_SOLVE_FOR_BOTH =
@@ -29,7 +29,10 @@ export function convertCurrency(params) {
   if (!destination.price || !source.price) {
     return CONVERT_CURRENCY_ERROR_PRICE;
   }
-  if (!Object.keys(destination).includes('amount') || !Object.keys(source).includes('amount')) {
+  if (
+    !Object.keys(destination).includes('amount') ||
+    !Object.keys(source).includes('amount')
+  ) {
     return CONVERT_CURRENCY_ERROR_AMOUNT_MISSING;
   }
   if (destination.amount !== SOLVE_FOR && source.amount !== SOLVE_FOR) {
@@ -53,12 +56,12 @@ export function convertCurrency(params) {
   return {
     source: {
       ...source,
-      amount: sourceAmount
+      amount: sourceAmount,
     },
     destination: {
       ...destination,
-      amount: destinationAmount
+      amount: destinationAmount,
     },
-    totalCost: tradingPairCost
+    totalCost: tradingPairCost,
   };
 }

@@ -8,16 +8,10 @@ export default class Input extends Component {
       'none',
       'sentences',
       'words',
-      'characters'
+      'characters',
     ]),
     keyboardType: PropTypes.oneOf(['numeric', 'email-address', 'default']),
-    returnKeyType: PropTypes.oneOf([
-      'done',
-      'go',
-      'next',
-      'search',
-      'send'
-    ]),
+    returnKeyType: PropTypes.oneOf(['done', 'go', 'next', 'search', 'send']),
     light: PropTypes.bool,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
@@ -39,7 +33,7 @@ export default class Input extends Component {
     editable: true,
     secureTextEntry: false,
     style: {},
-    onSubmitEditing: () => false
+    onSubmitEditing: () => false,
   };
 
   state = { active: false };
@@ -47,12 +41,14 @@ export default class Input extends Component {
   inputRef = null;
 
   componentWillMount() {
-    this._animatedIsActive = new Animated.Value(this.props.value === '' ? 0 : 1);
+    this._animatedIsActive = new Animated.Value(
+      this.props.value === '' ? 0 : 1
+    );
   }
 
   componentDidUpdate() {
     Animated.timing(this._animatedIsActive, {
-      toValue: (this.state.active || this.props.value !== '') ? 1 : 0,
+      toValue: this.state.active || this.props.value !== '' ? 1 : 0,
       duration: 200,
     }).start();
   }
@@ -61,12 +57,12 @@ export default class Input extends Component {
 
   handleFocus = () =>
     this.setState({
-      active: true
+      active: true,
     });
 
   handleBlur = () =>
     this.setState({
-      active: false
+      active: false,
     });
 
   render() {
@@ -82,25 +78,25 @@ export default class Input extends Component {
       ? placeholderTextColorLight
       : placeholderTextColorDark;
 
-    const {placeholder, ...filteredProps} = this.props; //eslint-disable-line no-unused-vars
+    const { placeholder, ...filteredProps } = this.props; //eslint-disable-line no-unused-vars
 
-      const { label } = this.props;
-      const labelStyle = {
-        position: 'absolute',
-        color: placeholderTextColor,
-        top: this._animatedIsActive.interpolate({
-          inputRange: [0, 1],
-          outputRange: [12, -20],
-        }),
-        left: this._animatedIsActive.interpolate({
-          inputRange: [0, 1],
-          outputRange: [12, 0],
-        }),
-        fontSize: this._animatedIsActive.interpolate({
-          inputRange: [0, 1],
-          outputRange: [14, 12],
-        }),
-      };
+    const { label } = this.props;
+    const labelStyle = {
+      position: 'absolute',
+      color: placeholderTextColor,
+      top: this._animatedIsActive.interpolate({
+        inputRange: [0, 1],
+        outputRange: [12, -20],
+      }),
+      left: this._animatedIsActive.interpolate({
+        inputRange: [0, 1],
+        outputRange: [12, 0],
+      }),
+      fontSize: this._animatedIsActive.interpolate({
+        inputRange: [0, 1],
+        outputRange: [14, 12],
+      }),
+    };
 
     return (
       <View
@@ -108,9 +104,7 @@ export default class Input extends Component {
         accessible={true}
         accessibilityLabel={label}
       >
-        <Animated.Text style={labelStyle}>
-          {label}
-        </Animated.Text>
+        <Animated.Text style={labelStyle}>{label}</Animated.Text>
         <TextInput
           {...filteredProps}
           editable={this.props.editable}
@@ -128,7 +122,6 @@ export default class Input extends Component {
           ref={this.setupInputRef}
           secureTextEntry={this.props.secureTextEntry}
         />
-
       </View>
     );
   }
@@ -150,24 +143,24 @@ const styles = StyleSheet.create({
   },
   input_dark: {
     backgroundColor: 'rgba(0,0,20, 0.25)',
-    color: '#fff'
+    color: '#fff',
   },
   input_active: {
     borderColor: 'rgba(255,255,255, 1)',
-    color: '#fff'
+    color: '#fff',
   },
   input_inactive: {
-    borderColor: 'rgba(255,255,255, 0.25)'
+    borderColor: 'rgba(255,255,255, 0.25)',
   },
   input_light: {
     backgroundColor: 'rgba(0,0,20, 0.05)',
-    color: '#000'
+    color: '#000',
   },
   input_active_light: {
     borderColor: 'rgba(0,0,0, 1)',
-    color: '#000'
+    color: '#000',
   },
   input_inactive_light: {
-    borderColor: 'rgba(0,0,0, 0.4)'
-  }
+    borderColor: 'rgba(0,0,0, 0.4)',
+  },
 });

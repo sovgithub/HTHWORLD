@@ -1,6 +1,6 @@
 export const Theme = {
   light: 'light',
-  dark: 'dark'
+  dark: 'dark',
 };
 
 export const themeColors = {
@@ -16,7 +16,7 @@ export const themeColors = {
     textNegative: '#C30072',
     textPositive: '#4EBE70',
     textPrimary: '#27323D',
-    textSecondary: '#526271'
+    textSecondary: '#526271',
   },
   [Theme.dark]: {
     background: '#171D2B',
@@ -30,14 +30,14 @@ export const themeColors = {
     textNegative: '#CF0044',
     textPositive: '#1EDC6B',
     textPrimary: '#FFFFFF',
-    textSecondary: '#8D9FAE'
-  }
+    textSecondary: '#8D9FAE',
+  },
 };
 
 let currentTheme = Theme.dark;
 
 export function setTheme(theme) {
-  return currentTheme = theme;
+  return (currentTheme = theme);
 }
 
 export function getTheme() {
