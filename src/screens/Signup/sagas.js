@@ -14,7 +14,7 @@ import { SIGNUP_SUCCESS, SIGNUP_ERROR } from "./constants";
 import api from "lib/api";
 
 // TODO: abstract these into dev/prod files
-const signupUrl = `https://smaugdev.hoardinvest.com/users/`;
+const signupUrl = `https://erebor-staging.hoardinvest.com/users/`;
 
 async function signupApi(
   first_name,

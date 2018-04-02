@@ -14,7 +14,7 @@ import { LOGIN_SUCCESS, LOGIN_ERROR } from "./constants";
 import api from "lib/api";
 
 // TODO: abstract these into dev/prod files
-const loginUrl = `https://smaugdev.hoardinvest.com/login/`;
+const loginUrl = `https://erebor-staging.hoardinvest.com/login/`;
 
 // Handle logging in via the API
 export async function loginApi(email_address, password) {

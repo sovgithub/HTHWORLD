@@ -18,7 +18,7 @@ import {
 } from './constants';
 //
 // // TODO: abstract these into dev/prod files
-// const kycUrl = `https://smaugdev.hoardinvest.com/kyc/`;
+// const kycUrl = `https://erebor-staging.hoardinvest.com/kyc/`;
 //
 const mockKYCcheckAPI = user_information => {
   const randMax = 10;
