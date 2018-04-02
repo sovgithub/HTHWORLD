@@ -14,8 +14,8 @@
   },
   "scripts": {
     "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "android": "ENVFILE=.env.staging react-native run-android",
+    "ios": "ENVFILE=.env.staging react-native run-ios --scheme 'hoardinvest - Staging'",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "lint": "yarn eslint src --ext js",
     "format": "prettier ./src/**/*.js --write"
@@ -50,12 +50,13 @@
     "react": "16.0.0-alpha.12",
     "react-native": "^0.47.0",
     "react-native-animatable": "^1.2.4",
+    "react-native-config": "^0.11.5",
     "react-native-hockeyapp": "^0.5.1",
     "react-native-jumio-mobilesdk": "https://github.com/Jumio/mobile-react.git#v2.10.0",
     "react-native-splash-screen": "3.0.6",
     "react-native-svg": "^5.4.2",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "https://github.com/react-navigation/react-navigation.git",
+    "react-navigation": "^1.5.9",
     "react-redux": "^5.0.6",
     "redux": "^3.7.2",
     "redux-saga": "0.16.0"

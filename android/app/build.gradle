@@ -140,6 +140,7 @@ repositories {
 }
 
 dependencies {
+    compile project(':react-native-config')
     compile project(':react-native-splash-screen')
     compile project(':react-native-jumio-mobilesdk')
     compile project(':react-native-vector-icons')

@@ -9,8 +9,10 @@ import {
   View,
   KeyboardAvoidingView
 } from 'react-native';
+import Config from 'react-native-config';
 import LoginForm from './LoginForm';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
+import T from 'components/Typography';
 
 const DismissableView = withDismissableKeyboard(View);
 
@@ -44,6 +46,11 @@ export default class Login extends React.Component {
               />
               <View><Text style={styles.title}>Log In</Text></View>
             </View>
+            { __DEV__ && (
+              <View>
+                <T.Small style={styles.network}>{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+              </View>
+            )}
             <View style={styles.formContainer}>
               <LoginForm
                 navigation={this.props.navigation}
@@ -84,11 +91,9 @@ const styles = StyleSheet.create({
     fontWeight: '100',
     textAlign: 'center'
   },
-  subtext: {
+  network: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: '700',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   imageView: {
     flex: 1,

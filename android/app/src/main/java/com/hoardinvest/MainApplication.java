@@ -3,6 +3,7 @@ package com.hoardinvest;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.jumio.react.JumioPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -32,6 +33,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNHockeyAppPackage(MainApplication.this),
           new MainReactPackage(),
+            new ReactNativeConfigPackage(),
             new SplashScreenReactPackage(),
             new JumioPackage(),
             new VectorIconsPackage(),

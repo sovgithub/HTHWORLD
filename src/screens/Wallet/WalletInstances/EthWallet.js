@@ -1,8 +1,9 @@
 import ethers from "ethers";
+import Config from 'react-native-config';
 
 import { SYMBOL_ETH } from "containers/App/constants";
 
-const network = ethers.providers.networks.ropsten;
+const network = Config.ETHNET;  // Ex: <Project Root>/.env.test
 const provider = ethers.providers.getDefaultProvider(network);
 
 if (__DEV__) {
