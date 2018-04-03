@@ -1,6 +1,7 @@
 import {
   WALLET_RECOVER_REQUESTING,
   WALLET_CREATE_REQUESTING,
+  WALLET_CREATE_SUCCESS,
   WALLET_UPDATE_BALANCE_REQUESTING,
   WALLET_SEND_FUNDS_REQUESTING
 } from "./constants";
@@ -10,6 +11,13 @@ export function createWallet(symbol, mnemonicString) {
     type: WALLET_CREATE_REQUESTING,
     symbol,
     mnemonicString
+  };
+}
+
+export function createWalletSuccess(payload) {
+  return {
+    type: WALLET_CREATE_SUCCESS,
+    payload
   };
 }
 

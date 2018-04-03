@@ -5,12 +5,13 @@
 |--------------------------------------------------
 */
 import { connect } from 'react-redux';
+import { allWalletsSelector } from './selectors';
 import { updateBalance } from './actions';
 
 import Wallets from './Wallets';
 
 function mapStateToProps(state) {
-  return { wallet: state.wallet };
+  return { wallets: allWalletsSelector(state) };
 }
 
 const mapDispatchToProps = {

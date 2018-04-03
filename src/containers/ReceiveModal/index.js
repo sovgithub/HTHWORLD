@@ -1,14 +1,11 @@
 import {connect} from 'react-redux';
 import {hideReceiveModal} from './actions';
 import ReceiveModal from './ReceiveModal';
+import { allWalletsSelector } from 'screens/Wallet/selectors';
 
 const mapStateToProps = (state) => {
-  const addresses = state.wallet.walletAddresses;
-
   return {
-    wallets: addresses.map(
-      (address) => state.wallet.wallets[address]
-    ),
+    wallets: allWalletsSelector(state),
     show: state.receiveModal.show
   };
 };

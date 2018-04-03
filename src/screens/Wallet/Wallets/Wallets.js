@@ -12,19 +12,14 @@ class Wallet extends React.Component {
     navigation: PropTypes.shape({
       navigate: PropTypes.func.isRequired
     }).isRequired,
-    wallet: PropTypes.shape({
-      wallets: PropTypes.object.isRequired
-    }).isRequired,
+    wallets: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     prices: PropTypes.objectOf(PropTypes.number),
     getCurrencyPrice: PropTypes.func.isRequired
   };
 
   componentDidMount() {
-    const walletList = this.props.wallet.wallets;
-    Object.keys(walletList).map(wallet =>
-      this.props.getCurrencyPrice(
-        walletList[wallet].symbol
-      )
+    this.props.wallets.map(
+      ({symbol}) => this.props.getCurrencyPrice(symbol)
     );
   }
 
@@ -39,17 +34,15 @@ class Wallet extends React.Component {
   render() {
     const themedStyles = getThemedStyles(getColors());
 
-    const walletList = this.props.wallet.wallets;
-
     return (
       <View style={[styles.container, themedStyles.container]}>
         <WalletList style={styles.walletList}>
-          {Object.keys(walletList).map((wallet, i) => {
+          {this.props.wallets.map((wallet, i) => {
             const {
               balance,
               symbol,
               publicAddress
-            } = walletList[wallet];
+            } = wallet;
             const price = this.props.prices[symbol];
 
             return (
@@ -63,7 +56,7 @@ class Wallet extends React.Component {
               />
             );
           })}
-          {Object.keys(walletList).length === 0 && (
+          {this.props.wallets.length === 0 && (
             <T.Heading>Create or recover a wallet!</T.Heading>
           )}
         </WalletList>
