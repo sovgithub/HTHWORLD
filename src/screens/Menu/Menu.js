@@ -10,7 +10,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
@@ -20,13 +20,13 @@ import { signOut } from 'sagas/authentication';
 class Menu extends Component {
   static propTypes = {
     navigation: PropTypes.object,
-    signOut: PropTypes.func.isRequired
+    signOut: PropTypes.func.isRequired,
   };
 
   state = {
     focused: false,
     startAnimation: false,
-    exitAnimation: false
+    exitAnimation: false,
   };
 
   componentDidMount() {
@@ -43,7 +43,7 @@ class Menu extends Component {
   handleMenuOpened = () => {
     this.setState({
       startAnimation: true,
-      exitAnimation: false
+      exitAnimation: false,
     });
   };
 
@@ -78,7 +78,7 @@ class Menu extends Component {
                 <TouchableOpacity
                   style={{
                     paddingVertical: 10,
-                    paddingHorizontal: 20
+                    paddingHorizontal: 20,
                   }}
                   onPress={() => this.navigateTo('DrawerClose')}
                 >
@@ -89,7 +89,7 @@ class Menu extends Component {
               <Animations
                 animations={[
                   { type: FADE, parameters: { start: 0, end: 1 } },
-                  { type: SLIDE_X, parameters: { start: 1000, end: 0 } }
+                  { type: SLIDE_X, parameters: { start: 1000, end: 0 } },
                 ]}
                 enterDelay={0}
                 enterDuration={500}
@@ -130,6 +130,18 @@ class Menu extends Component {
                 >
                   <Text style={styles.linkContent}>Settings</Text>
                 </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Authenticate')}
+                >
+                  <Text style={styles.linkContent}>Authenticate</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Store')}
+                >
+                  <Text style={styles.linkContent}>Store</Text>
+                </TouchableOpacity>
               </Animations>
             </View>
           </ScrollView>
@@ -152,29 +164,29 @@ export default connect(mapStateToProps, { signOut })(Menu);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   footerContainer: {
-    padding: 20
+    padding: 20,
   },
   imageView: {
-    flex: 1
+    flex: 1,
   },
   image: {
     width: null,
     height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   linkWrapper: {
     width: '100%',
     backgroundColor: 'transparent',
-    marginBottom: 20
+    marginBottom: 20,
   },
   linkContent: {
     color: '#ffffff',
     fontWeight: '700',
     padding: 10,
     backgroundColor: 'transparent',
-    alignSelf: 'center'
-  }
+    alignSelf: 'center',
+  },
 });

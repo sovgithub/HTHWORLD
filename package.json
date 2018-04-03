@@ -55,6 +55,7 @@
     "react-native-jumio-mobilesdk": "https://github.com/Jumio/mobile-react.git#v2.10.0",
     "react-native-splash-screen": "3.0.6",
     "react-native-svg": "^5.4.2",
+    "react-native-touch-id": "^4.0.1",
     "react-native-vector-icons": "^4.5.0",
     "react-navigation": "^1.5.9",
     "react-redux": "^5.0.6",
