@@ -1,26 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { getColors } from 'styles';
+import T from 'components/Typography';
 
-const ValueStatement = ({ title, value, change, positive }) => {
+const ValueStatement = ({ title, value, change, positive, style }) => {
   const themedStyles = getThemedStyles(getColors());
   return (
-    <View style={styles.container}>
-      <Text style={themedStyles.title}>{title}</Text>
-      <Text style={[styles.value, themedStyles.value]}>{value}</Text>
-      <Text
+    <View style={[styles.container, style]}>
+      <T.Light style={themedStyles.title}>{title}</T.Light>
+      <T.PriceLarge style={[styles.value, themedStyles.value]}>
+        {value}
+      </T.PriceLarge>
+      <T.SubtitleAlternate
         style={[
           positive ? themedStyles.changePositive : themedStyles.changeNegative,
         ]}
       >
         {change}
-      </Text>
+      </T.SubtitleAlternate>
     </View>
   );
 };
 
 ValueStatement.propTypes = {
+  style: View.propTypes.style,
   change: PropTypes.string.isRequired,
   positive: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,

@@ -1,18 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React from "react";
+import PropTypes from "prop-types";
+import { View, TouchableOpacity, StyleSheet } from "react-native";
+import T from "components/Typography";
 
-const WalletListEntry = ({ name, symbol, balance, value }) => {
+const WalletListEntry = ({ name, symbol, balance, value, onPress, change }) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.left}>
-        <Text style={styles.name}>{name}</Text>
-        <Text style={styles.nameSub}>
+        <T.TitleAlternate>{name}</T.TitleAlternate>
+        <T.SmallAlternate>
           {symbol} - {balance}
-        </Text>
+        </T.SmallAlternate>
       </View>
       <View style={styles.right}>
-        <Text style={styles.value}>{value}</Text>
+        <T.Price>${value}</T.Price>
+        <T.SubtitleAlternate>
+          <T.SemiBoldAlternate>{change}</T.SemiBoldAlternate>
+        </T.SubtitleAlternate>
       </View>
     </TouchableOpacity>
   );
@@ -21,18 +25,20 @@ const WalletListEntry = ({ name, symbol, balance, value }) => {
 export default WalletListEntry;
 
 WalletListEntry.propTypes = {
+  balance: PropTypes.number.isRequired,
+  change: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
-  balance: PropTypes.number.isRequired,
   value: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomColor: '#bbb',
+    padding: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth
   },
   left: {
@@ -40,18 +46,6 @@ const styles = StyleSheet.create({
   },
   right: {
     flexGrow: 1,
-    alignItems: 'flex-end'
-  },
-  name: {
-    fontFamily: 'OpenSans-SemiBold',
-    fontSize: 20,
-    fontWeight: '900'
-  },
-  nameSub: {
-    fontSize: 12
-  },
-  value: {
-    fontSize: 30,
-    fontWeight: '200'
+    alignItems: "flex-end"
   }
 });

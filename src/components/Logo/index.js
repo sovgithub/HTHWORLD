@@ -3,7 +3,7 @@ import {Image} from 'react-native';
 
 const Logo = () => {
   return (
-    <Image source={require('assets/logo.png')} />
+    <Image style={{width: 50, height: 50, resizeMode:"contain"}} source={require('assets/HoardLogoWhite.png')} />
   );
 };
 

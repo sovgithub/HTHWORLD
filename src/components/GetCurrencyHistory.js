@@ -31,11 +31,11 @@ const getAggregateValue = interval => {
   }
 };
 
-const constructQueries = (currency, limit, interval) => [
+const constructQueries = (currency, limit, interval, aggregate) => [
   { name: 'fsym', value: currency },
   { name: 'tsym', value: 'USD' },
   { name: 'limit', value: limit },
-  { name: 'aggregate', value: getAggregateValue(interval) },
+  { name: 'aggregate', value: aggregate || getAggregateValue(interval) },
 ];
 
 const getUrl = interval => {
@@ -53,16 +53,18 @@ const getUrl = interval => {
   }
 };
 
-const formatter = json => json.Data.map(day => day.close);
+const defaultFormatter = json => json.Data.map(day => day.close);
 
 export async function getCurrencyHistory(
   currency,
   limit = '60',
-  interval = Intervals.hour
+  interval = Intervals.hour,
+  aggregate,
+  formatter = defaultFormatter
 ) {
   const json = await makeRequest(
     getUrl(interval),
-    constructQueries(currency, limit, interval)
+    constructQueries(currency, limit, interval, aggregate)
   );
   return formatter(json);
 }
@@ -109,7 +111,7 @@ export default class GetCurrencyHistory extends React.Component {
     const { children } = this.props;
     const { queries, url } = this.state;
     return (
-      <Fetch url={url} queries={queries} formatter={formatter}>
+      <Fetch url={url} queries={queries} formatter={defaultFormatter}>
         {children}
       </Fetch>
     );

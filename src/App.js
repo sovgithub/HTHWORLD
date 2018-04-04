@@ -11,7 +11,8 @@ import Signup from 'screens/Signup';
 import Menu from 'screens/Menu';
 import { StackNavigator } from 'react-navigation';
 import { INIT_REQUESTING } from './containers/App/constants';
-const store = configureStore();
+
+export const store = configureStore();
 
 const RoutingStack = StackNavigator(
   {

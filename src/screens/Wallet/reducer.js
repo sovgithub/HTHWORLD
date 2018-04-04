@@ -72,3 +72,35 @@ export default function reducer(state = initialState, action) {
       return state;
   }
 }
+
+export const selectors = {
+  getWallet(address) {
+    return (store) => store.wallet.wallets[address];
+  },
+  walletsForSymbol(symbol) {
+    return (store) => {
+      return store.wallet.walletAddresses.reduce(
+        (walletsForSymbol, address) => {
+          if (store.wallet.wallets[address].symbol === symbol) {
+            return {
+              wallets: {
+                ...walletsForSymbol.wallets,
+                [address]: true
+              },
+              walletAddresses: [
+                ...walletsForSymbol.walletAddresses,
+                address
+              ]
+            };
+          } else {
+            return walletsForSymbol;
+          }
+        },
+        {
+          wallets: {},
+          walletAddresses: []
+        }
+      );
+    };
+  }
+};

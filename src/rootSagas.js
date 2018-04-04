@@ -14,6 +14,7 @@ yield all([example(), ...otherSagas]);
 import { all } from 'redux-saga/effects';
 
 import authSagas from 'sagas/authentication';
+import transactionSagas from 'sagas/transactions';
 import initSagas from 'sagas/init';
 import walletSagas from 'screens/Wallet/sagas';
 import pricingSagas from 'sagas/pricing/saga';
@@ -25,6 +26,7 @@ export default function* rootSaga() {
     authSagas(),
     walletSagas(),
     pricingSagas(),
+    transactionSagas(),
     kycStatusWatcher()
   ]);
 }

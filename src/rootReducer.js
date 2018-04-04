@@ -22,6 +22,7 @@ import wallet from 'screens/Wallet/reducer';
 import receiveModal from 'containers/ReceiveModal/reducer';
 import sendModal from 'containers/SendModal/reducer';
 import pricing from 'sagas/pricing/reducer';
+import transactions from 'sagas/transactions/reducer';
 import kyc from 'screens/Settings/reducer';
 
 const rootReducer = combineReducers({
@@ -32,6 +33,7 @@ const rootReducer = combineReducers({
   receiveModal,
   sendModal,
   pricing,
+  transactions,
   kyc
 });
 

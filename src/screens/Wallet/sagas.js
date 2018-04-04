@@ -14,6 +14,7 @@ import {
   WALLET_SEND_FUNDS_ERROR
 } from "./constants";
 import { recoverWallet as recoverWalletAction } from "./actions";
+import {store} from '../../App';
 
 const WALLET_STORAGE_KEY = "wallets/storage";
 
@@ -48,8 +49,8 @@ export async function storeWallets() {
   );
 }
 
-async function createWallet(symbol, mnemonicString) {
-  const wallet = initializeWallet(symbol, true, mnemonicString);
+async function commonWalletInitializationActions(wallet) {
+  const symbol = wallet.symbol;
   const balance = await wallet.getBalance();
   const publicAddress = await wallet.getPublicAddress();
   wallets[publicAddress] = wallet;
@@ -63,19 +64,12 @@ async function createWallet(symbol, mnemonicString) {
   };
 }
 
+async function createWallet(symbol, mnemonicString) {
+  return commonWalletInitializationActions(initializeWallet(symbol, true, mnemonicString));
+}
+
 async function recoverWallet(symbol, privateKey) {
-  const wallet = initializeWallet(symbol, false, privateKey);
-  const balance = await wallet.getBalance();
-  const publicAddress = await wallet.getPublicAddress();
-  wallets[publicAddress] = wallet;
-
-  await storeWallets();
-
-  return {
-    symbol,
-    balance: Number(balance.toString()),
-    publicAddress
-  };
+  return commonWalletInitializationActions(initializeWallet(symbol, false, privateKey));
 }
 
 async function sendFunds(fromPublicAddress, toPublicAddress, amount) {
@@ -111,11 +105,25 @@ function* initWalletsFlow(action) {
   }
 }
 
-function* createWalletFlow(action) {
+function* commonWalletInitializationFlow (creationFunction, symbol, seed) {
   try {
-    const { symbol, mnemonicString } = action;
+    const payload = yield call(creationFunction, symbol, seed);
+    const { publicAddress } = payload;
 
-    const payload = yield call(createWallet, symbol, mnemonicString);
+
+    if (symbol === 'ETH') {
+      const wallet = wallets[publicAddress];
+
+      wallet.listenForBalanceChange((balance) => {
+        store.dispatch({
+          type: WALLET_UPDATE_BALANCE_SUCCESS,
+          payload: {
+            publicAddress,
+            balance: Number(balance.toString())
+          }
+        });
+      });
+    }
 
     yield put({
       type: WALLET_CREATE_SUCCESS,
@@ -129,22 +137,14 @@ function* createWalletFlow(action) {
   }
 }
 
+function* createWalletFlow(action) {
+  const { symbol, mnemonicString } = action;
+  yield call(commonWalletInitializationFlow, createWallet, symbol, mnemonicString);
+}
+
 function* recoverWalletFlow(action) {
-  try {
-    const { symbol, privateKey } = action;
-
-    const payload = yield call(recoverWallet, symbol, privateKey);
-
-    yield put({
-      type: WALLET_CREATE_SUCCESS,
-      payload
-    });
-  } catch (error) {
-    yield put({
-      type: WALLET_CREATE_ERROR,
-      error
-    });
-  }
+  const { symbol, privateKey } = action;
+  yield call(commonWalletInitializationFlow, recoverWallet, symbol, privateKey);
 }
 
 function* sendFundsFlow(action) {

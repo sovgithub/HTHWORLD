@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import T from 'components/Typography';
 
 const RoundedButton = props => {
   return (
@@ -16,9 +17,11 @@ const RoundedButton = props => {
       underlayColor={props.underlayColor}
       onPress={props.onPress}
     >
-      <Text style={[styles.text, { color: props.color }]}>
-        {props.children}
-      </Text>
+      <View style={{ flex: 1 }}>
+        <T.Light style={[styles.text, { color: props.color }]}>
+          {props.children}
+        </T.Light>
+      </View>
     </TouchableHighlight>
   );
 };
@@ -27,7 +30,7 @@ RoundedButton.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.string.isRequired,
   color: PropTypes.string,
-  style: PropTypes.object,
+  style: TouchableHighlight.propTypes.style,
   underlayColor: PropTypes.string,
   onPress: PropTypes.func.isRequired,
 };
@@ -39,10 +42,9 @@ RoundedButton.defaultProps = {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    margin: 10,
-    padding: 20,
+    padding: 10,
     borderWidth: 1,
-    borderRadius: 30,
+    borderRadius: 10,
   },
   text: {
     flex: 1,

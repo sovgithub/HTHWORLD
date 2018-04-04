@@ -15,6 +15,7 @@ export default class Input extends Component {
     light: PropTypes.bool,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
+    containerStyle: View.propTypes.style,
     style: TextInput.propTypes.style,
     value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
@@ -100,7 +101,7 @@ export default class Input extends Component {
 
     return (
       <View
-        style={styles.input_wrapper}
+        style={[styles.input_wrapper, this.props.containerStyle]}
         accessible={true}
         accessibilityLabel={label}
       >

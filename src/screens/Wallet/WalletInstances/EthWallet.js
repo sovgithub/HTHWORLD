@@ -2,6 +2,7 @@ import ethers from "ethers";
 import Config from 'react-native-config';
 
 import { SYMBOL_ETH } from "containers/App/constants";
+import { bigNumberToEther } from 'lib/formatters';
 
 const network = Config.ETHNET;  // Ex: <Project Root>/.env.test
 const provider = ethers.providers.getDefaultProvider(network);
@@ -25,8 +26,15 @@ export default class EthWallet {
 
   symbol = SYMBOL_ETH;
 
+  listenForBalanceChange = (callback) =>
+    this._wallet.provider.on(
+      this._wallet.address,
+      (balance) => callback(bigNumberToEther(balance))
+    );
+
   getBalance = async () => {
-    return this._wallet.getBalance();
+    const balance = await this._wallet.getBalance();
+    return bigNumberToEther(balance);
   };
 
   getPublicAddress = async () => {
@@ -38,6 +46,7 @@ export default class EthWallet {
   };
 
   send = async (amount, toAddress) => {
-    return this._wallet.send(toAddress, amount);
+    const amountInWei = ethers.utils.parseEther(amount.toString());
+    return this._wallet.send(toAddress, amountInWei);
   };
 }

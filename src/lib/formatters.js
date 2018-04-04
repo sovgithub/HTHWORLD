@@ -1,3 +1,5 @@
+import { utils } from 'ethers';
+
 export const limitNumber = PRECISION => value =>
   Number(value.toFixed(PRECISION));
 
@@ -18,3 +20,6 @@ export const formatDecimalInput = PRECISION => {
     return limiter(matches ? matches[0] : '');
   };
 };
+
+export const bigNumberToEther = bigNumber =>
+  utils.formatEther(bigNumber.toString());
