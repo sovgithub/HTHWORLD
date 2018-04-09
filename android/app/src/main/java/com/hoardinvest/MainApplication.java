@@ -8,6 +8,7 @@ import com.lugg.ReactNativeConfig.ReactNativeConfigPackage;
 import org.devio.rn.splashscreen.SplashScreenReactPackage;
 import com.jumio.react.JumioPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
+import com.rt2zz.reactnativecontacts.ReactNativeContacts;
 import com.airbnb.android.react.lottie.LottiePackage;
 import com.slowpath.hockeyapp.RNHockeyAppPackage;
 import com.horcrux.svg.SvgPackage;
@@ -39,6 +40,7 @@ public class MainApplication extends Application implements ReactApplication {
             new SplashScreenReactPackage(),
             new JumioPackage(),
             new VectorIconsPackage(),
+            new ReactNativeContacts(),
             new LottiePackage(),
             new SvgPackage()
       );

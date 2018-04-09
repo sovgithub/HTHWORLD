@@ -68,6 +68,13 @@
 		E44843351D0543CC80920004 /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 70F7E97149234B94B688E129 /* OpenSans-Regular.ttf */; };
 		E58C131185FA42FC80998137 /* OpenSans-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A48D7280E9545FA93FA411D /* OpenSans-Italic.ttf */; };
 		ED5DE625A7524A83871F3708 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 706109BBCFF44F1F896CD352 /* Foundation.ttf */; };
+		363F612736E140E2AB1C926B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 49A2C416B6934AA2B21633CD /* Ionicons.ttf */; };
+		753BDAD0715045CB861993DE /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A25042FA8E4A454AB6CA7C00 /* MaterialCommunityIcons.ttf */; };
+		66B152547B944C4492129430 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F35D177E15874F798967C1FE /* MaterialIcons.ttf */; };
+		938D650DE4DE4D9CA10E695A /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 71796123693343EE8B98F0EA /* Octicons.ttf */; };
+		5C4F8017387B4E9F82FF01E2 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A7858C97F0514C27B0D4AB7A /* SimpleLineIcons.ttf */; };
+		7BAA7F46EDAE4727AA0A53BD /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 03608CFB8E3E4E9F9BE0E602 /* Zocial.ttf */; };
+		21A1D7EE40314B17AA5C7890 /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 87F55C7E825741B599F60F43 /* libRCTContacts.a */; };
 		F1D8B4B5979643F383F311D0 /* OpenSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 115B406496EE4B8391EDA726 /* OpenSans-SemiBold.ttf */; };
 		C4C80EA101B947309A075F0A /* libTouchID.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00FBBD33814D43188BFAEA92 /* libTouchID.a */; };
 		1F684224E9394566B3B1CBC6 /* Exo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F12197DC9D945389394F5D9 /* Exo-Black.ttf */; };
@@ -507,6 +514,21 @@
 		F35D177E15874F798967C1FE /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		FAFD9B8ACAAF4E00BD4AF6C2 /* libReactNativeConfig.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativeConfig.a; sourceTree = "<group>"; };
 		FE32B79DCAE24714BDD449A7 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
+		46013232916E4657B54ED89B /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; name = "RNVectorIcons.xcodeproj"; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E320AC7730BE41D39C9C7343 /* libRNVectorIcons.a */ = {isa = PBXFileReference; name = "libRNVectorIcons.a"; path = "libRNVectorIcons.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		DC98EECB328D4B95A9593973 /* Entypo.ttf */ = {isa = PBXFileReference; name = "Entypo.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6A842FCA6C344D6597DE6A3A /* EvilIcons.ttf */ = {isa = PBXFileReference; name = "EvilIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		1F235F59911E4F0D999C618C /* Feather.ttf */ = {isa = PBXFileReference; name = "Feather.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		969649C2DAC946CE9F4B7E41 /* FontAwesome.ttf */ = {isa = PBXFileReference; name = "FontAwesome.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		706109BBCFF44F1F896CD352 /* Foundation.ttf */ = {isa = PBXFileReference; name = "Foundation.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		49A2C416B6934AA2B21633CD /* Ionicons.ttf */ = {isa = PBXFileReference; name = "Ionicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A25042FA8E4A454AB6CA7C00 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; name = "MaterialCommunityIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F35D177E15874F798967C1FE /* MaterialIcons.ttf */ = {isa = PBXFileReference; name = "MaterialIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		71796123693343EE8B98F0EA /* Octicons.ttf */ = {isa = PBXFileReference; name = "Octicons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		A7858C97F0514C27B0D4AB7A /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; name = "SimpleLineIcons.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		03608CFB8E3E4E9F9BE0E602 /* Zocial.ttf */ = {isa = PBXFileReference; name = "Zocial.ttf"; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DE4747332A8E4889BBBCCFA2 /* RCTContacts.xcodeproj */ = {isa = PBXFileReference; name = "RCTContacts.xcodeproj"; path = "../node_modules/react-native-contacts/ios/RCTContacts.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		87F55C7E825741B599F60F43 /* libRCTContacts.a */ = {isa = PBXFileReference; name = "libRCTContacts.a"; path = "libRCTContacts.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		EA1081CC834741F199A1213D /* TouchID.xcodeproj */ = {isa = PBXFileReference; name = "TouchID.xcodeproj"; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		00FBBD33814D43188BFAEA92 /* libTouchID.a */ = {isa = PBXFileReference; name = "libTouchID.a"; path = "libTouchID.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		7F12197DC9D945389394F5D9 /* Exo-Black.ttf */ = {isa = PBXFileReference; name = "Exo-Black.ttf"; path = "../src/assets/fonts/Exo-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
@@ -561,6 +583,7 @@
 				DA1325F34967482B84B099A3 /* libLottieReactNative.a in Frameworks */,
 				BFDD2E9A685E41359EC769FC /* libRCTActionSheet.a in Frameworks */,
 				5D2DE440134D4BCAB91A4312 /* libRNVectorIcons.a in Frameworks */,
+				21A1D7EE40314B17AA5C7890 /* libRCTContacts.a in Frameworks */,
 				CFFAA0F328FA44BBAE18BC9F /* libSplashScreen.a in Frameworks */,
 				953B729A789B469E87E5D823 /* libRNHockeyApp.a in Frameworks */,
 				AE9E3122611A405E8B7D0113 /* libReactNativeConfig.a in Frameworks */,
@@ -801,6 +824,7 @@
 				C7229BC6266B43B3AD8F6A5B /* LottieReactNative.xcodeproj */,
 				65997DD56F7343EAB5F9EA14 /* DemoApp.xcodeproj */,
 				46013232916E4657B54ED89B /* RNVectorIcons.xcodeproj */,
+				DE4747332A8E4889BBBCCFA2 /* RCTContacts.xcodeproj */,
 				315ED0928EAB47AE87A0D63A /* SplashScreen.xcodeproj */,
 				76AEC7F207A643B8A1F5B24A /* RNHockeyApp.xcodeproj */,
 				1B16E85B38DE4B1386E05224 /* ReactNativeConfig.xcodeproj */,
@@ -1772,6 +1796,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1811,6 +1836,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1851,6 +1877,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1882,6 +1909,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1918,6 +1946,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",
@@ -1964,6 +1993,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/lib/ios/LottieReactNative",
 					"$(SRCROOT)/../node_modules/react-native-jumio-mobilesdk/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-contacts/ios/RCTContacts",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
 					"$(SRCROOT)/../node_modules/react-native-hockeyapp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-config/ios/ReactNativeConfig",

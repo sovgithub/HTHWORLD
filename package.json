@@ -15,33 +15,25 @@
   "scripts": {
     "start": "react-native start",
     "android": "ENVFILE=.env.staging react-native run-android",
-    "ios": "ENVFILE=.env.staging react-native run-ios --scheme 'hoardinvest - Staging'",
+    "ios":
+      "ENVFILE=.env.staging react-native run-ios --scheme 'hoardinvest - Staging'",
     "test": "node node_modules/jest/bin/jest.js --watch",
     "lint": "yarn eslint src --ext js",
     "format": "prettier ./src/**/*.js --write"
   },
   "jest": {
     "preset": "react-native",
-    "modulePaths": [
-      "<rootDir>/src"
-    ],
+    "modulePaths": ["<rootDir>/src"],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
     ],
-    "moduleFileExtensions": [
-      "js"
-    ],
+    "moduleFileExtensions": ["js"],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.js$",
-    "testPathIgnorePatterns": [
-      "\\.snap$",
-      "<rootDir>/node_modules/"
-    ],
+    "testPathIgnorePatterns": ["\\.snap$", "<rootDir>/node_modules/"],
     "cacheDirectory": ".jest/cache"
   },
   "rnpm": {
-    "assets": [
-      "./src/assets/fonts/"
-    ]
+    "assets": ["./src/assets/fonts/"]
   },
   "dependencies": {
     "ethers": "^2.2.4",
@@ -51,8 +43,10 @@
     "react-native": "^0.47.0",
     "react-native-animatable": "^1.2.4",
     "react-native-config": "^0.11.5",
+    "react-native-contacts": "^2.1.1",
     "react-native-hockeyapp": "^0.5.1",
-    "react-native-jumio-mobilesdk": "https://github.com/Jumio/mobile-react.git#v2.10.0",
+    "react-native-jumio-mobilesdk":
+      "https://github.com/Jumio/mobile-react.git#v2.10.0",
     "react-native-splash-screen": "3.0.6",
     "react-native-svg": "5.5.1",
     "react-native-touch-id": "^4.0.1",

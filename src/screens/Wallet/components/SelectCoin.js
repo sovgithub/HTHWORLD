@@ -1,30 +1,31 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, View } from "react-native";
-import Button from "components/Button";
-import T from "components/Typography";
-import { SUPPORTED_COINS_WALLET } from "containers/App/constants";
-import SelectWalletSection from "components/SelectWalletSection";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { StyleSheet, View } from 'react-native';
+import Button from 'components/Button';
+import T from 'components/Typography';
+import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
+import SelectableImageList from 'components/SelectableImageList';
+import { getCoinMetadata } from 'lib/currency-metadata';
 import NavigatorService from 'lib/navigator';
 
-const LANG_NEXT_TEXT = "Next";
-const LANG_CANCEL_TEXT = "Cancel";
+const LANG_NEXT_TEXT = 'Next';
+const LANG_CANCEL_TEXT = 'Cancel';
 
 export default class Step1 extends Component {
   static propTypes = {
     saveAndContinue: PropTypes.func.isRequired,
-    coins: PropTypes.arrayOf(PropTypes.string).isRequired
+    coins: PropTypes.arrayOf(PropTypes.string).isRequired,
   };
 
   static defaultProps = {
-    coins: SUPPORTED_COINS_WALLET
-  }
-
-  state = {
-    selectedCoin: null
+    coins: SUPPORTED_COINS_WALLET,
   };
 
-  handleClick = selectedCoin => {
+  state = {
+    selectedCoin: null,
+  };
+
+  handleClick = selectedCoin => () => {
     this.setState({ selectedCoin });
   };
 
@@ -33,7 +34,7 @@ export default class Step1 extends Component {
   };
 
   handleCancel = () => {
-    NavigatorService.navigate("Wallet");
+    NavigatorService.navigate('Wallet');
   };
 
   render() {
@@ -43,16 +44,18 @@ export default class Step1 extends Component {
           <T.Heading style={styles.headingStyle}>Select Coin</T.Heading>
         </View>
         <View style={styles.bodyContainer}>
-          <SelectWalletSection
-            wallets={this.props.coins.map(symbol => ({
-              id: symbol,
-              symbol
-            }))}
-            selectedId={this.state.selectedCoin}
-            selecting={true}
-            showHeader={false}
-            onSelect={this.handleClick}
-            onToggleSelecting={() => {}}
+          <SelectableImageList
+            items={this.props.coins.map(symbol => {
+              const metadata = getCoinMetadata(symbol);
+
+              return {
+                image: metadata.image,
+                onPress: this.handleClick(symbol),
+                selected: this.state.selectedCoin === symbol,
+                subtitle: symbol,
+                title: metadata.fullName,
+              };
+            })}
           />
         </View>
         <View style={styles.footerContainer}>
@@ -78,28 +81,28 @@ export default class Step1 extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   headerContainer: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: "#223252"
+    backgroundColor: '#223252',
   },
   headingStyle: {
-    color: "#ffffff"
+    color: '#ffffff',
   },
   bodyContainer: {
     flexGrow: 1,
     padding: 20,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   footerContainer: {
     paddingHorizontal: 20,
     paddingTop: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   cancelButton: {
     marginTop: 10,
-    paddingVertical: 10
-  }
+    paddingVertical: 10,
+  },
 });

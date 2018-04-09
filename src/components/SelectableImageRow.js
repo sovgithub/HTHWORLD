@@ -1,10 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Image, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { getCoinMetadata } from 'lib/currency-metadata';
 
-export default function SelectableCoin({ onPress, selected, currency }) {
-  const metadata = getCoinMetadata(currency);
+export default function SelectableImageRow({
+  onPress,
+  selected,
+  image,
+  title,
+  subtitle,
+}) {
   return (
     <TouchableOpacity onPress={onPress}>
       <View
@@ -13,19 +17,21 @@ export default function SelectableCoin({ onPress, selected, currency }) {
           { backgroundColor: selected ? 'rgba(0,0,0,0.07)' : 'transparent' },
         ]}
       >
-        <Image style={styles.image} source={metadata.image} />
+        <Image style={styles.image} source={image} />
         <View>
-          <Text style={styles.fullName}>{metadata.fullName}</Text>
-          <Text style={styles.coinName}>{currency}</Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.coinName}>{subtitle}</Text>
         </View>
       </View>
     </TouchableOpacity>
   );
 }
 
-SelectableCoin.propTypes = {
-  currency: PropTypes.string.isRequired,
+SelectableImageRow.propTypes = {
+  image: Image.propTypes.source,
   selected: PropTypes.bool.isRequired,
+  subtitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
 };
 
@@ -39,14 +45,15 @@ const styles = StyleSheet.create({
   image: {
     width: 30,
     height: 30,
+    borderRadius: 15,
     resizeMode: 'contain',
     marginRight: 10,
   },
-  fullName: {
+  title: {
     fontSize: 20,
     fontWeight: '500',
   },
-  coinName: {
+  subtitle: {
     fontSize: 14,
     fontWeight: '100',
   },

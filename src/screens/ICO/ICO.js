@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, View, Text, ScrollView, StyleSheet } from 'react-native';
+import { Alert, View, Text, StyleSheet } from 'react-native';
 
 import Modal from 'components/Modal';
-import SelectableCoin from 'components/SelectableCoin';
 import Button from 'components/Button';
 import Input from 'components/Input';
 import LoadingSpinner from 'components/LoadingSpinner';
+import SelectableImageList from 'components/SelectableImageList';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
 import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
 import { limitNumber, formatDecimalInput } from 'lib/formatters';
 import { SUPPORTED_COINS_ICO } from 'containers/App/constants';
+import { getCoinMetadata } from 'lib/currency-metadata';
 
 const DismissableView = withDismissableKeyboard(View);
 
@@ -243,16 +244,19 @@ export default class ICO extends Component {
             { text: 'Cancel', type: 'text', onPress: this.cancelModal }
           ]}
         >
-          <ScrollView bounces={false} style={styles.scrollView}>
-            {SUPPORTED_COINS_ICO.map(currency => (
-              <SelectableCoin
-                key={currency}
-                onPress={this.handleChangeCurrency(currency)}
-                selected={currency === pickerSelection}
-                currency={currency}
-              />
-            ))}
-          </ScrollView>
+          <SelectableImageList items={
+            SUPPORTED_COINS_ICO.map(currency => {
+              const metadata = getCoinMetadata(currency);
+
+              return {
+                image: metadata.image,
+                onPress: this.handleChangeCurrency(currency),
+                selected: pickerSelection === currency,
+                subtitle: currency,
+                title: metadata.fullName
+              };
+            })
+          } />
         </Modal>
       </DismissableView>
     );
@@ -287,8 +291,5 @@ const styles = StyleSheet.create({
   confirm: {
     marginVertical: 50,
     marginHorizontal: 10
-  },
-  scrollView: {
-    marginVertical: 10
   }
 });

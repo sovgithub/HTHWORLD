@@ -1,15 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert,
-  StyleSheet
-} from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
+
+import Contacts from 'react-native-contacts';
+
 import T from 'components/Typography';
 import Modal from 'components/Modal';
 import Input from 'components/Input';
-import SelectWalletSection from 'components/SelectWalletSection';
-import {getCoinMetadata} from 'lib/currency-metadata';
-import {formatDecimalInput} from 'lib/formatters';
+import SelectableImageList from 'components/SelectableImageList';
+import SelectableImageHeader from 'components/SelectableImageHeader';
+import { getCoinMetadata } from 'lib/currency-metadata';
+import { formatDecimalInput } from 'lib/formatters';
+import Conditional, { Try, Otherwise } from 'components/Conditional';
+
+import { getDataForEmailSymbol } from 'sagas/contacts/reducer';
 
 const amountFormatter = formatDecimalInput(8);
 
@@ -17,45 +21,129 @@ const initialState = {
   amount: '',
   toAddress: '',
   selectedId: null,
-  selectingWallet: false
+  selectingWallet: false,
+  selectingContact: false,
+  contacts: [],
+  selectedContact: null,
 };
 
 export default class SendModal extends Component {
   static propTypes = {
-    wallets: PropTypes.arrayOf(PropTypes.shape({
-      balance: PropTypes.number.isRequired,
-      id: PropTypes.string.isRequired,
-      symbol: PropTypes.string.isRequired,
-    })).isRequired,
+    contacts: PropTypes.object,
+    wallets: PropTypes.arrayOf(
+      PropTypes.shape({
+        balance: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
+        symbol: PropTypes.string.isRequired,
+      })
+    ).isRequired,
     show: PropTypes.bool.isRequired,
     hideSendModal: PropTypes.func.isRequired,
-    sendFunds: PropTypes.func.isRequired
-  }
+    sendFunds: PropTypes.func.isRequired,
+  };
 
-  state = {...initialState}
+  state = { ...initialState };
+
+  componentWillMount() {
+    Contacts.getAll((err, rawContacts) => {
+      const contacts = rawContacts.reduce((validContacts, contact) => {
+        if (contact.emailAddresses[0]) {
+          return [...validContacts, contact];
+        } else {
+          return validContacts;
+        }
+      }, []);
+      this.setState({ contacts });
+    });
+  }
 
   componentWillReceiveProps(newProps) {
     if (newProps.show !== this.props.show) {
-      this.setState({...initialState});
+      this.setState({ ...initialState, contacts: this.state.contacts });
+    }
+
+    if (newProps.contacts !== this.props.contacts) {
+      this.trySetAddress(newProps.contacts);
     }
   }
 
-  handleChangeAmount = (value) => this.setState({amount: amountFormatter(value)})
+  trySetAddress = contactsState => {
+    try {
+      const { selectedContact, selectedId } = this.state;
+      const email = selectedContact.emailAddresses[0].email;
+      const selectedWallet = this.props.wallets.find(
+        wallet => wallet.id === selectedId
+      );
+      const data = getDataForEmailSymbol(
+        contactsState,
+        email,
+        selectedWallet.symbol
+      );
+      if (data.address) {
+        this.setState({ toAddress: data.address });
+        return true;
+      }
+    } catch (e) {
+      /**/
+    }
+    return false;
+  };
 
-  handleChangeToAddress = (value) => this.setState({toAddress: value})
+  checkAddress = () => {
+    const didSetAddress = this.trySetAddress(this.props.contacts);
 
-  handleSelectCoin = (value) => this.setState({
-    amount: '',
-    toAddress: '',
-    selectedId: value,
-    selectingWallet: false
-  })
+    if (!didSetAddress) {
+      const { selectedContact, selectedId } = this.state;
+      if (selectedContact && selectedId) {
+        const email = selectedContact.emailAddresses[0].email;
+        const selectedWallet = this.props.wallets.find(
+          wallet => wallet.id === selectedId
+        );
 
-  toggleCoinSelector = () => this.setState({selectingWallet: !this.state.selectingWallet})
+        if (selectedWallet) {
+          this.props.selectContact(email, selectedWallet.symbol);
+        }
+      }
+    }
+  };
 
-  validate({amount, toAddress, selectedId}) {
+  handleChangeContact = selectedContact => () => {
+    this.setState(
+      {
+        selectedContact,
+        selectingContact: false,
+      },
+      this.checkAddress
+    );
+  };
+
+  handleChangeAmount = value =>
+    this.setState({ amount: amountFormatter(value) });
+
+  handleChangeToAddress = value => this.setState({ toAddress: value });
+
+  handleSelectCoin = value => () =>
+    this.setState(
+      {
+        amount: '',
+        toAddress: '',
+        selectedId: value,
+        selectingWallet: false,
+      },
+      this.checkAddress
+    );
+
+  toggleCoinSelector = () =>
+    this.setState({ selectingWallet: !this.state.selectingWallet });
+
+  toggleContactSelector = () =>
+    this.setState({ selectingContact: !this.state.selectingContact });
+
+  validate({ amount, toAddress, selectedId }) {
     const numAmount = Number(amount);
-    const selectedWallet = this.props.wallets.find((wallet) => wallet.id === selectedId);
+    const selectedWallet = this.props.wallets.find(
+      wallet => wallet.id === selectedId
+    );
     if (!selectedId) {
       Alert.alert('Please select a wallet to send from');
       return false;
@@ -81,24 +169,103 @@ export default class SendModal extends Component {
         Number(this.state.amount)
       );
     }
-  }
+  };
 
   render() {
-    const {wallets} = this.props;
+    const { wallets } = this.props;
     const {
       amount,
+      contacts,
       toAddress,
       selectedId,
-      selectingWallet
+      selectedContact,
+      selectingWallet,
+      selectingContact,
     } = this.state;
 
-    const selectedWallet = wallets.find((wallet) => wallet.id === selectedId);
-    const actionButtons = wallets.length && !selectingWallet
-      ? [
-        {text: 'Confirm', type: 'primary', onPress: this.send, disabled: !selectedId},
-        {text: 'Cancel', type: 'text', onPress: this.props.hideSendModal}
-      ]
-      : [];
+    const isSelecting = selectingWallet || selectingContact;
+
+    const actionButtons =
+      wallets.length && !isSelecting
+        ? [
+            {
+              text: 'Confirm',
+              type: 'primary',
+              onPress: this.send,
+              disabled: !selectedId,
+            },
+            { text: 'Cancel', type: 'text', onPress: this.props.hideSendModal },
+          ]
+        : [];
+
+    const selectedWallet = wallets.find(wallet => wallet.id === selectedId);
+
+    const defaultContactImage = require('assets/dash_logo.png');
+
+    let selectionList = [];
+    if (selectingWallet) {
+      selectionList = wallets.map(wallet => {
+        const metadata = getCoinMetadata(wallet.symbol);
+
+        return {
+          image: metadata.image,
+          onPress: this.handleSelectCoin(wallet.id),
+          selected: selectedId === wallet.id,
+          subtitle: wallet.symbol,
+          title: metadata.fullName,
+        };
+      });
+    } else if (selectingContact) {
+      selectionList = contacts.map(contact => {
+        const names = [
+          contact.givenName,
+          contact.middleName,
+          contact.familyName,
+        ].filter(name => name);
+        const title = names.join(' ');
+        const image = contact.hasThumbnail
+          ? { uri: contact.thumbnailPath }
+          : defaultContactImage;
+        const subtitle =
+          contact.emailAddresses[0] && contact.emailAddresses[0].email;
+
+        return {
+          image,
+          subtitle,
+          title,
+          selected: this.state.selectedContact === contact,
+          onPress: this.handleChangeContact(contact),
+        };
+      });
+    }
+
+    const walletTitle = selectedWallet
+      ? `Sending ${getCoinMetadata(selectedWallet.symbol).fullName} ${
+          selectedWallet.symbol
+        }`
+      : 'Select Currency';
+    const contactTitle = selectedContact
+      ? `Send to ${[
+          this.state.selectedContact.givenName,
+          this.state.selectedContact.middleName,
+          this.state.selectedContact.familyName,
+        ]
+          .filter(name => name)
+          .join(' ')}`
+      : 'Select Contact';
+
+    let selectionTitle = '';
+    if (selectingWallet) {
+      selectionTitle = walletTitle;
+    } else if (selectingContact) {
+      selectionTitle = contactTitle;
+    }
+
+    const contactImage =
+      this.state.selectedContact &&
+      (this.state.selectedContact.hasThumbnail
+        ? { uri: this.state.selectedContact.thumbnailPath }
+        : defaultContactImage);
 
     return (
       <Modal
@@ -108,34 +275,57 @@ export default class SendModal extends Component {
         actionButtons={actionButtons}
       >
         <T.Light style={styles.text}>
-          Send currency, instantly, safely, and anonymously anywhere in the world.
+          Send currency, instantly, safely, and anonymously anywhere in the
+          world.
         </T.Light>
-        <SelectWalletSection
-          wallets={wallets}
-          selectedId={selectedId}
-          title={selectedWallet ? `Sending ${getCoinMetadata(selectedWallet.symbol).fullName} ${selectedWallet.symbol}` : ''}
-          selecting={selectingWallet}
-          onSelect={this.handleSelectCoin}
-          onToggleSelecting={this.toggleCoinSelector}
-        >
-          <Input
-            light={true}
-            style={styles.input}
-            keyboardType="numeric"
-            label={(selectedWallet && `Enter Amount -- ${selectedWallet.balance} available`) || 'Amount'}
-            onChangeText={this.handleChangeAmount}
-            value={amount.toString()}
-          />
-          <Input
-            light={true}
-            style={styles.input}
-            onChangeText={this.handleChangeToAddress}
-            value={toAddress}
-            label={'Destination Address'}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-        </SelectWalletSection>
+
+        <Conditional>
+          <Try condition={!wallets.length}>
+            <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>
+          </Try>
+
+          <Try condition={isSelecting}>
+            <SelectableImageList title={selectionTitle} items={selectionList} />
+          </Try>
+
+          <Otherwise>
+            <View style={styles.flex1}>
+              <SelectableImageHeader
+                title={walletTitle}
+                imageSource={
+                  selectedWallet && getCoinMetadata(selectedWallet.symbol).image
+                }
+                changePosition="above"
+                onPress={this.toggleCoinSelector}
+              />
+              <Input
+                light={true}
+                style={styles.input}
+                keyboardType="numeric"
+                label={`Enter Amount${
+                  selectedWallet
+                    ? ` -- ${selectedWallet.balance} available`
+                    : ''
+                }`}
+                onChangeText={this.handleChangeAmount}
+                value={amount.toString()}
+              />
+              <Input
+                light={true}
+                style={styles.input}
+                label="Enter Address"
+                onChangeText={this.handleChangeToAddress}
+                value={toAddress}
+              />
+              <SelectableImageHeader
+                title={contactTitle}
+                imageSource={contactImage}
+                changePosition="below"
+                onPress={this.toggleContactSelector}
+              />
+            </View>
+          </Otherwise>
+        </Conditional>
       </Modal>
     );
   }
@@ -143,9 +333,31 @@ export default class SendModal extends Component {
 
 const styles = StyleSheet.create({
   text: {
-    marginVertical: 20
+    marginVertical: 20,
   },
   input: {
-    marginBottom: 20
-  }
+    marginBottom: 20,
+  },
+
+  flex1: {
+    flex: 1,
+  },
+  subheading: {
+    justifyContent: 'center',
+  },
+  subheadingContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
+  },
+  changeCoin: {
+    alignItems: 'center',
+  },
+  coinImage: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    margin: 10,
+    resizeMode: 'cover',
+  },
 });

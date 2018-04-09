@@ -145,6 +145,7 @@ dependencies {
     compile project(':react-native-splash-screen')
     compile project(':react-native-jumio-mobilesdk')
     compile project(':react-native-vector-icons')
+    compile project(':react-native-contacts')
     compile project(':lottie-react-native')
     compile project(':react-native-hockeyapp')
     compile project(':react-native-svg')
