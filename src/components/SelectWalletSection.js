@@ -15,11 +15,11 @@ export default class SelectWalletSection extends Component {
   static propTypes = {
     wallets: PropTypes.arrayOf(
       PropTypes.shape({
-        publicAddress: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         symbol: PropTypes.string.isRequired,
       })
     ).isRequired,
-    selectedAddress: PropTypes.string,
+    selectedId: PropTypes.string,
     showHeader: PropTypes.bool,
     title: PropTypes.string,
     selecting: PropTypes.bool.isRequired,
@@ -38,15 +38,13 @@ export default class SelectWalletSection extends Component {
     const {
       showHeader,
       wallets,
-      selectedAddress,
+      selectedId,
       selecting,
       children,
       title,
     } = this.props;
 
-    const selectedWallet = wallets.find(
-      wallet => wallet.publicAddress === selectedAddress
-    );
+    const selectedWallet = wallets.find(wallet => wallet.id === selectedId);
 
     if (!wallets.length) {
       return <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>;
@@ -62,9 +60,9 @@ export default class SelectWalletSection extends Component {
         <ScrollView bounces={false}>
           {wallets.map(wallet => (
             <SelectableCoin
-              key={wallet.publicAddress}
-              onPress={this.handleSelectCoin(wallet.publicAddress)}
-              selected={selectedAddress === wallet.publicAddress}
+              key={wallet.id}
+              onPress={this.handleSelectCoin(wallet.id)}
+              selected={selectedId === wallet.id}
               currency={wallet.symbol}
             />
           ))}
@@ -75,12 +73,12 @@ export default class SelectWalletSection extends Component {
         {showHeader && (
           <View style={styles.subheadingContainer}>
             <T.SubHeading style={styles.subheading}>
-              {selectedAddress ? title : 'No Wallet Selected'}
+              {selectedId ? title : 'No Wallet Selected'}
             </T.SubHeading>
             <TouchableOpacity onPress={this.props.onToggleSelecting}>
               <View style={styles.changeCoin}>
                 <T.Small>Change</T.Small>
-                {selectedAddress && (
+                {selectedId && (
                   <Image
                     style={styles.coinImage}
                     source={getCoinMetadata(selectedWallet.symbol).image}
@@ -90,7 +88,7 @@ export default class SelectWalletSection extends Component {
             </TouchableOpacity>
           </View>
         )}
-        {selectedAddress && <View>{children}</View>}
+        {selectedId && <View>{children}</View>}
       </View>
     );
   }

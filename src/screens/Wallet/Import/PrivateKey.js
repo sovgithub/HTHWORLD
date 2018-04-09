@@ -41,7 +41,7 @@ export default class PrivateKey extends Component {
           autoCapitalize="none"
           returnKeyType="done"
           light={true}
-          placeholder={`private key`}
+          label={`private key`}
           value={privateKey}
           onChangeText={this.updateAnswer}
         />

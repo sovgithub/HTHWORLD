@@ -1,3 +1,3 @@
 export default {
-    ETHNET: 'ropsten',
-  };
+  ETHNET: 'ropsten',
+};

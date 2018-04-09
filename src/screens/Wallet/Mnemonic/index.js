@@ -5,16 +5,17 @@
 |--------------------------------------------------
 */
 import { connect } from 'react-redux';
-import { createWallet } from '../actions';
+import { initializeMnemonic } from '../actions';
+import { mnemonicPhraseSelector } from '../selectors';
 
 import Mnemonic from './Mnemonic';
 
 function mapStateToProps(state) {
-  return { wallet: state.wallet };
+  return { hasMnemonic: !!mnemonicPhraseSelector(state) };
 }
 
 const mapDispatchToProps = {
-  createWallet
+  initializeMnemonic
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Mnemonic);

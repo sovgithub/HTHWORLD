@@ -1,24 +1,21 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, View, ScrollView } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import T from "components/Typography";
 import { initializeWallet } from "../WalletInstances";
 import SelectType from "./Type";
 import SelectCoin from "../components/SelectCoin";
-import InputList from "./InputList";
+import InputList from "../components/InputList";
 import PrivateKey from "./PrivateKey";
 import Confirm from "./Confirm";
 import NavigatorService from "lib/navigator";
 import Modal from "../Modal";
-import Button from "components/Button";
 
-export default class Recover extends Component {
+export default class Import extends Component {
   static propTypes = {
-    createWallet: PropTypes.func.isRequired,
-    recoverWallet: PropTypes.func.isRequired,
+    importWallet: PropTypes.func.isRequired,
     wallet: PropTypes.shape({
-      create_successful: PropTypes.bool.isRequired
+      import_successful: PropTypes.bool.isRequired
     }).isRequired
   };
 
@@ -34,7 +31,7 @@ export default class Recover extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.wallet.create_successful) {
+    if (nextProps.wallet.import_successful) {
       this.setState({ modalOpen: true });
     }
   }
@@ -107,21 +104,20 @@ export default class Recover extends Component {
     initializeWallet(this.state.coin, true, answers.join(" "));
   };
 
-  saveNewWallet = answers => {
-    this.props.createWallet(this.state.coin, answers.join(" "));
-    this.openModal();
-  };
+  importWallet = type => seed => {
+    this.props.importWallet(
+      this.state.coin,
+      type,
+      type === 'privateKey'
+        ? seed
+        : seed.join(' ')
+    );
 
-  recoverWallet = privateKey => {
-    this.props.recoverWallet(this.state.coin, privateKey);
     this.openModal();
   };
 
   handleRedirect = () => {
-    NavigatorService.navigateDeep([
-      { routeName: "Menu" },
-      { routeName: "Wallets" }
-    ]);
+    NavigatorService.navigate("Wallet");
   };
 
   getMnemonicComponentForStep = step => {
@@ -152,7 +148,7 @@ export default class Recover extends Component {
         <Confirm
           answers={[...this.state.answers.step1, ...this.state.answers.step2]}
           testWallet={this.testWallet}
-          saveWallet={this.saveNewWallet}
+          saveWallet={this.importWallet('mnemonic')}
           goBack={this.goBack}
         />
       );
@@ -162,7 +158,7 @@ export default class Recover extends Component {
   getPrivateKeyComponentForStep = () => {
     return (
       <PrivateKey
-        onSubmit={this.recoverWallet}
+        onSubmit={this.importWallet('privateKey')}
         onCancel={this.handleRedirect}
       />
     );
@@ -198,24 +194,10 @@ export default class Recover extends Component {
         {this.getComponentForStep(step)}
         <Modal
           show={modalOpen}
-          title="Select Currency"
+          title={`${this.state.coin} wallet imported!`}
           onCancel={this.handleRedirect}
           onDone={this.handleRedirect}
         >
-          <ScrollView bounces={false} style={styles.scrollView}>
-            <View style={styles.headerContainer}>
-              <T.Heading style={styles.headingStyle}>SUCCESS</T.Heading>
-            </View>
-            <View>
-              <T.Light style={styles.headingStyle}>
-                Paper key was confirmed!
-              </T.Light>
-
-              <Button type="secondary" onPress={this.handleRedirect}>
-                Go To My Wallet
-              </Button>
-            </View>
-          </ScrollView>
         </Modal>
       </View>
     );

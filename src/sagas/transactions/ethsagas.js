@@ -5,8 +5,8 @@ import {
 import { AsyncStorage } from 'react-native';
 import { channel } from 'redux-saga';
 import { fork, all, take, select, takeEvery, call, put } from "redux-saga/effects";
-import { WALLET_CREATE_SUCCESS } from "screens/Wallet/constants";
-import { selectors as walletSelectors } from "screens/Wallet/reducer";
+import { WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS } from "screens/Wallet/constants";
+import { walletsForSymbolSelector } from "screens/Wallet/selectors";
 import { RequestLimiter, asyncMemoize, getHalfwayPoint, Queue } from './helpers';
 import {
   BLOCK_ADDED_TO_QUEUE,
@@ -48,7 +48,7 @@ export const timestampPriceApi = new RequestLimiter(
 export default function* ethTransactionsSagaWatcher() {
   yield all([
     call(initialize),
-    takeEvery(WALLET_CREATE_SUCCESS, listenForWalletEvents), // takes publicAddress, symbol
+    takeEvery([WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS], listenForWalletEvents), // takes publicAddress, symbol
     takeEvery(SEARCH_FOR_INTERESTING_BLOCKS, fetchHistoryEth),
     takeEvery(INTERESTING_BLOCK_FOUND, addBlockToQueue),
   ]);
@@ -75,8 +75,8 @@ export function* processTransactionsBlockQueue() {
     }
 
     const { block, transactionCount } = yield call(transactionsBlockQueue.pop);
-    const { walletAddresses } = yield select(walletSelectors.walletsForSymbol(SYMBOL_ETH));
-    yield call(searchBlockForTransactions, block, walletAddresses, transactionCount);
+    const wallets = yield select(state => walletsForSymbolSelector(state, SYMBOL_ETH));
+    yield call(searchBlockForTransactions, block, wallets.map(w => w.publicAddress), transactionCount);
   }
 }
 

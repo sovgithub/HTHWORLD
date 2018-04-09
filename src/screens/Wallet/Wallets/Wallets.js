@@ -17,6 +17,8 @@ class Wallet extends React.Component {
       navigate: PropTypes.func.isRequired
     }).isRequired,
     wallets: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+    hasMnemonic: PropTypes.bool,
+    hasAvailableCoins: PropTypes.bool,
     prices: PropTypes.objectOf(PropTypes.number),
     getCurrencyPrice: PropTypes.func.isRequired
   };
@@ -27,17 +29,69 @@ class Wallet extends React.Component {
     );
   }
 
-  handleNavigateToCoinInfo = (address, coin) => () => {
-    this.props.navigation.navigate("CoinInformation", { address, coin });
+  handleNavigateToCoinInfo = (id, coin) => () => {
+    this.props.navigation.navigate("CoinInformation", { id, coin });
   };
 
-  handleWalletGenerate = () => {
-    this.props.navigation.navigate("Mnemonic");
+  handleMnemonicGenerate = () => {
+    this.props.navigation.navigate('Mnemonic');
   };
 
-  handleWalletRecover = () => {
-    this.props.navigation.navigate("Recover");
+  handleWalletTrack = () => {
+    this.props.navigation.navigate('Track');
   };
+
+  handleWalletImport = () => {
+    this.props.navigation.navigate('Import');
+  };
+
+  renderActionButtons() {
+    const buttons = [
+    ];
+
+    if (this.props.hasMnemonic) {
+
+      if (this.props.hasAvailableCoins) {
+        buttons.push({
+          type: 'secondary',
+          onPress: this.handleWalletTrack,
+          text: 'Track Coin'
+        });
+      }
+
+      buttons.push({
+        type: 'text',
+        onPress: this.handleWalletImport,
+        text: 'import wallet',
+        style: {
+          marginTop: 20,
+          marginBottom: 5
+        }
+      });
+    } else {
+      buttons.push({
+        type: 'secondary',
+        onPress: this.handleMnemonicGenerate,
+        text: 'Make Mnemonic'
+      });
+    }
+
+    return (
+      <View style={styles.footerContainer}>
+        {buttons.map(({style, type, onPress, text, ...rest}) => (
+          <Button
+            key={text}
+            style={style}
+            type={type}
+            onPress={onPress}
+            {...rest}
+          >
+            {text}
+          </Button>
+        ))}
+      </View>
+    );
+  }
 
   render() {
     const totalPrice = this.props.wallets.reduce(
@@ -52,8 +106,7 @@ class Wallet extends React.Component {
         source={require("assets/BackgroundBlue.png")}
       >
         <ScrollView
-          style={[styles.transparentBackground, styles.container]}
-          contentContainerStyle={[styles.transparentBackground, styles.container]}
+          contentContainerStyle={styles.scrollview}
           bounces={false}
         >
           <View
@@ -62,7 +115,7 @@ class Wallet extends React.Component {
               styles.headingContainer
             ]}
           >
-            <View style={styles.currentBalance}>
+            <View style={[ styles.currentBalance, styles.transparentBackground ]}>
               <T.Small style={styles.text}>Current Balance</T.Small>
               <T.PriceLarge style={styles.text}>
                 ${totalPrice.toFixed(2)}
@@ -82,25 +135,25 @@ class Wallet extends React.Component {
           <View
             style={[
               styles.walletContainer,
-              styles.container
             ]}
           >
             <View style={styles.walletHeadingContainer}>
               <T.SubHeading style={styles.walletHeading}>Holdings</T.SubHeading>
             </View>
-            {this.props.wallets.map((wallet, i) => {
-              const { balance, symbol, publicAddress } = wallet;
+            {this.props.wallets.map((wallet) => {
+              const { balance, symbol, publicAddress, id, imported } = wallet;
               const price = this.props.prices[symbol];
 
               return (
                 <WalletListEntry
-                  key={`wallet-${i}`}
+                  key={id}
                   name={`My ${symbol} Wallet`}
                   symbol={symbol}
                   balance={balance}
                   change={"0%"}
                   publicAddress={publicAddress}
-                  onPress={this.handleNavigateToCoinInfo(publicAddress, symbol)}
+                  imported={imported}
+                  onPress={this.handleNavigateToCoinInfo(id, symbol)}
                   value={(Number(price) * Number(balance)).toFixed(2)}
                 />
               );
@@ -110,22 +163,7 @@ class Wallet extends React.Component {
                 Create or recover a wallet!
               </T.SubHeading>
             )}
-            <View style={styles.footerContainer}>
-              <Button
-                style={styles.buttonLeft}
-                type="secondary"
-                onPress={this.handleWalletGenerate}
-              >
-                Create
-              </Button>
-              <Button
-                style={styles.buttonRight}
-                type="secondary"
-                onPress={this.handleWalletRecover}
-              >
-                Recover
-              </Button>
-            </View>
+            {this.renderActionButtons()}
           </View>
         </ScrollView>
       </ImageBackground>
@@ -137,10 +175,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  scrollview: {
+    flexGrow: 1
+  },
   headingContainer: {
     minHeight: 200,
     alignItems: 'center',
-    marginTop: 40
   },
   backgroundImage: {
     width: null,
@@ -195,6 +235,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid"
   },
   walletContainer: {
+    flex: 1,
     backgroundColor: "white",
     marginBottom: 'auto',
   },
@@ -211,7 +252,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   footerContainer: {
-    flexDirection: "row",
+    marginTop: 'auto',
     padding: 15
   },
   buttonLeft: {

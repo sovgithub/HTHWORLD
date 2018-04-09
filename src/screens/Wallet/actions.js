@@ -1,45 +1,88 @@
 import {
-  WALLET_RECOVER_REQUESTING,
-  WALLET_CREATE_REQUESTING,
-  WALLET_CREATE_SUCCESS,
+  WALLET_INITIALIZE_PASSPHRASE,
+
+  WALLET_TRACK_SYMBOL,
+  WALLET_TRACK_SYMBOL_SUCCESS,
+  WALLET_TRACK_SYMBOL_FAILURE,
+
+  WALLET_IMPORT,
+  WALLET_IMPORT_SUCCESS,
+  WALLET_IMPORT_FAILURE,
+
   WALLET_UPDATE_BALANCE_REQUESTING,
   WALLET_SEND_FUNDS_REQUESTING
 } from "./constants";
 
-export function createWallet(symbol, mnemonicString) {
+export function initializeMnemonic(mnemonicPhrase) {
   return {
-    type: WALLET_CREATE_REQUESTING,
-    symbol,
-    mnemonicString
+    type: WALLET_INITIALIZE_PASSPHRASE,
+    mnemonicPhrase
   };
 }
 
-export function createWalletSuccess(payload) {
+export function trackSymbol(symbol) {
   return {
-    type: WALLET_CREATE_SUCCESS,
+    type: WALLET_TRACK_SYMBOL,
+    symbol
+  };
+}
+
+export function trackSymbolSuccess(payload) {
+  return {
+    type: WALLET_TRACK_SYMBOL_SUCCESS,
     payload
   };
 }
 
-export function recoverWallet(symbol, privateKey) {
+export function trackSymbolFailure(error) {
   return {
-    type: WALLET_RECOVER_REQUESTING,
-    symbol,
-    privateKey
+    type: WALLET_TRACK_SYMBOL_FAILURE,
+    error
   };
 }
 
-export function updateBalance(publicAddress) {
+export function importWallet(symbol, importType, seed) {
+  return {
+    type: WALLET_IMPORT,
+    symbol,
+    importType,
+    seed
+  };
+}
+
+export function importWalletSuccess(payload) {
+  return {
+    type: WALLET_IMPORT_SUCCESS,
+    payload
+  };
+}
+
+export function importWalletFailure(error) {
+  return {
+    type: WALLET_IMPORT_FAILURE,
+    error
+  };
+}
+
+
+
+
+
+
+
+
+
+export function updateBalance(id) {
   return {
     type: WALLET_UPDATE_BALANCE_REQUESTING,
-    publicAddress
+    id
   };
 }
 
-export function sendFunds(fromPublicAddress, toPublicAddress, amount) {
+export function sendFunds(fromId, toPublicAddress, amount) {
   return {
     type: WALLET_SEND_FUNDS_REQUESTING,
-    fromPublicAddress,
+    fromId,
     toPublicAddress,
     amount
   };

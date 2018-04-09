@@ -72,7 +72,7 @@ export default class InputList extends Component {
                 autoCapitalize="none"
                 returnKeyType="next"
                 light={true}
-                placeholder={`Word #${i + offset}`}
+                label={`Word #${i + offset}`}
                 value={answer}
                 onChangeText={this.updateAnswer(i)}
               />

@@ -2,21 +2,36 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import T from "components/Typography";
+import Icon from 'components/Icon';
 
-const WalletListEntry = ({ name, symbol, balance, value, onPress, change }) => {
+const WalletListEntry = ({ name, symbol, balance, value, onPress, change, imported }) => {
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
-      <View style={styles.left}>
-        <T.TitleAlternate>{name}</T.TitleAlternate>
-        <T.SmallAlternate>
-          {symbol} - {balance}
-        </T.SmallAlternate>
-      </View>
-      <View style={styles.right}>
-        <T.Price>${value}</T.Price>
-        <T.SubtitleAlternate>
-          <T.SemiBoldAlternate>{change}</T.SemiBoldAlternate>
-        </T.SubtitleAlternate>
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.container}>
+        <View style={styles.left}>
+          <View style={styles.titleContainer}>
+            <T.TitleAlternate>
+              {name}
+            </T.TitleAlternate>
+            {imported && (
+              <View style={styles.icon}>
+                <Icon
+                  style={{size: 15, color: 'black'}}
+                  icon="ios-link"
+                />
+              </View>
+            )}
+          </View>
+          <T.SmallAlternate>
+            {symbol} - {balance}
+          </T.SmallAlternate>
+        </View>
+        <View style={styles.right}>
+          <T.Price>${value}</T.Price>
+          <T.SubtitleAlternate>
+            <T.SemiBoldAlternate>{change}</T.SemiBoldAlternate>
+          </T.SubtitleAlternate>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -27,6 +42,7 @@ export default WalletListEntry;
 WalletListEntry.propTypes = {
   balance: PropTypes.number.isRequired,
   change: PropTypes.string.isRequired,
+  imported: PropTypes.bool,
   name: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
@@ -40,6 +56,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderBottomColor: "#bbb",
     borderBottomWidth: StyleSheet.hairlineWidth
+  },
+  titleContainer: {
+    flexDirection: 'row'
+  },
+  icon: {
+    paddingLeft: 5
   },
   left: {
     flexGrow: 2

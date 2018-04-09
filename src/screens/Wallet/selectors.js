@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect';
+import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 
 export const allWalletsSelector = createSelector(
-  state => state.wallet.walletAddresses,
+  state => state.wallet.walletIds,
   state => state.wallet.wallets,
-  (addresses, objects) =>
-    addresses.map(address => objects[address])
+  (ids, wallets) =>
+    ids.map(id => wallets[id])
 );
 
 export const walletsForSymbolSelector = createSelector(
@@ -16,6 +17,16 @@ export const walletsForSymbolSelector = createSelector(
 
 export const walletSelector = createSelector(
   state => state.wallet.wallets,
-  (_, address) => address,
-  (wallets, address) => wallets[address]
+  (_, id) => id,
+  (wallets, id) => wallets[id]
+);
+
+export const mnemonicPhraseSelector = createSelector(
+  state => state.wallet,
+  walletState => walletState.mnemonicPhrase
+);
+
+export const availableCoinsSelector = createSelector(
+  state => state.wallet.hoardWallets,
+  hoardWallets => SUPPORTED_COINS_WALLET.filter(coin => !hoardWallets[coin])
 );

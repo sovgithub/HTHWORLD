@@ -4,7 +4,6 @@ import {
 } from "containers/App/constants";
 import { AsyncStorage } from 'react-native';
 import { throttle, fork, all, put, takeLatest, select, takeEvery, call } from "redux-saga/effects";
-import { selectors as walletSelectors } from "screens/Wallet/reducer";
 import {
   TRANSACTION_FOUND,
   SEARCH_FOR_TRANSACTIONS,
@@ -13,6 +12,7 @@ import {
 } from './constants';
 import {transactionFound} from './actions';
 import ethSagas, {fetchHistoryEth} from './ethsagas';
+import { walletSelector } from 'screens/Wallet/selectors';
 
 
 export default function* transactionSagaWatcher() {
@@ -68,7 +68,7 @@ export function* saveTransactions() {
 }
 
 export function* fetchHistory(action) {
-  const receivedWallet = yield select(walletSelectors.getWallet(action.address));
+  const receivedWallet = yield select(walletSelector(action.id));
   const wallet = receivedWallet ? receivedWallet : {};
 
   switch(wallet.symbol) {

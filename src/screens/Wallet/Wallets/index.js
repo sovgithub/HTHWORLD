@@ -1,23 +1,35 @@
 import {connect} from 'react-redux';
 
+import Wallets from './Wallets';
+
 import {
   getCurrencyPrice
 } from 'sagas/pricing/actions';
-import Wallets from './Wallets';
+
+import {
+  allWalletsSelector,
+  availableCoinsSelector,
+  mnemonicPhraseSelector
+} from '../selectors';
+import { updateBalance } from '../actions';
 
 
-const mapStateToProps = ({pricing}) => ({
-  prices: Object.keys(pricing).reduce(
+const mapStateToProps = (state) => ({
+  wallets: allWalletsSelector(state),
+  hasMnemonic: !!mnemonicPhraseSelector(state),
+  hasAvailableCoins: availableCoinsSelector(state).length > 0,
+  prices: Object.keys(state.pricing).reduce(
     (prices, key) => ({
       ...prices,
-      [key]: pricing[key].price.price
+      [key]: state.pricing[key].price.price
     }),
     {}
   )
 });
 
 const mapDispatchToProps = {
-  getCurrencyPrice
+  getCurrencyPrice,
+  updateBalance
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallets);

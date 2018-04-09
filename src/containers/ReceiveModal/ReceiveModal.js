@@ -9,13 +9,14 @@ import Modal from 'components/Modal';
 import SelectWalletSection from 'components/SelectWalletSection';
 
 const initialState = {
-  selectedAddress: null,
+  selectedWallet: {},
   selectingWallet: false
 };
 
 export default class ReceiveModal extends Component {
   static propTypes = {
     wallets: PropTypes.arrayOf(PropTypes.shape({
+      id: PropTypes.string.isRequired,
       publicAddress: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     })).isRequired,
@@ -31,22 +32,21 @@ export default class ReceiveModal extends Component {
     }
   }
 
-  handleSelectCoin = (value) => this.setState({
-    selectedAddress: value,
+  handleSelectWallet = (id) => this.setState({
+    selectedWallet: this.props.wallets.find(wallet => wallet.id === id),
     selectingWallet: false
   })
 
   toggleCoinSelector = () => this.setState({selectingWallet: !this.state.selectingWallet})
 
-  copyAddress = () => Clipboard.setString(this.state.selectedAddress);
+  copyAddress = () => Clipboard.setString(this.state.selectedWallet.publicAddress);
 
   render() {
     const {wallets} = this.props;
-    const {selectedAddress, selectingWallet} = this.state;
+    const {selectedWallet, selectingWallet} = this.state;
 
-    const selectedWallet = wallets.find((wallet) => wallet.publicAddress === selectedAddress);
     const actionButtons = wallets.length && !selectingWallet
-      ? [{text: 'Copy Address', type: 'primary', onPress: this.copyAddress, disabled: !selectedAddress}]
+      ? [{text: 'Copy Address', type: 'primary', onPress: this.copyAddress, disabled: !selectedWallet.publicAddress}]
       : [];
 
     return (
@@ -61,13 +61,13 @@ export default class ReceiveModal extends Component {
         </T.Light>
         <SelectWalletSection
           wallets={wallets}
-          selectedAddress={selectedAddress}
+          selectedId={selectedWallet.id}
           title={selectedWallet ? `My ${selectedWallet.symbol} Address` : ''}
           selecting={selectingWallet}
-          onSelect={this.handleSelectCoin}
+          onSelect={this.handleSelectWallet}
           onToggleSelecting={this.toggleCoinSelector}
         >
-          <T.GrayedOut>{selectedAddress}</T.GrayedOut>
+          <T.GrayedOut>{selectedWallet.publicAddress}</T.GrayedOut>
         </SelectWalletSection>
       </Modal>
     );

@@ -16,7 +16,7 @@ const amountFormatter = formatDecimalInput(8);
 const initialState = {
   amount: '',
   toAddress: '',
-  selectedAddress: null,
+  selectedId: null,
   selectingWallet: false
 };
 
@@ -24,7 +24,7 @@ export default class SendModal extends Component {
   static propTypes = {
     wallets: PropTypes.arrayOf(PropTypes.shape({
       balance: PropTypes.number.isRequired,
-      publicAddress: PropTypes.string.isRequired,
+      id: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
     })).isRequired,
     show: PropTypes.bool.isRequired,
@@ -47,16 +47,16 @@ export default class SendModal extends Component {
   handleSelectCoin = (value) => this.setState({
     amount: '',
     toAddress: '',
-    selectedAddress: value,
+    selectedId: value,
     selectingWallet: false
   })
 
   toggleCoinSelector = () => this.setState({selectingWallet: !this.state.selectingWallet})
 
-  validate({amount, toAddress, selectedAddress}) {
+  validate({amount, toAddress, selectedId}) {
     const numAmount = Number(amount);
-    const selectedWallet = this.props.wallets.find((wallet) => wallet.publicAddress === selectedAddress);
-    if (!selectedAddress) {
+    const selectedWallet = this.props.wallets.find((wallet) => wallet.id === selectedId);
+    if (!selectedId) {
       Alert.alert('Please select a wallet to send from');
       return false;
     } else if (!numAmount) {
@@ -76,7 +76,7 @@ export default class SendModal extends Component {
   send = () => {
     if (this.validate(this.state)) {
       this.props.sendFunds(
-        this.state.selectedAddress,
+        this.state.selectedId,
         this.state.toAddress,
         Number(this.state.amount)
       );
@@ -88,14 +88,14 @@ export default class SendModal extends Component {
     const {
       amount,
       toAddress,
-      selectedAddress,
+      selectedId,
       selectingWallet
     } = this.state;
 
-    const selectedWallet = wallets.find((wallet) => wallet.publicAddress === selectedAddress);
+    const selectedWallet = wallets.find((wallet) => wallet.id === selectedId);
     const actionButtons = wallets.length && !selectingWallet
       ? [
-        {text: 'Confirm', type: 'primary', onPress: this.send, disabled: !selectedAddress},
+        {text: 'Confirm', type: 'primary', onPress: this.send, disabled: !selectedId},
         {text: 'Cancel', type: 'text', onPress: this.props.hideSendModal}
       ]
       : [];
@@ -112,7 +112,7 @@ export default class SendModal extends Component {
         </T.Light>
         <SelectWalletSection
           wallets={wallets}
-          selectedAddress={selectedAddress}
+          selectedId={selectedId}
           title={selectedWallet ? `Sending ${getCoinMetadata(selectedWallet.symbol).fullName} ${selectedWallet.symbol}` : ''}
           selecting={selectingWallet}
           onSelect={this.handleSelectCoin}

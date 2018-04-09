@@ -6,7 +6,8 @@ import configureStore from './configureStore';
 import HockeyApp from 'react-native-hockeyapp';
 import Login from 'screens/Login';
 import Mnemonic from 'screens/Wallet/Mnemonic';
-import Recover from 'screens/Wallet/Recover';
+import Track from 'screens/Wallet/Track';
+import Import from 'screens/Wallet/Import';
 import Signup from 'screens/Signup';
 import Menu from 'screens/Menu';
 import { StackNavigator } from 'react-navigation';
@@ -20,7 +21,8 @@ const RoutingStack = StackNavigator(
     Signup: { screen: Signup },
     Menu: { screen: Menu },
     Mnemonic: { screen: Mnemonic },
-    Recover: { screen: Recover }
+    Track: { screen: Track },
+    Import: { screen: Import }
   },
   {
     headerMode: 'none'

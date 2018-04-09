@@ -35,13 +35,10 @@ export default class PortfolioChart extends Component {
       })).isRequired,
       transactionsByAddress: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string).isRequired),
     }).isRequired,
-    wallet: PropTypes.shape({
-      walletAddresses: PropTypes.arrayOf(PropTypes.string).isRequired,
-      wallets: PropTypes.objectOf(PropTypes.shape({
-        symbol: PropTypes.string,
-        publicAddress: PropTypes.string,
-      })).isRequired
-    }).isRequired
+    wallets: PropTypes.arrayOf(PropTypes.shape({
+      symbol: PropTypes.oneOf([SYMBOL_ETH]),
+      publicAddress: PropTypes.string,
+    })).isRequired
   };
 
   state = {
@@ -51,15 +48,15 @@ export default class PortfolioChart extends Component {
   };
 
   componentDidMount() {
-    const {transactions, wallet} = this.props;
+    const {transactions, wallets} = this.props;
 
     if (!this.isRenderable()) {
       return;
     }
 
-    const { initialPortfolioPrice, timeUSD } = this.getTimeUSD(transactions, wallet.wallets);
+    const { initialPortfolioPrice, timeUSD } = this.getTimeUSD(transactions, wallets);
 
-    const { timeCoin, timePrices } = this.getTimeCoin(transactions, wallet);
+    const { timeCoin, timePrices } = this.getTimeCoin(transactions, wallets);
 
     const minimumTimes = [];
     if (timeCoin[0]) {
@@ -141,14 +138,12 @@ export default class PortfolioChart extends Component {
     };
   }
 
-  getTimeCoin = (transactions, wallet) => {
+  getTimeCoin = (transactions, wallets) => {
     const timePrices = [];
 
-    const listOfTimesCoins = wallet.walletAddresses
-      .map(a => wallet.wallets[a])
-      .reduce((ws, w) => w.symbol === SYMBOL_ETH ? [...ws, w.publicAddress] : ws, [])
+    const listOfTimesCoins = wallets
       .reduce((ws, w) => {
-        const transactionsForThisWallet = transactions.transactionsByAddress[w];
+        const transactionsForThisWallet = transactions.transactionsByAddress[w.publicAddress] || [];
         const adjustedValues = transactionsForThisWallet.map(t => {
           const transaction = transactions.transactions[t];
           const value = transaction.from === w ? -Number(transaction.value) : Number(transaction.value);
@@ -181,19 +176,16 @@ export default class PortfolioChart extends Component {
   }
 
   isRenderable = () => {
-    const listOfTransactions = this.props.wallet.walletAddresses
+    const listOfTransactions = this.props.wallets
       .reduce(
-        (fullTransactionsList, address) => {
-          const wallet = this.props.wallet.wallets[address];
-          if (wallet && wallet.symbol === SYMBOL_ETH) {
-            const transactions = this.props.transactions.transactionsByAddress[address];
+        (fullTransactionsList, wallet) => {
+          const transactions = this.props.transactions.transactionsByAddress[wallet.publicAddress];
 
-            if (transactions) {
-              return [
-                ...fullTransactionsList,
-                ...transactions
-              ];
-            }
+          if (transactions) {
+            return [
+              ...fullTransactionsList,
+              ...transactions
+            ];
           }
 
           return fullTransactionsList;
@@ -243,7 +235,7 @@ export default class PortfolioChart extends Component {
         </VictoryChart>
       )
       : (
-        <View style={{padding: 50}}>
+        <View style={{padding: 50, maxHeight: 100}}>
           <LoadingSpinner />
         </View>
       );

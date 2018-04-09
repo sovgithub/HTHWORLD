@@ -1,5 +1,5 @@
 import {
-  createWalletSuccess
+  trackSymbolSuccess
 } from '../actions';
 
 import reducer from '../../../rootReducer';
@@ -18,21 +18,25 @@ describe('Wallets Selectors', () => {
 
     it('should return all wallets that exist in the state', () => {
       const walletA = {
-        publicAddress: 'a',
+        id: 'a',
+        publicAddress: 'q',
+        imported: false,
         symbol: 'a',
         balance: 2
       };
 
-      const withOneWallet = reducer(undefined, createWalletSuccess(walletA));
+      const withOneWallet = reducer(undefined, trackSymbolSuccess(walletA));
       expect(allWalletsSelector(withOneWallet)).toEqual([walletA]);
 
       const walletB = {
-        publicAddress: 'b',
+        id: 'b',
+        publicAddress: 'z',
+        imported: false,
         symbol: 'b',
         balance: 2
       };
 
-      const withTwoWallets = reducer(withOneWallet, createWalletSuccess(walletB));
+      const withTwoWallets = reducer(withOneWallet, trackSymbolSuccess(walletB));
       expect(allWalletsSelector(withTwoWallets))
         .toEqual([walletA, walletB]);
 
@@ -50,32 +54,38 @@ describe('Wallets Selectors', () => {
 
     it('should return all wallets that exist in the state for that symbol', () => {
       const walletA = {
-        publicAddress: 'a',
+        id: 'a',
+        publicAddress: 'q',
+        imported: false,
         symbol: 'a',
         balance: 2
       };
 
 
-      const withOneWallet = reducer(undefined, createWalletSuccess(walletA));
+      const withOneWallet = reducer(undefined, trackSymbolSuccess(walletA));
       expect(walletsForSymbolSelector(withOneWallet, 'a')).toEqual([walletA]);
 
       const walletB = {
-        publicAddress: 'b',
+        id: 'b',
+        publicAddress: 'z',
+        imported: false,
         symbol: 'b',
         balance: 2
       };
 
-      const withTwoWallets = reducer(withOneWallet, createWalletSuccess(walletB));
+      const withTwoWallets = reducer(withOneWallet, trackSymbolSuccess(walletB));
       expect(walletsForSymbolSelector(withTwoWallets, 'a'))
         .toEqual([walletA]);
 
       const walletC = {
-        publicAddress: 'c',
+        id: 'c',
+        publicAddress: 'x',
+        imported: false,
         symbol: 'a',
         balance: 2
       };
 
-      const withThreeWallets = reducer(withTwoWallets, createWalletSuccess(walletC));
+      const withThreeWallets = reducer(withTwoWallets, trackSymbolSuccess(walletC));
 
       expect(walletsForSymbolSelector(withThreeWallets, 'a'))
         .toEqual([walletA, walletC]);
@@ -95,19 +105,23 @@ describe('Wallets Selectors', () => {
 
     it('should return all wallets that exist in the state', () => {
       const walletA = {
-        publicAddress: 'a',
+        id: 'a',
+        publicAddress: 'q',
+        imported: false,
         symbol: 'a',
         balance: 2
       };
 
       const walletB = {
-        publicAddress: 'b',
+        id: 'b',
+        imported: false,
+        publicAddress: 'z',
         symbol: 'b',
         balance: 2
       };
 
-      const withOneWallet = reducer(undefined, createWalletSuccess(walletA));
-      const withTwoWallets = reducer(withOneWallet, createWalletSuccess(walletB));
+      const withOneWallet = reducer(undefined, trackSymbolSuccess(walletA));
+      const withTwoWallets = reducer(withOneWallet, trackSymbolSuccess(walletB));
 
       expect(walletSelector(withOneWallet, 'a')).toEqual(walletA);
       expect(walletSelector(withTwoWallets, 'a')).toEqual(walletA);

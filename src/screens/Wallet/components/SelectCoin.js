@@ -12,8 +12,13 @@ const LANG_CANCEL_TEXT = "Cancel";
 
 export default class Step1 extends Component {
   static propTypes = {
-    saveAndContinue: PropTypes.func.isRequired
+    saveAndContinue: PropTypes.func.isRequired,
+    coins: PropTypes.arrayOf(PropTypes.string).isRequired
   };
+
+  static defaultProps = {
+    coins: SUPPORTED_COINS_WALLET
+  }
 
   state = {
     selectedCoin: null
@@ -39,11 +44,11 @@ export default class Step1 extends Component {
         </View>
         <View style={styles.bodyContainer}>
           <SelectWalletSection
-            wallets={SUPPORTED_COINS_WALLET.map(symbol => ({
-              publicAddress: symbol,
+            wallets={this.props.coins.map(symbol => ({
+              id: symbol,
               symbol
             }))}
-            selectedAddress={this.state.selectedCoin}
+            selectedId={this.state.selectedCoin}
             selecting={true}
             showHeader={false}
             onSelect={this.handleClick}
