@@ -5,15 +5,6 @@
    <BuildAction
       parallelizeBuildables = "NO"
       buildImplicitDependencies = "YES">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Run Script"
-               scriptText = "echo &quot;.env.prod&quot; &gt; /tmp/envfile">
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"
@@ -38,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "hoardinvest.app"
-               BlueprintName = "hoardinvest"
-               ReferencedContainer = "container:hoardinvest.xcodeproj">
+               BuildableName = "Hoard.app"
+               BlueprintName = "Hoard"
+               ReferencedContainer = "container:Hoard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -52,9 +43,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "hoardinvestTests.xctest"
-               BlueprintName = "hoardinvestTests"
-               ReferencedContainer = "container:hoardinvest.xcodeproj">
+               BuildableName = "HoardTests.xctest"
+               BlueprintName = "HoardTests"
+               ReferencedContainer = "container:Hoard.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -63,7 +54,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
          <TestableReference
@@ -71,9 +61,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "hoardinvestTests.xctest"
-               BlueprintName = "hoardinvestTests"
-               ReferencedContainer = "container:hoardinvest.xcodeproj">
+               BuildableName = "HoardTests.xctest"
+               BlueprintName = "HoardTests"
+               ReferencedContainer = "container:Hoard.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -81,9 +71,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "hoardinvest.app"
-            BlueprintName = "hoardinvest"
-            ReferencedContainer = "container:hoardinvest.xcodeproj">
+            BuildableName = "Hoard.app"
+            BlueprintName = "Hoard"
+            ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -93,7 +83,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = ""
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -105,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "hoardinvest.app"
-            BlueprintName = "hoardinvest"
-            ReferencedContainer = "container:hoardinvest.xcodeproj">
+            BuildableName = "Hoard.app"
+            BlueprintName = "Hoard"
+            ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -124,9 +113,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "hoardinvest.app"
-            BlueprintName = "hoardinvest"
-            ReferencedContainer = "container:hoardinvest.xcodeproj">
+            BuildableName = "Hoard.app"
+            BlueprintName = "Hoard"
+            ReferencedContainer = "container:Hoard.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

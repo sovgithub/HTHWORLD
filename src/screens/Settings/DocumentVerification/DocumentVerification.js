@@ -6,8 +6,8 @@ import {
   ScrollView,
   View,
   StyleSheet,
-  NativeModules,
-  NativeEventEmitter
+  /* NativeModules,
+   * NativeEventEmitter*/
 } from 'react-native';
 
 import Button from 'components/Button';
@@ -16,32 +16,32 @@ import NavigatorService from 'lib/navigator';
 
 import { keyMapper } from 'lib/object-helpers';
 
-const { JumioMobileSDKNetverify } = NativeModules;
+/* const { JumioMobileSDKNetverify } = NativeModules;*/
 
-const JumioArgs = [
-  'JUMIO_API_KEY',
-  'JUMIO_API_SECRET',
-  'us',
-  {
-    requireVerification: true,
-    customerId: 'CUSTOMERID',
-    preselectedCountry: 'USA',
-    cameraPosition: 'BACK',
-    documentTypes: ['DRIVER_LICENSE', 'PASSPORT', 'IDENTITY_CARD', 'VISA']
-  }
-];
-
-if (Platform.OS === 'ios') {
-  JumioMobileSDKNetverify.initNetverifyWithCustomization(...JumioArgs, {
-    backgroundColor: '#223252',
-    tintColor: '#ffffff'
-  });
-} else {
-  JumioMobileSDKNetverify.initNetverify(...JumioArgs);
-}
-
-const emitterNetverify = new NativeEventEmitter(JumioMobileSDKNetverify);
-
+/* const JumioArgs = [
+ *   'JUMIO_API_KEY',
+ *   'JUMIO_API_SECRET',
+ *   'us',
+ *   {
+ *     requireVerification: true,
+ *     customerId: 'CUSTOMERID',
+ *     preselectedCountry: 'USA',
+ *     cameraPosition: 'BACK',
+ *     documentTypes: ['DRIVER_LICENSE', 'PASSPORT', 'IDENTITY_CARD', 'VISA']
+ *   }
+ * ];
+ * 
+ * if (Platform.OS === 'ios') {
+ *   JumioMobileSDKNetverify.initNetverifyWithCustomization(...JumioArgs, {
+ *     backgroundColor: '#223252',
+ *     tintColor: '#ffffff'
+ *   });
+ * } else {
+ *   JumioMobileSDKNetverify.initNetverify(...JumioArgs);
+ * }
+ * 
+ * const emitterNetverify = new NativeEventEmitter(JumioMobileSDKNetverify);
+ * */
 /*
 Jumio returns Netverify success response like:
 {
@@ -111,30 +111,30 @@ export default class Verification extends React.Component {
   };
 
   componentDidMount() {
-    emitterNetverify.addListener(
-      'EventDocumentData',
-      this.handleNetverifySuccess
-    );
-    emitterNetverify.addListener('EventError', EventError => {
-      if (__DEV__) {
-        //eslint-disable-next-line no-console
-        console.log('EventError: ' + JSON.stringify(EventError));
-      }
-    });
+    /* emitterNetverify.addListener(
+     *   'EventDocumentData',
+     *   this.handleNetverifySuccess
+     * );
+     * emitterNetverify.addListener('EventError', EventError => {
+     *   if (__DEV__) {
+     *     //eslint-disable-next-line no-console
+     *     console.log('EventError: ' + JSON.stringify(EventError));
+     *   }
+     * });*/
   }
 
   componentWillUnmount() {
-    emitterNetverify.removeListener(
-      'EventDocumentData',
-      this.handleNetverifySuccess
-    );
+    /* emitterNetverify.removeListener(
+     *   'EventDocumentData',
+     *   this.handleNetverifySuccess
+     * );
 
-    emitterNetverify.removeListener('EventError', EventError => {
-      if (__DEV__) {
-        //eslint-disable-next-line no-console
-        console.log('EventError: ' + JSON.stringify(EventError));
-      }
-    });
+     * emitterNetverify.removeListener('EventError', EventError => {
+     *   if (__DEV__) {
+     *     //eslint-disable-next-line no-console
+     *     console.log('EventError: ' + JSON.stringify(EventError));
+     *   }
+     * });*/
   }
 
   handleNetverifySuccess = response => {
@@ -149,7 +149,7 @@ export default class Verification extends React.Component {
     if (__DEV__) {
       this.handleNetverifySuccess(SAMPLE_JUMIO_DATA);
     } else {
-      JumioMobileSDKNetverify.startNetverify();
+      /* JumioMobileSDKNetverify.startNetverify();*/
     }
   };
 

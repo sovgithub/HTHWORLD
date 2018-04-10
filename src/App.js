@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import NavigatorService from 'lib/navigator';
 import configureStore from './configureStore';
-import HockeyApp from 'react-native-hockeyapp';
+/* import HockeyApp from 'react-native-hockeyapp';*/
 import Login from 'screens/Login';
 import Mnemonic from 'screens/Wallet/Mnemonic';
 import Track from 'screens/Wallet/Track';
@@ -33,12 +33,12 @@ export let navigatorRef;
 
 export default class App extends React.Component {
   componentWillMount() {
-    HockeyApp.configure('HOCKEYAPP_API_KEY', true);
+    /* HockeyApp.configure('HOCKEYAPP_API_KEY', true);*/
   }
 
   componentDidMount() {
-    HockeyApp.start();
-    HockeyApp.checkForUpdate();
+    /* HockeyApp.start();*/
+    /* HockeyApp.checkForUpdate();*/
     store.dispatch({ type: INIT_REQUESTING });
     SplashScreen.hide();
   }
