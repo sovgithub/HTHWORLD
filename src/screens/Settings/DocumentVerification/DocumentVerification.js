@@ -46,7 +46,7 @@ import { keyMapper } from 'lib/object-helpers';
 Jumio returns Netverify success response like:
 {
   selectedCountry: USA,
-  addressLine:someaddress,
+  addressLine: 123 MAIN STREET,
   expiryDate: 20200101T00,
   postCode: 02255,
   city: BOSTON,
@@ -67,7 +67,7 @@ Jumio returns Netverify success response like:
 
 const SAMPLE_JUMIO_DATA = {
   selectedCountry: 'USA',
-  addressLine:'123 MAIN STREET',
+  addressLine: '123 MAIN STREET',
   expiryDate: '20200101T00',
   postCode: '02255',
   city: 'BOSTON',
@@ -80,9 +80,9 @@ const SAMPLE_JUMIO_DATA = {
   issuingDate: '20150111T00000000',
   middleName: 'W',
   selectedDocumentType: 'DRIVER_LICENSE',
-  subdivision: 'RI',
+  subdivision: 'MA',
   extractionMethod: 'BARCODE',
-  gender: 'm'
+  gender: 'm',
 };
 
 const JUMIO_TO_NORMALIZED_MAP = {
@@ -94,20 +94,20 @@ const JUMIO_TO_NORMALIZED_MAP = {
   firstName: 'first_name',
   dob: 'birthdate',
   middleName: 'middle_name',
-  subdivision: 'state'
+  subdivision: 'state',
 };
 
 export default class Verification extends React.Component {
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   static propTypes = {
-    documentVerificationRequest: PropTypes.func.isRequired
+    documentVerificationRequest: PropTypes.func.isRequired,
   };
 
   state = {
-    documentScan: false
+    documentScan: false,
   };
 
   componentDidMount() {
@@ -194,31 +194,31 @@ const styles = StyleSheet.create({
   image: {
     width: null,
     height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   heading: {
     backgroundColor: 'transparent',
-    color: '#ffffff'
+    color: '#ffffff',
   },
   text: {
     backgroundColor: 'transparent',
     color: '#ffffff',
-    marginBottom: 10
+    marginBottom: 10,
   },
   notification: {
     backgroundColor: '#FDE3A7',
     color: '#F89406',
     fontStyle: 'italic',
     padding: 20,
-    marginBottom: 20
+    marginBottom: 20,
   },
   formContainer: {
-    padding: 20
+    padding: 20,
   },
   button: {
-    marginTop: 20
+    marginTop: 20,
   },
   imageView: {
-    flex: 1
-  }
+    flex: 1,
+  },
 });
