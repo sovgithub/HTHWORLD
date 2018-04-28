@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 
+import SuccessFailureScreen, {TYPE_FAILURE} from 'components/SuccessFailureScreen';
 import Button from 'components/Button';
 import T from 'components/Typography';
 
@@ -36,6 +37,17 @@ export default class Confirm extends Component {
   };
 
   render() {
+    if (this.state.error) {
+      return (
+        <SuccessFailureScreen
+          type={TYPE_FAILURE}
+          title="Error"
+          mainButtonText="Retry"
+          onPressMain={this.handleGoBack}
+        />
+      );
+    }
+
     return (
       <View style={styles.container}>
         <View style={styles.headerContainer}>
@@ -52,9 +64,6 @@ export default class Confirm extends Component {
               </T.SemiBold>
             </T.Light>
           ))}
-          {this.state.error &&
-            <T.Small>Hm.... Are you sure you got that right?</T.Small>
-          }
           <Button
             type="primary"
             style={styles.statusCheck}

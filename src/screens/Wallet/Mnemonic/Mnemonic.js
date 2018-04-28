@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 
+import SuccessFailureScreen, {TYPE_SUCCESS} from 'components/SuccessFailureScreen';
+
 import Type from './Type';
 import Recover from './Recover';
 import Generate from './Generate';
 import NavigatorService from 'lib/navigator';
-import Modal from '../Modal';
 
 const GENERATE = 'GENERATE';
 const RECOVER = 'RECOVER';
@@ -33,6 +34,18 @@ export default class Mnemonic extends Component {
   };
 
   getComponentForStep = step => {
+    if (this.props.hasMnemonic) {
+      return (
+        <SuccessFailureScreen
+          type={TYPE_SUCCESS}
+          title="Seed Words Input"
+          subtitle="Next up, add an additional layer of security by setting up your PIN"
+          mainButtonText="Set Up Pin"
+          onPressMain={this.handleRedirect}
+        />
+      );
+    }
+
     if (step === 1) {
       return (
         <Type
@@ -64,12 +77,6 @@ export default class Mnemonic extends Component {
     return (
       <View style={styles.container}>
         {this.getComponentForStep(this.state.step)}
-        <Modal
-          show={this.props.hasMnemonic}
-          title="Mnemonic Saved!"
-          onCancel={this.handleRedirect}
-          onDone={this.handleRedirect}
-        />
       </View>
     );
   }
