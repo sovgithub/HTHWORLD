@@ -12,13 +12,20 @@
   },
   "jest": {
     "preset": "react-native",
-    "modulePaths": ["<rootDir>/src"],
+    "modulePaths": [
+      "<rootDir>/src"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
     ],
-    "moduleFileExtensions": ["js"],
+    "moduleFileExtensions": [
+      "js"
+    ],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.js$",
-    "testPathIgnorePatterns": ["\\.snap$", "<rootDir>/node_modules/"],
+    "testPathIgnorePatterns": [
+      "\\.snap$",
+      "<rootDir>/node_modules/"
+    ],
     "cacheDirectory": ".jest/cache"
   },
   "dependencies": {
@@ -26,7 +33,7 @@
     "lottie-react-native": "^2.5.0",
     "prop-types": "^15.6.1",
     "react": "16.3.1",
-    "react-native": "0.55.2",
+    "react-native": "0.55.3",
     "react-native-animatable": "^1.2.4",
     "react-native-config": "^0.11.5",
     "react-native-contacts": "^2.1.3",
@@ -42,7 +49,9 @@
     "victory-native": "^0.17.4"
   },
   "rnpm": {
-    "assets": ["./src/assets/fonts/"]
+    "assets": [
+      "./src/assets/fonts/"
+    ]
   },
   "devDependencies": {
     "babel-jest": "22.4.3",
