@@ -52,7 +52,7 @@
 	<key>NSContactsUsageDescription</key>
 	<string>This app requires contacts access to send and recieve payments.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>

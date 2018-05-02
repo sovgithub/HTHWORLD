@@ -1,13 +1,18 @@
 # Uncomment this line to define a global platform for your project
 platform :ios, '9.0'
 
-target 'hoardinvest' do
-  pod "HockeySDK", :subspecs => ['AllFeaturesLib']
+target 'Hoard' do
+  pod 'Fabric'
+  pod 'Crashlytics'
 
+  # Add new pods below this line
+  pod 'ReactNativeFabric', :path => '../node_modules/react-native-fabric'
+
+  pod "HockeySDK", :subspecs => ['AllFeaturesLib']
   pod 'JumioMobileSDK/Netverify', '~>2.10'
 
 end
 
-target 'hoardinvestTests' do
+target 'HoardTests' do
 
 end
