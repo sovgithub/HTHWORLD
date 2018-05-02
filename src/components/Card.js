@@ -1,3 +1,37 @@
+/*
+  Usage:
+
+  export const ENTRIES = [
+    {
+      title: 'My Balance',
+      amount: '$86,753.09',
+      change: '+5.65',
+      colors: ['#129161', '#0C6169'],
+    },
+    {
+      title: 'My Balance',
+      amount: '$86,753.09',
+      change: '+5.65',
+      colors: ['#A55324', '#AE2282'],
+    },
+    {
+      title: 'My Balance',
+      amount: '$86,753.09',
+      change: '+5.65',
+      colors: ['#0C6169', '#129161'],
+    },
+  ];
+
+  {ENTRIES.map(item => (
+    <Card
+      title={item.title}
+      amount={item.amount}
+      change={item.change}
+      colors={item.colors}
+    />
+  ))}
+
+ */
 import React, { Component } from 'react';
 import PropTypes, { string, object } from 'prop-types';
 import {

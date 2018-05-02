@@ -1,3 +1,13 @@
+/*
+  Usage:
+  <GradientText
+    style={{ fontSize: 40 }}
+    gradient={['#8900E4', '#DD007B']}
+  >
+    Create New Wallet
+  </GradientText>
+ */
+
 import React, { Component } from 'react';
 // import PropTypes from 'prop-types';
 import { Text, MaskedViewIOS } from 'react-native';
