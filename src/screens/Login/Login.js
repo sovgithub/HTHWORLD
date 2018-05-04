@@ -7,22 +7,39 @@ import {
   Text,
   Image,
   View,
-  KeyboardAvoidingView
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Config from 'react-native-config';
 import LoginForm from './LoginForm';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import T from 'components/Typography';
+import { GradientText } from 'components/GradientText.js';
+import { GradientButton } from 'components/GradientButton.js';
+import Card from 'components/Card.js';
+import SwipableList from 'components/SwipableList.js';
+import LinearGradient from 'react-native-linear-gradient';
 
 const DismissableView = withDismissableKeyboard(View);
+
+const COINLIST = [
+  { title: 'Bitcoin' },
+  { title: 'Ethereum' },
+  { title: 'Litecoin' },
+  { title: 'Verge' },
+  { title: 'Neo' },
+  { title: 'OAR' },
+  { title: 'Doge Coin' },
+  { title: 'Bitcoin Cash' },
+];
 
 export default class Login extends React.Component {
   static propTypes = {
     navigation: PropTypes.any,
     loginRequest: PropTypes.func.isRequired,
     login: PropTypes.shape({
-      errors: PropTypes.arrayOf(PropTypes.object)
-    })
+      errors: PropTypes.arrayOf(PropTypes.object),
+    }),
   };
 
   render() {
@@ -32,23 +49,28 @@ export default class Login extends React.Component {
         behavior="padding"
         style={styles.container}
       >
-        <DismissableView style={styles.container}>
-          <StatusBar barStyle="light-content" />
-          <ImageBackground
-            style={styles.imageView}
-            imageStyle={styles.image}
-            source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
-          >
+        <LinearGradient
+          start={{ x: 0.0, y: 0.1 }}
+          end={{ x: 0.1, y: 1.0 }}
+          colors={['#282A3A', '#151A21']}
+          style={[styles.container, styles.containerGradient]}
+        >
+          <DismissableView style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <View style={styles.logoContainer}>
               <Image
                 style={styles.logo}
                 source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
               />
-              <View><Text style={styles.title}>Log In</Text></View>
-            </View>
-            { __DEV__ && (
               <View>
-                <T.Small style={styles.network}>{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+                <Text style={styles.title}>Log In</Text>
+              </View>
+            </View>
+            {__DEV__ && (
+              <View>
+                <T.Small
+                  style={styles.network}
+                >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
               </View>
             )}
             <View style={styles.formContainer}>
@@ -58,38 +80,47 @@ export default class Login extends React.Component {
                 errors={this.props.login.errors}
               />
             </View>
-          </ImageBackground>
-        </DismissableView>
+          </DismissableView>
+        </LinearGradient>
       </KeyboardAvoidingView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  containerz: {
     backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
   },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#F5FCFF',
+  },
+  containerGradient: {
+    borderRadius: 0,
+  },
+
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
     justifyContent: 'center',
     flexDirection: 'row',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   logo: {
     width: 40,
     height: 40,
     resizeMode: 'contain',
     marginTop: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   title: {
     color: '#fff',
     marginTop: 10,
     fontSize: 40,
     fontWeight: '100',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   network: {
     color: '#fff',
@@ -97,14 +128,14 @@ const styles = StyleSheet.create({
   },
   imageView: {
     flex: 1,
-    paddingTop: 40
+    paddingTop: 40,
   },
   image: {
     width: null,
     height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   formContainer: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });
