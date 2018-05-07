@@ -1,7 +1,6 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
 import { Dimensions } from 'react-native';
 import Dashboard from 'screens/Dashboard';
-import ICO from 'screens/ICO';
 import Wallet from 'screens/Wallet';
 import Settings from 'screens/Settings';
 import Intro from 'screens/Intro';
@@ -27,9 +26,6 @@ const RouteConfigs = {
   },
   Dashboard: {
     screen: itemWithHeader('Dashboard', Dashboard),
-  },
-  ICO: {
-    screen: itemWithHeader('ICO', ICO),
   },
   Settings: {
     screen: Settings,
