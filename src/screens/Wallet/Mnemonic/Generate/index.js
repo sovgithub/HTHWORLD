@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ethers from 'ethers';
 
+import Entropy from './Entropy';
 import Step1 from './Step1';
 import Step2 from './Step2';
 import Confirm from './Confirm';
@@ -17,9 +18,11 @@ export default class Generate extends Component {
     mnemonic: ethers.Wallet.createRandom().mnemonic
   };
 
-  generateNewMnemonic = () => this.setState({
-    mnemonic: ethers.Wallet.createRandom().mnemonic
-  });
+  generateNewMnemonic = (extraEntropy) => {
+    this.setState({
+      mnemonic: ethers.Wallet.createRandom({extraEntropy}).mnemonic
+    }, this.nextStep);
+  }
 
   generateConfirmationList = () => {
     const rand1 = Math.floor(Math.random() * 12);
@@ -57,6 +60,11 @@ export default class Generate extends Component {
   render() {
     const { step, mnemonic } = this.state;
     if (step === 1) {
+      return (
+        <Entropy goBack={this.goBack} saveAndContinue={this.generateNewMnemonic} />
+      );
+    }
+    if (step === 2) {
       if (__DEV__) {
         //eslint-disable-next-line no-console
         console.log(
@@ -71,7 +79,7 @@ export default class Generate extends Component {
         <Step1 list={mnemonicList} saveAndContinue={this.nextStep} />
       );
     }
-    if (step === 2) {
+    if (step === 3) {
       const mnemonicList = mnemonic
         .split(' ')
         .slice(6, 12);
@@ -84,7 +92,7 @@ export default class Generate extends Component {
         />
       );
     }
-    if (step === 3) {
+    if (step === 4) {
       const confirmList = this.generateConfirmationList();
       return (
         <Confirm
