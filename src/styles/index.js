@@ -11,15 +11,54 @@
 
 import {StyleSheet, Dimensions} from 'react-native'
 
-export const dimensions = {
-  fullHeight: Dimensions.get('window').height,
-  fullWidth: Dimensions.get('window').width
+export const Theme = {
+  light: 'light',
+  dark: 'dark',
+};
+
+// Colors
+export const colors = {
+  white: '#ffffff', // rgba(255, 255, 255, 1)
+  grayLighter: '#dedfe5', // rgba(222, 223, 229, 1)
+  grayLight: '#8c8fa5', // rgba(140, 143, 165, 1)
+  gray: '#5f627d', // rgba(95, 98, 125, 1)
+  grayDark: '#313347', // rgba(49, 51, 71, 1)
+  grayDarker: '#17181e', // rgba(23, 24, 30, 1)
+  black: '#000000', // rgba(0, 0, 0, 1)
+
+  darkPink: '#e6228d', // rgba(230, 34, 141, 1)
+  violet: '#992fee', // rgba(153, 47, 238, 1)
 }
 
-export const colors  = {
-  primary: '#226B74',
-  secondary: '#254B5A',
-  tertiary: '#5DA6A7'
+export const gradients = {
+  blue: [colors.grayDark, colors.white]
+}
+
+// Typography
+export const fonts = {
+  size: {
+  sm: 12,
+  md: 18,
+  lg: 28,
+},
+weight: {
+  thin: '100',
+  light: '200',
+  normal: '400',
+  semibold: '600',
+  bold: '800',
+},
+  family: {
+    serif: 'Cochin',
+    sans: 'HelveticaNeue',
+    primary: 'HelveticaNeue',
+  }
+}
+
+// Layout & Dimensions
+export const dimensions = {
+  height: Dimensions.get('window').height,
+  width: Dimensions.get('window').width
 }
 
 export const padding = {
@@ -29,18 +68,6 @@ export const padding = {
   xl: 40
 }
 
-export const fonts = {
-  sm: 12,
-  md: 18,
-  lg: 28,
-  primary: 'Cochin'
-}
-
-
-
-
-// added below our colors, fonts, padding etc
-// base styles
 const baseStyles = {
   container: {
     paddingHorizontal: padding.sm,
@@ -49,9 +76,14 @@ const baseStyles = {
   },
   header: {
     backgroundColor: 'transparent',
-    fontSize: fonts.lg,
-    fontFamily: fonts.primary,
-    fontWeight: 'bold'
+    fontSize: fonts.size.lg,
+    fontFamily: fonts.family.primary,
+    fontWeight: fonts.weight.semibold
+  },
+  text: {
+    fontSize: fonts.size.lg,
+    fontFamily: fonts.family.primary,
+    fontWeight: fonts.weight.normal
   },
   section: {
     paddingVertical: padding.lg,
@@ -59,6 +91,26 @@ const baseStyles = {
   },
 }
 
+
+/*
+   Create Styles
+
+   Usage:
+
+   // import exported styles & methods
+   import createStyles, {fonts, colors} from '../../styles/base.js'
+
+  // override default styles
+  const panelStyles = createStyles({
+    section: {
+      fontSize: fonts.md,
+      color: colors.secondary
+    }
+  })
+
+  // use new overridden
+  <View style={panelStyles.section}>...</View>
+ */
 export default function createStyles(overrides = {}) {
   return StyleSheet.create({...baseStyles, ...overrides})
 }
@@ -66,10 +118,8 @@ export default function createStyles(overrides = {}) {
 
 
 
-export const Theme = {
-  light: 'light',
-  dark: 'dark',
-};
+
+
 
 export const themeColors = {
   [Theme.light]: {
@@ -105,6 +155,7 @@ export const themeColors = {
 let currentTheme = Theme.dark;
 
 export function setTheme(theme) {
+  Stylesheet.create()
   return (currentTheme = theme);
 }
 

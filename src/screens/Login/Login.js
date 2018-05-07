@@ -14,24 +14,20 @@ import Config from 'react-native-config';
 import LoginForm from './LoginForm';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import T from 'components/Typography';
-import { GradientText } from 'components/GradientText.js';
-import { GradientButton } from 'components/GradientButton.js';
-import Card from 'components/Card.js';
-import SwipableList from 'components/SwipableList.js';
+import createStyles, { colors, gradients, fonts} from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 
 const DismissableView = withDismissableKeyboard(View);
 
-const COINLIST = [
-  { title: 'Bitcoin' },
-  { title: 'Ethereum' },
-  { title: 'Litecoin' },
-  { title: 'Verge' },
-  { title: 'Neo' },
-  { title: 'OAR' },
-  { title: 'Doge Coin' },
-  { title: 'Bitcoin Cash' },
-];
+const styless = createStyles()
+
+const customStyles = createStyles({
+  header: {
+    fontSize: fonts.size.lg,
+    color: colors.darkPink
+  }
+})
+
 
 export default class Login extends React.Component {
   static propTypes = {
@@ -42,49 +38,69 @@ export default class Login extends React.Component {
     }),
   };
 
-  render() {
-    return (
-      <KeyboardAvoidingView
-        imageStyle={styles.image}
-        behavior="padding"
-        style={styles.container}
+  render(){
+    return(
+    <View style={styless.container}>
+      <Text style={customStyles.header}>Custom</Text>
+      <Text style={[styless.header, {color: colors.white}]}>White</Text>
+      <Text style={{color: colors.grayLighter}}>GRAYLIGHTER</Text>
+      <Text style={{color: colors.grayLight}}>GRAYLIGHT</Text>
+      <Text style={{color: colors.gray}}>GRAY</Text>
+      <Text style={{color: colors.grayDark}}>GRAYDARK</Text>
+      <Text style={{color: colors.grayDarker}}>GRAYDARKER</Text>
+      <Text style={{color: colors.black}}>BLACK</Text>
+
+      <LinearGradient
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
+        colors={gradients.blue}
+        style={styless.section}
       >
-        <LinearGradient
-          start={{ x: 0.0, y: 0.1 }}
-          end={{ x: 0.1, y: 1.0 }}
-          colors={['#282A3A', '#151A21']}
-          style={[styles.container, styles.containerGradient]}
-        >
-          <DismissableView style={styles.container}>
-            <StatusBar barStyle="light-content" />
-            <View style={styles.logoContainer}>
-              <Image
-                style={styles.logo}
-                source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
-              />
-              <View>
-                <Text style={styles.title}>Log In</Text>
-              </View>
-            </View>
-            {__DEV__ && (
-              <View>
-                <T.Small
-                  style={styles.network}
-                >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
-              </View>
-            )}
-            <View style={styles.formContainer}>
-              <LoginForm
-                navigation={this.props.navigation}
-                loginRequest={this.props.loginRequest}
-                errors={this.props.login.errors}
-              />
-            </View>
-          </DismissableView>
-        </LinearGradient>
-      </KeyboardAvoidingView>
-    );
+        <Text style={{color: colors.black}}>BLACK</Text>
+
+      </LinearGradient>
+
+    </View>
+    )
   }
+  // render() {
+  //   return (
+  //     <KeyboardAvoidingView
+  //       imageStyle={styles.image}
+  //       behavior="padding"
+  //       style={styles.container}
+  //     >
+  //       <DismissableView style={styles.container}>
+  //         <StatusBar barStyle="light-content" />
+  //         <ImageBackground
+  //           style={styles.imageView}
+  //           imageStyle={styles.image}
+  //           source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
+  //         >
+  //           <View style={styles.logoContainer}>
+  //             <Image
+  //               style={styles.logo}
+  //               source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
+  //             />
+  //             <View><Text style={styles.title}>Log In</Text></View>
+  //           </View>
+  //           { __DEV__ && (
+  //             <View>
+  //               <T.Small style={styles.network}>{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+  //             </View>
+  //           )}
+  //           <View style={styles.formContainer}>
+  //             <LoginForm
+  //               navigation={this.props.navigation}
+  //               loginRequest={this.props.loginRequest}
+  //               errors={this.props.login.errors}
+  //             />
+  //           </View>
+  //         </ImageBackground>
+  //       </DismissableView>
+  //     </KeyboardAvoidingView>
+  //   );
+  // }
 }
 
 const styles = StyleSheet.create({
