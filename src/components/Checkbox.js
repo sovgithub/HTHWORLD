@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Platform, View, TouchableHighlight } from 'react-native';
+import {
+  Platform,
+  View,
+  TouchableHighlight,
+  ViewPropTypes,
+} from 'react-native';
 import Icon from 'components/Icon';
 
 const PLATFORM_ICONS = {
@@ -26,8 +31,8 @@ export default function Checkbox(props) {
 }
 
 Checkbox.propTypes = {
-  iconStyle: Icon.propTypes.style,
-  style: View.propTypes.style,
+  iconStyle: ViewPropTypes.style,
+  style: ViewPropTypes.style,
   value: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
 };

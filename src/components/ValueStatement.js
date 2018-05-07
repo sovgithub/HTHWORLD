@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewPropTypes } from 'react-native';
 import { getColors } from 'styles';
 import T from 'components/Typography';
 
@@ -24,7 +24,7 @@ const ValueStatement = ({ title, value, change, positive, style }) => {
 };
 
 ValueStatement.propTypes = {
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   change: PropTypes.string.isRequired,
   positive: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,

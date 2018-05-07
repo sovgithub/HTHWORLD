@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { TouchableOpacity, StyleSheet, View } from 'react-native';
+import {
+  TouchableOpacity,
+  StyleSheet,
+  View,
+  ViewPropTypes,
+} from 'react-native';
 import T from 'components/Typography';
 
 export default class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
     disabled: PropTypes.bool,
-    style: View.propTypes.style,
+    style: ViewPropTypes.style,
     onPress: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.string,

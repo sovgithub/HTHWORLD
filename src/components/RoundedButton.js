@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, TouchableHighlight, View } from 'react-native';
+import {
+  StyleSheet,
+  TouchableHighlight,
+  View,
+  ViewPropTypes,
+} from 'react-native';
 import T from 'components/Typography';
 
 const RoundedButton = props => {
@@ -30,7 +35,7 @@ RoundedButton.propTypes = {
   backgroundColor: PropTypes.string,
   children: PropTypes.string.isRequired,
   color: PropTypes.string,
-  style: TouchableHighlight.propTypes.style,
+  style: ViewPropTypes.style,
   underlayColor: PropTypes.string,
   onPress: PropTypes.func.isRequired,
 };

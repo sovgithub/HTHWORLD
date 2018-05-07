@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, StyleSheet, TextInput, Animated } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  Animated,
+  ViewPropTypes,
+} from 'react-native';
 
 export default class Input extends Component {
   static propTypes = {
@@ -15,7 +21,7 @@ export default class Input extends Component {
     light: PropTypes.bool,
     label: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    containerStyle: View.propTypes.style,
+    containerStyle: ViewPropTypes.style,
     style: TextInput.propTypes.style,
     value: PropTypes.string,
     onChangeText: PropTypes.func.isRequired,
@@ -68,8 +74,12 @@ export default class Input extends Component {
 
   render() {
     const activeStyle = this.state.active
-      ? this.props.light ? styles.input_active_light : styles.input_active
-      : this.props.light ? styles.input_inactive_light : styles.input_inactive;
+      ? this.props.light
+        ? styles.input_active_light
+        : styles.input_active
+      : this.props.light
+        ? styles.input_inactive_light
+        : styles.input_inactive;
 
     const inputColors = this.props.light
       ? styles.input_light
