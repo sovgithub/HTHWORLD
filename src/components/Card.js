@@ -144,7 +144,7 @@ export default class Card extends Component {
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 1 }}
               colors={frontColors}
-              style={[styles.card, styles.cardContent, styles.cardGradient]}
+              style={[styles.card, styles.cardContent, styles.cardGradient, this.props.cardStyle]}
             >
               <View style={styles.cardLeft}>
                 <Text style={(styles.flipText, styles.subHeading)}>
@@ -169,7 +169,7 @@ export default class Card extends Component {
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 1 }}
               colors={backColors}
-              style={[styles.card, styles.cardGradient]}
+              style={[styles.card, styles.cardGradient, this.props.cardStyle]}
             >
               <Text style={(styles.flipText, styles.subHeading)}>
                 Transactions: 500
@@ -214,6 +214,8 @@ const styles = StyleSheet.create({
   flipCardBack: {
     position: 'absolute',
     top: 0,
+    right: 0,
+    left: 0,
   },
   flipText: {
     fontSize: 20,

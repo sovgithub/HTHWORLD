@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import T from 'components/Typography';
 import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
@@ -32,6 +32,11 @@ const otherWalletKeyForType = {
 const isTradeTitle = {
   [send]: 'Sold',
   [receive]: 'Bought',
+};
+
+const actionIcon = {
+  [send]: require('assets/send-grey.png'),
+  [receive]: require('assets/request-grey.png'),
 };
 
 class TradeItem extends Component {
@@ -84,144 +89,150 @@ class TradeItem extends Component {
     const date = new Date(transaction.timeMined);
 
     return (
-      <View style={{ padding: 15 }}>
+      <View style={{ paddingTop: 15, paddingHorizontal: 15 }}>
         <View
           style={{
+            backgroundColor: '#222933',
+            borderRadius: 2.5,
+            paddingHorizontal: 23.5,
+            paddingVertical: 14,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}
         >
-          <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-            <T.Light style={{ fontWeight: '400' }}>
-              {trimAddress(otherWalletAddress)}
-            </T.Light>
-            <T.Small style={{ fontWeight: '300' }}>
-              {date.toLocaleString(undefined, {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: 'numeric',
-              })}
-            </T.Small>
+          <View style={{justifyContent: 'center', marginRight: 20}}>
+            <Image source={actionIcon[transactionType]} />
           </View>
-          <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
-            <T.Light style={{ fontWeight: '400' }}>
+          <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-start' }}>
+            <T.Light style={{ fontWeight: '400', color: 'white' }}>
               {tradeTitle.toUpperCase()}
             </T.Light>
-            <T.Small style={{ fontWeight: '300' }}>
-              ${this.state.tradePrice}
+            <T.Small style={{ fontWeight: '300', color: '#8cbcbd' }}>
+              {trimAddress(otherWalletAddress)}
+            </T.Small>
+          </View>
+          <View style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-end' }}>
+            <T.Light style={{ fontWeight: '400', color: 'white' }}>
+              {transaction.value} {wallet.symbol}
+            </T.Light>
+            <T.Small style={{ fontWeight: '300', color: '#8cbcbd' }}>
+              {date.toLocaleString(undefined, {
+                 month: 'short',
+                 day: 'numeric',
+                 hour: 'numeric',
+                 minute: 'numeric',
+              })}
             </T.Small>
           </View>
         </View>
         {selected && (
-          <View
-            style={{
-              backgroundColor: '#ccccd4',
-              justifyContent: 'space-between',
-              padding: 15,
-              marginTop: 5,
-              marginHorizontal: -15,
-            }}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingVertical: 5,
-              }}
-            >
-              <T.Small>
-                <T.SemiBold>block number: </T.SemiBold>
-              </T.Small>
-              <T.Small>{transaction.blockNumber}</T.Small>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingVertical: 5,
-              }}
-            >
-              <T.Small>
-                <T.SemiBold>amount: </T.SemiBold>
-              </T.Small>
-              <T.Small>
-                {transaction.value} {wallet.symbol}
-              </T.Small>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingVertical: 5,
-              }}
-            >
-              <T.Small>
-                <T.SemiBold>price per {wallet.symbol}: </T.SemiBold>
-              </T.Small>
-              <T.Small>{transaction.priceAtTimeMined}</T.Small>
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                paddingVertical: 5,
-              }}
-            >
-              <T.Small>
-                <T.SemiBold>gas price: </T.SemiBold>
-              </T.Small>
-              <T.Small>
-                {transaction.gasPrice} {wallet.symbol}
-              </T.Small>
-            </View>
-            {(transactionType === send || transactionType === receive) && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  paddingVertical: 5,
-                }}
-              >
-                <T.Small>
-                  <T.SemiBold>This was a trade:</T.SemiBold>
-                </T.Small>
-                <Checkbox
-                  iconStyle={{ size: 20, color: 'black' }}
-                  value={this.state.isTrade}
-                  onPress={this.handleToggleIsTrade}
-                />
-              </View>
-            )}
-            {this.state.isTrade && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  paddingVertical: 10,
-                }}
-              >
-                <Input
-                  containerStyle={{ flex: 1 }}
-                  onChangeText={this.handleChangeTradePrice}
-                  light={true}
-                  value={
-                    this.state.tradePrice ? `$${this.state.tradePrice}` : ''
-                  }
-                  label="trade price"
-                />
-              </View>
-            )}
-            {(transaction.isTrade !== this.state.isTrade ||
-              transaction.tradePrice !== Number(this.state.tradePrice)) && (
-              <RoundedButton onPress={this.handleUpdate}>Update</RoundedButton>
-            )}
-          </View>
+           <View
+             style={{
+               backgroundColor: '#ccccd4',
+               justifyContent: 'space-between',
+               padding: 15,
+               marginTop: 5,
+               marginHorizontal: -15,
+             }}
+             >
+             <View
+               style={{
+                 flexDirection: 'row',
+                 alignItems: 'center',
+                 justifyContent: 'space-between',
+                 paddingVertical: 5,
+               }}
+             >
+               <T.Small>
+                 <T.SemiBold>block number: </T.SemiBold>
+               </T.Small>
+               <T.Small>{transaction.blockNumber}</T.Small>
+             </View>
+             <View
+               style={{
+                 flexDirection: 'row',
+                 alignItems: 'center',
+                 justifyContent: 'space-between',
+                 paddingVertical: 5,
+               }}
+             >
+               <T.Small>
+                 <T.SemiBold>usd price: </T.SemiBold>
+               </T.Small>
+               <T.Small>
+                 ${this.state.tradePrice}
+               </T.Small>
+             </View>
+             <View
+               style={{
+                 flexDirection: 'row',
+                 alignItems: 'center',
+                 justifyContent: 'space-between',
+                 paddingVertical: 5,
+               }}
+             >
+               <T.Small>
+                 <T.SemiBold>price per {wallet.symbol}: </T.SemiBold>
+               </T.Small>
+               <T.Small>{transaction.priceAtTimeMined}</T.Small>
+             </View>
+             <View
+               style={{
+                 flexDirection: 'row',
+                 alignItems: 'center',
+                 justifyContent: 'space-between',
+                 paddingVertical: 5,
+               }}
+             >
+               <T.Small>
+                 <T.SemiBold>gas price: </T.SemiBold>
+               </T.Small>
+               <T.Small>
+                 {transaction.gasPrice} {wallet.symbol}
+               </T.Small>
+             </View>
+             {(transactionType === send || transactionType === receive) && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    paddingVertical: 5,
+                  }}
+                  >
+                  <T.Small>
+                    <T.SemiBold>This was a trade:</T.SemiBold>
+                  </T.Small>
+                  <Checkbox
+                    iconStyle={{ size: 20, color: 'black' }}
+                    value={this.state.isTrade}
+                    onPress={this.handleToggleIsTrade}
+                  />
+                </View>
+             )}
+             {this.state.isTrade && (
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    paddingVertical: 10,
+                  }}
+                  >
+                  <Input
+                    containerStyle={{ flex: 1 }}
+                    onChangeText={this.handleChangeTradePrice}
+                    light={true}
+                    value={
+                      this.state.tradePrice ? `$${this.state.tradePrice}` : ''
+                    }
+                    label="trade price"
+                  />
+                </View>
+             )}
+             {(transaction.isTrade !== this.state.isTrade ||
+               transaction.tradePrice !== Number(this.state.tradePrice)) && (
+                 <RoundedButton onPress={this.handleUpdate}>Update</RoundedButton>
+               )}
+           </View>
         )}
       </View>
     );
