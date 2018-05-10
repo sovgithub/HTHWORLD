@@ -1,32 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  StyleSheet,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import T from 'components/Typography';
 
 export default function SelectableImageHeader({
   changePosition,
   imageSource,
   title,
-  onPress
+  onPress,
 }) {
   const changeComponent = <T.Small>Change</T.Small>;
   return (
     <View style={styles.container}>
-      <T.SubHeading style={styles.title}>
-        {title}
-      </T.SubHeading>
+      <T.SubHeading style={styles.title}>{title}</T.SubHeading>
       <TouchableOpacity onPress={onPress}>
         <View style={styles.imageContainer}>
           {changePosition === 'above' && changeComponent}
 
-          {imageSource &&
-            <Image style={styles.image} source={imageSource}/>
-          }
+          {imageSource && <Image style={styles.image} source={imageSource} />}
 
           {changePosition === 'below' && changeComponent}
         </View>
@@ -39,7 +30,7 @@ SelectableImageHeader.propTypes = {
   changePosition: PropTypes.oneOf(['above', 'below']).isRequired,
   imageSource: Image.propTypes.source,
   title: PropTypes.string,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
 };
 
 const styles = StyleSheet.create({
@@ -47,7 +38,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 30
+    marginBottom: 30,
   },
   title: {
     justifyContent: 'center',

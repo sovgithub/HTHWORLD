@@ -7,6 +7,24 @@ import Step1 from './Step1';
 import Step2 from './Step2';
 import Confirm from './Confirm';
 
+function getXItemsFromList(number, list) {
+  let availableItems = list;
+  const selectedItems = [];
+
+  for (let i = 0; i < number; i++) {
+    if (availableItems.length) {
+      const selectedIndex = Math.floor(Math.random() * availableItems.length);
+      const selectedItem = availableItems[selectedIndex];
+      availableItems = [...availableItems.slice(0, selectedIndex), ...availableItems.slice(selectedIndex + 1)];
+      selectedItems.push(selectedItem);
+    } else {
+      break;
+    }
+  }
+
+  return selectedItems;
+}
+
 export default class Generate extends Component {
   static propTypes = {
     saveAndContinue: PropTypes.func.isRequired,
@@ -25,15 +43,10 @@ export default class Generate extends Component {
   }
 
   generateConfirmationList = () => {
-    const rand1 = Math.floor(Math.random() * 12);
-    const rand2 = Math.floor(Math.random() * 12);
-
     const list = this.state.mnemonic.split(' ');
-    const confirmList = [
-      { i: list.indexOf(list[rand1]), word: list[rand1] },
-      { i: list.indexOf(list[rand2]), word: list[rand2] }
-    ];
-    return confirmList;
+    return getXItemsFromList(2, list)
+      .map(word => ({i: list.indexOf(word), word}))
+      .sort((a, b) => a.i - b.i);
   };
 
   nextStep = () => {

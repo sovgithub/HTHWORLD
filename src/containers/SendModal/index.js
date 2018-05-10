@@ -9,6 +9,7 @@ const mapStateToProps = state => {
   return {
     contacts: state.contacts,
     wallets: allWalletsSelector(state),
+    selectedWalletId: state.sendModal.selectedWalletId,
     show: state.sendModal.show,
   };
 };

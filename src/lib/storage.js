@@ -60,7 +60,7 @@ const Storage = {
     } catch (e) {
       console.log('Error deleteing data' + e);
     }
-  }
+  },
 };
 
 export const CONTACTS_PREFIX = '@hoard:contacts:';
@@ -85,7 +85,7 @@ const Contacts = {
       `${CONTACTS_PREFIX}:${contactID}:${symbol}`,
       walletAddress
     );
-  }
+  },
 };
 
 export default Storage;

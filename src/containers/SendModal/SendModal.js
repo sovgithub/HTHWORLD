@@ -59,7 +59,11 @@ export default class SendModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.show !== this.props.show) {
-      this.setState({ ...initialState, contacts: this.state.contacts });
+      let stateReset = { ...initialState, contacts: this.state.contacts };
+      if (newProps.show && newProps.selectedWalletId) {
+        stateReset.selectedId = newProps.selectedWalletId;
+      }
+      this.setState(stateReset);
     }
 
     if (newProps.contacts !== this.props.contacts) {

@@ -23,6 +23,7 @@ export default class ReceiveModal extends Component {
       })
     ).isRequired,
     show: PropTypes.bool.isRequired,
+    selectedWalletId: PropTypes.string,
     hideReceiveModal: PropTypes.func.isRequired,
   };
 
@@ -30,7 +31,12 @@ export default class ReceiveModal extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.show !== this.props.show) {
-      this.setState({ ...initialState });
+      let stateReset = { ...initialState };
+      if (newProps.show && newProps.selectedWalletId) {
+        stateReset.selectedWallet = this.props.wallets
+          .find(wallet => wallet.id === newProps.selectedWalletId);
+      }
+      this.setState(stateReset);
     }
   }
 

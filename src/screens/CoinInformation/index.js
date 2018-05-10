@@ -5,6 +5,8 @@ import { walletSelector } from "screens/Wallet/selectors";
 import { selectors as transactionSelectors } from "sagas/transactions/reducer";
 import { updateTransaction } from "sagas/transactions/actions";
 import { SYMBOL_ETH } from 'containers/App/constants';
+import {showReceiveModal} from 'containers/ReceiveModal/actions';
+import {showSendModal} from 'containers/SendModal/actions';
 
 const mapStateToProps = (store, ownProps) => {
   const id = ownProps.navigation.state.params.id;
@@ -29,7 +31,9 @@ const mapStateToProps = (store, ownProps) => {
 
 const mapDispatchToProps = {
   getCurrencyHistory,
-  updateTransaction
+  updateTransaction,
+  showSendModal,
+  showReceiveModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CoinInformation);

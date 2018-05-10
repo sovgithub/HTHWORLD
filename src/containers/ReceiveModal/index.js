@@ -6,6 +6,7 @@ import { allWalletsSelector } from 'screens/Wallet/selectors';
 const mapStateToProps = (state) => {
   return {
     wallets: allWalletsSelector(state),
+    selectedWalletId: state.receiveModal.selectedWalletId,
     show: state.receiveModal.show
   };
 };

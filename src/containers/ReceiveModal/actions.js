@@ -1,7 +1,8 @@
 import {SHOW_RECEIVE_MODAL, HIDE_RECEIVE_MODAL} from './constants';
 
-export function showReceiveModal() {
-  return {type: SHOW_RECEIVE_MODAL};
+export function showReceiveModal(id) {
+  const selectedWalletId = typeof id === 'string' ? id : null;
+  return {type: SHOW_RECEIVE_MODAL, selectedWalletId};
 }
 
 export function hideReceiveModal() {

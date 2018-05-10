@@ -1,22 +1,22 @@
-import { Component } from "react";
-import PropTypes from "prop-types";
+import { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export class Try extends Component {
   static propTypes = {
     children: PropTypes.element.isRequired,
-    condition: PropTypes.bool.isRequired
+    condition: PropTypes.bool.isRequired,
   };
 }
 
 export class Otherwise extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired
+    children: PropTypes.element.isRequired,
   };
 }
 
 export default class Conditional extends Component {
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   };
 
   render() {

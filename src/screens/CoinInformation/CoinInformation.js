@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
-  Alert,
   Image,
   ScrollView,
   StyleSheet,
@@ -39,11 +38,14 @@ export default class CoinInformation extends React.Component {
       })
     ).isRequired,
     wallet: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
       balance: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired
     }),
     updateTransaction: PropTypes.func.isRequired,
+    showReceiveModal: PropTypes.func.isRequired,
+    showSendModal: PropTypes.func.isRequired,
     getCurrencyHistory: PropTypes.func.isRequired
   };
 
@@ -90,8 +92,8 @@ export default class CoinInformation extends React.Component {
   handleSelect = (selected) => () =>
     this.setState({selected: selected === this.state.selected ? null : selected});
 
-  handleBuy = () => Alert.alert("Buying is not enabled at this time");
-  handleSell = () => Alert.alert("Selling is not enabled at this time");
+  handleBuy = () => this.props.showReceiveModal(this.props.wallet.id);
+  handleSell = () => this.props.showSendModal(this.props.wallet.id);
 
   render() {
     const { transactions, pricing, wallet } = this.props;
