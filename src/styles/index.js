@@ -28,15 +28,16 @@ export const colors = {
 
   pinkDark: '#e6228d', // rgba(230, 34, 141, 1)
   violet: '#992fee', // rgba(153, 47, 238, 1)
-
+  greenLighter: '#00EC9E', //rgb(0, 236, 158)
   greenLight: '#00a073', // rgba(0, 160, 115, 1)
   greenBlue: '#007982', // rgba(0, 121, 130, 1)
 };
 
 export const gradients = {
   green: [colors.greenLight, colors.greenBlue],
-  blue: [colors.grayDark, colors.white],
+  blue: [colors.grayDark, colors.grayDarker],
   pink: [colors.violet, colors.pinkDark],
+  light: [colors.grayLighter, colors.grayLight],
   horizontal: {
     start: { x: 0, y: 1 },
     end: { x: 1, y: 1 },
@@ -45,14 +46,33 @@ export const gradients = {
     start: { x: 1, y: 1 },
     end: { x: 1, y: 0 },
   },
+  topLeft: {
+    start: { x: 0.0, y: 0.1 },
+    end: { x: 0.1, y: 1.0 },
+  },
 };
 
 // Typography
-export const fonts = {
+export const typography = {
   size: {
     sm: 12,
+    normal: 14,
     md: 18,
     lg: 28,
+    xl: 32,
+    xxl: 44,
+  },
+  lineHeight: {
+    sm: 18,
+    normal: 20,
+    md: 26,
+    lg: 32,
+  },
+  letterSpacing: {
+    sm: -1,
+    normal: 0,
+    md: 1,
+    lg: 1.5,
   },
   weight: {
     thin: '100',
@@ -89,20 +109,19 @@ const baseStyles = {
   },
   header: {
     backgroundColor: 'transparent',
-    fontSize: fonts.size.lg,
-    fontFamily: fonts.family.primary,
-    fontWeight: fonts.weight.semibold,
+    fontSize: typography.size.lg,
+    fontFamily: typography.family.primary,
+    fontWeight: typography.weight.semibold,
   },
   text: {
-    fontSize: fonts.size.lg,
-    fontFamily: fonts.family.primary,
-    fontWeight: fonts.weight.light,
+    fontSize: typography.size.lg,
+    fontFamily: typography.family.primary,
+    fontWeight: typography.weight.light,
     letterSpacing: 1.5,
   },
   section: {
-    paddingVertical: padding.lg,
-    paddingHorizontal: padding.xl,
-    borderRadius: 12,
+    paddingVertical: padding.sm,
+    paddingHorizontal: padding.sm,
   },
 };
 
@@ -112,12 +131,12 @@ const baseStyles = {
    Usage:
 
    // import exported styles & methods
-   import createStyles, {fonts, colors} from '../../styles/base.js'
+   import createStyles, {typography, colors} from '../../styles/base.js'
 
   // override default styles
   const panelStyles = createStyles({
     section: {
-      fontSize: fonts.md,
+      fontSize: typography.md,
       color: colors.secondary
     }
   })

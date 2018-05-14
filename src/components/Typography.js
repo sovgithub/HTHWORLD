@@ -2,6 +2,8 @@ import { Text, StyleSheet } from 'react-native';
 
 import React from 'react';
 
+import { colors, typography } from 'styles';
+
 const Light = ({ style, ...otherProps }) => (
   <Text style={[styles.light, style]} {...otherProps} />
 );
@@ -72,87 +74,142 @@ const SmallAlternate = ({ style, ...otherProps }) => (
 );
 SmallAlternate.propTypes = Text.propTypes;
 
+const baseType = {
+  fontFamily: typography.family.primary,
+  color: colors.grayDarker,
+  letterSpacing: typography.letterSpacing.normal,
+};
+
 const styles = StyleSheet.create({
   light: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 15,
-    color: '#000',
-    letterSpacing: 0,
+    ...baseType,
+    fontSize: typography.size.normal,
   },
   heading: {
-    fontFamily: 'HelveticaNeue',
+    ...baseType,
     fontWeight: 'bold',
-    fontSize: 28,
-    color: '#000',
-    letterSpacing: -1.17,
+    fontSize: typography.size.lg,
+    letterSpacing: typography.letterSpacing.sm,
   },
   subheading: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 18,
-    color: '#000',
-    letterSpacing: 0,
+    ...baseType,
+    fontSize: typography.size.md,
   },
   grayedOut: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 15,
-    color: '#8F8F8F',
-    letterSpacing: 0,
+    ...baseType,
+    fontSize: typography.size.normal,
+    color: colors.gray,
   },
-  semiBold: {
-    fontFamily: 'HelveticaNeue',
-  },
+  semiBold: { ...baseType },
   small: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 12,
-    color: '#000',
-    letterSpacing: 0,
-    lineHeight: 18,
+    ...baseType,
+    fontSize: typography.size.sm,
+    lineHeight: typography.lineHeight.sm,
   },
   price: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 24,
-    color: '#000000',
-    letterSpacing: 1,
+    ...baseType,
+    fontSize: typography.size.lg,
+    letterSpacing: typography.letterSpacing.md,
   },
   priceLarge: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 32,
-    color: '#FFFFFF',
-    letterSpacing: 0,
+    ...baseType,
+    fontSize: typography.size.xl,
+    color: colors.white,
   },
   priceHeading: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 44,
-    color: '#FFFFFF',
-    letterSpacing: 0,
+    ...baseType,
+    fontSize: typography.size.xxl,
+    color: colors.white,
   },
   titleAlternate: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 20,
-    color: '#000000',
-    letterSpacing: 0,
-    lineHeight: 24,
+    ...baseType,
+    fontSize: typography.size.lg,
+    lineHeight: typography.lineHeight.lg,
   },
   semiBoldAlternate: {
-    fontFamily: 'HelveticaNeue',
+    ...baseType,
   },
   subtitleAlternate: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 13,
-    color: '#00EC9E',
-    letterSpacing: 1,
+    ...baseType,
+    fontSize: typography.size.sm,
+    color: colors.greenLighter,
+    letterSpacing: typography.letterSpacing.md,
   },
   smallAlternate: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 12,
-    color: '#000',
-    letterSpacing: 1,
+    ...baseType,
+    fontSize: typography.size.sm,
+    letterSpacing: typography.letterSpacing.md,
   },
   buttonText: {
-    fontFamily: 'HelveticaNeue',
+    ...baseType,
+    fontSize: typography.size.sm,
+    color: colors.white,
+  },
+  largeTitle: {
+    fontWeight: typography.weight.normal,
+    fontSize: 34,
+    lineHeight: 41,
+    letterSpacing: 0.11,
+  },
+  title1: {
+    fontWeight: typography.weight.normal,
+    fontSize: 28,
+    lineHeight: 34,
+    letterSpacing: 0.13,
+  },
+  title2: {
+    fontWeight: typography.weight.normal,
+    fontSize: 22,
+    lineHeight: 28,
+    letterSpacing: 0.16,
+  },
+  title3: {
+    fontWeight: typography.weight.normal,
+    fontSize: 20,
+    lineHeight: 25,
+    letterSpacing: 0.19,
+  },
+  headline: {
+    fontWeight: typography.weight.semiBold,
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: -0.24,
+  },
+  body: {
+    fontWeight: typography.weight.normal,
+    fontSize: 17,
+    lineHeight: 22,
+    letterSpacing: -0.24,
+  },
+  callout: {
+    fontWeight: typography.weight.normal,
+    fontSize: 16,
+    lineHeight: 21,
+    letterSpacing: -0.2,
+  },
+  subhead: {
+    fontWeight: typography.weight.normal,
+    fontSize: 15,
+    lineHeight: 20,
+    letterSpacing: -0.16,
+  },
+  footnote: {
+    fontWeight: typography.weight.normal,
     fontSize: 13,
-    color: '#FFFFFF',
-    letterSpacing: 0,
+    lineHeight: 18,
+    letterSpacing: -0.6,
+  },
+  caption1: {
+    fontWeight: typography.weight.normal,
+    fontSize: 12,
+    lineHeight: 16,
+    letterSpacing: 0.0,
+  },
+  caption2: {
+    fontWeight: typography.weight.normal,
+    fontSize: 11,
+    lineHeight: 13,
+    letterSpacing: 0.6,
   },
 });
 
