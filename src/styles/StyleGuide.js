@@ -11,6 +11,7 @@ import {
 import Button from 'components/Button';
 import T from 'components/Typography';
 import Input from 'components/Input';
+import ContactPicker from 'components/ContactPicker';
 
 import createStyles, {
   colors,
@@ -54,6 +55,7 @@ export default class StyleGuide extends Component {
             { height: dimensions.height, width: dimensions.width },
           ]}
         >
+          <ContactPicker />
 
           <Input
             style={customStyles.input}

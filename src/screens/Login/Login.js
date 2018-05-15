@@ -14,20 +14,9 @@ import Config from 'react-native-config';
 import LoginForm from './LoginForm';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import T from 'components/Typography';
-import createStyles, { colors, gradients, fonts} from 'styles';
-import LinearGradient from 'react-native-linear-gradient';
+import StyleGuide from 'styles/StyleGuide';
 
 const DismissableView = withDismissableKeyboard(View);
-
-const styless = createStyles()
-
-const customStyles = createStyles({
-  header: {
-    fontSize: fonts.size.lg,
-    color: colors.darkPink
-  }
-})
-
 
 export default class Login extends React.Component {
   static propTypes = {
@@ -38,73 +27,53 @@ export default class Login extends React.Component {
     }),
   };
 
-  render(){
-    return(
-    <View style={styless.container}>
-      <Text style={customStyles.header}>Custom</Text>
-      <Text style={[styless.header, {color: colors.white}]}>White</Text>
-      <Text style={{color: colors.grayLighter}}>GRAYLIGHTER</Text>
-      <Text style={{color: colors.grayLight}}>GRAYLIGHT</Text>
-      <Text style={{color: colors.gray}}>GRAY</Text>
-      <Text style={{color: colors.grayDark}}>GRAYDARK</Text>
-      <Text style={{color: colors.grayDarker}}>GRAYDARKER</Text>
-      <Text style={{color: colors.black}}>BLACK</Text>
-
-      <LinearGradient
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 1 }}
-        colors={gradients.blue}
-        style={styless.section}
+  render() {
+    return <StyleGuide />;
+    return (
+      <KeyboardAvoidingView
+        imageStyle={styles.image}
+        behavior="padding"
+        style={styles.container}
       >
-        <Text style={{color: colors.black}}>BLACK</Text>
-
-      </LinearGradient>
-
-    </View>
-    )
+        <DismissableView style={styles.container}>
+          <StatusBar barStyle="light-content" />
+          <ImageBackground
+            style={styles.imageView}
+            imageStyle={styles.image}
+            source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
+          >
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
+              />
+              <View>
+                <Text style={styles.title}>Log In</Text>
+              </View>
+            </View>
+            {__DEV__ && (
+              <View>
+                <T.Small
+                  style={styles.network}
+                >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+              </View>
+            )}
+            <View style={styles.formContainer}>
+              <LoginForm
+                navigation={this.props.navigation}
+                loginRequest={this.props.loginRequest}
+                errors={this.props.login.errors}
+              />
+            </View>
+          </ImageBackground>
+        </DismissableView>
+      </KeyboardAvoidingView>
+    );
   }
-  // render() {
-  //   return (
-  //     <KeyboardAvoidingView
-  //       imageStyle={styles.image}
-  //       behavior="padding"
-  //       style={styles.container}
-  //     >
-  //       <DismissableView style={styles.container}>
-  //         <StatusBar barStyle="light-content" />
-  //         <ImageBackground
-  //           style={styles.imageView}
-  //           imageStyle={styles.image}
-  //           source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
-  //         >
-  //           <View style={styles.logoContainer}>
-  //             <Image
-  //               style={styles.logo}
-  //               source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
-  //             />
-  //             <View><Text style={styles.title}>Log In</Text></View>
-  //           </View>
-  //           { __DEV__ && (
-  //             <View>
-  //               <T.Small style={styles.network}>{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
-  //             </View>
-  //           )}
-  //           <View style={styles.formContainer}>
-  //             <LoginForm
-  //               navigation={this.props.navigation}
-  //               loginRequest={this.props.loginRequest}
-  //               errors={this.props.login.errors}
-  //             />
-  //           </View>
-  //         </ImageBackground>
-  //       </DismissableView>
-  //     </KeyboardAvoidingView>
-  //   );
-  // }
 }
 
 const styles = StyleSheet.create({
-  containerz: {
+  container: {
     backgroundColor: 'transparent',
     flex: 1,
   },
