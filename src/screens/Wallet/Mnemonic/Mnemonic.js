@@ -31,7 +31,7 @@ export default class Mnemonic extends Component {
   setMnemonic = mnemonic => this.props.initializeMnemonic(mnemonic);
 
   handleRedirect = () => {
-    NavigatorService.navigate('Wallet');
+    NavigatorService.navigate('Store');
   };
 
   getComponentForStep = step => {
