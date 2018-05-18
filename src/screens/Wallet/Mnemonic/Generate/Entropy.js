@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
+  InteractionManager,
   Dimensions,
   PanResponder,
   StyleSheet,
@@ -51,6 +52,12 @@ export default class Entropy extends Component {
       }),
       onPanResponderRelease: () => this.setState({ isRecording: false })
     });
+  }
+
+  componentWillUnmount() {
+    InteractionManager.clearInteractionHandle(
+      this.panResponder.getInteractionHandle()
+    );
   }
 
   handleLayout = ({ nativeEvent: { layout: { y, width, height } } }) => {
