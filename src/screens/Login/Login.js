@@ -30,6 +30,7 @@ const customStyles = createStyles({
 
 export default class Login extends React.Component {
   static propTypes = {
+    hasMnemonic: PropTypes.bool.isRequired,
     navigation: PropTypes.any,
     loginRequest: PropTypes.func.isRequired,
     login: PropTypes.shape({
@@ -66,6 +67,7 @@ export default class Login extends React.Component {
             <LoginForm
               navigation={this.props.navigation}
               loginRequest={this.props.loginRequest}
+              hasMnemonic={this.props.hasMnemonic}
               errors={this.props.login.errors}
             />
           </View>

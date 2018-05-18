@@ -26,10 +26,6 @@ class Wallet extends React.Component {
   };
 
   componentDidMount() {
-    if (!this.props.hasMnemonic) {
-      this.handleMnemonicGenerate();
-    }
-
     this.props.wallets.map(
       ({symbol}) => this.props.getCurrencyPrice(symbol)
     );
