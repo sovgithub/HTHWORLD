@@ -111,7 +111,7 @@ const stylesForType = {
     buttonText: {
       backgroundColor: 'transparent',
       textAlign: 'center',
-      color: '#000',
+      color: '#fff',
     },
   }),
   primary: StyleSheet.create({
