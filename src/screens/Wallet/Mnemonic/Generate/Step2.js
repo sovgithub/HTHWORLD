@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import MenuHeader from 'components/MenuHeader';
 
 import Button from 'components/Button';
 import T from 'components/Typography';
 import Animations, { FADE, SLIDE_Y } from 'hocs/Animations';
 
 const LANG_NEXT_TEXT = 'Next';
-const LANG_PREV_TEXT = 'Go back...';
 
 export default class Step1 extends Component {
   static propTypes = {
@@ -52,15 +52,25 @@ export default class Step1 extends Component {
 
   render() {
     const { animateList, exitAnimation } = this.state;
+
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={styles.headingStyle}>
-            Mnemonic - Words 7-12
-          </T.Heading>
-        </View>
-        <ScrollView style={styles.bodyContainer}>
-          <T.Light>
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={this.props.goBack}>
+              <Image source={require('assets/bck.png')} />
+            </TouchableOpacity>
+          )}
+          title="Create Wallet"
+          multipage={true}
+          currentPage={2}
+          totalPages={3}
+        />
+        <T.Heading style={styles.headingStyle}>
+          Your Seed Words
+        </T.Heading>
+        <ScrollView bounces={false} style={styles.bodyContainer}>
+          <T.Light style={styles.text}>
             Write down each word in order and store it in a safe place.
             Seriously, do this!
           </T.Light>
@@ -83,10 +93,10 @@ export default class Step1 extends Component {
           >
             {this.props.list.map((word, i) => {
               return (
-                <View key={`word-${i + 6}`} style={styles.mnemonicChoice}>
-                  <T.Light style={styles.mnemonicChoiceNumner}>{`Word #${i +
-                    1 +
-                    6}: `}</T.Light>
+                <View key={`word-${i}`} style={styles.mnemonicChoice}>
+                  <T.Light style={styles.mnemonicChoiceNumner}>
+                    {`0${i + 6}`.slice(-2)}
+                  </T.Light>
                   <T.SemiBold style={styles.mnemonicChoiceText}>
                     {word}
                   </T.SemiBold>
@@ -95,20 +105,12 @@ export default class Step1 extends Component {
             })}
           </Animations>
           <View style={styles.footerContainer}>
+            <T.Light style={{color: 'lightgrey', textAlign: 'center', paddingBottom: 10}}>12 of 12 words</T.Light>
             <Button
-              type="primary"
               disabled={this.state.animateList || exitAnimation}
               onPress={this.handleNextButton}
             >
               {LANG_NEXT_TEXT}
-            </Button>
-            <Button
-              type="text"
-              style={styles.textButton}
-              disabled={this.state.animateList || exitAnimation}
-              onPress={this.handleGoBack}
-            >
-              {LANG_PREV_TEXT}
             </Button>
           </View>
         </ScrollView>
@@ -127,7 +129,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#223252'
   },
   headingStyle: {
+    padding: 20,
+    paddingBottom: 0,
     color: '#ffffff'
+  },
+  text: {
+    color: '#fff',
+    fontWeight: '300',
+    fontSize: 16,
   },
   bodyContainer: {
     flexGrow: 1,
@@ -135,28 +144,27 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   footerContainer: {
+    paddingTop: 0,
     padding: 20
-  },
-  textButton: {
-    marginTop: 20,
-    marginBottom: 20
   },
   mnemonicList: {},
   mnemonicChoice: {
-    padding: 10,
+    padding: 20,
     borderRadius: 8,
-    backgroundColor: '#223252',
+    backgroundColor: '#22282F',
+    opacity: 0.5,
     marginBottom: 20,
-    flexDirection: 'column'
+    flexDirection: 'row'
   },
   mnemonicChoiceNumner: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 12
+    marginRight: 20,
+    fontSize: 16
   },
   mnemonicChoiceText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 14
+    fontSize: 16
   }
 });

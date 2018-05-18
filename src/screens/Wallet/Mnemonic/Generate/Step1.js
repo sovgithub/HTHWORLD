@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import { StyleSheet, ScrollView, View, TouchableOpacity, Image } from 'react-native';
 import Button from 'components/Button';
+import MenuHeader from 'components/MenuHeader';
 import T from 'components/Typography';
 import Animations, { FADE, SLIDE_Y } from 'hocs/Animations';
 
@@ -10,6 +11,7 @@ const LANG_NEXT_TEXT = 'Next';
 export default class Step1 extends Component {
   static propTypes = {
     list: PropTypes.arrayOf(PropTypes.string).isRequired,
+    goBack: PropTypes.func.isRequired,
     saveAndContinue: PropTypes.func.isRequired
   };
 
@@ -46,13 +48,22 @@ export default class Step1 extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={styles.headingStyle}>
-            Mnemonic - Words 1-6
-          </T.Heading>
-        </View>
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={this.props.goBack}>
+              <Image source={require('assets/bck.png')} />
+            </TouchableOpacity>
+          )}
+          title="Create Wallet"
+          multipage={true}
+          currentPage={1}
+          totalPages={3}
+        />
+        <T.Heading style={styles.headingStyle}>
+          Your Seed Words
+        </T.Heading>
         <ScrollView bounces={false} style={styles.bodyContainer}>
-          <T.Light>
+          <T.Light style={styles.text}>
             Write down each word in order and store it in a safe place.
             Seriously, do this!
           </T.Light>
@@ -76,8 +87,9 @@ export default class Step1 extends Component {
             {this.props.list.map((word, i) => {
               return (
                 <View key={`word-${i}`} style={styles.mnemonicChoice}>
-                  <T.Light style={styles.mnemonicChoiceNumner}>{`Word #${i +
-                    1}: `}</T.Light>
+                  <T.Light style={styles.mnemonicChoiceNumner}>
+                    {`0${i + 1}`.slice(-2)}
+                  </T.Light>
                   <T.SemiBold style={styles.mnemonicChoiceText}>
                     {word}
                   </T.SemiBold>
@@ -86,8 +98,8 @@ export default class Step1 extends Component {
             })}
           </Animations>
           <View style={styles.footerContainer}>
+            <T.Light style={{color: 'lightgrey', textAlign: 'center', paddingBottom: 10}}>6 of 12 words</T.Light>
             <Button
-              type="primary"
               disabled={this.state.animateList || exitAnimation}
               onPress={this.handleNextButton}
             >
@@ -110,7 +122,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#223252'
   },
   headingStyle: {
+    padding: 20,
+    paddingBottom: 0,
     color: '#ffffff'
+  },
+  text: {
+    color: '#fff',
+    fontWeight: '300',
+    fontSize: 16,
   },
   bodyContainer: {
     flexGrow: 1,
@@ -118,24 +137,27 @@ const styles = StyleSheet.create({
     paddingBottom: 0
   },
   footerContainer: {
+    paddingTop: 0,
     padding: 20
   },
   mnemonicList: {},
   mnemonicChoice: {
-    padding: 10,
+    padding: 20,
     borderRadius: 8,
-    backgroundColor: '#223252',
+    backgroundColor: '#22282F',
+    opacity: 0.5,
     marginBottom: 20,
-    flexDirection: 'column'
+    flexDirection: 'row'
   },
   mnemonicChoiceNumner: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 12
+    marginRight: 20,
+    fontSize: 16
   },
   mnemonicChoiceText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 14
+    fontSize: 16
   }
 });
