@@ -5,12 +5,9 @@ import PropTypes from "prop-types";
 import Button from "components/Button";
 import T from "components/Typography";
 
-const LANG_CANCEL_TEXT = "Cancel";
-
 export default class Type extends Component {
   static propTypes = {
     saveAndContinue: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired,
     options: PropTypes.arrayOf(PropTypes.shape({
       title: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
@@ -36,15 +33,6 @@ export default class Type extends Component {
               {title}
             </Button>
           ))}
-        </View>
-        <View style={styles.footerContainer}>
-          <Button
-            style={styles.cancelButton}
-            type="text"
-            onPress={this.props.goBack}
-          >
-            {LANG_CANCEL_TEXT}
-          </Button>
         </View>
       </View>
     );

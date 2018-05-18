@@ -59,7 +59,6 @@ export default class Mnemonic extends Component {
               value: RECOVER
             },
           ]}
-          goBack={this.handleRedirect}
           saveAndContinue={this.selectType}
         />
       );
