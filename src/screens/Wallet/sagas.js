@@ -90,8 +90,6 @@ export function* hydrate() {
   yield all(storedWallets.map(wallet => {
     if (wallet.imported) {
       return put(importWallet(wallet.symbol, 'privateKey', wallet.privateKey));
-    } else {
-      return put(trackSymbol(wallet.symbol));
     }
   }));
 }
