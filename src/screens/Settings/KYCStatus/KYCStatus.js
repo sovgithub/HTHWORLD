@@ -148,7 +148,7 @@ export default class KYCStatus extends Component {
           }
           <Button
             type="text"
-            onPress={() => NavigatorService.navigate('Dashboard')}
+            onPress={() => NavigatorService.navigate('Menu')}
           >
             Nah, not right now.
           </Button>

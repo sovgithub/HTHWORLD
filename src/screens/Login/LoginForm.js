@@ -41,7 +41,7 @@ class LoginForm extends Component {
   };
 
   handleBypassButton = () => {
-    this.props.navigation.navigate('Dashboard');
+    this.props.navigation.navigate('Menu');
   };
 
   handleFormSubmit = () => {

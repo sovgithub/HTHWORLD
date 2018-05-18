@@ -125,7 +125,7 @@ export default function* authenticationWatcher() {
     // losing their current context (ie, "hey before you can buy, you have to
     // log in quickly!")
     if (!action.noRedirect) {
-      NavigatorService.navigate('Dashboard');
+      NavigatorService.navigate('Menu');
     }
 
     // If we've gotten this far, we have a currentUser and will wait and listen

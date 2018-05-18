@@ -52,21 +52,9 @@ class Menu extends Component {
               </View>
               <TouchableOpacity
                 style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Intro')}
-              >
-                <Text style={styles.linkContent}>Intro</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Wallet')}
               >
                 <Text style={styles.linkContent}>Wallet</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Dashboard')}
-              >
-                <Text style={styles.linkContent}>Dashboard</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.linkWrapper}

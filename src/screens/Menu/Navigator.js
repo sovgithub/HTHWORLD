@@ -1,9 +1,7 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { Dimensions, Animated, Easing } from 'react-native';
-import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
 import Settings from 'screens/Settings';
-import Intro from 'screens/Intro';
 import CoinInformation from 'screens/CoinInformation';
 import Authenticate from 'components/Authenticate';
 import Store from 'components/Pin/Store';
@@ -55,9 +53,6 @@ const itemWithHeader = (title, screen) => {
 };
 
 const RouteConfigs = {
-  Intro: {
-    screen: Intro,
-  },
   Wallet: {
     screen: createStackNavigator({
       Main: {
@@ -73,9 +68,6 @@ const RouteConfigs = {
         }
       },
     }),
-  },
-  Dashboard: {
-    screen: itemWithHeader('Dashboard', Dashboard),
   },
   Settings: {
     screen: Settings,

@@ -6,7 +6,7 @@ import T from 'components/Typography';
 
 const Intro = props => (
   <View style={styles.container}>
-    <Swiper onFinished={() => props.navigation.navigate('Dashboard')}>
+    <Swiper onFinished={() => props.navigation.navigate('Menu')}>
       <View style={styles.slide}>
         <T.Heading style={styles.heading}>Smaug Protocol</T.Heading>
         <T.Small style={styles.small}>
