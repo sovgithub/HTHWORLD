@@ -66,10 +66,7 @@ export default class Authenticate extends Component {
 
   onAuthenticationSuccess() {
     AlertIOS.alert('Authenticated Successfully');
-    NavigatorService.navigateDeep([
-      { routeName: 'Menu' },
-      { routeName: 'Dashboard' },
-    ]);
+    NavigatorService.navigate('Menu');
   }
 
   onAuthenticationFailed() {
