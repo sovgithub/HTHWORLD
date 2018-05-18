@@ -63,15 +63,16 @@ class Wallet extends React.Component {
         });
       }
 
-      buttons.push({
-        type: 'text',
-        onPress: this.handleWalletImport,
-        text: 'import wallet',
-        style: {
-          marginTop: 20,
-          marginBottom: 5
-        }
-      });
+      // disabled for MVP
+      /* buttons.push({
+       *   type: 'text',
+       *   onPress: this.handleWalletImport,
+       *   text: 'import wallet',
+       *   style: {
+       *     marginTop: 20,
+       *     marginBottom: 5
+       *   }
+       * });*/
     } else {
       buttons.push({
         type: 'secondary',
