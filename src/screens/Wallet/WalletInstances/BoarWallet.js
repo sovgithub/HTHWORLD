@@ -17,8 +17,7 @@ export default class BoarWallet extends EthWallet {
   getBalance = async () => {
     const address = await this.getPublicAddress();
     const result = await this._contract.functions.balanceOf(address);
-    const balance = result.balance;
-    return balance;
+    return result;
   };
 
   send = async (amount, toAddress) => {
