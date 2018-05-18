@@ -10,6 +10,9 @@ import {getCurrencyHistory} from 'components/GetCurrencyHistory';
 
 import {
   SYMBOL_BOAR,
+} from 'containers/App/constants';
+
+import {
   GET_CURRENCY_HISTORY_REQUEST,
   GET_CURRENCY_PRICE_REQUEST,
 } from './constants';
