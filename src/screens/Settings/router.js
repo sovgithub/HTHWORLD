@@ -2,13 +2,13 @@
  * Settings router
  */
 
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
 import KYCStatus from './KYCStatus';
 import DocumentVerification from './DocumentVerification';
 import PersonalInfoReview from './PersonalInfoReview';
 
-export const SettingsNavigator = StackNavigator(
+export const SettingsNavigator = createStackNavigator(
   {
     KYCStatus: {
       screen: KYCStatus
@@ -25,7 +25,7 @@ export const SettingsNavigator = StackNavigator(
   }
 );
 
-export const SettingsRouter = StackNavigator(
+export const SettingsRouter = createStackNavigator(
   {
     Settings: {
       screen: SettingsNavigator

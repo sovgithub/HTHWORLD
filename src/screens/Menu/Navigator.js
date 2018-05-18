@@ -1,4 +1,4 @@
-import { DrawerNavigator, StackNavigator } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { Dimensions, Animated, Easing } from 'react-native';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
@@ -41,7 +41,7 @@ const transitionConfig = () => {
 };
 
 const itemWithHeader = (title, screen) => {
-  return StackNavigator(
+  return createStackNavigator(
     {
       Main: {
         screen: withHeader(title, screen),
@@ -59,9 +59,19 @@ const RouteConfigs = {
     screen: Intro,
   },
   Wallet: {
-    screen: StackNavigator({
-      Main: { screen: withHeader('Wallet', Wallet) },
-      CoinInformation: { screen: CoinInformation },
+    screen: createStackNavigator({
+      Main: {
+        screen: Wallet,
+        navigationOptions: {
+          header: null
+        }
+      },
+      CoinInformation: {
+        screen: CoinInformation,
+        navigationOptions: {
+          header: null
+        }
+      },
     }),
   },
   Dashboard: {
@@ -80,8 +90,8 @@ const RouteConfigs = {
 
 const drawerNavigatorConfig = {
   drawerPosition: 'right',
-  drawerWidth: Dimensions.get('window').width,
+  drawerWidth: Dimensions.get('window').width - 100,
   contentComponent: Menu,
 };
 
-export default DrawerNavigator(RouteConfigs, drawerNavigatorConfig);
+export default createDrawerNavigator(RouteConfigs, drawerNavigatorConfig);

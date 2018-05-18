@@ -10,6 +10,8 @@ import Button from "components/Button";
 import T from "components/Typography";
 import WalletListEntry from "./WalletListEntry";
 import PortfolioChart from 'containers/PortfolioChart';
+import MenuHeader from 'components/MenuHeader';
+import Scene from 'components/Scene';
 
 class Wallet extends React.Component {
   static propTypes = {
@@ -98,11 +100,11 @@ class Wallet extends React.Component {
     );
 
     return (
-      <ImageBackground
-        style={styles.container}
-        imageStyle={styles.backgroundImage}
-        source={require("assets/BackgroundBlue.png")}
-      >
+      <Scene>
+        <MenuHeader
+          title="My Wallet"
+          rightAction="menu"
+        />
         <ScrollView
           contentContainerStyle={styles.scrollview}
           bounces={false}
@@ -164,7 +166,7 @@ class Wallet extends React.Component {
             {this.renderActionButtons()}
           </View>
         </ScrollView>
-      </ImageBackground>
+      </Scene>
     );
   }
 }

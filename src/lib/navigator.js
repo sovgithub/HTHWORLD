@@ -26,12 +26,24 @@ NavigatorService.navigate("Menu");
 ]);
 */
 
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, DrawerActions } from 'react-navigation';
 
 let _container; // eslint-disable-line
 
 function setContainer(container) {
   _container = container;
+}
+
+function closeDrawer() {
+  _container.dispatch(
+    DrawerActions.closeDrawer()
+  );
+}
+
+function openDrawer() {
+  _container.dispatch(
+    DrawerActions.openDrawer()
+  );
 }
 
 function reset(routeName, params) {
@@ -49,6 +61,13 @@ function reset(routeName, params) {
   );
 }
 
+function back() {
+  _container.dispatch(
+    NavigationActions.back()
+  );
+}
+
+console.log(NavigationActions);
 function navigate(routeName, params) {
   _container.dispatch(
     NavigationActions.navigate({
@@ -87,5 +106,8 @@ export default {
   navigateDeep,
   navigate,
   reset,
+  back,
+  closeDrawer,
+  openDrawer,
   getCurrentRoute,
 };

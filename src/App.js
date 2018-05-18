@@ -13,7 +13,7 @@ import Track from 'screens/Wallet/Track';
 import Import from 'screens/Wallet/Import';
 import Signup from 'screens/Signup';
 import Menu from 'screens/Menu';
-import { StackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { INIT_REQUESTING } from './containers/App/constants';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -50,7 +50,7 @@ const transitionConfig = () => {
   };
 };
 
-const RoutingStack = StackNavigator(
+const RoutingStack = createStackNavigator(
   {
     Login: { screen: Login },
     Signup: { screen: Signup },

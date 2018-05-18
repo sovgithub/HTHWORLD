@@ -14,8 +14,8 @@ import {
 } from 'react-native';
 import Button from 'components/Button';
 import Icon from 'components/Icon';
-import Animations, { FADE, SLIDE_X } from '../../hocs/Animations';
 import { signOut } from 'sagas/authentication';
+import NavigatorService from 'lib/navigator';
 
 class Menu extends Component {
   static propTypes = {
@@ -23,43 +23,8 @@ class Menu extends Component {
     signOut: PropTypes.func.isRequired,
   };
 
-  state = {
-    focused: false,
-    startAnimation: false,
-    exitAnimation: false,
-  };
-
-  componentDidMount() {
-    this._navListener = this.props.navigation.addListener(
-      'didBlur',
-      this.handleMenuOpened
-    );
-  }
-
-  componentWillUnmount() {
-    this._navListener.remove();
-  }
-
-  handleMenuOpened = () => {
-    this.setState({
-      startAnimation: true,
-      exitAnimation: false,
-    });
-  };
-
-  onAnimationComplete = () => {
-    this.setState({ startAnimation: false, exitAnimation: false });
-  };
-
   navigateTo = route => {
-    this.setState(
-      { startAnimation: false, exitAnimation: true },
-
-      () => {
-        //eslint-disable-next-line no-undef
-        setTimeout(() => this.props.navigation.navigate(route), 100);
-      }
-    );
+    this.props.navigation.navigate(route)
   };
 
   render() {
@@ -80,63 +45,47 @@ class Menu extends Component {
                     paddingVertical: 10,
                     paddingHorizontal: 20,
                   }}
-                  onPress={() => this.navigateTo('DrawerClose')}
+                  onPress={() => NavigatorService.closeDrawer()}
                 >
                   <Icon icon="ios-close-outline" />
                 </TouchableOpacity>
               </View>
-
-              <Animations
-                animations={[
-                  { type: FADE, parameters: { start: 0, end: 1 } },
-                  { type: SLIDE_X, parameters: { start: 1000, end: 0 } },
-                ]}
-                enterDelay={0}
-                enterDuration={500}
-                enterStagger={150}
-                exitDelay={0}
-                exitDuration={100}
-                exitStagger={30}
-                startAnimation={this.state.startAnimation}
-                exitAnimation={this.state.exitAnimation}
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Intro')}
               >
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Intro')}
-                >
-                  <Text style={styles.linkContent}>Intro</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Wallet')}
-                >
-                  <Text style={styles.linkContent}>Wallet</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Dashboard')}
-                >
-                  <Text style={styles.linkContent}>Dashboard</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Settings')}
-                >
-                  <Text style={styles.linkContent}>Settings</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Authenticate')}
-                >
-                  <Text style={styles.linkContent}>Authenticate</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.linkWrapper}
-                  onPress={() => this.navigateTo('Store')}
-                >
-                  <Text style={styles.linkContent}>Store</Text>
-                </TouchableOpacity>
-              </Animations>
+                <Text style={styles.linkContent}>Intro</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Wallet')}
+              >
+                <Text style={styles.linkContent}>Wallet</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Dashboard')}
+              >
+                <Text style={styles.linkContent}>Dashboard</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Settings')}
+              >
+                <Text style={styles.linkContent}>Settings</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Authenticate')}
+              >
+                <Text style={styles.linkContent}>Authenticate</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Store')}
+              >
+                <Text style={styles.linkContent}>Store</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>

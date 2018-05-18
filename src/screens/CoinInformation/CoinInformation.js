@@ -18,6 +18,8 @@ import NavigatorService from "lib/navigator";
 import Icon from "components/Icon";
 import Card from 'components/Card';
 import T from 'components/Typography';
+import MenuHeader from 'components/MenuHeader';
+import Scene from 'components/Scene';
 
 export default class CoinInformation extends React.Component {
   static propTypes = {
@@ -55,23 +57,6 @@ export default class CoinInformation extends React.Component {
     selected: null
   }
 
-  static navigationOptions = ({ navigation }) => ({
-    headerTitle: navigation.state.params.coin,
-    headerTintColor: getColors().textPrimary,
-    headerStyle: { backgroundColor: getColors().background },
-    headerRight: (
-      <TouchableOpacity
-        style={{
-          paddingVertical: 10,
-          paddingHorizontal: 20
-        }}
-        onPress={() => NavigatorService.navigate("DrawerOpen")}
-      >
-        <Icon icon="ios-menu-outline" style={{ size: 25 }} />
-      </TouchableOpacity>
-    )
-  });
-
   componentWillUpdate(props) {
     if (
       props.pricing != this.props.pricing ||
@@ -102,51 +87,58 @@ export default class CoinInformation extends React.Component {
     const metadata = getCoinMetadata(wallet.symbol);
 
     return (
-      <ScrollView style={[styles.flex, styles.scrollView]}>
-        <View style={styles.container}>
-          <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
-          <Card
-            cardStyle={styles.cardStyle}
-            title={wallet.symbol}
-            amount={(wallet.balance * pricing.price.price).toFixed(2)}
-            change={`${wallet.balance.toFixed(2)} ${wallet.symbol}`}
-            colors={['#2889d6', '#123665']}
-          />
-          <View style={styles.actionButtonContainer}>
-            <TouchableOpacity
-              onPress={this.handleBuy}
-              style={styles.actionButton}
-            >
-              <View style={styles.actionButtonView}>
-                <Image source={require('assets/send.png')} />
-                <T.Small style={styles.actionButtonText}>SEND</T.Small>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={this.handleSell}
-              style={styles.actionButton}
-            >
-              <View style={styles.actionButtonView}>
-                <Image source={require('assets/request.png')} />
-                <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
-              </View>
-            </TouchableOpacity>
+      <Scene>
+        <MenuHeader
+          title={wallet.symbol}
+          leftAction="back"
+          rightAction="menu"
+        />
+        <ScrollView style={[styles.flex, styles.scrollView]}>
+          <View style={styles.container}>
+            <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
+            <Card
+              cardStyle={styles.cardStyle}
+              title={wallet.symbol}
+              amount={(wallet.balance * pricing.price.price).toFixed(2)}
+              change={`${wallet.balance.toFixed(2)} ${wallet.symbol}`}
+              colors={['#2889d6', '#123665']}
+            />
+            <View style={styles.actionButtonContainer}>
+              <TouchableOpacity
+                onPress={this.handleBuy}
+                style={styles.actionButton}
+              >
+                <View style={styles.actionButtonView}>
+                  <Image source={require('assets/send.png')} />
+                  <T.Small style={styles.actionButtonText}>SEND</T.Small>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.handleSell}
+                style={styles.actionButton}
+              >
+                <View style={styles.actionButtonView}>
+                  <Image source={require('assets/request.png')} />
+                  <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-        <View>
-          <SectionHeader style={styles.sectionHeader}>Recent Activity</SectionHeader>
-          {transactions.map((transaction, i) => (
-            <TouchableOpacity key={transaction.hash} onPress={this.handleSelect(i)}>
-              <TradeItem
-                wallet={wallet}
-                transaction={transaction}
-                onUpdate={this.props.updateTransaction}
-                selected={this.state.selected === i}
-              />
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
+          <View>
+            <SectionHeader style={styles.sectionHeader}>Recent Activity</SectionHeader>
+            {transactions.map((transaction, i) => (
+              <TouchableOpacity key={transaction.hash} onPress={this.handleSelect(i)}>
+                <TradeItem
+                  wallet={wallet}
+                  transaction={transaction}
+                  onUpdate={this.props.updateTransaction}
+                  selected={this.state.selected === i}
+                />
+              </TouchableOpacity>
+            ))}
+          </View>
+        </ScrollView>
+      </Scene>
     );
   }
 }
@@ -159,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   scrollView: {
-    backgroundColor: "#1C222B",
+    backgroundColor: "transparent",
   },
   container: {
     paddingTop: 40,

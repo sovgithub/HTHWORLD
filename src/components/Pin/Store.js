@@ -60,7 +60,6 @@ export default class Store extends Component {
 
   onSuccessHandler = () => {
     AlertIOS.alert('Successsss!');
-    // () => NavigatorService.navigate('DrawerOpen')
     NavigatorService.navigate('Menu');
   };
 
