@@ -1,8 +1,18 @@
 import React from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { getColors } from 'styles';
+import { getColors, colors } from 'styles';
 import NavigatorService from 'lib/navigator';
 import Icon from 'components/Icon';
+import T from 'components/Typography';
+
+const headerStyles = {
+  fontFamily: 'HelveticaNeue',
+  fontSize: 17,
+  fontWeight: '200',
+  letterSpacing: 2,
+  textAlign: 'center',
+  color: 'rgb(124, 138, 154)',
+};
 
 export default function withHeader(title, WrappedComponent) {
   return class Wrapper extends React.Component {
@@ -25,9 +35,18 @@ export default function withHeader(title, WrappedComponent) {
           {title}
         </Text>
       ),
-      headerTitle: title,
-      headerTintColor: getColors().textPrimary,
-      headerStyle: { backgroundColor: getColors().background },
+      headerTitle: (
+        <T.Heading style={headerStyles}>{title.toUpperCase()}</T.Heading>
+      ),
+      headerTintColor: colors.gray,
+      headerStyle: {
+        backgroundColor: 'transparent',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        borderBottomWidth: 0,
+      },
       headerRight: (
         <TouchableOpacity
           style={{

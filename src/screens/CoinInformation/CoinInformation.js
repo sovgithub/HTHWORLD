@@ -16,6 +16,8 @@ import { Intervals } from "components/GetCurrencyHistory";
 import { getColors } from "styles";
 import NavigatorService from "lib/navigator";
 import Icon from "components/Icon";
+import Card from 'components/Card';
+import T from 'components/Typography';
 
 export default class CoinInformation extends React.Component {
   static propTypes = {
@@ -100,41 +102,39 @@ export default class CoinInformation extends React.Component {
     const metadata = getCoinMetadata(wallet.symbol);
 
     return (
-      <ScrollView style={styles.flex}>
+      <ScrollView style={[styles.flex, styles.scrollView]}>
         <View style={styles.container}>
-          <View style={styles.flex}>
-            <View style={styles.imageContainer}>
-              <Image style={styles.image} source={metadata.image} />
-            </View>
-          </View>
-          <ValueStatement
-            style={styles.holdings}
-            title="Holdings"
-            value={`$${wallet.balance * pricing.price.price}`}
-            change={`${wallet.balance} ${wallet.symbol}`}
-            positive={true}
+          <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
+          <Card
+            cardStyle={styles.cardStyle}
+            title={wallet.symbol}
+            amount={(wallet.balance * pricing.price.price).toFixed(2)}
+            change={`${wallet.balance.toFixed(2)} ${wallet.symbol}`}
+            colors={['#2889d6', '#123665']}
           />
           <View style={styles.actionButtonContainer}>
-            <RoundedButton
-              style={[styles.actionButton, styles.actionButtonLeft]}
-              backgroundColor={buttonBackgroundColor}
-              color={buttonTextColor}
+            <TouchableOpacity
               onPress={this.handleBuy}
+              style={styles.actionButton}
             >
-              Deposit
-            </RoundedButton>
-            <RoundedButton
-              style={[styles.actionButton, styles.actionButtonRight]}
-              backgroundColor={buttonBackgroundColor}
-              color={buttonTextColor}
+              <View style={styles.actionButtonView}>
+                <Image source={require('assets/send.png')} />
+                <T.Small style={styles.actionButtonText}>SEND</T.Small>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity
               onPress={this.handleSell}
+              style={styles.actionButton}
             >
-              Withdraw
-            </RoundedButton>
+              <View style={styles.actionButtonView}>
+                <Image source={require('assets/request.png')} />
+                <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
+              </View>
+            </TouchableOpacity>
           </View>
         </View>
         <View>
-          <SectionHeader>Activity</SectionHeader>
+          <SectionHeader style={styles.sectionHeader}>Recent Activity</SectionHeader>
           {transactions.map((transaction, i) => (
             <TouchableOpacity key={transaction.hash} onPress={this.handleSelect(i)}>
               <TradeItem
@@ -158,12 +158,20 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1
   },
+  scrollView: {
+    backgroundColor: "#1C222B",
+  },
   container: {
     paddingTop: 40,
-    padding: 20,
-    backgroundColor: "#202d48",
+    padding: 15,
     flexDirection: "column",
-    alignItems: "center"
+  },
+  heading: {
+    marginBottom: 20,
+    color: 'white'
+  },
+  cardStyle: {
+    width: '100%'
   },
   imageContainer: {
     backgroundColor: "white",
@@ -179,16 +187,18 @@ const styles = StyleSheet.create({
     marginVertical: 40
   },
   actionButtonContainer: {
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: 'center',
+    marginVertical: 15
   },
   actionButton: {
     flex: 1,
-    borderWidth: 0
+    justifyContent: 'center',
   },
-  actionButtonLeft: {
-    marginRight: 5
+  actionButtonView: {
+    alignItems: 'center',
   },
-  actionButtonRight: {
-    marginLeft: 5
+  actionButtonText: {
+    color: "#707c98"
   }
 });

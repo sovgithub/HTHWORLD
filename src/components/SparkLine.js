@@ -15,7 +15,11 @@ export default class SparkLine extends React.Component {
     height: 0,
   };
 
-  handleLayout = ({ nativeEvent: { layout: { width, height } } }) => {
+  handleLayout = ({
+    nativeEvent: {
+      layout: { width, height },
+    },
+  }) => {
     this.setState({
       width: width ? width : Dimensions.get('window').width,
       height,

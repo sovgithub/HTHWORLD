@@ -7,7 +7,9 @@ import {
   ViewPropTypes,
 } from 'react-native';
 import T from 'components/Typography';
-
+import LinearGradient from 'react-native-linear-gradient';
+import { GradientText } from 'components/GradientText';
+import { gradients } from 'styles';
 export default class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
@@ -34,14 +36,56 @@ export default class Button extends Component {
     );
 
     let buttonContent;
-    if (typeof this.props.children === 'string') {
+
+    // Text Buttons
+    if (typeof this.props.children === 'string' && this.props.type === 'text') {
       const buttonText = this.props.children;
       buttonContent = (
         <T.ButtonText style={styles.buttonText}>
           {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
         </T.ButtonText>
       );
-    } else {
+    }
+
+    // Base Buttons
+    else if (
+      typeof this.props.children === 'string' &&
+      this.props.type === 'base'
+    ) {
+      const buttonText = this.props.children;
+      buttonContent = (
+        <GradientText style={styles.buttonText} gradient={gradients.pink}>
+          {buttonText.toUpperCase()}
+        </GradientText>
+      );
+    }
+
+    // Primary Buttons
+    else if (this.props.type === 'primary') {
+      const buttonText = this.props.children;
+      buttonContent = (
+        <LinearGradient
+          start={gradients.horizontal.start}
+          end={gradients.horizontal.end}
+          colors={gradients.pink}
+          style={[styles.buttonContainer, this.props.style]}
+        >
+          <TouchableOpacity
+            disabled={this.props.disabled}
+            style={[this.props.style]}
+            onPress={this.props.onPress}
+          >
+            <T.ButtonText style={styles.buttonText}>
+              {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
+            </T.ButtonText>
+          </TouchableOpacity>
+        </LinearGradient>
+      );
+      return buttonContent;
+    }
+
+    // Default Buttons
+    else {
       buttonContent = this.props.children;
     }
 
@@ -62,6 +106,7 @@ const stylesForType = {
     buttonContainer: {
       backgroundColor: 'transparent',
       paddingVertical: 0,
+      overflow: 'hidden',
     },
     buttonText: {
       backgroundColor: 'transparent',
@@ -71,7 +116,7 @@ const stylesForType = {
   }),
   primary: StyleSheet.create({
     buttonContainer: {
-      backgroundColor: '#18AC63',
+      // backgroundColor: '#18AC63',
       borderRadius: 100,
       paddingVertical: 20,
       shadowColor: '#000',
@@ -124,7 +169,15 @@ const stylesForType = {
   base: StyleSheet.create({
     buttonContainer: {
       backgroundColor: '#fff',
-      paddingVertical: 10,
+      borderRadius: 100,
+      paddingVertical: 20,
+      shadowColor: '#000',
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
     },
     buttonText: {
       textAlign: 'center',

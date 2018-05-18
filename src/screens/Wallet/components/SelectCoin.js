@@ -63,6 +63,7 @@ export default class Step1 extends Component {
             type="primary"
             disabled={!this.state.selectedCoin}
             onPress={this.handleDone}
+            style={{ overflow: 'hidden' }}
           >
             {LANG_NEXT_TEXT}
           </Button>

@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { StyleSheet, View } from "react-native";
 
+import SuccessFailureScreen, {TYPE_SUCCESS} from 'components/SuccessFailureScreen';
+
 import { initializeWallet } from "../WalletInstances";
 import SelectType from "./Type";
 import SelectCoin from "../components/SelectCoin";
@@ -9,7 +11,6 @@ import InputList from "../components/InputList";
 import PrivateKey from "./PrivateKey";
 import Confirm from "./Confirm";
 import NavigatorService from "lib/navigator";
-import Modal from "../Modal";
 
 export default class Import extends Component {
   static propTypes = {
@@ -165,6 +166,17 @@ export default class Import extends Component {
   };
 
   getComponentForStep = step => {
+    if (this.state.modalOpen) {
+      return (
+        <SuccessFailureScreen
+          type={TYPE_SUCCESS}
+          title="Success"
+          mainButtonText="Set Up Pin"
+          onPressMain={this.handleRedirect}
+        />
+      );
+    }
+
     if (step === 0) {
       return (
         <SelectType
@@ -187,18 +199,11 @@ export default class Import extends Component {
   };
 
   render() {
-    const { step, modalOpen } = this.state;
+    const { step } = this.state;
 
     return (
       <View style={styles.container}>
         {this.getComponentForStep(step)}
-        <Modal
-          show={modalOpen}
-          title={`${this.state.coin} wallet imported!`}
-          onCancel={this.handleRedirect}
-          onDone={this.handleRedirect}
-        >
-        </Modal>
       </View>
     );
   }

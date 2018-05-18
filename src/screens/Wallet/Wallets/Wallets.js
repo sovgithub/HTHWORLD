@@ -46,16 +46,14 @@ class Wallet extends React.Component {
   };
 
   renderActionButtons() {
-    const buttons = [
-    ];
+    const buttons = [];
 
     if (this.props.hasMnemonic) {
-
       if (this.props.hasAvailableCoins) {
         buttons.push({
-          type: 'secondary',
+          type: 'base',
           onPress: this.handleWalletTrack,
-          text: 'Track Coin'
+          text: 'Track Coin',
         });
       }
 

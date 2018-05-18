@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import T from 'components/Typography';
 import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
@@ -32,6 +32,11 @@ const otherWalletKeyForType = {
 const isTradeTitle = {
   [send]: 'Sold',
   [receive]: 'Bought',
+};
+
+const actionIcon = {
+  [send]: require('assets/send-grey.png'),
+  [receive]: require('assets/request-grey.png'),
 };
 
 class TradeItem extends Component {
@@ -72,7 +77,9 @@ class TradeItem extends Component {
     const { wallet, transaction, selected } = this.props;
     const transactionType = transaction.creates
       ? creation
-      : transaction.from === wallet.publicAddress ? send : receive;
+      : transaction.from === wallet.publicAddress
+        ? send
+        : receive;
 
     const tradeTitle = transaction.isTrade
       ? isTradeTitle[transactionType]
@@ -84,33 +91,47 @@ class TradeItem extends Component {
     const date = new Date(transaction.timeMined);
 
     return (
-      <View style={{ padding: 15 }}>
+      <View style={{ paddingTop: 15, paddingHorizontal: 15 }}>
         <View
           style={{
+            backgroundColor: '#222933',
+            borderRadius: 2.5,
+            paddingHorizontal: 23.5,
+            paddingVertical: 14,
             flexDirection: 'row',
             justifyContent: 'space-between',
           }}
         >
-          <View style={{ flexDirection: 'column', alignItems: 'flex-start' }}>
-            <T.Light style={{ fontWeight: '400' }}>
-              {trimAddress(otherWalletAddress)}
+          <View style={{ justifyContent: 'center', marginRight: 20 }}>
+            <Image source={actionIcon[transactionType]} />
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              flex: 1,
+              alignItems: 'flex-start',
+            }}
+          >
+            <T.Light style={{ fontWeight: '400', color: 'white' }}>
+              {tradeTitle.toUpperCase()}
             </T.Light>
-            <T.Small style={{ fontWeight: '300' }}>
+            <T.Small style={{ fontWeight: '300', color: '#8cbcbd' }}>
+              {trimAddress(otherWalletAddress)}
+            </T.Small>
+          </View>
+          <View
+            style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-end' }}
+          >
+            <T.Light style={{ fontWeight: '400', color: 'white' }}>
+              {transaction.value} {wallet.symbol}
+            </T.Light>
+            <T.Small style={{ fontWeight: '300', color: '#8cbcbd' }}>
               {date.toLocaleString(undefined, {
-                year: 'numeric',
-                month: 'numeric',
+                month: 'short',
                 day: 'numeric',
                 hour: 'numeric',
                 minute: 'numeric',
               })}
-            </T.Small>
-          </View>
-          <View style={{ flexDirection: 'column', alignItems: 'flex-end' }}>
-            <T.Light style={{ fontWeight: '400' }}>
-              {tradeTitle.toUpperCase()}
-            </T.Light>
-            <T.Small style={{ fontWeight: '300' }}>
-              ${this.state.tradePrice}
             </T.Small>
           </View>
         </View>
@@ -146,11 +167,9 @@ class TradeItem extends Component {
               }}
             >
               <T.Small>
-                <T.SemiBold>amount: </T.SemiBold>
+                <T.SemiBold>usd price: </T.SemiBold>
               </T.Small>
-              <T.Small>
-                {transaction.value} {wallet.symbol}
-              </T.Small>
+              <T.Small>${this.state.tradePrice}</T.Small>
             </View>
             <View
               style={{

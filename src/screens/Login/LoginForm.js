@@ -98,11 +98,7 @@ class LoginForm extends Component {
           onChangeText={this.updateFormField('password')}
           value={this.state.password || ''}
         />
-        <Button
-          style={styles.buttonContainer}
-          type="secondary"
-          onPress={this.handleFormSubmit}
-        >
+        <Button style={styles.buttonContainer} onPress={this.handleFormSubmit}>
           {LANG_SIGN_UP_TEXT}
         </Button>
         <TouchableOpacity

@@ -15,12 +15,13 @@ SectionHeader.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
+    paddingHorizontal: 15,
     borderBottomWidth: StyleSheet.hairline,
     borderColor: 'lightgrey',
     borderStyle: 'solid',
   },
   heading: {
+    color: 'white',
     fontWeight: '700',
   },
 });

@@ -7,22 +7,34 @@ import {
   Text,
   Image,
   View,
-  KeyboardAvoidingView
+  ScrollView,
+  KeyboardAvoidingView,
 } from 'react-native';
 import Config from 'react-native-config';
 import LoginForm from './LoginForm';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import T from 'components/Typography';
+import createStyles, { colors, gradients, typography } from 'styles';
+import LinearGradient from 'react-native-linear-gradient';
 
 const DismissableView = withDismissableKeyboard(View);
+
+const styless = createStyles();
+
+const customStyles = createStyles({
+  header: {
+    fontSize: typography.size.lg,
+    color: colors.darkPink,
+  },
+});
 
 export default class Login extends React.Component {
   static propTypes = {
     navigation: PropTypes.any,
     loginRequest: PropTypes.func.isRequired,
     login: PropTypes.shape({
-      errors: PropTypes.arrayOf(PropTypes.object)
-    })
+      errors: PropTypes.arrayOf(PropTypes.object),
+    }),
   };
 
   render() {
@@ -34,31 +46,29 @@ export default class Login extends React.Component {
       >
         <DismissableView style={styles.container}>
           <StatusBar barStyle="light-content" />
-          <ImageBackground
-            style={styles.imageView}
-            imageStyle={styles.image}
-            source={require('assets/BackgroundBlue.png')} // eslint-disable-line no-undef
-          >
-            <View style={styles.logoContainer}>
-              <Image
-                style={styles.logo}
-                source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
-              />
-              <View><Text style={styles.title}>Log In</Text></View>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
+            />
+            <View>
+              <Text style={styles.title}>Log In</Text>
             </View>
-            { __DEV__ && (
-              <View>
-                <T.Small style={styles.network}>{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
-              </View>
-            )}
-            <View style={styles.formContainer}>
-              <LoginForm
-                navigation={this.props.navigation}
-                loginRequest={this.props.loginRequest}
-                errors={this.props.login.errors}
-              />
+          </View>
+          {__DEV__ && (
+            <View>
+              <T.Small
+                style={styles.network}
+              >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
             </View>
-          </ImageBackground>
+          )}
+          <View style={styles.formContainer}>
+            <LoginForm
+              navigation={this.props.navigation}
+              loginRequest={this.props.loginRequest}
+              errors={this.props.login.errors}
+            />
+          </View>
         </DismissableView>
       </KeyboardAvoidingView>
     );
@@ -67,29 +77,34 @@ export default class Login extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+  containerGradient: {
+    borderRadius: 0,
+  },
+
   logoContainer: {
     alignItems: 'center',
     flexGrow: 1,
     justifyContent: 'center',
     flexDirection: 'row',
-    alignContent: 'center'
+    alignContent: 'center',
   },
   logo: {
     width: 40,
     height: 40,
     resizeMode: 'contain',
     marginTop: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   title: {
     color: '#fff',
     marginTop: 10,
     fontSize: 40,
     fontWeight: '100',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   network: {
     color: '#fff',
@@ -97,14 +112,14 @@ const styles = StyleSheet.create({
   },
   imageView: {
     flex: 1,
-    paddingTop: 40
+    paddingTop: 40,
   },
   image: {
     width: null,
     height: null,
-    resizeMode: 'cover'
+    resizeMode: 'cover',
   },
   formContainer: {
-    marginBottom: 10
-  }
+    marginBottom: 10,
+  },
 });

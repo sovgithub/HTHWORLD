@@ -1,5 +1,5 @@
 import { DrawerNavigator, StackNavigator } from 'react-navigation';
-import { Dimensions } from 'react-native';
+import { Dimensions, Animated, Easing } from 'react-native';
 import Dashboard from 'screens/Dashboard';
 import Wallet from 'screens/Wallet';
 import Settings from 'screens/Settings';
@@ -10,8 +10,48 @@ import Store from 'components/Pin/Store';
 import withHeader from 'hocs/withHeader';
 import Menu from './Menu';
 
+const transitionConfig = () => {
+  return {
+    containerStyle: { backgroundColor: 'transparent' },
+    transitionSpec: {
+      duration: 750,
+      easing: Easing.out(Easing.poly(4)),
+      timing: Animated.timing,
+      useNativeDriver: true,
+    },
+    screenInterpolator: sceneProps => {
+      const { layout, position, scene } = sceneProps;
+
+      const thisSceneIndex = scene.index;
+      const width = layout.initWidth;
+
+      const translateX = position.interpolate({
+        inputRange: [thisSceneIndex - 1, thisSceneIndex],
+        outputRange: [width, 0],
+      });
+
+      const opacity = position.interpolate({
+        inputRange: [thisSceneIndex - 1, thisSceneIndex],
+        outputRange: [0, 1],
+      });
+
+      return { opacity: opacity, transform: [{ translateX }] };
+    },
+  };
+};
+
 const itemWithHeader = (title, screen) => {
-  return StackNavigator({ Main: { screen: withHeader(title, screen) } });
+  return StackNavigator(
+    {
+      Main: {
+        screen: withHeader(title, screen),
+      },
+    },
+    {
+      cardStyle: { backgroundColor: 'transparent' },
+      transitionConfig,
+    }
+  );
 };
 
 const RouteConfigs = {

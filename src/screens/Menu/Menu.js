@@ -140,9 +140,7 @@ class Menu extends Component {
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
-            <Button type="secondary" onPress={() => this.props.signOut()}>
-              LOG OUT
-            </Button>
+            <Button onPress={() => this.props.signOut()}>LOG OUT</Button>
           </View>
         </ImageBackground>
       </View>

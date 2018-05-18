@@ -17,25 +17,25 @@ export default class Dashboard extends React.Component {
       PropTypes.shape({
         price: PropTypes.shape({
           price: PropTypes.number,
-          requesting: PropTypes.bool
+          requesting: PropTypes.bool,
         }).isRequired,
         history: PropTypes.shape({
           data: PropTypes.arrayOf(PropTypes.number),
           change: PropTypes.string,
           positive: PropTypes.bool,
-          requesting: PropTypes.bool
-        }).isRequired
+          requesting: PropTypes.bool,
+        }).isRequired,
       })
     ).isRequired,
     getCurrencyHistory: PropTypes.func.isRequired,
     getCurrencyPrice: PropTypes.func.isRequired,
     showReceiveModal: PropTypes.func.isRequired,
-    showSendModal: PropTypes.func.isRequired
+    showSendModal: PropTypes.func.isRequired,
   };
 
   state = {
     selectedCurrency: SYMBOL_BTC,
-    selectedInterval: Intervals.hour
+    selectedInterval: Intervals.hour,
   };
 
   componentDidMount() {
@@ -48,7 +48,7 @@ export default class Dashboard extends React.Component {
   triggerPriceRefresh = () => {
     this.props.getCurrencyPrice(this.state.selectedCurrency);
     this.props.getCurrencyHistory(this.state.selectedCurrency, {
-      interval: this.state.selectedInterval
+      interval: this.state.selectedInterval,
     });
   };
 
@@ -62,105 +62,102 @@ export default class Dashboard extends React.Component {
     const { price, history } = this.props.pricing[this.state.selectedCurrency];
 
     return (
-      <Scene>
-        <View style={[styles.container, themedStyles.container]}>
-          <Text style={[styles.heading, themedStyles.heading]}>Markets</Text>
-          <Text style={[styles.date, themedStyles.date]}>September 2</Text>
-          <View style={styles.currencyTitleContainer}>
-            {SUPPORTED_COINS_PRICING.map(currency => (
-              <CurrencyButton
-                key={currency}
-                onPress={this.handleCurrencyChange(currency)}
-                selected={currency === this.state.selectedCurrency}
-              >
-                {currency}
-              </CurrencyButton>
-            ))}
-          </View>
-          <View style={styles.pricingContainer}>
-            {!price.requesting && !history.requesting ? (
-              <ValueStatement
-                title={`${this.state.selectedCurrency} price`}
-                value={`$${price.price.toFixed(2)}`}
-                change={history.change}
-                positive={history.positive}
-              />
-            ) : (
-              <Text>...</Text>
-            )}
-          </View>
-          <View style={styles.carouselContainer}>
-            <IntervalSelectionChart
-              interval={this.state.selectedInterval}
-              positive={history.positive || false}
-              loading={history.requesting}
-              onChangeInterval={this.handleChangeInterval}
-              history={history.data}
-            />
-          </View>
-          <View style={styles.buttonContainer}>
-            <Button
-              title="Send"
-              onPress={this.props.showSendModal}
-              color={themeColors.interactivePrimary}
-            />
-            <Button
-              title="Receive"
-              onPress={this.props.showReceiveModal}
-              color={themeColors.interactivePrimary}
-            />
-          </View>
+      <View style={[styles.container]}>
+        <Text style={[styles.heading, themedStyles.heading]}>Markets</Text>
+        <Text style={[styles.date, themedStyles.date]}>September 2</Text>
+        <View style={styles.currencyTitleContainer}>
+          {SUPPORTED_COINS_PRICING.map(currency => (
+            <CurrencyButton
+              key={currency}
+              onPress={this.handleCurrencyChange(currency)}
+              selected={currency === this.state.selectedCurrency}
+            >
+              {currency}
+            </CurrencyButton>
+          ))}
         </View>
-      </Scene>
+        <View style={styles.pricingContainer}>
+          {!price.requesting && !history.requesting ? (
+            <ValueStatement
+              title={`${this.state.selectedCurrency} price`}
+              value={`$${price.price.toFixed(2)}`}
+              change={history.change}
+              positive={history.positive}
+            />
+          ) : (
+            <Text>...</Text>
+          )}
+        </View>
+        <View style={styles.carouselContainer}>
+          <IntervalSelectionChart
+            interval={this.state.selectedInterval}
+            positive={history.positive || false}
+            loading={history.requesting}
+            onChangeInterval={this.handleChangeInterval}
+            history={history.data}
+          />
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            title="Send"
+            onPress={this.props.showSendModal}
+            color={themeColors.interactivePrimary}
+          />
+          <Button
+            title="Receive"
+            onPress={this.props.showReceiveModal}
+            color={themeColors.interactivePrimary}
+          />
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'transparent',
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   heading: {
     margin: 10,
-    fontSize: 30
+    fontSize: 30,
   },
   date: {
     marginBottom: 10,
-    fontSize: 20
+    fontSize: 20,
   },
   currencyTitleContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   pricingContainer: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   carouselContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 'auto',
-    alignItems: 'center'
-  }
+    alignItems: 'center',
+  },
 });
 
 const getThemedStyles = colors => {
   return {
-    container: {
-      backgroundColor: colors.background
-    },
+    container: {},
     heading: {
-      color: colors.textPrimary
+      color: colors.textPrimary,
     },
     date: {
-      color: colors.textPrimary
+      color: colors.textPrimary,
     },
     text: {
-      color: colors.textPrimary
-    }
+      color: colors.textPrimary,
+    },
   };
 };
