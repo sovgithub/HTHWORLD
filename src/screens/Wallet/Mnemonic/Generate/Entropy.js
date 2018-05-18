@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  TouchableOpacity,
   Dimensions,
   PanResponder,
   StyleSheet,
+  Image,
   View
 } from 'react-native';
-import SVG, { Path } from 'react-native-svg';
+import SVG, { Path, Circle } from 'react-native-svg';
+
+import {CircularProgress} from 'react-native-svg-circular-progress';
 
 import Button from 'components/Button';
 import T from 'components/Typography';
+import MenuHeader from 'components/MenuHeader';
 
 const LANG_NEXT_TEXT = 'next';
 const LANG_BACK_TEXT = 'back';
@@ -87,12 +92,13 @@ export default class Entropy extends Component {
     const percentageComplete = (movement.length / MAX_DATA_POINTS) * 100;
     const finished = percentageComplete === 100;
 
-    let heading = 'Scribble around for a bit';
+    let progressText = '';
     if (finished) {
-      heading = 'Finished!';
+      progressText = 'Finished';
     } else if (movement.length) {
-      heading = 'Keep Going...';
+      progressText = 'Keep Going...';
     }
+
 
     const path = movement.map((v, i) => {
       const verb = i === 0 ? 'M' : 'L';
@@ -103,11 +109,17 @@ export default class Entropy extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={styles.headingStyle}>{heading}</T.Heading>
-        </View>
-        <View onLayout={this.handleLayout} style={styles.container} {...responders}>
-        {drawableWidth && drawableHeight && movement.length && (
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={this.props.goBack}>
+              <Image source={require('assets/closeicon.png')} />
+            </TouchableOpacity>
+          )}
+          title="Scribble"
+        />
+        <View onLayout={this.handleLayout} style={[styles.container, styles.drawBox]} {...responders}>
+          {(drawableWidth && drawableHeight && movement.length)
+          ? (
           <SVG height={`${drawableHeight}`} width={`${drawableWidth}`}>
             <Path
               d={path}
@@ -118,24 +130,49 @@ export default class Entropy extends Component {
               strokeLinejoin="round"
             />
           </SVG>
-        )}
+          )
+          : (
+            <View style={{alignItems: 'center'}}>
+              <Image
+                style={{resizeMode: 'contain', opacity: 0.4}}
+                source={require('assets/scribble.png')}
+              />
+              <T.Heading style={{
+                color: "#3E434B",
+                marginTop: 20,
+              }}>
+                Scribble around for a bit
+              </T.Heading>
+            </View>
+          )
+        }
         </View>
         <View style={styles.footerContainer}>
           {finished
             ? (
-              <Button type="primary" onPress={this.handleNextButton} >
-                {LANG_NEXT_TEXT}
-              </Button>
+              <View style={{}}>
+                <T.Heading style={{textAlign: 'center', color: 'white', marginBottom: 20}}>{progressText}</T.Heading>
+                <Button onPress={this.handleNextButton} >
+                  {LANG_NEXT_TEXT}
+                </Button>
+              </View>
             )
             : (
-              <View style={styles.percentageContainer}>
-                <View style={[styles.percentageBar, {width: `${percentageComplete}%`}]}/>
+              <View style={{alignItems: 'center'}}>
+                <CircularProgress
+                  percentage={percentageComplete}
+                  blankColor="rgba(151, 151, 151, 0.3)"
+                  donutColor="#e6228d"
+                  progressWidth="46"
+                  fillColor="#1b1c23"
+                  size={100}
+                >
+                  <T.Light style={{textAlign: 'center', color: 'white', fontSize: 24, fontWeight: '400'}}>{parseInt(percentageComplete)}%</T.Light>
+                </CircularProgress>
+                <T.Heading style={{color: 'white', marginTop: 20}}>{progressText}</T.Heading>
               </View>
             )
           }
-          <Button style={styles.backButton} type="text" onPress={this.props.goBack} >
-            {LANG_BACK_TEXT}
-          </Button>
         </View>
       </View>
     );
@@ -144,7 +181,15 @@ export default class Entropy extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+  },
+  drawBox: {
+    flex: 2,
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#3E434B',
   },
   headerContainer: {
     padding: 20,
@@ -155,17 +200,7 @@ const styles = StyleSheet.create({
     color: '#ffffff'
   },
   footerContainer: {
+    flex: 1,
     padding: 20
   },
-  percentageContainer: {
-    backgroundColor: 'white',
-    height: 50,
-  },
-  percentageBar: {
-    backgroundColor: `#e6228d`,
-    height: 50
-  },
-  backButton: {
-    marginTop: 20
-  }
 });

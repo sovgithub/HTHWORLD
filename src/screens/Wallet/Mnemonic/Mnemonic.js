@@ -69,7 +69,7 @@ export default class Mnemonic extends Component {
     return (
       <Scene
         withHeader={false}
-        duration={0}
+        preload={false}
       >
         <View style={styles.container}>
           {this.getComponentForStep(this.state.step)}
