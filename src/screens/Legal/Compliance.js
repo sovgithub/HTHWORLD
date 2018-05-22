@@ -18,7 +18,7 @@ export default function Legal() {
         />
         <View style={styles.content}>
           <T.Heading style={styles.title}>Compliance</T.Heading>
-          <T.Light style={styles.title}>content</T.Light>
+          <T.Light style={styles.title}>Coming Soon...</T.Light>
         </View>
       </View>
     </Scene>
