@@ -19,7 +19,7 @@ import transactionSagas from 'sagas/transactions';
 import initSagas from 'sagas/init';
 import walletSagas from 'screens/Wallet/sagas';
 import pricingSagas from 'sagas/pricing/saga';
-import kycStatusWatcher from 'screens/Settings/sagas';
+import kycStatusWatcher from 'screens/KYC/sagas';
 
 export default function* rootSaga() {
   yield all([

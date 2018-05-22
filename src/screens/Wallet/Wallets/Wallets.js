@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import {
   ImageBackground,
+  Image,
+  TouchableHighlight,
   ScrollView,
   StyleSheet,
   View
@@ -106,66 +108,34 @@ class Wallet extends React.Component {
           title="My Wallet"
           rightAction="menu"
         />
+        <View style={{flexDirection: 'row', justifyContent: 'space-between', padding: 20, alignItems: 'center'}}>
+          <TouchableHighlight onPress={this.flipCards}>
+            <Image source={require('assets/flip.png')} />
+          </TouchableHighlight>
+          <T.Small style={{color: 'white'}}>My Holdings</T.Small>
+        </View>
         <ScrollView
           contentContainerStyle={styles.scrollview}
           bounces={false}
         >
-          <View
-            style={[
-              styles.tranparentBackground,
-              styles.headingContainer
-            ]}
-          >
-            <View style={[ styles.currentBalance, styles.transparentBackground ]}>
-              <T.Small style={styles.text}>Current Balance</T.Small>
-              <T.PriceLarge style={styles.text}>
-                ${totalPrice.toFixed(2)}
-              </T.PriceLarge>
-            </View>
-            <PortfolioChart />
-            <View style={[styles.container, {marginTop: 20}]}>
-              <View style={styles.pagerContainer}>
-                <View
-                  style={[styles.pagerIndicator, styles.pagerIndicatorSelected]}
-                />
-                <View style={styles.pagerIndicator} />
-                <View style={styles.pagerIndicator} />
-              </View>
-            </View>
-          </View>
-          <View
-            style={[
-              styles.walletContainer,
-            ]}
-          >
-            <View style={styles.walletHeadingContainer}>
-              <T.SubHeading style={styles.walletHeading}>Holdings</T.SubHeading>
-            </View>
-            {this.props.wallets.map((wallet) => {
-              const { balance, symbol, publicAddress, id, imported } = wallet;
-              const price = this.props.prices[symbol];
+          {this.props.wallets.map((wallet) => {
+            const { balance, symbol, publicAddress, id, imported } = wallet;
+            const price = this.props.prices[symbol];
 
-              return (
-                <WalletListEntry
-                  key={id}
-                  name={`My ${symbol} Wallet`}
-                  symbol={symbol}
-                  balance={balance}
-                  change={"0%"}
-                  publicAddress={publicAddress}
-                  imported={imported}
-                  onPress={this.handleNavigateToCoinInfo(id, symbol)}
-                  value={(Number(price) * Number(balance)).toFixed(2)}
-                />
-              );
-            })}
-            {this.props.wallets.length === 0 && (
-              <T.SubHeading style={styles.emptyText}>
-                Create or recover a wallet!
-              </T.SubHeading>
-            )}
-            {this.renderActionButtons()}
-          </View>
+            return (
+              <WalletListEntry
+                key={id}
+                name={`My ${symbol} Wallet`}
+                symbol={symbol}
+                balance={balance}
+                change={"0%"}
+                publicAddress={publicAddress}
+                imported={imported}
+                onPress={this.handleNavigateToCoinInfo(id, symbol)}
+                value={(Number(price) * Number(balance)).toFixed(2)}
+              />
+            );
+          })}
         </ScrollView>
       </Scene>
     );

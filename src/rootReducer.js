@@ -24,7 +24,7 @@ import receiveModal from 'containers/ReceiveModal/reducer';
 import sendModal from 'containers/SendModal/reducer';
 import pricing from 'sagas/pricing/reducer';
 import transactions from 'sagas/transactions/reducer';
-import kyc from 'screens/Settings/reducer';
+import kyc from 'screens/KYC/reducer';
 
 const rootReducer = combineReducers({
   app,

@@ -10,7 +10,7 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
       <View style={styles.container}>
         <View style={styles.left}>
           <View style={styles.titleContainer}>
-            <T.TitleAlternate>
+            <T.TitleAlternate style={{color: 'lightgrey'}}>
               {name}
             </T.TitleAlternate>
             {imported && (
@@ -22,14 +22,14 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
               </View>
             )}
           </View>
-          <T.SmallAlternate>
+          <T.SmallAlternate style={{color: 'lightgrey'}}>
             {symbol} - {balance}
           </T.SmallAlternate>
         </View>
         <View style={styles.right}>
-          <T.Price>${value}</T.Price>
+          <T.Price style={{color: 'lightgrey'}}>${value}</T.Price>
           <T.SubtitleAlternate>
-            <T.SemiBoldAlternate>{change}</T.SemiBoldAlternate>
+            <T.SemiBoldAlternate style={{color: 'lightgrey'}}>{change}</T.SemiBoldAlternate>
           </T.SubtitleAlternate>
         </View>
       </View>
@@ -51,11 +51,12 @@ WalletListEntry.propTypes = {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    margin: 20,
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#1D252E",
     flexDirection: "row",
     alignItems: "center",
-    borderBottomColor: "#bbb",
-    borderBottomWidth: StyleSheet.hairlineWidth
   },
   titleContainer: {
     flexDirection: 'row'

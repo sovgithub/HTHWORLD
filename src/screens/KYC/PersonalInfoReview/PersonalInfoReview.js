@@ -172,7 +172,7 @@ export default class Verification extends React.Component {
       ...this.state.initialFields,
       ...this.state.missingFields,
     });
-    this.props.navigation.navigate('Settings');
+    this.props.navigation.navigate('KYC');
   };
 
   handleSupportRequest = () => {

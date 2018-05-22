@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 
 import KYCStatus from './KYCStatus';
 
-import { documentVerificationRequest } from 'screens/Settings/actions';
+import { documentVerificationRequest } from 'screens/KYC/actions';
 
 function mapStateToProps(state) {
   return { kyc: state.kyc };

@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,6 +15,8 @@ import Button from 'components/Button';
 import Icon from 'components/Icon';
 import { signOut } from 'sagas/authentication';
 import NavigatorService from 'lib/navigator';
+import { gradients } from 'styles';
+import LinearGradient from 'react-native-linear-gradient';
 
 class Menu extends Component {
   static propTypes = {
@@ -24,62 +25,79 @@ class Menu extends Component {
   };
 
   navigateTo = route => {
-    this.props.navigation.navigate(route)
+    NavigatorService.navigate(route);
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <ImageBackground
-          style={styles.imageView}
-          imageStyle={styles.image}
-          source={
-            require('assets/BackgroundBlue.png') // eslint-disable-line no-undef
-          }
+        <LinearGradient
+          start={gradients.vertical.start}
+          end={gradients.vertical.end}
+          colors={gradients.blue}
+          style={styles.container}
         >
-          <ScrollView style={{ paddingTop: 40 }}>
+          <ScrollView style={{ padding: 20, paddingTop: 40 }}>
             <View style={{ backgroundColor: 'transparent', flex: 1 }}>
               <View style={{ alignSelf: 'flex-end' }}>
                 <TouchableOpacity
                   style={{
                     paddingVertical: 10,
-                    paddingHorizontal: 20,
+                    paddingHorizontal: 0,
                   }}
                   onPress={() => NavigatorService.closeDrawer()}
                 >
                   <Icon icon="ios-close-outline" />
                 </TouchableOpacity>
               </View>
+
+              <View style={styles.subHeadingContainer}>
+                <Text style={styles.subHeading}>
+                  Payments
+                </Text>
+              </View>
               <TouchableOpacity
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Wallet')}
               >
-                <Text style={styles.linkContent}>Wallet</Text>
+                <Text style={styles.linkContent}>WALLET</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('GetHelp')}
+              >
+                <Text style={styles.linkContent}>GET HELP</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Settings')}
               >
-                <Text style={styles.linkContent}>Settings</Text>
+                <Text style={styles.linkContent}>SETTINGS</Text>
+              </TouchableOpacity>
+
+              <View style={styles.subHeadingContainer}>
+                <Text style={styles.subHeading}>
+                  Info
+                </Text>
+              </View>
+              <TouchableOpacity
+                style={styles.linkWrapper}
+                onPress={() => this.navigateTo('Legal')}
+              >
+                <Text style={styles.linkContent}>LEGAL</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Authenticate')}
+                onPress={() => this.navigateTo('About')}
               >
-                <Text style={styles.linkContent}>Authenticate</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Store')}
-              >
-                <Text style={styles.linkContent}>Store</Text>
+                <Text style={styles.linkContent}>ABOUT</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
             <Button onPress={() => this.props.signOut()}>LOG OUT</Button>
           </View>
-        </ImageBackground>
+        </LinearGradient>
       </View>
     );
   }
@@ -111,11 +129,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: 20,
   },
+  subHeadingContainer: {
+    paddingVertical: 20,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(151, 151, 151, 0.21)',
+  },
+  subHeading: {
+    color: 'darkgrey',
+  },
   linkContent: {
     color: '#ffffff',
     fontWeight: '700',
-    padding: 10,
     backgroundColor: 'transparent',
-    alignSelf: 'center',
+    alignSelf: 'flex-start',
   },
 });

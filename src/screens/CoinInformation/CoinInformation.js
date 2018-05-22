@@ -105,7 +105,7 @@ export default class CoinInformation extends React.Component {
             />
             <View style={styles.actionButtonContainer}>
               <TouchableOpacity
-                onPress={this.handleBuy}
+                onPress={this.handleSell}
                 style={styles.actionButton}
               >
                 <View style={styles.actionButtonView}>
@@ -114,7 +114,7 @@ export default class CoinInformation extends React.Component {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={this.handleSell}
+                onPress={this.handleBuy}
                 style={styles.actionButton}
               >
                 <View style={styles.actionButtonView}>

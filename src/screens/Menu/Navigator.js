@@ -1,7 +1,11 @@
 import { createDrawerNavigator, createStackNavigator } from 'react-navigation';
 import { Dimensions, Animated, Easing } from 'react-native';
 import Wallet from 'screens/Wallet';
+import KYC from 'screens/KYC';
 import Settings from 'screens/Settings';
+import About from 'screens/About';
+import GetHelp from 'screens/GetHelp';
+import Legal from 'screens/Legal';
 import CoinInformation from 'screens/CoinInformation';
 import Authenticate from 'components/Authenticate';
 import Store from 'components/Pin/Store';
@@ -67,16 +71,31 @@ const RouteConfigs = {
           header: null
         }
       },
+    }, {
+      cardStyle: {backgroundColor: 'transparent'},
+      transitionConfig
     }),
   },
   Settings: {
     screen: Settings,
+  },
+  KYC: {
+    screen: KYC,
   },
   Authenticate: {
     screen: Authenticate,
   },
   Store: {
     screen: Store,
+  },
+  Legal: {
+    screen: Legal,
+  },
+  About: {
+    screen: About,
+  },
+  GetHelp: {
+    screen: GetHelp,
   },
 };
 

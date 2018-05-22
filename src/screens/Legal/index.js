@@ -1,7 +1,10 @@
 import { StyleSheet, Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
-import Settings from './Settings';
+import Legal from './Legal';
+import UserAgreement from './UserAgreement';
+import Privacy from './Privacy';
+import Compliance from './Compliance';
 
 
 const transitionConfig = () => {
@@ -36,7 +39,10 @@ const transitionConfig = () => {
 
 const RoutingStack = createStackNavigator(
   {
-    Settings: { screen: Settings },
+    Legal: { screen: Legal },
+    UserAgreement: { screen: UserAgreement },
+    Privacy: { screen: Privacy },
+    Compliance: { screen: Compliance },
   },
   {
     headerMode: 'none',

@@ -1,5 +1,5 @@
 /**
- * Settings router
+ * KYC router
  */
 
 import { createStackNavigator } from 'react-navigation';
@@ -8,7 +8,7 @@ import KYCStatus from './KYCStatus';
 import DocumentVerification from './DocumentVerification';
 import PersonalInfoReview from './PersonalInfoReview';
 
-export const SettingsNavigator = createStackNavigator(
+export const KYCNavigator = createStackNavigator(
   {
     KYCStatus: {
       screen: KYCStatus
@@ -25,12 +25,12 @@ export const SettingsNavigator = createStackNavigator(
   }
 );
 
-export const SettingsRouter = createStackNavigator(
+export const KYCRouter = createStackNavigator(
   {
-    Settings: {
-      screen: SettingsNavigator
+    KYC: {
+      screen: KYCNavigator
     }
   }
 );
 
-export default SettingsRouter;
+export default KYCRouter;
