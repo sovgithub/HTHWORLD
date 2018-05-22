@@ -29,7 +29,7 @@ class LoginForm extends Component {
     loading: false,
     loggedIn: false,
     error: false,
-    email_address: null,
+    username_or_email: null,
     password: null,
   };
 
@@ -47,13 +47,13 @@ class LoginForm extends Component {
 
   handleFormSubmit = () => {
     if (
-      this.state.email_address &&
-      this.state.email_address.length > 1 &&
+      this.state.username_or_email &&
+      this.state.username_or_email.length > 1 &&
       this.state.password &&
       this.state.password.length > 1
     ) {
       this.props.loginRequest({
-        email_address: this.state.email_address,
+        username_or_email: this.state.username_or_email,
         password: this.state.password,
       });
     }
@@ -83,8 +83,8 @@ class LoginForm extends Component {
           returnKeyType="next"
           keyboardType="email-address"
           onSubmitEditing={() => this.loginPasswordInput.focus()}
-          onChangeText={this.updateFormField('email_address')}
-          value={this.state.email_address || ''}
+          onChangeText={this.updateFormField('username_or_email')}
+          value={this.state.username_or_email || ''}
           type="underline"
         />
         <View style={{ marginTop: 20 }}>

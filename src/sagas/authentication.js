@@ -47,7 +47,7 @@ export async function setUser(user) {
 }
 
 // TODO: abstract these into dev/prod files
-const logoutUrl = `https://erebor-staging.hoardinvest.com/logout/`;
+const logoutUrl = `https://smaugdev.hoardinvest.com/logout/`;
 /**
  * Logout
  * @return {async function} Calls the backen to remove the user's session.

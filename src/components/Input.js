@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
     backgroundColor: 'transparent',
     borderBottomWidth: 1,
+    borderBottomColor: colors.grayLight,
     color: '#fff',
   },
   input_dark: {},
