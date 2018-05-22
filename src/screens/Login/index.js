@@ -7,9 +7,13 @@
 import { connect } from "react-redux";
 import loginRequest from "./actions";
 import Login from "./Login";
+import { mnemonicPhraseSelector } from 'screens/Wallet/selectors';
 
 function mapStateToProps(state) {
-  return { login: state.login };
+  return {
+    login: state.login,
+    hasMnemonic: !!mnemonicPhraseSelector(state)
+  };
 }
 
 const mapDispatchToProps = {

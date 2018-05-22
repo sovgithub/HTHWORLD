@@ -1,83 +1,100 @@
 import React, { Component } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import PropTypes from "prop-types";
+import createStyles, { dimensions, colors, padding, typography } from 'styles';
 
 import Button from "components/Button";
 import T from "components/Typography";
 
-const LANG_CANCEL_TEXT = "Cancel";
-
 export default class Type extends Component {
   static propTypes = {
     saveAndContinue: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })).isRequired
+    newMnemonicType: PropTypes.string.isRequired,
+    existingMnemonicType: PropTypes.string.isRequired,
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={styles.headingStyle}>
-            Create New Mnemonic
-          </T.Heading>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={require('assets/droplet.png')}
+          />
         </View>
         <View style={styles.bodyContainer}>
-          {this.props.options.map(({ title, value }) => (
+          <T.Heading style={styles.heading}>
+            Create New Mnemonic
+          </T.Heading>
+          <T.Light style={styles.content}>
+            We will walk you through the process of generating a new mnemonic phrase.
+            This 12 word list will allow you to generate recover your wallets in the
+            future.
+          </T.Light>
+          <View style={styles.buttonsContainer}>
             <Button
-              key={value}
-              type="primary"
-              style={styles.button}
-              onPress={this.props.saveAndContinue(value)}
+              style={styles.generateButton}
+              onPress={this.props.saveAndContinue(this.props.newMnemonicType)}
             >
-              {title}
+              Let's Get Started!
             </Button>
-          ))}
-        </View>
-        <View style={styles.footerContainer}>
-          <Button
-            style={styles.cancelButton}
-            type="text"
-            onPress={this.props.goBack}
-          >
-            {LANG_CANCEL_TEXT}
-          </Button>
+            <Button
+              type="text"
+              style={styles.recoverButton}
+              onPress={this.props.saveAndContinue(this.props.existingMnemonicType)}
+            >
+              Actually, I've Done This Before
+            </Button>
+          </View>
         </View>
       </View>
     );
   }
 }
 
+const imageWidth = dimensions.width * 0.40;
+const imageHeight = imageWidth * 1.0989010989;
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    padding: padding.md,
+    paddingBottom: padding.xl,
   },
-  headerContainer: {
-    padding: 20,
-    paddingTop: 40,
-    backgroundColor: "#223252"
+  imageContainer: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+    padding: padding.lg,
   },
-  headingStyle: {
-    color: "#ffffff"
+  image: {
+    height: imageHeight,
+    width: imageWidth,
+    resizeMode: 'contain',
   },
   bodyContainer: {
-    flexGrow: 1,
-    padding: 20,
-    paddingBottom: 0
+    flex: 1
   },
-  button: {
-    marginBottom: 20
+  heading: {
+    color: colors.white,
+    paddingBottom: padding.md,
+    textAlign: 'center',
   },
-  footerContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10
+  content: {
+    color: colors.white,
+    textAlign: 'center',
+    fontFamily: typography.family.primary,
+    lineHeight: typography.lineHeight.normal,
+    fontSize: typography.size.md,
+    fontWeight: typography.weight.thin,
   },
-  cancelButton: {
-    marginTop: 10,
-    paddingVertical: 10
-  }
+  buttonsContainer: {
+    marginTop: 'auto'
+  },
+  generateButton: {
+    marginBottom: padding.lg,
+  },
+  recoverButton: {
+  },
 });

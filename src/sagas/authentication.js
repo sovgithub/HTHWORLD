@@ -12,6 +12,8 @@ export const AUTH_USER_SET = 'AUTH_USER_SET';
 export const AUTH_SIGNOUT = 'AUTH_SIGNOUT';
 export const AUTH_USER_STORAGE_KEY = 'auth/user';
 
+import {mnemonicPhraseSelector} from "screens/Wallet/selectors";
+
 /**
  * Sign Out - Redux action
  * @return {object} the redux dispatch object
@@ -125,7 +127,13 @@ export default function* authenticationWatcher() {
     // losing their current context (ie, "hey before you can buy, you have to
     // log in quickly!")
     if (!action.noRedirect) {
-      NavigatorService.navigate('Menu');
+      const mnemonicPhrase = yield select(mnemonicPhraseSelector);
+
+      if (mnemonicPhrase) {
+        NavigatorService.navigate('Menu');
+      } else {
+        NavigatorService.navigate('Mnemonic');
+      }
     }
 
     // If we've gotten this far, we have a currentUser and will wait and listen

@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import { select, all, takeLatest, takeEvery, call, put } from "redux-saga/effects";
 import { initializeWallet } from "./WalletInstances";
-import { INIT_REQUESTING } from "containers/App/constants";
+import { INIT_REQUESTING, SUPPORTED_COINS_WALLET } from "containers/App/constants";
 import {store} from '../../App';
 import {
   WALLET_INITIALIZE_PASSPHRASE,
@@ -90,8 +90,6 @@ export function* hydrate() {
   yield all(storedWallets.map(wallet => {
     if (wallet.imported) {
       return put(importWallet(wallet.symbol, 'privateKey', wallet.privateKey));
-    } else {
-      return put(trackSymbol(wallet.symbol));
     }
   }));
 }
@@ -244,11 +242,20 @@ function* trackSymbolFlow(action) {
   }
 }
 
+function* setUpWallets(action) {
+  if (action.mnemonicPhrase) {
+    yield storeMnemonic(action);
+    for (const symbol of SUPPORTED_COINS_WALLET) {
+      yield put(trackSymbol(symbol));
+    }
+  }
+}
+
 export default function* walletSagaWatcher() {
   yield all([
     takeLatest(INIT_REQUESTING, initWalletsFlow),
 
-    takeLatest(WALLET_INITIALIZE_PASSPHRASE, storeMnemonic),
+    takeLatest(WALLET_INITIALIZE_PASSPHRASE, setUpWallets),
     takeEvery(WALLET_TRACK_SYMBOL, trackSymbolFlow),
     takeEvery(WALLET_IMPORT, importWalletFlow),
 

@@ -51,7 +51,8 @@ export default class Generate extends Component {
 
   nextStep = () => {
     const currentStep = this.state.step;
-    const nextStep = currentStep < 3 ? currentStep + 1 : 1;
+    console.log(currentStep);
+    const nextStep = currentStep <= 3 ? currentStep + 1 : 1;
 
     this.setState({
       step: nextStep
@@ -89,7 +90,11 @@ export default class Generate extends Component {
         .split(' ')
         .slice(0, 6);
       return (
-        <Step1 list={mnemonicList} saveAndContinue={this.nextStep} />
+        <Step1
+          list={mnemonicList}
+          saveAndContinue={this.nextStep}
+          goBack={this.goBack}
+        />
       );
     }
     if (step === 3) {

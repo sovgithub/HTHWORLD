@@ -59,8 +59,7 @@ export default class Store extends Component {
   };
 
   onSuccessHandler = () => {
-    AlertIOS.alert('Successsss!');
-    NavigatorService.navigate('Menu');
+    NavigatorService.navigate('Wallet');
   };
 
   validatePin = value => {

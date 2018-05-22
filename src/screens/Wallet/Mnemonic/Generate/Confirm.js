@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity, Image } from 'react-native';
 
+import MenuHeader from 'components/MenuHeader';
 import Button from 'components/Button';
 import T from 'components/Typography';
 import LottieView from 'lottie-react-native';
@@ -67,10 +68,6 @@ export default class Confirm extends Component {
     }
   };
 
-  handleGoBack = () => {
-    this.props.goBack();
-  };
-
   render() {
     if (__DEV__) {
       //eslint-disable-next-line no-console
@@ -80,15 +77,26 @@ export default class Confirm extends Component {
         this.props.list[1].word
       );
     }
-    const placeholderTextColor = 'rgba(0,0,0,0.35)';
+    const placeholderTextColor = 'white';
 
     return (
       <DismissableView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={{ color: '#ffffff' }}>Confirm Word List </T.Heading>
-        </View>
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={this.props.goBack}>
+              <Image source={require('assets/bck.png')} />
+            </TouchableOpacity>
+          )}
+          title="Create Wallet"
+          multipage={true}
+          currentPage={2}
+          totalPages={3}
+        />
+        <T.Heading style={styles.headingStyle}>
+          Confirm Word List
+        </T.Heading>
         <View style={styles.bodyContainer}>
-          <T.Light>
+          <T.Light style={styles.text}>
             To make sure everything was written down correctly, please enter the
             following words from your paper key.
           </T.Light>
@@ -98,10 +106,6 @@ export default class Confirm extends Component {
             return (
               <View style={styles.inputRow} key={`confirm-${i}`}>
                 <View style={styles.inputWrapper}>
-                  <T.Light
-                    style={styles.inputLable}
-                  >{`Word #${number}`}</T.Light>
-
                   <TextInput
                     ref={el => (this.loginPasswordInput = el)}
                     style={styles.input}
@@ -128,19 +132,11 @@ export default class Confirm extends Component {
             );
           })}
           <Button
-            type="primary"
             style={styles.statusCheck}
             onPress={this.props.saveWallet}
             disabled={!this.state.allChecksPassed}
           >
             Create My Wallet!
-          </Button>
-          <Button
-            type="text"
-            style={styles.textButton}
-            onPress={this.handleGoBack}
-          >
-            {LANG_PREV_TEXT}
           </Button>
         </View>
       </DismissableView>
@@ -152,8 +148,8 @@ const styles = StyleSheet.create({
   inputRow: {
     marginTop: 20,
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderBottomColor: 'black'
+    borderBottomWidth: 2,
+    borderBottomColor: '#353b48'
   },
   inputWrapper: {
     flexGrow: 1,
@@ -164,8 +160,14 @@ const styles = StyleSheet.create({
     width: 70,
     height: 50
   },
+  text: {
+    color: '#fff',
+    fontWeight: '300',
+    fontSize: 16,
+  },
   input: {
-    flexGrow: 1
+    flexGrow: 1,
+    color: 'white'
   },
   inputLable: {
     fontSize: 12,
@@ -174,10 +176,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  headerContainer: {
+  headingStyle: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: '#223252'
+    color: '#fff'
   },
   bodyContainer: {
     flexGrow: 1,

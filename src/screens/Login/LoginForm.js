@@ -41,7 +41,11 @@ class LoginForm extends Component {
   };
 
   handleBypassButton = () => {
-    this.props.navigation.navigate('Menu');
+    if (this.props.hasMnemonic) {
+      this.props.navigation.navigate('Menu');
+    } else {
+      this.props.navigation.navigate('Mnemonic');
+    }
   };
 
   handleFormSubmit = () => {

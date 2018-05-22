@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StyleSheet, View } from 'react-native';
 
 import SuccessFailureScreen, {TYPE_SUCCESS} from 'components/SuccessFailureScreen';
+import Scene from 'components/Scene';
 
 import Type from './Type';
 import Recover from './Recover';
@@ -30,7 +31,7 @@ export default class Mnemonic extends Component {
   setMnemonic = mnemonic => this.props.initializeMnemonic(mnemonic);
 
   handleRedirect = () => {
-    NavigatorService.navigate('Wallet');
+    NavigatorService.navigate('Store');
   };
 
   getComponentForStep = step => {
@@ -49,17 +50,8 @@ export default class Mnemonic extends Component {
     if (step === 1) {
       return (
         <Type
-          options={[
-            {
-              title: "Let's get started!",
-              value: GENERATE
-            },
-            {
-              title: "Actually, I've done this before",
-              value: RECOVER
-            },
-          ]}
-          goBack={this.handleRedirect}
+          newMnemonicType={GENERATE}
+          existingMnemonicType={RECOVER}
           saveAndContinue={this.selectType}
         />
       );
@@ -75,15 +67,21 @@ export default class Mnemonic extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        {this.getComponentForStep(this.state.step)}
-      </View>
+      <Scene
+        withHeader={false}
+        preload={false}
+      >
+        <View style={styles.container}>
+          {this.getComponentForStep(this.state.step)}
+        </View>
+      </Scene>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'transparent',
     flex: 1
   },
 });
