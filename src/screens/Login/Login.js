@@ -50,7 +50,7 @@ export default class Login extends React.Component {
           <View style={styles.logoContainer}>
             <Image
               style={styles.logo}
-              source={require('assets/HoardLogoWhite.png')} // eslint-disable-line no-undef
+              source={require('assets/hoard_circle_logo.png')} // eslint-disable-line no-undef
             />
             <View>
               <Text style={styles.title}>Log In</Text>
@@ -91,12 +91,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexGrow: 1,
     justifyContent: 'center',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignContent: 'center',
   },
   logo: {
-    width: 40,
-    height: 40,
+    width: 150,
+    height: 150,
     resizeMode: 'contain',
     marginTop: 10,
     marginRight: 10,

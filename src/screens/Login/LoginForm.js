@@ -6,12 +6,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Error from 'components/notifications/Error';
 import Button from 'components/Button';
 import Input from 'components/Input';
@@ -22,10 +17,12 @@ class LoginForm extends Component {
   static propTypes = {
     navigation: PropTypes.any,
     loginRequest: PropTypes.func.isRequired,
-    errors: PropTypes.arrayOf(PropTypes.shape({
-      code: PropTypes.number,
-      message: PropTypes.string
-    }))
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.number,
+        message: PropTypes.string,
+      })
+    ),
   };
 
   state = {
@@ -33,7 +30,7 @@ class LoginForm extends Component {
     loggedIn: false,
     error: false,
     email_address: null,
-    password: null
+    password: null,
   };
 
   handleSignupButton = () => {
@@ -57,7 +54,7 @@ class LoginForm extends Component {
     ) {
       this.props.loginRequest({
         email_address: this.state.email_address,
-        password: this.state.password
+        password: this.state.password,
       });
     }
   };
@@ -80,8 +77,7 @@ class LoginForm extends Component {
           );
         })}
         <Input
-          style={styles.input}
-          label="Email"
+          label="Username or Email"
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="next"
@@ -89,36 +85,38 @@ class LoginForm extends Component {
           onSubmitEditing={() => this.loginPasswordInput.focus()}
           onChangeText={this.updateFormField('email_address')}
           value={this.state.email_address || ''}
+          type="underline"
         />
-        <Input
-          ref={el => (this.loginPasswordInput = el)}
-          label="Password"
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          returnKeyType="go"
-          keyboardType="default"
-          secureTextEntry
-          onChangeText={this.updateFormField('password')}
-          value={this.state.password || ''}
-        />
-        <Button style={styles.buttonContainer} onPress={this.handleFormSubmit}>
-          {LANG_SIGN_UP_TEXT}
+        <View style={{ marginTop: 20 }}>
+          <Input
+            ref={el => (this.loginPasswordInput = el)}
+            label="Password"
+            autoCapitalize="none"
+            autoCorrect={false}
+            returnKeyType="go"
+            keyboardType="default"
+            secureTextEntry
+            onChangeText={this.updateFormField('password')}
+            value={this.state.password || ''}
+            type="underline"
+          />
+        </View>
+        <Button type="text" onPress={this.handleSignupButton}>
+          <Text style={styles.buttonTextBypass}>
+            <Text style={styles.buttonTextAlt}>New to Hoard? Sign Up!</Text>
+          </Text>
         </Button>
-        <TouchableOpacity
-          onPress={this.handleSignupButton}
-          style={styles.buttonContainerAlt}
-        >
-          <Text style={styles.buttonTextAlt}>New to Hoard? Sign Up!</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={this.handleBypassButton}
-          style={styles.buttonContainerBypass}
-        >
+
+        <View style={{ marginVertical: 20 }}>
+          <Button type="primary" onPress={this.handleFormSubmit}>
+            {LANG_SIGN_UP_TEXT}
+          </Button>
+        </View>
+        <Button type="text" onPress={this.handleBypassButton}>
           <Text style={styles.buttonTextBypass}>
             No thanks, I just want to use the wallet
           </Text>
-        </TouchableOpacity>
+        </Button>
       </View>
     );
   }
@@ -128,36 +126,24 @@ export default LoginForm;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
   },
-  input: {
-    height: 40,
-    backgroundColor: 'rgba(0,0,20, 0.25)',
-    marginBottom: 15,
-    color: '#fff',
-    paddingHorizontal: 10,
-    borderRadius: 8
-  },
-  buttonContainer: {
-    marginBottom: 10
-  },
+
   buttonContainerAlt: {
     backgroundColor: 'transparent',
-    paddingVertical: 10
   },
   buttonTextAlt: {
     textAlign: 'center',
     color: '#fff',
-    fontWeight: '700'
+    fontWeight: '700',
   },
   buttonContainerBypass: {
     backgroundColor: 'transparent',
-    paddingVertical: 10,
-    marginTop: 50
   },
   buttonTextBypass: {
+    marginTop: 30,
     textAlign: 'center',
     color: '#fff',
-    fontWeight: '500'
-  }
+    fontWeight: '500',
+  },
 });

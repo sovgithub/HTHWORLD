@@ -31,6 +31,14 @@ export const colors = {
   greenLighter: '#00EC9E', //rgb(0, 236, 158)
   greenLight: '#00a073', // rgba(0, 160, 115, 1)
   greenBlue: '#007982', // rgba(0, 121, 130, 1)
+
+  red: '#FF6161',
+  green: '#33FF33',
+  blue: '#00C1FF',
+
+  error: '#FF6161',
+  success: '#33FF33',
+  active: '#00C1FF',
 };
 
 export const gradients = {

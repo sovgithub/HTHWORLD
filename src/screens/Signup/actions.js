@@ -1,11 +1,12 @@
-import { SIGNUP_REQUESTING } from "./constants";
+import { SIGNUP_REQUESTING } from './constants';
 
 const signupRequest = function signupRequest({
   first_name,
   last_name,
   phone_number,
   email_address,
-  password
+  username,
+  password,
 }) {
   return {
     type: SIGNUP_REQUESTING,
@@ -13,7 +14,8 @@ const signupRequest = function signupRequest({
     last_name,
     phone_number,
     email_address,
-    password
+    username,
+    password,
   };
 };
 

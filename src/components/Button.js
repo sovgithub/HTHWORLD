@@ -30,7 +30,10 @@ export default class Button extends Component {
 
   render() {
     const styles =
-      stylesForType[this.props.disabled ? 'disabled' : this.props.type];
+      stylesForType[
+        this.props.disabled ? `${this.props.type}Disabled` : this.props.type
+      ];
+
     const shouldUpperCase = ['primary', 'text', 'secondary'].includes(
       this.props.type
     );
@@ -133,6 +136,25 @@ const stylesForType = {
       color: '#FFF',
     },
   }),
+  primaryDisabled: StyleSheet.create({
+    buttonContainer: {
+      opacity: 0.3,
+      borderRadius: 100,
+      paddingVertical: 20,
+      shadowColor: '#000',
+      shadowOpacity: 0.5,
+      shadowRadius: 4,
+      shadowOffset: {
+        width: 0,
+        height: 1,
+      },
+    },
+    buttonText: {
+      backgroundColor: 'transparent',
+      textAlign: 'center',
+      color: '#FFF',
+    },
+  }),
   secondary: StyleSheet.create({
     buttonContainer: {
       backgroundColor: '#FFF',
@@ -154,16 +176,7 @@ const stylesForType = {
   }),
   disabled: StyleSheet.create({
     buttonContainer: {
-      backgroundColor: 'transparent',
-      borderRadius: 100,
-      borderWidth: StyleSheet.hairlineWidth,
-      borderColor: '#EEE',
-      paddingVertical: 20,
-    },
-    buttonText: {
-      backgroundColor: 'transparent',
-      textAlign: 'center',
-      color: '#EEE',
+      opacity: 0.4,
     },
   }),
   base: StyleSheet.create({

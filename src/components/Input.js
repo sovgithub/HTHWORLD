@@ -7,6 +7,7 @@ import {
   Animated,
   ViewPropTypes,
 } from 'react-native';
+import { colors } from 'styles';
 
 export default class Input extends Component {
   static propTypes = {
@@ -73,6 +74,9 @@ export default class Input extends Component {
     });
 
   render() {
+    const baseInputStyle =
+      this.props.type === 'underline' ? styles.inputUnderline : styles.input;
+
     const activeStyle = this.state.active
       ? this.props.light
         ? styles.input_active_light
@@ -97,15 +101,15 @@ export default class Input extends Component {
       color: placeholderTextColor,
       top: this._animatedIsActive.interpolate({
         inputRange: [0, 1],
-        outputRange: [12, -20],
+        outputRange: [12, -14],
       }),
       left: this._animatedIsActive.interpolate({
         inputRange: [0, 1],
-        outputRange: [12, 0],
+        outputRange: [4, 0],
       }),
       fontSize: this._animatedIsActive.interpolate({
         inputRange: [0, 1],
-        outputRange: [14, 12],
+        outputRange: [18, 12],
       }),
     };
 
@@ -119,7 +123,7 @@ export default class Input extends Component {
         <TextInput
           {...filteredProps}
           editable={this.props.editable}
-          style={[styles.input, inputColors, activeStyle, this.props.style]}
+          style={[baseInputStyle, inputColors, activeStyle, this.props.style]}
           value={this.props.value}
           autoCapitalize={this.props.autoCapitalize}
           keyboardType={this.props.keyboardType}
@@ -132,6 +136,7 @@ export default class Input extends Component {
           underlineColorAndroid="transparent"
           ref={this.setupInputRef}
           secureTextEntry={this.props.secureTextEntry}
+          selectionColor={colors.active}
         />
       </View>
     );
@@ -151,24 +156,32 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     paddingHorizontal: 10,
     borderRadius: 8,
-  },
-  input_dark: {
     backgroundColor: 'rgba(0,0,20, 0.25)',
     color: '#fff',
   },
+  inputUnderline: {
+    height: 40,
+    paddingHorizontal: 10,
+    borderWidth: 0,
+    borderRadius: 0,
+    backgroundColor: 'transparent',
+    borderBottomWidth: 1,
+    color: '#fff',
+  },
+  input_dark: {},
   input_active: {
-    borderColor: 'rgba(255,255,255, 1)',
+    borderColor: colors.active,
     color: '#fff',
   },
   input_inactive: {
-    borderColor: 'rgba(255,255,255, 0.25)',
+    borderBottomColor: colors.grayLight,
   },
   input_light: {
     backgroundColor: 'rgba(0,0,20, 0.05)',
     color: '#000',
   },
   input_active_light: {
-    borderColor: 'rgba(0,0,0, 1)',
+    borderBottomColor: colors.active,
     color: '#000',
   },
   input_inactive_light: {

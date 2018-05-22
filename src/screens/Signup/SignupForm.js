@@ -4,128 +4,170 @@
  *
  */
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   View,
   Text,
   TextInput,
   StyleSheet,
-  TouchableOpacity
-} from "react-native";
+  TouchableOpacity,
+} from 'react-native';
+import Input from 'components/Input';
+import Button from 'components/Button';
+import T from 'components/Typography';
 
-const LANG_SIGN_UP_TEXT = "Sign Up";
+import { colors } from 'styles';
+const LANG_SIGN_UP_TEXT = 'Next';
 
 class SignUpForm extends Component {
   static propTypes = {
     navigation: PropTypes.any,
-    signupRequest: PropTypes.func.isRequired
+    signupRequest: PropTypes.func.isRequired,
   };
 
   state = {
     loading: false,
     loggedIn: false,
     error: false,
-    first_name: null,
-    last_name: null,
-    phone_number: null,
+    username: null,
     email_address: null,
-    password: null
+    password: null,
   };
 
   handleLogInButton = () => {
-    this.props.navigation.navigate("Login");
+    this.props.navigation.navigate('Login');
   };
 
   handleFormSubmit = () => {
     const userSignupData = {
-      first_name: this.state.first_name,
-      last_name: this.state.last_name,
-      phone_number: this.state.phone_number,
+      first_name: '',
+      last_name: '',
+      phone_number: '',
       email_address: this.state.email_address,
-      password: this.state.password
+      username: this.state.username,
+      password: this.state.password,
     };
 
     this.props.signupRequest(userSignupData);
   };
 
   updateFormField = fieldName => text => {
-    this.setState({ [fieldName]: text });
+    let nextState;
+
+    if (fieldName === 'passwordConfirmation') {
+      nextState = {
+        ...nextState,
+        ...{ passwordsMatch: this.state.password === text },
+      };
+    }
+
+    nextState = { ...nextState, ...{ [fieldName]: text } };
+    this.setState(nextState);
   };
 
   render() {
-    const placeholderTextColor = "rgba(255,255,255,0.75)";
+    const nextEnabled =
+      this.state.email_address &&
+      this.state.username &&
+      this.state.passwordsMatch;
+
+    const placeholderTextColor = 'rgba(255,255,255,0.75)';
     return (
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          autoCorrect={false}
-          placeholder="First Name"
-          placeholderTextColor={placeholderTextColor}
-          returnKeyType="next"
-          onSubmitEditing={() => this.signupLastNameInput.focus()}
-          onChangeText={this.updateFormField("first_name")}
-        />
-        <TextInput
-          ref={el => (this.signupLastNameInput = el)}
-          style={styles.input}
-          autoCorrect={false}
-          placeholder="Last Name"
-          placeholderTextColor={placeholderTextColor}
-          returnKeyType="next"
-          onSubmitEditing={() => this.signupPhoneNumberInput.focus()}
-          onChangeText={this.updateFormField("last_name")}
-        />
-        <TextInput
-          ref={el => (this.signupPhoneNumberInput = el)}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="Phone: 1-555-555-5555"
-          placeholderTextColor={placeholderTextColor}
-          returnKeyType="next"
-          keyboardType="numeric"
-          onSubmitEditing={() => this.signupEmailAddressInput.focus()}
-          onChangeText={this.updateFormField("phone_number")}
-        />
-        <TextInput
-          ref={el => (this.signupEmailAddressInput = el)}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="you@email.com"
-          placeholderTextColor={placeholderTextColor}
-          returnKeyType="next"
-          keyboardType="email-address"
-          onSubmitEditing={() => this.signupPasswordInput.focus()}
-          onChangeText={this.updateFormField("email_address")}
-        />
-        <TextInput
-          ref={el => (this.signupPasswordInput = el)}
-          style={styles.input}
-          autoCapitalize="none"
-          autoCorrect={false}
-          placeholder="password"
-          placeholderTextColor={placeholderTextColor}
-          returnKeyType="go"
-          secureTextEntry
-          onChangeText={this.updateFormField("password")}
-        />
-        <TouchableOpacity
-          style={styles.buttonContainer}
-          onPress={this.handleFormSubmit}
+        <View
+          style={{
+            flexGrow: 1,
+          }}
         >
-          <Text style={styles.buttonText}>{LANG_SIGN_UP_TEXT}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonContainerAlt}
-          onPress={this.handleLogInButton}
-        >
-          <Text style={styles.buttonTextAlt}>
-            Already have an account? Log In!
-          </Text>
-        </TouchableOpacity>
+          <T.Heading style={styles.headingText}>Your Information</T.Heading>
+          <T.SubHeading style={styles.subHeadingText}>
+            Enter your personal information
+          </T.SubHeading>
+          <Input
+            ref={el => (this.signupEmailAddressInput = el)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            label="you@email.com"
+            placeholderTextColor={placeholderTextColor}
+            returnKeyType="next"
+            keyboardType="email-address"
+            onSubmitEditing={() => this.signupUsernameInput.focus()}
+            onChangeText={this.updateFormField('email_address')}
+            value={this.state.email_address || ''}
+            type="underline"
+            style={styles.input}
+          />
+          <Input
+            ref={el => (this.signupUsernameInput = el)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            label="Username"
+            placeholderTextColor={placeholderTextColor}
+            returnKeyType="next"
+            onSubmitEditing={() => this.signupPasswordInput.focus()}
+            onChangeText={this.updateFormField('username')}
+            value={this.state.username || ''}
+            type="underline"
+            style={styles.input}
+          />
+          <Input
+            ref={el => (this.signupPasswordInput = el)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            label="Password"
+            placeholderTextColor={placeholderTextColor}
+            returnKeyType="go"
+            secureTextEntry
+            onSubmitEditing={() => this.signupPasswordConfirmationInput.focus()}
+            onChangeText={this.updateFormField('password')}
+            value={this.state.password || ''}
+            type="underline"
+            style={styles.input}
+          />
+          <Input
+            style={
+              'passwordsMatch' in this.state
+                ? this.state.passwordsMatch
+                  ? styles.inputSuccess
+                  : styles.inputError
+                : {}
+            }
+            ref={el => (this.signupPasswordConfirmationInput = el)}
+            autoCapitalize="none"
+            autoCorrect={false}
+            label="Re-enter Password"
+            placeholderTextColor={placeholderTextColor}
+            returnKeyType="go"
+            onChangeText={this.updateFormField('passwordConfirmation')}
+            value={this.state.passwordConfirmation || ''}
+            type="underline"
+          />
+          {'passwordsMatch' in this.state &&
+            !this.state.passwordsMatch && (
+              <Text style={styles.inputErrorText}>
+                Your passwords do not match
+              </Text>
+            )}
+        </View>
+        <View>
+          <Button
+            type="primary"
+            onPress={this.handleFormSubmit}
+            disabled={!nextEnabled}
+          >
+            {LANG_SIGN_UP_TEXT}
+          </Button>
+          <TouchableOpacity
+            style={styles.buttonContainerAlt}
+            onPress={this.handleLogInButton}
+          >
+            <Text style={styles.buttonTextAlt}>
+              Already have an account? Log In!
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     );
   }
@@ -135,33 +177,47 @@ export default SignUpForm;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
+    flexGrow: 1,
   },
   input: {
-    height: 40,
-    backgroundColor: "rgba(0,0,20, 0.25)",
     marginBottom: 15,
-    color: "#fff",
-    paddingHorizontal: 10,
-    borderRadius: 8
+  },
+  inputSuccess: {
+    borderBottomColor: 'green',
+  },
+  inputError: {
+    borderBottomColor: 'red',
+  },
+  inputErrorText: {
+    color: colors.error,
   },
   buttonContainer: {
-    backgroundColor: "#fff",
-    paddingVertical: 10
+    backgroundColor: '#fff',
+    paddingVertical: 10,
   },
   buttonText: {
-    textAlign: "center",
-    color: "#223252",
-    fontWeight: "700"
+    textAlign: 'center',
+    color: '#223252',
+    fontWeight: '700',
   },
   buttonContainerAlt: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
     paddingVertical: 10,
-    marginTop: 20
+    marginTop: 20,
   },
   buttonTextAlt: {
-    textAlign: "center",
-    color: "#fff",
-    fontWeight: "700"
-  }
+    textAlign: 'center',
+    color: '#fff',
+    fontWeight: '700',
+  },
+  headingText: {
+    color: colors.white,
+    marginTop: 25,
+    marginBottom: 25,
+  },
+  subHeadingText: {
+    color: colors.white,
+    marginBottom: 15,
+  },
 });
