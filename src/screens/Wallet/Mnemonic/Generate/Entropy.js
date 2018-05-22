@@ -55,9 +55,11 @@ export default class Entropy extends Component {
   }
 
   componentWillUnmount() {
-    InteractionManager.clearInteractionHandle(
-      this.panResponder.getInteractionHandle()
-    );
+    const interactionHandle = this.panResponder.getInteractionHandle();
+
+    if (interactionHandle) {
+      InteractionManager.clearInteractionHandle(interactionHandle);
+    }
   }
 
   handleLayout = ({ nativeEvent: { layout: { y, width, height } } }) => {

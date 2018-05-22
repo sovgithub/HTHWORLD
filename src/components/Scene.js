@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native-animatable';
 import Icon from 'components/Icon';
+import LinearGradient from 'react-native-linear-gradient';
+import { gradients } from 'styles';
 import { InteractionManager, StyleSheet } from 'react-native';
 
 export default class Scene extends Component {
@@ -85,9 +87,16 @@ export default class Scene extends Component {
             ref={this.handleAnimatingViewRef}
             style={styles.loadingContainer}
           >
-            <View ref={this.handleAnimatingLoadingRef}>
-              {this.renderLoader()}
-            </View>
+            <LinearGradient
+                start={gradients.vertical.start}
+                end={gradients.vertical.end}
+                colors={gradients.light}
+                style={styles.loadingContainer}
+              >
+                <View ref={this.handleAnimatingLoadingRef}>
+                  {this.renderLoader()}
+                </View>
+            </LinearGradient>
           </View>
         )}
         {isReady && this.props.children}

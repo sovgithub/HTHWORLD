@@ -67,7 +67,6 @@ function back() {
   );
 }
 
-console.log(NavigationActions);
 function navigate(routeName, params) {
   _container.dispatch(
     NavigationActions.navigate({

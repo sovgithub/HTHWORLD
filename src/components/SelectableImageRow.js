@@ -14,13 +14,13 @@ export default function SelectableImageRow({
       <View
         style={[
           styles.container,
-          { backgroundColor: selected ? 'rgba(0,0,0,0.07)' : 'transparent' },
+          { borderColor: selected ? 'rgba(0, 193, 255, 0.5)' : 'transparent' },
         ]}
       >
         <Image style={styles.image} source={image} />
         <View>
           <Text style={styles.title}>{title}</Text>
-          <Text style={styles.coinName}>{subtitle}</Text>
+          <Text style={styles.subtitle}>{subtitle}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     alignItems: 'center',
     borderRadius: 10,
+    padding: 5,
+    borderWidth: 1,
+    backgroundColor: "rgba(255, 255, 255, 0.075)",
   },
   image: {
     width: 30,
@@ -50,11 +53,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '500',
+    color: "#8cbcbd"
   },
   subtitle: {
-    fontSize: 14,
+    fontSize: 12,
     fontWeight: '100',
+    color: "#8cbcbd"
   },
 });

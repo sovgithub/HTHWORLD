@@ -6,7 +6,10 @@ import Settings from 'screens/Settings';
 import About from 'screens/About';
 import GetHelp from 'screens/GetHelp';
 import Legal from 'screens/Legal';
+import SendRequest from 'screens/SendRequest';
 import CoinInformation from 'screens/CoinInformation';
+import TransactionStatus from 'screens/TransactionStatus';
+import ViewAddress from 'screens/ViewAddress';
 import Authenticate from 'components/Authenticate';
 import Store from 'components/Pin/Store';
 import withHeader from 'hocs/withHeader';
@@ -59,7 +62,7 @@ const itemWithHeader = (title, screen) => {
 const RouteConfigs = {
   Wallet: {
     screen: createStackNavigator({
-      Main: {
+      Wallet: {
         screen: Wallet,
         navigationOptions: {
           header: null
@@ -67,6 +70,24 @@ const RouteConfigs = {
       },
       CoinInformation: {
         screen: CoinInformation,
+        navigationOptions: {
+          header: null
+        }
+      },
+      SendRequest: {
+        screen: SendRequest,
+        navigationOptions: {
+          header: null
+        }
+      },
+      TransactionStatus: {
+        screen: TransactionStatus,
+        navigationOptions: {
+          header: null
+        }
+      },
+      ViewAddress: {
+        screen: ViewAddress,
         navigationOptions: {
           header: null
         }

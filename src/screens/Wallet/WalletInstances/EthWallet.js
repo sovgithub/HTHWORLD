@@ -47,6 +47,8 @@ export default class EthWallet {
 
   send = async (amount, toAddress) => {
     const amountInWei = ethers.utils.parseEther(amount.toString());
-    return this._wallet.send(toAddress, amountInWei);
+    const result = await this._wallet.send(toAddress, amountInWei);
+
+    return result.hash;
   };
 }

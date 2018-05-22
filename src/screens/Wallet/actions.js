@@ -82,6 +82,7 @@ export function updateBalance(id) {
 export function sendFunds(fromId, toPublicAddress, amount) {
   return {
     type: WALLET_SEND_FUNDS_REQUESTING,
+    id: Math.floor(Math.random() * 1e10),
     fromId,
     toPublicAddress,
     amount

@@ -20,6 +20,7 @@ import Card from 'components/Card';
 import T from 'components/Typography';
 import MenuHeader from 'components/MenuHeader';
 import Scene from 'components/Scene';
+import {TYPE_SEND, TYPE_REQUEST} from 'screens/SendRequest/constants';
 
 export default class CoinInformation extends React.Component {
   static propTypes = {
@@ -76,11 +77,29 @@ export default class CoinInformation extends React.Component {
     });
   }
 
-  handleSelect = (selected) => () =>
-    this.setState({selected: selected === this.state.selected ? null : selected});
+  handleSelect = (/* selected*/) => () =>
+    'disabled for now';
+    /* this.setState({selected: selected === this.state.selected ? null : selected});*/
 
-  handleBuy = () => this.props.showReceiveModal(this.props.wallet.id);
-  handleSell = () => this.props.showSendModal(this.props.wallet.id);
+  handleView = () => {
+    NavigatorService.navigate('ViewAddress', {
+      wallet: this.props.wallet.id
+    });
+  }
+
+  handleRequest = () => {
+    NavigatorService.navigate('SendRequest', {
+      type: TYPE_REQUEST,
+      wallet: this.props.wallet.id
+    });
+  }
+
+  handleSend = () => {
+    NavigatorService.navigate('SendRequest', {
+      type: TYPE_SEND,
+      wallet: this.props.wallet.id
+    });
+  }
 
   render() {
     const { transactions, pricing, wallet } = this.props;
@@ -105,7 +124,7 @@ export default class CoinInformation extends React.Component {
             />
             <View style={styles.actionButtonContainer}>
               <TouchableOpacity
-                onPress={this.handleSell}
+                onPress={this.handleSend}
                 style={styles.actionButton}
               >
                 <View style={styles.actionButtonView}>
@@ -114,12 +133,12 @@ export default class CoinInformation extends React.Component {
                 </View>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={this.handleBuy}
+                onPress={this.handleView}
                 style={styles.actionButton}
               >
                 <View style={styles.actionButtonView}>
-                  <Image source={require('assets/request.png')} />
-                  <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
+                  <Image source={require('assets/scan.png')} />
+                  <T.Small style={styles.actionButtonText}>VIEW</T.Small>
                 </View>
               </TouchableOpacity>
             </View>

@@ -12,6 +12,7 @@ import {
   WALLET_UPDATE_BALANCE_REQUESTING,
   WALLET_UPDATE_BALANCE_SUCCESS,
   WALLET_SEND_FUNDS_REQUESTING,
+  WALLET_SEND_FUNDS_SUCCESS,
   WALLET_SEND_FUNDS_ERROR
 } from "./constants";
 import {
@@ -173,14 +174,21 @@ async function getBalance(id) {
 
 function* sendFundsFlow(action) {
   try {
-    const { fromId, toPublicAddress, amount } = action;
+    const { id, fromId, toPublicAddress, amount } = action;
 
-    yield call(sendFunds, fromId, toPublicAddress, amount);
+    const hash = yield call(sendFunds, fromId, toPublicAddress, amount);
+
+    yield put({
+      type: WALLET_SEND_FUNDS_SUCCESS,
+      id,
+      hash
+    });
 
     // refetch balance or keep an eye on the status of the request.
   } catch (error) {
     yield put({
       type: WALLET_SEND_FUNDS_ERROR,
+      id: action.id,
       error
     });
   }

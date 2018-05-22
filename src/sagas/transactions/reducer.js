@@ -52,7 +52,7 @@ export default function reducer(state = initialState, action) {
       const transactionFromState = state.transactionsByAddress[action.transaction.from] || [];
 
       const getFullTransaction = (hash) => hash === action.transaction.hash ? action.transaction : state.transactions[hash];
-      const sorter = (a, b) => getFullTransaction(a).blockNumber - getFullTransaction(b).blockNumber;
+      const sorter = (a, b) => getFullTransaction(b).blockNumber - getFullTransaction(a).blockNumber;
 
       const newTransactionTo = transactionToState.includes(action.transaction.hash)
             ? transactionToState
