@@ -13,6 +13,7 @@ export const SYMBOL_LTC = 'LTC';
 
 export const SUPPORTED_COINS_PRICING = [
   SYMBOL_DASH,
+  SYMBOL_BOAR,
   SYMBOL_ETH,
   SYMBOL_BTC,
   SYMBOL_LTC,

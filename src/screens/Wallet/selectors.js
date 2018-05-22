@@ -26,6 +26,11 @@ export const mnemonicPhraseSelector = createSelector(
   walletState => walletState.mnemonicPhrase
 );
 
+export const isMnemonicInitializedSelector = createSelector(
+  state => state.wallet,
+  walletState => walletState.isMnemonicInitialized
+);
+
 export const availableCoinsSelector = createSelector(
   state => state.wallet.hoardWallets,
   hoardWallets => SUPPORTED_COINS_WALLET.filter(coin => !hoardWallets[coin])

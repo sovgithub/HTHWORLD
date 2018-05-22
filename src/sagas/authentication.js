@@ -6,13 +6,15 @@ import api from 'lib/api';
 import loginFlow from 'screens/Login/sagas';
 import { LOGIN_REQUESTING } from 'screens/Login/constants';
 import { SIGNUP_REQUESTING } from 'screens/Signup/constants';
+import { INIT_REQUESTING } from 'containers/App/constants';
+import { WALLET_INITIALIZE_PASSPHRASE } from 'screens/Wallet/constants';
 import signupFlow from 'screens/Signup/sagas';
 
 export const AUTH_USER_SET = 'AUTH_USER_SET';
 export const AUTH_SIGNOUT = 'AUTH_SIGNOUT';
 export const AUTH_USER_STORAGE_KEY = 'auth/user';
 
-import {mnemonicPhraseSelector} from "screens/Wallet/selectors";
+import {isMnemonicInitializedSelector, mnemonicPhraseSelector} from "screens/Wallet/selectors";
 
 /**
  * Sign Out - Redux action
@@ -79,6 +81,10 @@ export function* logoutFlow() {
 export default function* authenticationWatcher() {
   // The while(true) loop establishes a "daemon" of sorts, that will continually
   // loop, stopping at whichever yield calls or blocking effects necessary
+
+  // make sure not to start the loop before the app is ready
+  yield take(INIT_REQUESTING);
+
   while (true) {
     // Before anything, let's check to see if the user is already logged in
     let currentUser = yield call(getUser);
@@ -127,6 +133,12 @@ export default function* authenticationWatcher() {
     // losing their current context (ie, "hey before you can buy, you have to
     // log in quickly!")
     if (!action.noRedirect) {
+      const isMnemonicInitialized = yield select(isMnemonicInitializedSelector);
+
+      if (!isMnemonicInitialized) {
+        yield take(WALLET_INITIALIZE_PASSPHRASE);
+      }
+
       const mnemonicPhrase = yield select(mnemonicPhraseSelector);
 
       if (mnemonicPhrase) {

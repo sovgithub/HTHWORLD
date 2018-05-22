@@ -76,8 +76,13 @@ export default class App extends React.Component {
   componentDidMount() {
     /* HockeyApp.start();*/
     /* HockeyApp.checkForUpdate();*/
-    store.dispatch({ type: INIT_REQUESTING });
     SplashScreen.hide();
+  }
+
+  refDidLoad = (navigatorRef) => {
+    NavigatorService.setContainer(navigatorRef);
+
+    store.dispatch({ type: INIT_REQUESTING });
   }
 
   render() {
@@ -89,11 +94,7 @@ export default class App extends React.Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <RoutingStack
-            ref={navigatorRef => {
-              NavigatorService.setContainer(navigatorRef);
-            }}
-          />
+          <RoutingStack ref={this.refDidLoad} />
         </LinearGradient>
       </Provider>
     );

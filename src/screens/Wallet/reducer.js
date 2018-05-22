@@ -17,6 +17,7 @@ const initialState = {
   import_successful: false,
   import_error: null,
   mnemonicPhrase: '',
+  isMnemonicInitialized: false,
   walletIds: [
     /* id[] */
   ],
@@ -42,7 +43,8 @@ export default function reducer(state = initialState, action) {
   case WALLET_INITIALIZE_PASSPHRASE: {
     return {
       ...state,
-      mnemonicPhrase: action.mnemonicPhrase
+      mnemonicPhrase: action.mnemonicPhrase,
+      mnemonicPhraseInitialized: false
     };
   }
   case WALLET_TRACK_SYMBOL:
