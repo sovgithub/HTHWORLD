@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet, ScrollView, View } from "react-native";
+import { StyleSheet, ScrollView, View, Image, TouchableOpacity } from "react-native";
 
 import Button from "components/Button";
+import MenuHeader from "components/MenuHeader";
 import Input from "components/Input";
 import T from "components/Typography";
 
 const LANG_NEXT_TEXT = "Next";
-const LANG_CANCEL_TEXT = "Cancel";
 
 export default class InputList extends Component {
   static propTypes = {
@@ -58,11 +58,20 @@ export default class InputList extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={styles.headingStyle}>
-            Recover - Words {offset}-{offset + answers.length - 1}
-          </T.Heading>
-        </View>
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={onCancel}>
+              <Image source={require('assets/bck.png')} />
+            </TouchableOpacity>
+          )}
+          title="Recover Wallet"
+          multipage={true}
+          currentPage={2}
+          totalPages={3}
+        />
+        <T.Heading style={styles.headingStyle}>
+          Enter Seed Phrase
+        </T.Heading>
         <ScrollView bounces={false} style={styles.bodyContainer}>
           {answers.map((answer, i) => {
             return (
@@ -71,7 +80,6 @@ export default class InputList extends Component {
                 style={styles.input}
                 autoCapitalize="none"
                 returnKeyType="next"
-                light={true}
                 label={`Word #${i + offset}`}
                 value={answer}
                 onChangeText={this.updateAnswer(i)}
@@ -79,15 +87,15 @@ export default class InputList extends Component {
             );
           })}
           <View style={styles.footerContainer}>
+            <T.Light style={{color: 'lightgrey', textAlign: 'center', paddingBottom: 10}}>
+              {offset + answers.length - 1} of 12 words
+            </T.Light>
             <Button
-              type="primary"
+              style={styles.nextButton}
               disabled={!completed}
               onPress={this.handleNextButton}
             >
               {LANG_NEXT_TEXT}
-            </Button>
-            <Button type="text" onPress={onCancel}>
-              {LANG_CANCEL_TEXT}
             </Button>
           </View>
         </ScrollView>
@@ -98,26 +106,23 @@ export default class InputList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
-  },
-  headerContainer: {
-    padding: 20,
-    paddingTop: 40,
-    backgroundColor: "#223252"
+    flex: 1,
   },
   headingStyle: {
+    padding: 20,
+    paddingTop: 40,
     color: "#ffffff"
   },
   bodyContainer: {
-    flexGrow: 1,
     padding: 20,
-    paddingBottom: 0
+    flexGrow: 1,
   },
   footerContainer: {
-    padding: 20
+    padding: 20,
+    marginTop: 20,
   },
   input: {
-    marginBottom: 20,
-    flexDirection: "column"
+  },
+  nextButton: {
   }
 });

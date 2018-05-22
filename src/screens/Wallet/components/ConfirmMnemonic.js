@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
+import MenuHeader from "components/MenuHeader";
 import SuccessFailureScreen, {TYPE_FAILURE} from 'components/SuccessFailureScreen';
 import Button from 'components/Button';
 import T from 'components/Typography';
@@ -50,34 +51,33 @@ export default class Confirm extends Component {
 
     return (
       <View style={styles.container}>
-        <View style={styles.headerContainer}>
-          <T.Heading style={{ color: '#ffffff' }}>Confirm Word List </T.Heading>
-        </View>
+        <MenuHeader
+          leftAction={(
+            <TouchableOpacity onPress={this.props.goBack}>
+              <Image source={require('assets/bck.png')} />
+            </TouchableOpacity>
+          )}
+          title="Recover Wallet"
+          multipage={true}
+          currentPage={3}
+          totalPages={3}
+        />
+        <T.Heading style={styles.heading}>Confirm Word List </T.Heading>
         <View style={styles.bodyContainer}>
-          <T.Light>
+          <T.Light style={styles.description}>
             Please confirm your recovery phrase.
           </T.Light>
           {this.props.answers.map((answer, i) => (
-            <T.Light style={styles.answer} key={i}>
-              <T.SemiBold>
-                {answer}
-              </T.SemiBold>
-            </T.Light>
+            <T.SemiBold style={styles.answer} key={i}>
+              {answer}
+            </T.SemiBold>
           ))}
           <Button
-            type="primary"
             style={styles.statusCheck}
             disabled={this.state.error}
             onPress={this.checkWallet}
           >
             Looks Good!
-          </Button>
-          <Button
-            type={this.state.error ? 'primary' : 'text'}
-            style={styles.textButton}
-            onPress={this.handleGoBack}
-          >
-            {LANG_PREV_TEXT}
           </Button>
         </View>
       </View>
@@ -105,19 +105,24 @@ const styles = StyleSheet.create({
     flexGrow: 1
   },
   answer: {
+    color: 'lightgrey',
   },
   container: {
     flex: 1
   },
-  headerContainer: {
+  heading: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: '#223252'
+    color: '#fff'
   },
   bodyContainer: {
     flexGrow: 1,
     padding: 20,
     paddingBottom: 0
+  },
+  description: {
+    color: 'white',
+    paddingBottom: 20,
   },
   statusCheck: {
     marginTop: 40

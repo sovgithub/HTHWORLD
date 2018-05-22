@@ -9,7 +9,7 @@ import Button from 'components/Button';
 import T from 'components/Typography';
 import NavigatorService from 'lib/navigator';
 
-const LANG_ENTER_STRING = 'Please enter a new PIN.';
+const LANG_ENTER_STRING = 'Set Pin';
 const LANG_CONFIRM_STRING = 'Please confirm your PIN.';
 const LANG_SUCCESS_STRING = 'Your PIN was saved successfully!';
 
@@ -92,7 +92,9 @@ export default class Store extends Component {
             {this.state.pin && this.state.valid && LANG_SUCCESS_STRING}
           </T.Heading>
           <Text style={styles.pinPromptText}>
-            {!this.state.pin && 'No PIN set'}
+            {!this.state.pin &&
+              'Your PIN will be used to unlock your wallet and send or receive.'
+            }
             {this.state.pin && this.state.valid && 'YAY! they matched.'}
             {this.state.pin &&
               this.state.confirmPin &&
@@ -111,7 +113,6 @@ export default class Store extends Component {
           {this.state.pin &&
             this.state.valid && (
               <Button
-                type="primary"
                 onPress={this.onSuccessHandler}
                 style={styles.button}
               >
@@ -128,13 +129,14 @@ export default class Store extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'transparent',
   },
   pinView: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingTop: 40,
-    backgroundColor: 'rgb(239, 239, 244)',
+    backgroundColor: 'transparent',
   },
   pinKeyboard: {
     flex: -1,
@@ -148,15 +150,22 @@ const styles = StyleSheet.create({
     width: '33.33%',
     height: 70,
     borderWidth: 1,
-    borderColor: 'rgb(239, 239, 244)',
+    borderColor: 'transparent',
+    color: 'white',
     flexGrow: 1,
     paddingTop: 8,
   },
   pinKeyEmpty: {
-    backgroundColor: 'rgb(239, 239, 244)',
+    backgroundColor: 'transparent',
   },
   pinPromptText: {
-    marginBottom: 10,
+    color: 'white',
+    margin: 10,
+    marginHorizontal: 50,
+    textAlign: 'center',
+  },
+  text: {
+    color: 'white'
   },
   button: {
     padding: 10,

@@ -28,11 +28,11 @@ export default class Key extends Component {
         {this.props.icon && (
           <Icon
             icon={this.props.icon}
-            style={{ position: 'absolute', color: '#333' }}
+            style={{ position: 'absolute', color: 'white' }}
           />
         )}
-        <Text style={{ fontSize: 26 }}>{this.props.label}</Text>
-        <Text style={{ fontSize: 12 }}>{this.props.label2}</Text>
+        <Text style={{ fontSize: 26, color: 'white' }}>{this.props.label}</Text>
+        <Text style={{ fontSize: 12, color: 'white' }}>{this.props.label2}</Text>
       </TouchableOpacity>
     );
   }
@@ -45,11 +45,11 @@ const styles = StyleSheet.create({
     width: '33.33%',
     height: 70,
     borderWidth: 1,
-    borderColor: 'rgb(239, 239, 244)',
+    borderColor: 'rgba(0,0,0,0)',
     flexGrow: 1,
     paddingTop: 8,
   },
   keyEmpty: {
-    backgroundColor: 'rgb(239, 239, 244)',
+    backgroundColor: 'transparent',
   },
 });

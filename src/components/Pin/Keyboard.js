@@ -15,7 +15,7 @@ const KEYS = [
   { value: '9', label: '9', label2: 'WXYZ' },
   { value: '', label: '' },
   { value: '0', label: '0' },
-  { value: 'DEL', label: '', icon: 'md-backspace' },
+  { value: 'DEL', label: '', icon: 'ios-arrow-back' },
 ];
 
 export default class Keyboard extends Component {
