@@ -26,5 +26,6 @@ export const SUPPORTED_COINS_ICO = [
 
 export const SUPPORTED_COINS_WALLET = [
   SYMBOL_ETH,
+  SYMBOL_BTC,
   SYMBOL_BOAR
 ];

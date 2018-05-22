@@ -198,5 +198,19 @@ const stylesForType = {
       fontWeight: '700',
     },
   }),
+  baseDisabled: StyleSheet.create({
+    buttonContainer: {
+      backgroundColor: 'transparent',
+      borderRadius: 100,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: '#EEE',
+      paddingVertical: 20,
+    },
+    buttonText: {
+      backgroundColor: 'transparent',
+      textAlign: 'center',
+      color: '#EEE',
+    },
+  }),
   unstyled: {},
 };

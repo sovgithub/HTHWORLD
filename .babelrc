@@ -3,6 +3,14 @@
     "babel-preset-react-native-stage-0/decorator-support"
   ],
   "plugins": [
+    ["rewrite-require", {
+      "aliases": {
+        "brorand": "brorand-shim",
+        "crypto": "react-native-crypto",
+        "stream": "react-native-stream",
+        "vm": "vm-browserify"
+      }
+    }]
   ],
   "env": {
     "development": {
