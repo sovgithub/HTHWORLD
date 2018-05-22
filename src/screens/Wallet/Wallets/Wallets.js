@@ -14,6 +14,7 @@ import WalletListEntry from "./WalletListEntry";
 import PortfolioChart from 'containers/PortfolioChart';
 import MenuHeader from 'components/MenuHeader';
 import Scene from 'components/Scene';
+import { getCoinMetadata } from "lib/currency-metadata";
 
 class Wallet extends React.Component {
   static propTypes = {
@@ -125,7 +126,7 @@ class Wallet extends React.Component {
             return (
               <WalletListEntry
                 key={id}
-                name={`My ${symbol} Wallet`}
+                name={getCoinMetadata(symbol).fullName}
                 symbol={symbol}
                 balance={balance}
                 change={"0%"}
