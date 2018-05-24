@@ -63,6 +63,12 @@ class LoginForm extends Component {
     this.setState({ [fieldName]: text });
   };
 
+  safeFocus = element =>
+    element &&
+    element.inputRef &&
+    element.inputRef.focus &&
+    element.inputRef.focus()
+
   render() {
     const { errors } = this.props;
     return (
@@ -82,7 +88,7 @@ class LoginForm extends Component {
           autoCorrect={false}
           returnKeyType="next"
           keyboardType="email-address"
-          onSubmitEditing={() => this.loginPasswordInput.focus()}
+          onSubmitEditing={() => this.safeFocus(this.loginPasswordInput)}
           onChangeText={this.updateFormField('username_or_email')}
           value={this.state.username_or_email || ''}
           type="underline"
@@ -96,6 +102,7 @@ class LoginForm extends Component {
             returnKeyType="go"
             keyboardType="default"
             secureTextEntry
+            onSubmitEditing={this.handleFormSubmit}
             onChangeText={this.updateFormField('password')}
             value={this.state.password || ''}
             type="underline"

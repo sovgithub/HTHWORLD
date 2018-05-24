@@ -67,6 +67,12 @@ class SignUpForm extends Component {
     this.setState(nextState);
   };
 
+  safeFocus = element =>
+    element &&
+    element.inputRef &&
+    element.inputRef.focus &&
+    element.inputRef.focus()
+
   render() {
     const nextEnabled =
       this.state.email_address &&
@@ -93,7 +99,7 @@ class SignUpForm extends Component {
             placeholderTextColor={placeholderTextColor}
             returnKeyType="next"
             keyboardType="email-address"
-            onSubmitEditing={() => this.signupUsernameInput.focus()}
+            onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
             onChangeText={this.updateFormField('email_address')}
             value={this.state.email_address || ''}
             type="underline"
@@ -106,7 +112,7 @@ class SignUpForm extends Component {
             label="Username"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="next"
-            onSubmitEditing={() => this.signupPasswordInput.focus()}
+            onSubmitEditing={() => this.safeFocus(this.signupPasswordInput)}
             onChangeText={this.updateFormField('username')}
             value={this.state.username || ''}
             type="underline"
@@ -120,7 +126,7 @@ class SignUpForm extends Component {
             placeholderTextColor={placeholderTextColor}
             returnKeyType="go"
             secureTextEntry
-            onSubmitEditing={() => this.signupPasswordConfirmationInput.focus()}
+            onSubmitEditing={() => this.safeFocus(this.signupPasswordConfirmationInput)}
             onChangeText={this.updateFormField('password')}
             value={this.state.password || ''}
             type="underline"
@@ -140,6 +146,8 @@ class SignUpForm extends Component {
             label="Re-enter Password"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="go"
+            secureTextEntry
+            onSubmitEditing={this.handleFormSubmit}
             onChangeText={this.updateFormField('passwordConfirmation')}
             value={this.state.passwordConfirmation || ''}
             type="underline"

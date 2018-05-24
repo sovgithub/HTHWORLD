@@ -5,7 +5,9 @@ import Icon from 'components/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradients } from 'styles';
 import { InteractionManager, StyleSheet } from 'react-native';
+import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
+const DismissableView = withDismissableKeyboard(View);
 export default class Scene extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
@@ -81,7 +83,7 @@ export default class Scene extends Component {
     const containerStyle = this.props.withHeader ? { paddingTop: 0 } : {};
     const { hasFaded, isReady } = this.state;
     return (
-      <View style={[styles.container, ...containerStyle]}>
+      <DismissableView style={[styles.container, ...containerStyle]}>
         {!hasFaded && (
           <View
             ref={this.handleAnimatingViewRef}
@@ -100,7 +102,7 @@ export default class Scene extends Component {
           </View>
         )}
         {isReady && this.props.children}
-      </View>
+      </DismissableView>
     );
   }
 }

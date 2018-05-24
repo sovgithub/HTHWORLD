@@ -44,7 +44,7 @@ export default function reducer(state = initialState, action) {
     return {
       ...state,
       mnemonicPhrase: action.mnemonicPhrase,
-      mnemonicPhraseInitialized: false
+      isMnemonicInitialized: true
     };
   }
   case WALLET_TRACK_SYMBOL:

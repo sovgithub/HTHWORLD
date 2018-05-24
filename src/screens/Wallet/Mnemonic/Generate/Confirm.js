@@ -6,12 +6,8 @@ import MenuHeader from 'components/MenuHeader';
 import Button from 'components/Button';
 import T from 'components/Typography';
 import LottieView from 'lottie-react-native';
-import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
-
 import success from 'assets/animations/check.json';
 import error from 'assets/animations/error.json';
-
-const DismissableView = withDismissableKeyboard(View);
 
 const LANG_PREV_TEXT = 'Go back and review...';
 
@@ -80,7 +76,7 @@ export default class Confirm extends Component {
     const placeholderTextColor = 'white';
 
     return (
-      <DismissableView style={styles.container}>
+      <View style={styles.container}>
         <MenuHeader
           leftAction={(
             <TouchableOpacity onPress={this.props.goBack}>
@@ -139,7 +135,7 @@ export default class Confirm extends Component {
             Create My Wallet!
           </Button>
         </View>
-      </DismissableView>
+      </View>
     );
   }
 }
