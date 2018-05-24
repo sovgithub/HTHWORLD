@@ -98,6 +98,14 @@ export default class Card extends Component {
       inputRange: [0, 60, 180],
       outputRange: [1, 1.25, 1],
     });
+    this.frontOpacity = this.animatedValue.interpolate({
+      inputRange: [89, 90],
+      outputRange: [1, 0],
+    });
+    this.backOpacity = this.animatedValue.interpolate({
+      inputRange: [89, 90],
+      outputRange: [0, 1],
+    });
   }
 
   flipCard() {
@@ -139,7 +147,13 @@ export default class Card extends Component {
         onPress={() => this.flipCard()}
       >
         <View>
-          <Animated.View style={[styles.flipCard, frontAnimatedStyle]}>
+          <Animated.View
+            style={[
+              styles.flipCard,
+              frontAnimatedStyle,
+              { opacity: this.frontOpacity },
+            ]}
+          >
             <LinearGradient
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 1 }}
@@ -168,7 +182,12 @@ export default class Card extends Component {
           </Animated.View>
 
           <Animated.View
-            style={[backAnimatedStyle, styles.flipCard, styles.flipCardBack]}
+            style={[
+              backAnimatedStyle,
+              styles.flipCard,
+              styles.flipCardBack,
+              { opacity: this.backOpacity },
+            ]}
           >
             <LinearGradient
               start={{ x: 0, y: 1 }}

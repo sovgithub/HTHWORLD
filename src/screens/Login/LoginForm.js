@@ -102,9 +102,7 @@ class LoginForm extends Component {
           />
         </View>
         <Button type="text" onPress={this.handleSignupButton}>
-          <Text style={styles.buttonTextBypass}>
-            <Text style={styles.buttonTextAlt}>New to Hoard? Sign Up!</Text>
-          </Text>
+          New to Hoard? Sign Up!
         </Button>
 
         <View style={{ marginVertical: 20 }}>
@@ -113,9 +111,7 @@ class LoginForm extends Component {
           </Button>
         </View>
         <Button type="text" onPress={this.handleBypassButton}>
-          <Text style={styles.buttonTextBypass}>
-            No thanks, I just want to use the wallet
-          </Text>
+          No thanks, I just want to use the wallet
         </Button>
       </View>
     );
@@ -127,23 +123,5 @@ export default LoginForm;
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-  },
-
-  buttonContainerAlt: {
-    backgroundColor: 'transparent',
-  },
-  buttonTextAlt: {
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700',
-  },
-  buttonContainerBypass: {
-    backgroundColor: 'transparent',
-  },
-  buttonTextBypass: {
-    marginTop: 30,
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '500',
   },
 });

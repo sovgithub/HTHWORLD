@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import {
   TouchableOpacity,
   StyleSheet,
-  View,
+  Platform,
   ViewPropTypes,
 } from 'react-native';
 import T from 'components/Typography';
 import LinearGradient from 'react-native-linear-gradient';
 import { GradientText } from 'components/GradientText';
-import { gradients } from 'styles';
+import { gradients, colors } from 'styles';
 export default class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
@@ -56,11 +56,19 @@ export default class Button extends Component {
       this.props.type === 'base'
     ) {
       const buttonText = this.props.children;
-      buttonContent = (
-        <GradientText style={styles.buttonText} gradient={gradients.pink}>
-          {buttonText.toUpperCase()}
-        </GradientText>
-      );
+      if (Platform.OS === 'ios') {
+        buttonContent = (
+          <GradientText style={styles.buttonText} gradient={gradients.pink}>
+            {buttonText.toUpperCase()}
+          </GradientText>
+        );
+      } else if (Platform.OS === 'android') {
+        buttonContent = (
+          <T.ButtonText style={[styles.buttonText, { color: colors.pinkDark }]}>
+            {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
+          </T.ButtonText>
+        );
+      }
     }
 
     // Primary Buttons

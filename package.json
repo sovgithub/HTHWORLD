@@ -8,25 +8,20 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "yarn eslint src --ext js",
-    "postinstall": "patch-package",
-    "format": "prettier ./src/**/*.js --write"
+    "format": "prettier ./src/**/*.js --write",
+    "build:android:signed":
+      "source .env && cd android && ./gradlew assembleRelease -Pandroid.injected.signing.store.file=$KEYFILE -Pandroid.injected.signing.store.password=\"$STORE_PASSWORD\" -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=\"$KEY_PASSWORD\"",
+    "postinstall": "patch-package"
   },
   "jest": {
     "preset": "react-native",
-    "modulePaths": [
-      "<rootDir>/src"
-    ],
+    "modulePaths": ["<rootDir>/src"],
     "transformIgnorePatterns": [
       "node_modules/(?!react-native|react-navigation)/"
     ],
-    "moduleFileExtensions": [
-      "js"
-    ],
+    "moduleFileExtensions": ["js"],
     "testRegex": "(/__tests__/.*|\\.(test|spec))\\.js$",
-    "testPathIgnorePatterns": [
-      "\\.snap$",
-      "<rootDir>/node_modules/"
-    ],
+    "testPathIgnorePatterns": ["\\.snap$", "<rootDir>/node_modules/"],
     "cacheDirectory": ".jest/cache"
   },
   "dependencies": {
@@ -65,9 +60,7 @@
     "vm-browserify": "^1.0.1"
   },
   "rnpm": {
-    "assets": [
-      "./src/assets/fonts/"
-    ]
+    "assets": ["./src/assets/fonts/"]
   },
   "devDependencies": {
     "babel-eslint": "^8.2.3",

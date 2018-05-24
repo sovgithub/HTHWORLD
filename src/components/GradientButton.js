@@ -16,14 +16,14 @@ import LinearGradient from 'react-native-linear-gradient';
 
 export const GradientButton = props => {
   return (
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity onPress={props.onPress} style={styles.button}>
       <LinearGradient
         start={{ x: 0, y: 1 }}
         end={{ x: 1, y: 1 }}
         colors={props.gradient}
-        style={styles.buttonGradient}
+        style={props.style}
       >
-        <Text {...props} style={styles.buttonText} />
+        {props.children}
       </LinearGradient>
     </TouchableOpacity>
   );
@@ -34,7 +34,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: 'Gill Sans',
     textAlign: 'center',
-    margin: 10,
     color: '#ffffff',
     backgroundColor: 'transparent',
   },

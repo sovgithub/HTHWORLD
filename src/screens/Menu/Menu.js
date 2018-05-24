@@ -52,9 +52,7 @@ class Menu extends Component {
               </View>
 
               <View style={styles.subHeadingContainer}>
-                <Text style={styles.subHeading}>
-                  Payments
-                </Text>
+                <Text style={styles.subHeading}>Payments</Text>
               </View>
               <TouchableOpacity
                 style={styles.linkWrapper}
@@ -76,9 +74,7 @@ class Menu extends Component {
               </TouchableOpacity>
 
               <View style={styles.subHeadingContainer}>
-                <Text style={styles.subHeading}>
-                  Info
-                </Text>
+                <Text style={styles.subHeading}>Info</Text>
               </View>
               <TouchableOpacity
                 style={styles.linkWrapper}
@@ -95,7 +91,9 @@ class Menu extends Component {
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
-            <Button onPress={() => this.props.signOut()}>LOG OUT</Button>
+            <Button type="base" onPress={() => this.props.signOut()}>
+              LOG OUT
+            </Button>
           </View>
         </LinearGradient>
       </View>

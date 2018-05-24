@@ -33,8 +33,9 @@ export default class ReceiveModal extends Component {
     if (newProps.show !== this.props.show) {
       let stateReset = { ...initialState };
       if (newProps.show && newProps.selectedWalletId) {
-        stateReset.selectedWallet = this.props.wallets
-          .find(wallet => wallet.id === newProps.selectedWalletId);
+        stateReset.selectedWallet = this.props.wallets.find(
+          wallet => wallet.id === newProps.selectedWalletId
+        );
       }
       this.setState(stateReset);
     }
@@ -67,7 +68,7 @@ export default class ReceiveModal extends Component {
             },
           ]
         : [];
-
+    return null;
     return (
       <Modal
         show={this.props.show}

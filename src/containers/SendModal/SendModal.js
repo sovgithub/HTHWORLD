@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Alert, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Platform,
+  PermissionsAndroid,
+} from 'react-native';
 
 import Contacts from 'react-native-contacts';
 
@@ -45,16 +51,32 @@ export default class SendModal extends Component {
   state = { ...initialState };
 
   componentWillMount() {
-    Contacts.getAll((err, rawContacts) => {
-      const contacts = rawContacts.reduce((validContacts, contact) => {
-        if (contact.emailAddresses[0]) {
-          return [...validContacts, contact];
-        } else {
-          return validContacts;
-        }
-      }, []);
-      this.setState({ contacts });
-    });
+    if (Platform.OS == 'android') {
+      PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+        title: 'Contacts',
+        message:
+          'Hoard would like to access your contact list to send funds to your friends.',
+      })
+        .then(granted => {
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            Contacts.getAll((err, rawContacts) => {
+              const contacts = rawContacts.reduce((validContacts, contact) => {
+                if (contact.emailAddresses[0]) {
+                  return [...validContacts, contact];
+                } else {
+                  return validContacts;
+                }
+              }, []);
+              this.setState({ contacts });
+            });
+          } else {
+            // Handle
+          }
+        })
+        .catch(err => {
+          console.log('PermissionsAndroid', err);
+        });
+    }
   }
 
   componentWillReceiveProps(newProps) {
@@ -270,11 +292,11 @@ export default class SendModal extends Component {
       (this.state.selectedContact.hasThumbnail
         ? { uri: this.state.selectedContact.thumbnailPath }
         : defaultContactImage);
-
+    return null;
     return (
       <Modal
-        show={this.props.show}
-        title="Send"
+        show={false}
+        title="Send Funds"
         onCancel={this.props.hideSendModal}
         actionButtons={actionButtons}
       >
