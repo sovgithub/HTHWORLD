@@ -83,6 +83,7 @@ export default class InputList extends Component {
                 label={`Word #${i + offset}`}
                 value={answer}
                 onChangeText={this.updateAnswer(i)}
+                type="underline"
               />
             );
           })}
