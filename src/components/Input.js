@@ -20,8 +20,7 @@ export default class Input extends Component {
     keyboardType: PropTypes.oneOf(['numeric', 'email-address', 'default']),
     returnKeyType: PropTypes.oneOf(['done', 'go', 'next', 'search', 'send']),
     light: PropTypes.bool,
-    label: PropTypes.string.isRequired,
-    placeholder: PropTypes.string,
+    placeholder: PropTypes.string.isRequired,
     containerStyle: ViewPropTypes.style,
     style: TextInput.propTypes.style,
     value: PropTypes.string,
@@ -56,8 +55,8 @@ export default class Input extends Component {
 
   componentDidUpdate() {
     Animated.timing(this._animatedIsActive, {
-      toValue: this.state.active || this.props.value !== '' ? 1 : 0,
-      duration: 200,
+      toValue: this.props.value !== '' ? 1 : 0,
+      duration: 250,
     }).start();
   }
 
@@ -93,37 +92,33 @@ export default class Input extends Component {
       ? placeholderTextColorLight
       : placeholderTextColorDark;
 
-    const { placeholder, ...filteredProps } = this.props; //eslint-disable-line no-unused-vars
-
-    const { label } = this.props;
     const labelStyle = {
-      position: 'absolute',
+      fontSize: 12,
       color: placeholderTextColor,
+      opacity: this._animatedIsActive.interpolate({
+        inputRange: [0, 1],
+        outputRange: [0, 1],
+      }),
       top: this._animatedIsActive.interpolate({
         inputRange: [0, 1],
-        outputRange: [12, -14],
-      }),
-      left: this._animatedIsActive.interpolate({
-        inputRange: [0, 1],
-        outputRange: [4, 0],
-      }),
-      fontSize: this._animatedIsActive.interpolate({
-        inputRange: [0, 1],
-        outputRange: [18, 12],
+        outputRange: [5, 0],
       }),
     };
-
     return (
       <View
         style={[styles.input_wrapper, this.props.containerStyle]}
         accessible={true}
-        accessibilityLabel={label}
+        accessibilityLabel={this.props.placeholder}
       >
-        <Animated.Text style={labelStyle}>{label}</Animated.Text>
+        <Animated.Text style={labelStyle}>
+          {this.props.placeholder}
+        </Animated.Text>
         <TextInput
-          {...filteredProps}
+          {...this.props}
           editable={this.props.editable}
           style={[baseInputStyle, inputColors, activeStyle, this.props.style]}
+          placeholder={this.props.placeholder}
+          placeholderTextColor={colors.white}
           value={this.props.value}
           autoCapitalize={this.props.autoCapitalize}
           keyboardType={this.props.keyboardType}

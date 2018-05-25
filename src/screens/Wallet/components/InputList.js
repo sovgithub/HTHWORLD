@@ -80,7 +80,7 @@ export default class InputList extends Component {
                 style={styles.input}
                 autoCapitalize="none"
                 returnKeyType="next"
-                label={`Word #${i + offset}`}
+                placeholder={`Word #${i + offset}`}
                 value={answer}
                 onChangeText={this.updateAnswer(i)}
                 type="underline"

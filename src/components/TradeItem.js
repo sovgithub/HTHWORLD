@@ -232,7 +232,7 @@ class TradeItem extends Component {
                   value={
                     this.state.tradePrice ? `$${this.state.tradePrice}` : ''
                   }
-                  label="trade price"
+                  placeholder="trade price"
                 />
               </View>
             )}

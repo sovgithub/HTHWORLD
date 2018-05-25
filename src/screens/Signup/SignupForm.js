@@ -92,7 +92,7 @@ class SignUpForm extends Component {
             ref={el => (this.signupEmailAddressInput = el)}
             autoCapitalize="none"
             autoCorrect={false}
-            label="you@email.com"
+            placeholder="you@email.com"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="next"
             keyboardType="email-address"
@@ -106,7 +106,7 @@ class SignUpForm extends Component {
             ref={el => (this.signupUsernameInput = el)}
             autoCapitalize="none"
             autoCorrect={false}
-            label="Username"
+            placeholder="Username"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="next"
             onSubmitEditing={() => this.safeFocus(this.signupPasswordInput)}
@@ -119,7 +119,7 @@ class SignUpForm extends Component {
             ref={el => (this.signupPasswordInput = el)}
             autoCapitalize="none"
             autoCorrect={false}
-            label="Password"
+            placeholder="Password"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="go"
             secureTextEntry
@@ -140,7 +140,7 @@ class SignUpForm extends Component {
             ref={el => (this.signupPasswordConfirmationInput = el)}
             autoCapitalize="none"
             autoCorrect={false}
-            label="Re-enter Password"
+            placeholder="Re-enter Password"
             placeholderTextColor={placeholderTextColor}
             returnKeyType="go"
             secureTextEntry

@@ -81,7 +81,7 @@ class LoginForm extends Component {
           );
         })}
         <Input
-          label="Username or Email"
+          placeholder="Username or Email"
           autoCapitalize="none"
           autoCorrect={false}
           returnKeyType="next"
@@ -94,7 +94,7 @@ class LoginForm extends Component {
         <View style={{ marginTop: 20 }}>
           <Input
             ref={el => (this.loginPasswordInput = el)}
-            label="Password"
+            placeholder="Password"
             autoCapitalize="none"
             autoCorrect={false}
             returnKeyType="go"
