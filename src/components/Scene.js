@@ -7,8 +7,10 @@ import LinearGradient from 'react-native-linear-gradient';
 import { gradients } from 'styles';
 import { InteractionManager, StyleSheet } from 'react-native';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
-import { Layout, Body, Header, Footer } from 'styles/TestLayout';
+import { Layout, Body, Header, Footer } from 'components/Layout';
+
 const DismissableView = withDismissableKeyboard(View);
+
 export default class Scene extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
@@ -93,28 +95,28 @@ export default class Scene extends Component {
       </Layout>
     );
 
-    return (
-      <DismissableView style={[styles.container, ...containerStyle]}>
-        {!hasFaded && (
-          <View
-            ref={this.handleAnimatingViewRef}
-            style={styles.loadingContainer}
-          >
-            <LinearGradient
-              start={gradients.vertical.start}
-              end={gradients.vertical.end}
-              colors={gradients.light}
-              style={styles.loadingContainer}
-            >
-              <View ref={this.handleAnimatingLoadingRef}>
-                {this.renderLoader()}
-              </View>
-            </LinearGradient>
-          </View>
-        )}
-        {isReady && this.props.children}
-      </DismissableView>
-    );
+    // return (
+    //   <DismissableView style={[styles.container, ...containerStyle]}>
+    //     {!hasFaded && (
+    //       <View
+    //         ref={this.handleAnimatingViewRef}
+    //         style={styles.loadingContainer}
+    //       >
+    //         <LinearGradient
+    //           start={gradients.vertical.start}
+    //           end={gradients.vertical.end}
+    //           colors={gradients.light}
+    //           style={styles.loadingContainer}
+    //         >
+    //           <View ref={this.handleAnimatingLoadingRef}>
+    //             {this.renderLoader()}
+    //           </View>
+    //         </LinearGradient>
+    //       </View>
+    //     )}
+    //     {isReady && this.props.children}
+    //   </DismissableView>
+    // );
   }
 }
 
