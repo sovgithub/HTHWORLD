@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native-animatable';
+import _ from 'lodash';
 import Icon from 'components/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradients } from 'styles';
@@ -55,10 +56,13 @@ export default class Scene extends Component {
   };
 
   handleAnimations = () => {
-    this.animatedLoading.fadeOutDown(250);
-    this.animatedView
-      .fadeOut(this.props.duration)
-      .then(() => this.setState({ hasFaded: true }));
+    _.invoke(this, 'animatedLoading.fadeOutDown', 250);
+
+    if (_.has(this, 'animatedView.fadeOut')) {
+      this.animatedView
+        .fadeOut(this.props.duration)
+        .then(() => this.setState({ hasFaded: true }));
+    }
   };
 
   renderLoader() {

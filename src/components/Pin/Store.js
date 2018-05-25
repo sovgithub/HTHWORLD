@@ -59,7 +59,7 @@ export default class Store extends Component {
   };
 
   onSuccessHandler = () => {
-    NavigatorService.navigate('Wallet');
+    NavigatorService.resetReplace('Login', 'Wallet');
   };
 
   validatePin = value => {

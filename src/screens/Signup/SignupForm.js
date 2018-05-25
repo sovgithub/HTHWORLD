@@ -6,6 +6,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import {
   View,
@@ -67,11 +68,7 @@ class SignUpForm extends Component {
     this.setState(nextState);
   };
 
-  safeFocus = element =>
-    element &&
-    element.inputRef &&
-    element.inputRef.focus &&
-    element.inputRef.focus()
+  safeFocus = element => _.invoke(element, 'inputRef.focus');
 
   render() {
     const nextEnabled =

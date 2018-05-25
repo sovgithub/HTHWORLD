@@ -33,6 +33,7 @@ export default class Entropy extends Component {
     isRecording: false,
     movement: [],
     yOffset: 0,
+    xOffset: 0,
     drawableHeight: 0,
     drawableWidth: 0
   };
@@ -47,8 +48,8 @@ export default class Entropy extends Component {
       onMoveShouldSetPanResponderCapture: () => true,
       onPanResponderTerminationRequest: () => true,
       onPanResponderGrant: () => this.setState({ isRecording: true }),
-      onPanResponderMove: (evt, gestureState) => this.setState({
-        movement: [...this.state.movement, {...gestureState, time: Date.now()}]
+      onPanResponderMove: ({nativeEvent: {pageX, pageY}}, gestureState) => this.setState({
+        movement: [...this.state.movement, {...gestureState, pageX, pageY, time: Date.now()}]
       }),
       onPanResponderRelease: () => this.setState({ isRecording: false })
     });
@@ -62,12 +63,15 @@ export default class Entropy extends Component {
     }
   }
 
-  handleLayout = ({ nativeEvent: { layout: { y, width, height } } }) => {
-    this.setState({
-      yOffset: y,
-      drawableWidth: width ? width : Dimensions.get('window').width,
-      drawableHeight: height,
-    });
+  handleLayout = ({ nativeEvent: { layout: { width, height } } }) => {
+    this.viewRef.measure((x, y, w, h, xOffset, yOffset) =>
+      this.setState({
+        drawableWidth: width ? width : Dimensions.get('window').width,
+        drawableHeight: height,
+        xOffset,
+        yOffset
+      })
+    );
   };
 
   handleNextButton = () => {
@@ -95,8 +99,10 @@ export default class Entropy extends Component {
     this.props.saveAndContinue(`0x${str}`);
   }
 
+  setViewRef = ref => this.viewRef = ref;
+
   render() {
-    const {drawableWidth, drawableHeight, movement, yOffset} = this.state;
+    const {drawableWidth, drawableHeight, movement, yOffset, xOffset } = this.state;
 
     const percentageComplete = (movement.length / MAX_DATA_POINTS) * 100;
     const finished = percentageComplete === 100;
@@ -111,7 +117,7 @@ export default class Entropy extends Component {
 
     const path = movement.map((v, i) => {
       const verb = i === 0 ? 'M' : 'L';
-      return `${verb}${parseInt(v.moveX)} ${parseInt(v.moveY - yOffset)}`;
+      return `${verb}${parseInt(v.pageX - xOffset)} ${parseInt(v.pageY - yOffset)}`;
     }).join(' ');
 
     const responders = finished ? {} : {...this.panResponder.panHandlers};
@@ -126,7 +132,7 @@ export default class Entropy extends Component {
           )}
           title="Scribble"
         />
-        <View onLayout={this.handleLayout} style={[styles.container, styles.drawBox]} {...responders}>
+        <View ref={this.setViewRef} onLayout={this.handleLayout} style={styles.drawBox} {...responders}>
           {(drawableWidth && drawableHeight && movement.length)
           ? (
           <SVG height={`${drawableHeight}`} width={`${drawableWidth}`}>

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Image, View, StyleSheet } from 'react-native';
-import GradientButton from 'components/GradientButton';
 import Button from 'components/Button';
 import T from 'components/Typography';
 
@@ -39,13 +38,12 @@ function SuccessFailureScreen({
         )}
       </View>
       <View style={styles.buttons}>
-        <GradientButton
+        <Button
           style={styles.mainButton}
-          gradient={['#992fee', '#e6228d']}
           onPress={onPressMain}
         >
           {mainButtonText}
-        </GradientButton>
+        </Button>
         {secondaryButtonText && (
           <Button type="text" onPress={onPressSecondary}>
             <T.SemiBold style={styles.secondaryButton}>

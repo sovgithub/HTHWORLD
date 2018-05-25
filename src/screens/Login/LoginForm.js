@@ -5,11 +5,13 @@
  */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import _ from 'lodash';
 
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Error from 'components/notifications/Error';
 import Button from 'components/Button';
 import Input from 'components/Input';
+import NavigatorService from 'lib/navigator';
 
 const LANG_SIGN_UP_TEXT = 'LOG IN';
 
@@ -34,14 +36,14 @@ class LoginForm extends Component {
   };
 
   handleSignupButton = () => {
-    this.props.navigation.navigate('Signup');
+    NavigatorService.navigate('Signup');
   };
 
   handleBypassButton = () => {
     if (this.props.hasMnemonic) {
-      this.props.navigation.navigate('Menu');
+      NavigatorService.resetReplace('Login', 'Menu');
     } else {
-      this.props.navigation.navigate('Mnemonic');
+      NavigatorService.navigate('Mnemonic');
     }
   };
 
@@ -63,11 +65,7 @@ class LoginForm extends Component {
     this.setState({ [fieldName]: text });
   };
 
-  safeFocus = element =>
-    element &&
-    element.inputRef &&
-    element.inputRef.focus &&
-    element.inputRef.focus()
+  safeFocus = element => _.invoke(element, 'inputRef.focus');
 
   render() {
     const { errors } = this.props;

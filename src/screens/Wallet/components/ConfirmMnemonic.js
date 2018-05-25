@@ -22,15 +22,19 @@ export default class Confirm extends Component {
   };
 
   checkWallet = () => {
+    const formattedAnswers = this.props.answers.map(
+      answer => answer && answer.trim().toLowerCase()
+    );
+
     try {
-      this.props.testWallet(this.props.answers);
+      this.props.testWallet(formattedAnswers);
     } catch(e) {
       return this.setState({
         error: true
       });
     }
 
-    this.props.saveWallet(this.props.answers);
+    this.props.saveWallet(formattedAnswers);
   }
 
   handleGoBack = () => {

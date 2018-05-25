@@ -142,7 +142,7 @@ export default function* authenticationWatcher() {
       const mnemonicPhrase = yield select(mnemonicPhraseSelector);
 
       if (mnemonicPhrase) {
-        NavigatorService.navigate('Menu');
+        NavigatorService.resetReplace('Login', 'Menu');
       } else {
         NavigatorService.navigate('Mnemonic');
       }

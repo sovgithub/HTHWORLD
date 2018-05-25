@@ -82,7 +82,9 @@ export default class App extends React.Component {
   refDidLoad = (navigatorRef) => {
     NavigatorService.setContainer(navigatorRef);
 
-    store.dispatch({ type: INIT_REQUESTING });
+    if (!store.getState().app.hasPreviouslyInitialized) {
+      store.dispatch({ type: INIT_REQUESTING });
+    }
   }
 
   render() {

@@ -1,6 +1,7 @@
 import { INIT_REQUESTING, INIT_SUCCESS, INIT_ERROR } from './constants';
 
 const initialState = {
+  hasPreviouslyInitialized: false,
   requesting: false,
   successful: false,
   messages: [],
@@ -12,6 +13,7 @@ export default function initReducer(state = initialState, action) {
   switch (action.type) {
     case INIT_REQUESTING:
       return {
+        hasPreviouslyInitialized: true,
         requesting: true,
         successful: false,
         messages: [],
