@@ -95,7 +95,7 @@ export default class Step1 extends Component {
               return (
                 <View key={`word-${i}`} style={styles.mnemonicChoice}>
                   <T.Light style={styles.mnemonicChoiceNumner}>
-                    {`0${i + 6}`.slice(-2)}
+                    {`0${i + 7}`.slice(-2)}
                   </T.Light>
                   <T.SemiBold style={styles.mnemonicChoiceText}>
                     {word}
