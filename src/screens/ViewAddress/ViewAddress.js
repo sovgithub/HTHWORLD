@@ -32,7 +32,7 @@ export default class ViewAddress extends Component {
                 {getCoinMetadata(wallet.symbol).fullName} Address
               </T.GrayedOut>
               <View style={styles.row}>
-                <Image style={styles.image }source={getCoinMetadata(wallet.symbol).image} />
+                <Image style={styles.image} source={getCoinMetadata(wallet.symbol).image} />
                 <T.Small style={styles.address}>{wallet.publicAddress}</T.Small>
               </View>
             </View>
@@ -68,6 +68,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   image: {
+    height: 40,
+    width: 40,
+    resizeMode: 'contain',
+    marginRight: 20,
   },
   address: {
     color: '#00bcf8'

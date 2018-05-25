@@ -37,7 +37,7 @@ class Menu extends Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <ScrollView style={{ padding: 20, paddingTop: 40 }}>
+          <ScrollView style={{ padding: 20, paddingTop: 40, flex: 1}}>
             <View style={{ backgroundColor: 'transparent', flex: 1 }}>
               <View style={{ alignSelf: 'flex-end' }}>
                 <TouchableOpacity
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
     color: 'darkgrey',
   },
   linkContent: {
+    flex: 1,
     color: '#ffffff',
     fontWeight: '700',
     backgroundColor: 'transparent',

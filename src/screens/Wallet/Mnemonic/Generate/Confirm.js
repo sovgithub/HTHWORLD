@@ -118,6 +118,7 @@ export default class Confirm extends Component {
                 <View style={styles.animationWrapper}>
                   <LottieView
                     source={this.state[i].confirmed ? success : error}
+                    loop={false}
                     style={styles.animation}
                     ref={ref => {
                       this[`animation_${i}`] = ref;

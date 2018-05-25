@@ -5,7 +5,7 @@ import Key from './Key';
 
 const KEYS = [
   { value: '1', label: '1' },
-  { value: '2', label: '2', label2: 'DEF' },
+  { value: '2', label: '2', label2: 'ABC' },
   { value: '3', label: '3', label2: 'DEF' },
   { value: '4', label: '4', label2: 'GHI' },
   { value: '5', label: '5', label2: 'JKL' },
