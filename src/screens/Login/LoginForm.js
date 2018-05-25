@@ -111,7 +111,11 @@ class LoginForm extends Component {
         </Button>
 
         <View style={{ marginVertical: 20 }}>
-          <Button type="primary" onPress={this.handleFormSubmit}>
+          <Button
+            type="base"
+            disabled={!this.state.password && !this.state.username_or_email}
+            onPress={this.handleFormSubmit}
+          >
             {LANG_SIGN_UP_TEXT}
           </Button>
         </View>

@@ -146,6 +146,7 @@ const stylesForType = {
   }),
   primaryDisabled: StyleSheet.create({
     buttonContainer: {
+      backgroundColor: '#ffffff',
       opacity: 0.3,
       borderRadius: 100,
       paddingVertical: 20,
@@ -208,7 +209,8 @@ const stylesForType = {
   }),
   baseDisabled: StyleSheet.create({
     buttonContainer: {
-      backgroundColor: 'transparent',
+      opacity: 0.5,
+      backgroundColor: '#ffffff',
       borderRadius: 100,
       borderWidth: StyleSheet.hairlineWidth,
       borderColor: '#EEE',

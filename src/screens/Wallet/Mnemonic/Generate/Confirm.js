@@ -128,6 +128,7 @@ export default class Confirm extends Component {
             );
           })}
           <Button
+            type="base"
             style={styles.statusCheck}
             onPress={this.props.saveWallet}
             disabled={!this.state.allChecksPassed}
