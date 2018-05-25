@@ -4,7 +4,7 @@ import { getCurrencyHistory } from "sagas/pricing/actions";
 import { walletSelector } from "screens/Wallet/selectors";
 import { selectors as transactionSelectors } from "sagas/transactions/reducer";
 import { updateTransaction } from "sagas/transactions/actions";
-import { SYMBOL_ETH } from 'containers/App/constants';
+import { SYMBOL_ETH, SYMBOL_BTC } from 'containers/App/constants';
 import {showReceiveModal} from 'containers/ReceiveModal/actions';
 import {showSendModal} from 'containers/SendModal/actions';
 
@@ -14,7 +14,7 @@ const mapStateToProps = (store, ownProps) => {
   const wallet = walletSelector(store, id);
   let transactions = [];
 
-  if (wallet.symbol === SYMBOL_ETH) {
+  if ([SYMBOL_BTC, SYMBOL_ETH].includes(wallet.symbol)) {
     transactions = transactionSelectors.getTransactionsForAddress(wallet.publicAddress)(
       store
     );

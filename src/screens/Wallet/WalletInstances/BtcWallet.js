@@ -10,7 +10,7 @@ const config = {
   coinPath: Config.BTC_COINPATH
 };
 
-const RPCRequest = async (body) => {
+export const BTCNodeRequest = async (body) => {
   return fetch(
     config.endpoint,
     {
@@ -43,19 +43,18 @@ export default class BtcWallet {
   symbol = SYMBOL_BTC;
 
   _transactions = []
-  _currentBalance = null
   _derivationPath = `m/44'/${config.coinPath}'/0'/0/0`;
 
   _initializeWallet = async () => {
     try {
       const address = await this.getPublicAddress();
 
-      await RPCRequest({
+      await BTCNodeRequest({
         method: 'importaddress',
         params: [address, address, false]
       });
 
-      const transactionsRequest = RPCRequest({
+      const transactionsRequest = BTCNodeRequest({
         method: 'listtransactions',
         params: [address, 10, 0, true]
       });
@@ -63,17 +62,11 @@ export default class BtcWallet {
       const transactionsResponse = await transactionsRequest;
       const transactions = await transactionsResponse.json();
       this._transactions = transactions.result;
-
-      const prevTransaction = this._getPreviousTransaction();
-
-      this._currentBalance = prevTransaction ? prevTransaction.amount : 0;
     } catch (e) {
       if (__DEV__) {
         // eslint-disable-next-line no-console
         console.log('error in btc wallet initialization', e);
       }
-
-      this._currentBalance = 0;
       this._transactions = [];
     }
   };
@@ -90,7 +83,7 @@ export default class BtcWallet {
   }
 
   _broadcastTransaction = async (builtTransaction) => {
-    const response = await RPCRequest({
+    const response = await BTCNodeRequest({
       method: 'sendrawtransaction',
       params: [builtTransaction]
     });
@@ -99,7 +92,7 @@ export default class BtcWallet {
   }
 
   _estimateFee = async () => {
-    const request = await RPCRequest({
+    const request = await BTCNodeRequest({
       method: 'estimatesmartfee',
       params: [2]
     });
@@ -112,7 +105,27 @@ export default class BtcWallet {
   getBalance = async () => {
     await this._initialDataRequest;
 
-    return this._currentBalance;
+    try {
+      const address = await this.getPublicAddress();
+      const unspentRequest = BTCNodeRequest({
+        method: 'listunspent',
+        params: [1, 9999999, [address]]
+      });
+      const unspentResponse = await unspentRequest;
+      const unspent = await unspentResponse.json();
+      console.log(unspent.result);
+      return unspent.result.reduce(
+        (total, tx) => total + tx.amount,
+        0
+      );
+    } catch (e) {
+      if (__DEV__) {
+        // eslint-disable-next-line no-console
+        console.log('error in btc balance fetching', e);
+      }
+      return 0;
+    }
+
   };
 
   getPublicAddress = async () => {

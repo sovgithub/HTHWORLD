@@ -136,6 +136,14 @@ async function commonWalletInitializationActions(wallet) {
         }
       });
     });
+  } else if (symbol === 'BTC') {
+    wallet._transactions.map((transaction) => {
+      store.dispatch({
+        type: 'FETCH_TRANSACTION_BTC',
+        raw: transaction,
+        id: transaction.txid
+      });
+    });
   }
 
   return {

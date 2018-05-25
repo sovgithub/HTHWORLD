@@ -1,5 +1,6 @@
 import {
   INIT_REQUESTING,
+  SYMBOL_BTC,
   SYMBOL_ETH
 } from "containers/App/constants";
 import { AsyncStorage } from 'react-native';
@@ -12,6 +13,7 @@ import {
 } from './constants';
 import {transactionFound} from './actions';
 import ethSagas, {fetchHistoryEth} from './ethsagas';
+import btcSagas, {fetchHistoryBTC} from './btcsagas';
 import { walletSelector } from 'screens/Wallet/selectors';
 
 
@@ -26,6 +28,7 @@ export default function* transactionSagaWatcher() {
 
 export function* initialize() {
   yield fork(ethSagas);
+  yield fork(btcSagas);
 
   yield call(hydrate);
 }
@@ -74,6 +77,10 @@ export function* fetchHistory(action) {
   switch(wallet.symbol) {
   case SYMBOL_ETH: {
     yield call(fetchHistoryEth, action);
+    return;
+  }
+  case SYMBOL_BTC: {
+    yield call(fetchHistoryBTC, action);
     return;
   }
   default: {
