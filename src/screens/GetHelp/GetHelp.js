@@ -16,7 +16,16 @@ export default function GetHelp() {
           rightAction="menu"
         />
         <View style={styles.content}>
-          <Link title="SOME LINKS" to="SOME ROUTE" />
+          <Link
+            external
+            title="Contact Us"
+            to="mailto:support@hoardinvest.com"
+          />
+          <Link
+            external
+            title="My Support"
+            to="https://support.hoardinvest.com"
+          />
         </View>
       </View>
     </Scene>
