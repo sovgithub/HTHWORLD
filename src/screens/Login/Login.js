@@ -1,34 +1,19 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  ImageBackground,
-  StatusBar,
-  StyleSheet,
-  Text,
-  Image,
-  View,
-  ScrollView,
-  KeyboardAvoidingView,
-} from 'react-native';
+import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
 import Config from 'react-native-config';
-import LoginForm from './LoginForm';
-import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import T from 'components/Typography';
-import createStyles, { colors, gradients, typography } from 'styles';
-import LinearGradient from 'react-native-linear-gradient';
 
-const DismissableView = withDismissableKeyboard(View);
+import { Layout, Body, Header, Footer } from 'components/Layout';
+import _ from 'lodash';
 
-const styless = createStyles();
+import Button from 'components/Button';
+import Input from 'components/Input';
+import NavigatorService from 'lib/navigator';
 
-const customStyles = createStyles({
-  header: {
-    fontSize: typography.size.lg,
-    color: colors.darkPink,
-  },
-});
+const LANG_SIGN_UP_TEXT = 'LOG IN';
 
-export default class Login extends React.Component {
+export default class Login extends Component {
   static propTypes = {
     hasMnemonic: PropTypes.bool.isRequired,
     navigation: PropTypes.any,
@@ -38,41 +23,119 @@ export default class Login extends React.Component {
     }),
   };
 
+  static propTypes = {
+    navigation: PropTypes.any,
+    loginRequest: PropTypes.func.isRequired,
+    errors: PropTypes.arrayOf(
+      PropTypes.shape({
+        code: PropTypes.number,
+        message: PropTypes.string,
+      })
+    ),
+  };
+
+  state = {
+    loading: false,
+    loggedIn: false,
+    error: false,
+    username_or_email: null,
+    password: null,
+  };
+
+  handleSignupButton = () => {
+    NavigatorService.navigate('Signup');
+  };
+
+  handleBypassButton = () => {
+    if (this.props.hasMnemonic) {
+      NavigatorService.resetReplace('Login', 'Menu');
+    } else {
+      NavigatorService.navigate('Mnemonic');
+    }
+  };
+
+  handleFormSubmit = () => {
+    if (
+      this.state.username_or_email &&
+      this.state.username_or_email.length > 1 &&
+      this.state.password &&
+      this.state.password.length > 1
+    ) {
+      this.props.loginRequest({
+        username_or_email: this.state.username_or_email,
+        password: this.state.password,
+      });
+    }
+  };
+
+  updateFormField = fieldName => text => {
+    this.setState({ [fieldName]: text });
+  };
+
+  safeFocus = element => _.invoke(element, 'inputRef.focus');
+
   render() {
     return (
-      <KeyboardAvoidingView
-        imageStyle={styles.image}
-        behavior="padding"
-        style={styles.container}
-      >
-        <DismissableView style={styles.container}>
-          <StatusBar barStyle="light-content" />
-          <View style={styles.logoContainer}>
+      <Layout preload={false} keyboard>
+        <Body scrollable>
+          <Header style={{ alignItems: 'center' }}>
             <Image
               style={styles.logo}
               source={require('assets/hoard_circle_logo.png')} // eslint-disable-line no-undef
             />
-            <View>
-              <Text style={styles.title}>Log In</Text>
-            </View>
-          </View>
-          {__DEV__ && (
-            <View>
-              <T.Small
-                style={styles.network}
-              >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
-            </View>
-          )}
-          <View style={styles.formContainer}>
-            <LoginForm
-              navigation={this.props.navigation}
-              loginRequest={this.props.loginRequest}
-              hasMnemonic={this.props.hasMnemonic}
-              errors={this.props.login.errors}
+            <Text style={styles.title}>Log In</Text>
+            {__DEV__ && (
+              <View>
+                <T.Small
+                  style={styles.network}
+                >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+              </View>
+            )}
+          </Header>
+          <Body>
+            <Input
+              placeholder="Username or Email"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="next"
+              keyboardType="email-address"
+              onSubmitEditing={() => this.safeFocus(this.loginPasswordInput)}
+              onChangeText={this.updateFormField('username_or_email')}
+              value={this.state.username_or_email || ''}
+              type="underline"
             />
-          </View>
-        </DismissableView>
-      </KeyboardAvoidingView>
+            <Input
+              ref={el => (this.loginPasswordInput = el)}
+              placeholder="Password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              returnKeyType="go"
+              keyboardType="default"
+              secureTextEntry
+              onSubmitEditing={this.handleFormSubmit}
+              onChangeText={this.updateFormField('password')}
+              value={this.state.password || ''}
+              type="underline"
+            />
+          </Body>
+          <Footer>
+            <Button type="text" onPress={this.handleSignupButton}>
+              New to Hoard? Sign Up!
+            </Button>
+            <Button
+              type="base"
+              disabled={!this.state.password && !this.state.username_or_email}
+              onPress={this.handleFormSubmit}
+              style={styles.buttonContainerAlt}
+            >
+              {LANG_SIGN_UP_TEXT}
+            </Button>
+            <Button type="text" onPress={this.handleBypassButton}>
+              No thanks, I just want to use the wallet
+            </Button>
+          </Footer>
+        </Body>
+      </Layout>
     );
   }
 }
@@ -80,7 +143,6 @@ export default class Login extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
   containerGradient: {
     borderRadius: 0,
@@ -88,7 +150,6 @@ const styles = StyleSheet.create({
 
   logoContainer: {
     alignItems: 'center',
-    flexGrow: 1,
     justifyContent: 'center',
     flexDirection: 'column',
     alignContent: 'center',
@@ -113,6 +174,7 @@ const styles = StyleSheet.create({
   },
   imageView: {
     flex: 1,
+    flexShrink: 1,
     paddingTop: 40,
   },
   image: {
@@ -120,7 +182,7 @@ const styles = StyleSheet.create({
     height: null,
     resizeMode: 'cover',
   },
-  formContainer: {
-    marginBottom: 10,
+  buttonContainerAlt: {
+    marginVertical: 20,
   },
 });

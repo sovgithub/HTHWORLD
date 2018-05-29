@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, ScrollView, View, TouchableOpacity, Image } from 'react-native';
+import {
+  StyleSheet,
+  ScrollView,
+  View,
+  TouchableOpacity,
+  Image,
+} from 'react-native';
 import MenuHeader from 'components/MenuHeader';
 
 import Button from 'components/Button';
@@ -13,7 +19,7 @@ export default class Step1 extends Component {
   static propTypes = {
     list: PropTypes.arrayOf(PropTypes.string).isRequired,
     saveAndContinue: PropTypes.func.isRequired,
-    goBack: PropTypes.func.isRequired
+    goBack: PropTypes.func.isRequired,
   };
 
   state = { animateList: false, exitAnimation: false };
@@ -56,19 +62,17 @@ export default class Step1 extends Component {
     return (
       <View style={styles.container}>
         <MenuHeader
-          leftAction={(
+          leftAction={
             <TouchableOpacity onPress={this.props.goBack}>
               <Image source={require('assets/bck.png')} />
             </TouchableOpacity>
-          )}
+          }
           title="Create Wallet"
           multipage={true}
           currentPage={2}
           totalPages={3}
         />
-        <T.Heading style={styles.headingStyle}>
-          Your Seed Words
-        </T.Heading>
+        <T.Heading style={styles.headingStyle}>Your Seed Words</T.Heading>
         <ScrollView bounces={false} style={styles.bodyContainer}>
           <T.Light style={styles.text}>
             Write down each word in order and store it in a safe place.
@@ -78,7 +82,7 @@ export default class Step1 extends Component {
             style={{ marginTop: 20 }}
             animations={[
               { type: FADE, parameters: { start: 0, end: 1 } },
-              { type: SLIDE_Y, parameters: { start: 80, end: 0 } }
+              { type: SLIDE_Y, parameters: { start: 80, end: 0 } },
             ]}
             enterDelay={0}
             enterDuration={500}
@@ -105,7 +109,15 @@ export default class Step1 extends Component {
             })}
           </Animations>
           <View style={styles.footerContainer}>
-            <T.Light style={{color: 'lightgrey', textAlign: 'center', paddingBottom: 10}}>12 of 12 words</T.Light>
+            <T.Light
+              style={{
+                color: 'lightgrey',
+                textAlign: 'center',
+                paddingBottom: 10,
+              }}
+            >
+              12 of 12 words
+            </T.Light>
             <Button
               disabled={this.state.animateList || exitAnimation}
               onPress={this.handleNextButton}
@@ -121,17 +133,17 @@ export default class Step1 extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   headerContainer: {
     padding: 20,
     paddingTop: 40,
-    backgroundColor: '#223252'
+    backgroundColor: '#223252',
   },
   headingStyle: {
     padding: 20,
     paddingBottom: 0,
-    color: '#ffffff'
+    color: '#ffffff',
   },
   text: {
     color: '#fff',
@@ -141,11 +153,11 @@ const styles = StyleSheet.create({
   bodyContainer: {
     flexGrow: 1,
     padding: 20,
-    paddingBottom: 0
+    paddingBottom: 0,
   },
   footerContainer: {
     paddingTop: 0,
-    padding: 20
+    padding: 20,
   },
   mnemonicList: {},
   mnemonicChoice: {
@@ -154,17 +166,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#22282F',
     opacity: 0.5,
     marginBottom: 20,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   mnemonicChoiceNumner: {
     textAlign: 'center',
     color: '#ffffff',
     marginRight: 20,
-    fontSize: 16
+    fontSize: 16,
   },
   mnemonicChoiceText: {
     textAlign: 'center',
     color: '#ffffff',
-    fontSize: 16
-  }
+    fontSize: 16,
+  },
 });

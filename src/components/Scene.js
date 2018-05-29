@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Icon from 'components/Icon';
 import LinearGradient from 'react-native-linear-gradient';
 import { gradients } from 'styles';
-import { InteractionManager, StyleSheet } from 'react-native';
+import { InteractionManager, StyleSheet, ViewPropTypes } from 'react-native';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 import { Layout, Body, Header, Footer } from 'components/Layout';
 
@@ -21,6 +21,7 @@ export default class Scene extends Component {
     duration: PropTypes.number,
     preload: PropTypes.bool,
     withHeader: PropTypes.bool,
+    style: ViewPropTypes.style,
   };
 
   static defaultProps = {
@@ -39,13 +40,13 @@ export default class Scene extends Component {
   handleAnimatingLoadingRef = ref => (this.animatedLoading = ref);
 
   componentDidMount() {
-    // if (!this.props.preload) {
-    //   this.setState({ hasFaded: true, isReady: true });
-    //   return;
-    // }
-    // InteractionManager.runAfterInteractions(() => {
-    //   this.handleLoadingFinished();
-    // });
+    if (!this.props.preload) {
+      this.setState({ hasFaded: true, isReady: true });
+      return;
+    }
+    InteractionManager.runAfterInteractions(() => {
+      this.handleLoadingFinished();
+    });
   }
 
   handleLoadingFinished = () => {
