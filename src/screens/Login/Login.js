@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
 import Config from 'react-native-config';
 import T from 'components/Typography';
+import LoadingSpinner from 'components/LoadingSpinner';
 
 import { Layout, Body, Header, Footer } from 'components/Layout';
 import _ from 'lodash';
@@ -18,6 +19,7 @@ export default class Login extends Component {
     hasMnemonic: PropTypes.bool.isRequired,
     navigation: PropTypes.any,
     loginRequest: PropTypes.func.isRequired,
+    appReady: PropTypes.bool.isRequired,
     login: PropTypes.shape({
       errors: PropTypes.arrayOf(PropTypes.object),
     }),
@@ -61,10 +63,13 @@ export default class Login extends Component {
       this.state.password &&
       this.state.password.length > 1
     ) {
-      this.props.loginRequest({
-        username_or_email: this.state.username_or_email,
-        password: this.state.password,
-      });
+      this.setState(
+        {loading: true},
+        () => this.props.loginRequest({
+          username_or_email: this.state.username_or_email,
+          password: this.state.password,
+        })
+      );
     }
   };
 
@@ -75,6 +80,12 @@ export default class Login extends Component {
   safeFocus = element => _.invoke(element, 'inputRef.focus');
 
   render() {
+    if (!this.props.appReady) {
+      return (
+        <LoadingSpinner />
+      );
+    }
+
     return (
       <Layout preload={false} keyboard>
         <Body scrollable>
@@ -125,6 +136,7 @@ export default class Login extends Component {
             <Button
               type="base"
               disabled={!this.state.password && !this.state.username_or_email}
+              loading={this.state.loading}
               onPress={this.handleFormSubmit}
               style={styles.buttonContainerAlt}
             >

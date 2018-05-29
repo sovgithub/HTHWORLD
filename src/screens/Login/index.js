@@ -11,6 +11,7 @@ import { mnemonicPhraseSelector } from 'screens/Wallet/selectors';
 
 function mapStateToProps(state) {
   return {
+    appReady: state.wallet.hydrationCompleted && state.transactions.hydrationCompleted,
     login: state.login,
     hasMnemonic: !!mnemonicPhraseSelector(state)
   };

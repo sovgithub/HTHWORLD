@@ -1,4 +1,5 @@
 import {
+  TRANSACTIONS_HYDRATED,
   TRANSACTION_FOUND,
   TRANSACTION_UPDATE
 } from "./constants";
@@ -6,7 +7,8 @@ import {
 const initialState = {
   fiatTrades: [],
   transactions: {},
-  transactionsByAddress: {}
+  transactionsByAddress: {},
+  hydrationCompleted: false
 };
 
 function fiatTradesReducer(state, action) {
@@ -37,6 +39,12 @@ function fiatTradesReducer(state, action) {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case TRANSACTIONS_HYDRATED: {
+      return {
+        ...state,
+        hydrationCompleted: true
+      };
+    }
     case TRANSACTION_UPDATE: {
       return {
         ...state,

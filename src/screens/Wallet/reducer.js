@@ -1,4 +1,5 @@
 import {
+  WALLET_HYDRATED,
   WALLET_INITIALIZE_PASSPHRASE,
   WALLET_TRACK_SYMBOL,
   WALLET_TRACK_SYMBOL_SUCCESS,
@@ -18,6 +19,7 @@ const initialState = {
   import_error: null,
   mnemonicPhrase: '',
   isMnemonicInitialized: false,
+  hydrationCompleted: false,
   walletIds: [
     /* id[] */
   ],
@@ -40,6 +42,12 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+  case WALLET_HYDRATED: {
+    return {
+      ...state,
+      hydrationCompleted: true
+    };
+  }
   case WALLET_INITIALIZE_PASSPHRASE: {
     return {
       ...state,

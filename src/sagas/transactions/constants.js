@@ -1,3 +1,5 @@
+export const TRANSACTIONS_HYDRATED = 'transactions/TRANSACTIONS_HYDRATED';
+
 export const BLOCK_ADDED_TO_QUEUE = 'transactions/BLOCK_ADDED_TO_QUEUE';
 export const BLOCK_NUMBER_STORAGE_KEY = 'transactions/BLOCK_NUMBER_STORAGE_KEY';
 export const BLOCK_UPDATED = 'transactions/BLOCK_UPDATED';

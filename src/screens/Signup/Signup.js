@@ -41,7 +41,10 @@ export default class Signup extends Component {
       password: this.state.password,
     };
 
-    this.props.signupRequest(userSignupData);
+    this.setState(
+      {loading: true},
+      () => this.props.signupRequest(userSignupData)
+    );
   };
 
   updateFormField = fieldName => text => {
@@ -152,6 +155,7 @@ export default class Signup extends Component {
             <Button
               type="primary"
               onPress={this.handleFormSubmit}
+              loading={this.state.loading}
               disabled={!nextEnabled}
             >
               {LANG_SIGN_UP_TEXT}

@@ -5,6 +5,7 @@ import { INIT_REQUESTING, SUPPORTED_COINS_WALLET } from "containers/App/constant
 import {store} from '../../App';
 import {
   WALLET_INITIALIZE_PASSPHRASE,
+  WALLET_HYDRATED,
   WALLET_TRACK_SYMBOL,
   WALLET_IMPORT,
 
@@ -93,6 +94,8 @@ export function* hydrate() {
       return put(importWallet(wallet.symbol, 'privateKey', wallet.privateKey));
     }
   }));
+
+  yield put({type: WALLET_HYDRATED});
 }
 
 export async function storeMnemonic(action) {

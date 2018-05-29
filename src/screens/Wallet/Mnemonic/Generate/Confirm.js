@@ -19,6 +19,7 @@ export default class Confirm extends Component {
   };
 
   state = {
+    loading: false,
     allChecksPassed: false,
     animateList: false,
     exitAnimation: false,
@@ -63,6 +64,12 @@ export default class Confirm extends Component {
       this.setState({ allChecksPassed: false });
     }
   };
+
+  handleCreate = () =>
+    this.setState(
+      {loading: true},
+      this.props.saveWallet
+    );
 
   render() {
     if (__DEV__) {
@@ -131,7 +138,8 @@ export default class Confirm extends Component {
           <Button
             type="base"
             style={styles.statusCheck}
-            onPress={this.props.saveWallet}
+            onPress={this.handleCreate}
+            loading={this.state.loading}
             disabled={!this.state.allChecksPassed}
           >
             Create My Wallet!

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
+  ActivityIndicator,
   TouchableOpacity,
   StyleSheet,
   Platform,
@@ -14,6 +15,7 @@ export default class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
     disabled: PropTypes.bool,
+    loading: PropTypes.bool,
     style: ViewPropTypes.style,
     onPress: PropTypes.func.isRequired,
     children: PropTypes.oneOfType([
@@ -31,7 +33,7 @@ export default class Button extends Component {
   render() {
     const styles =
       stylesForType[
-        this.props.disabled ? `${this.props.type}Disabled` : this.props.type
+        this.props.disabled || this.props.loading ? `${this.props.type}Disabled` : this.props.type
       ];
 
     const shouldUpperCase = ['primary', 'text', 'secondary'].includes(
@@ -43,11 +45,15 @@ export default class Button extends Component {
     // Text Buttons
     if (typeof this.props.children === 'string' && this.props.type === 'text') {
       const buttonText = this.props.children;
-      buttonContent = (
-        <T.ButtonText style={styles.buttonText}>
-          {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
-        </T.ButtonText>
-      );
+      if (this.props.loading) {
+        buttonContent = <ActivityIndicator size="small" />;
+      } else {
+        buttonContent = (
+          <T.ButtonText style={styles.buttonText}>
+            {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
+          </T.ButtonText>
+        );
+      }
     }
 
     // Base Buttons
@@ -56,7 +62,9 @@ export default class Button extends Component {
       this.props.type === 'base'
     ) {
       const buttonText = this.props.children;
-      if (Platform.OS === 'ios') {
+      if (this.props.loading) {
+        buttonContent = <ActivityIndicator size="small" color={gradients.pink[0]}/>;
+      } else if (Platform.OS === 'ios') {
         buttonContent = (
           <GradientText style={styles.buttonText} gradient={gradients.pink}>
             {buttonText.toUpperCase()}
@@ -82,13 +90,20 @@ export default class Button extends Component {
           style={[styles.buttonContainer, this.props.style]}
         >
           <TouchableOpacity
-            disabled={this.props.disabled}
+            disabled={this.props.disabled || this.props.loading}
             style={[this.props.style]}
             onPress={this.props.onPress}
           >
-            <T.ButtonText style={styles.buttonText}>
-              {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
-            </T.ButtonText>
+            {this.props.loading
+              ? (
+                <ActivityIndicator size="small" color="#fff"/>
+              )
+              : (
+                <T.ButtonText style={styles.buttonText}>
+                  {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
+                </T.ButtonText>
+              )
+            }
           </TouchableOpacity>
         </LinearGradient>
       );
@@ -102,7 +117,7 @@ export default class Button extends Component {
 
     return (
       <TouchableOpacity
-        disabled={this.props.disabled}
+        disabled={this.props.disabled || this.props.loading}
         style={[styles.buttonContainer, this.props.style]}
         onPress={this.props.onPress}
       >

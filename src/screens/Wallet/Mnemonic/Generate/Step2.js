@@ -22,7 +22,11 @@ export default class Step1 extends Component {
     goBack: PropTypes.func.isRequired,
   };
 
-  state = { animateList: false, exitAnimation: false };
+  state = {
+    loading: false,
+    animateList: false,
+    exitAnimation: false
+  };
 
   componentDidMount() {
     this.startListAnimation();
@@ -53,7 +57,10 @@ export default class Step1 extends Component {
     );
   };
   handleExitAnimation = () => {
-    this.props.saveAndContinue();
+    this.setState(
+      {loading: true},
+      this.props.saveAndContinue
+    );
   };
 
   render() {
@@ -119,6 +126,7 @@ export default class Step1 extends Component {
               12 of 12 words
             </T.Light>
             <Button
+              loading={this.state.loading}
               disabled={this.state.animateList || exitAnimation}
               onPress={this.handleNextButton}
             >

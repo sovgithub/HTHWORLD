@@ -6,6 +6,7 @@ import {
 import { AsyncStorage } from 'react-native';
 import { throttle, fork, all, put, takeLatest, select, takeEvery, call } from "redux-saga/effects";
 import {
+  TRANSACTIONS_HYDRATED,
   TRANSACTION_FOUND,
   SEARCH_FOR_TRANSACTIONS,
   TRANSACTION_UPDATE,
@@ -31,6 +32,8 @@ export function* initialize() {
   yield fork(btcSagas);
 
   yield call(hydrate);
+
+  yield put({type: TRANSACTIONS_HYDRATED});
 }
 
 export function* hydrate() {
