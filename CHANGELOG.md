@@ -21,6 +21,7 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 
 ## [Unreleased - v1.3]
 
+* Added MIT license
 * Fixes unscrollable pages
 * Fixes page padding bug
 * Adds external links to about & get help screens
