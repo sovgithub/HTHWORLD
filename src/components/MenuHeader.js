@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { Image, TouchableOpacity, StyleSheet, View } from 'react-native';
 import T from 'components/Typography';
 import Icon from 'components/Icon';
 import NavigationActions from 'lib/navigator';
@@ -29,15 +24,10 @@ function LeftActionComponent({ type }) {
         </TouchableOpacity>
       </View>
     );
-  } else if (typeof type === 'object'){
-    return (
-      <View style={styles.leftActionContainer}>
-        {type}
-      </View>
-    );
+  } else if (typeof type === 'object') {
+    return <View style={styles.leftActionContainer}>{type}</View>;
   }
 }
-
 
 function RightActionComponent({ type }) {
   if (!type) {
@@ -49,7 +39,7 @@ function RightActionComponent({ type }) {
         <Image source={MENU_ICON} />
       </TouchableOpacity>
     );
-  } else if (typeof type === 'object'){
+  } else if (typeof type === 'object') {
     return type;
   }
 }
@@ -60,9 +50,8 @@ export default function MenuHeader({
   title,
   multipage,
   currentPage,
-  totalPages
+  totalPages,
 }) {
-
   const headerStyle = leftAction
     ? styles.titleLight
     : [createStyles().header, styles.titleBold];
@@ -73,11 +62,13 @@ export default function MenuHeader({
       <View style={styles.headerContainer}>
         <T.Heading style={headerStyle}>{title}</T.Heading>
       </View>
-      {multipage &&
+      {multipage && (
         <View style={styles.pagerContainer}>
-          <T.Light style={styles.pager}>{currentPage}/{totalPages}</T.Light>
+          <T.Light style={styles.pager}>
+            {currentPage}/{totalPages}
+          </T.Light>
         </View>
-      }
+      )}
       <View style={styles.rightActionContainer}>
         <RightActionComponent type={rightAction} />
       </View>
@@ -85,14 +76,13 @@ export default function MenuHeader({
   );
 }
 
-
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: padding.md,
+    paddingTop: padding.lg,
   },
-  headerContainer: {
-  },
+  headerContainer: {},
   titleBold: {
     color: colors.white,
   },
@@ -101,8 +91,7 @@ const styles = StyleSheet.create({
     fontSize: typography.size.md,
     fontWeight: typography.weight.normal,
   },
-  pagerContainer: {
-  },
+  pagerContainer: {},
   pager: {
     color: colors.grayLight,
     fontSize: typography.size.md,
@@ -120,5 +109,5 @@ const styles = StyleSheet.create({
   },
   leftActionContainer: {
     flex: 1,
-  }
-})
+  },
+});

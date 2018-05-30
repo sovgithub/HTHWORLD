@@ -47,7 +47,6 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  Text,
   ViewPropTypes,
   KeyboardAvoidingView,
   Platform,
@@ -272,7 +271,6 @@ const styles = StyleSheet.create({
   },
   header: {},
   body: {
-    padding: 20,
     flex: 1,
   },
   footer: { marginBottom: 20 },

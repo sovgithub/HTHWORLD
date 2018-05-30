@@ -41,9 +41,8 @@ export default class Signup extends Component {
       password: this.state.password,
     };
 
-    this.setState(
-      {loading: true},
-      () => this.props.signupRequest(userSignupData)
+    this.setState({ loading: true }, () =>
+      this.props.signupRequest(userSignupData)
     );
   };
 
@@ -73,7 +72,7 @@ export default class Signup extends Component {
 
     return (
       <Layout preload={false} keyboard>
-        <Body scrollable>
+        <Body scrollable style={styles.body}>
           <Header>
             <T.Heading style={styles.headingText}>Your Information</T.Heading>
             <T.SubHeading style={styles.subHeadingText}>
@@ -176,6 +175,10 @@ export default class Signup extends Component {
 }
 
 const styles = StyleSheet.create({
+  body: {
+    paddingHorizontal: 20,
+  },
+
   image: {
     width: null,
     height: null,

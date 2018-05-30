@@ -12,6 +12,7 @@ import MenuHeader from 'components/MenuHeader';
 import Button from 'components/Button';
 import T from 'components/Typography';
 import Animations, { FADE, SLIDE_Y } from 'hocs/Animations';
+import { Layout, Body, Header, Footer } from 'components/Layout';
 
 const LANG_NEXT_TEXT = 'Next';
 
@@ -25,7 +26,7 @@ export default class Step1 extends Component {
   state = {
     loading: false,
     animateList: false,
-    exitAnimation: false
+    exitAnimation: false,
   };
 
   componentDidMount() {
@@ -57,65 +58,66 @@ export default class Step1 extends Component {
     );
   };
   handleExitAnimation = () => {
-    this.setState(
-      {loading: true},
-      this.props.saveAndContinue
-    );
+    this.setState({ loading: true }, this.props.saveAndContinue);
   };
 
   render() {
     const { animateList, exitAnimation } = this.state;
 
     return (
-      <View style={styles.container}>
-        <MenuHeader
-          leftAction={
-            <TouchableOpacity onPress={this.props.goBack}>
-              <Image source={require('assets/bck.png')} />
-            </TouchableOpacity>
-          }
-          title="Create Wallet"
-          multipage={true}
-          currentPage={2}
-          totalPages={3}
-        />
-        <T.Heading style={styles.headingStyle}>Your Seed Words</T.Heading>
-        <ScrollView bounces={false} style={styles.bodyContainer}>
-          <T.Light style={styles.text}>
-            Write down each word in order and store it in a safe place.
-            Seriously, do this!
-          </T.Light>
-          <Animations
-            style={{ marginTop: 20 }}
-            animations={[
-              { type: FADE, parameters: { start: 0, end: 1 } },
-              { type: SLIDE_Y, parameters: { start: 80, end: 0 } },
-            ]}
-            enterDelay={0}
-            enterDuration={500}
-            enterStagger={150}
-            exitDelay={0}
-            exitDuration={100}
-            exitStagger={50}
-            startAnimation={animateList}
-            onEnterComplete={this.animationDidFinish}
-            exitAnimation={exitAnimation}
-            onExitComplete={this.handleExitAnimation}
-          >
-            {this.props.list.map((word, i) => {
-              return (
-                <View key={`word-${i}`} style={styles.mnemonicChoice}>
-                  <T.Light style={styles.mnemonicChoiceNumner}>
-                    {`0${i + 7}`.slice(-2)}
-                  </T.Light>
-                  <T.SemiBold style={styles.mnemonicChoiceText}>
-                    {word}
-                  </T.SemiBold>
-                </View>
-              );
-            })}
-          </Animations>
-          <View style={styles.footerContainer}>
+      <Layout preload={false}>
+        <Body scrollable style={styles.body}>
+          <Header>
+            <MenuHeader
+              leftAction={
+                <TouchableOpacity onPress={this.props.goBack}>
+                  <Image source={require('assets/bck.png')} />
+                </TouchableOpacity>
+              }
+              title="Create Wallet"
+              multipage={true}
+              currentPage={2}
+              totalPages={3}
+            />
+            <T.Heading style={styles.headingStyle}>Your Seed Words</T.Heading>
+            <T.Light style={styles.text}>
+              Write down each word in order and store it in a safe place.
+              Seriously, do this!
+            </T.Light>
+          </Header>
+          <Body>
+            <Animations
+              style={{ marginTop: 20 }}
+              animations={[
+                { type: FADE, parameters: { start: 0, end: 1 } },
+                { type: SLIDE_Y, parameters: { start: 80, end: 0 } },
+              ]}
+              enterDelay={0}
+              enterDuration={500}
+              enterStagger={150}
+              exitDelay={0}
+              exitDuration={100}
+              exitStagger={50}
+              startAnimation={animateList}
+              onEnterComplete={this.animationDidFinish}
+              exitAnimation={exitAnimation}
+              onExitComplete={this.handleExitAnimation}
+            >
+              {this.props.list.map((word, i) => {
+                return (
+                  <View key={`word-${i}`} style={styles.mnemonicChoice}>
+                    <T.Light style={styles.mnemonicChoiceNumner}>
+                      {`0${i + 7}`.slice(-2)}
+                    </T.Light>
+                    <T.SemiBold style={styles.mnemonicChoiceText}>
+                      {word}
+                    </T.SemiBold>
+                  </View>
+                );
+              })}
+            </Animations>
+          </Body>
+          <Footer>
             <T.Light
               style={{
                 color: 'lightgrey',
@@ -132,9 +134,9 @@ export default class Step1 extends Component {
             >
               {LANG_NEXT_TEXT}
             </Button>
-          </View>
-        </ScrollView>
-      </View>
+          </Footer>
+        </Body>
+      </Layout>
     );
   }
 }
@@ -142,6 +144,9 @@ export default class Step1 extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  body: {
+    paddingHorizontal: 20,
   },
   headerContainer: {
     padding: 20,

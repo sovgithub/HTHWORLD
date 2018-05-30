@@ -19,6 +19,24 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 
 ### Removed
 
+## [Unreleased - v1.3]
+
+* Fixes unscrollable pages
+* Fixes page padding bug
+* Adds external links to about & get help screens
+* Adds loading spinner to initial app load, to indicate when app is actually interactable
+* Adds loading spinners to signup/login buttons, to indicate that an action has been registered
+* Adds bitcoin transaction history support
+* Fixes duplicate "DEF" key in Pin creation
+* Fixes large BOAR logo in View Address screen
+* Fixes looping animations for mnemonic confirmation inputs
+
+### Added
+
+### Changed
+
+### Removed
+
 # [v0.1.0-alpha] - 2018-04-05
 
 ### Added

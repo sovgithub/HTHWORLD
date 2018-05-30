@@ -63,9 +63,8 @@ export default class Login extends Component {
       this.state.password &&
       this.state.password.length > 1
     ) {
-      this.setState(
-        {loading: true},
-        () => this.props.loginRequest({
+      this.setState({ loading: true }, () =>
+        this.props.loginRequest({
           username_or_email: this.state.username_or_email,
           password: this.state.password,
         })
@@ -81,14 +80,12 @@ export default class Login extends Component {
 
   render() {
     if (!this.props.appReady) {
-      return (
-        <LoadingSpinner />
-      );
+      return <LoadingSpinner />;
     }
 
     return (
       <Layout preload={false} keyboard>
-        <Body scrollable>
+        <Body scrollable style={styles.body}>
           <Header style={{ alignItems: 'center' }}>
             <Image
               style={styles.logo}
@@ -155,6 +152,9 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  body: {
+    paddingHorizontal: 20,
   },
   containerGradient: {
     borderRadius: 0,
