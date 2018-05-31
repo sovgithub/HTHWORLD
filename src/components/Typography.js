@@ -74,6 +74,11 @@ const SmallAlternate = ({ style, ...otherProps }) => (
 );
 SmallAlternate.propTypes = Text.propTypes;
 
+const Paragraph = ({ style, ...otherProps }) => (
+  <Text style={[styles.base, style]} {...otherProps} />
+);
+Paragraph.propTypes = Text.propTypes;
+
 const baseType = {
   fontFamily: typography.family.primary,
   color: colors.grayDarker,
@@ -218,6 +223,7 @@ export default {
   GrayedOut,
   Heading,
   Light,
+  Paragraph,
   Price,
   PriceHeading,
   PriceLarge,

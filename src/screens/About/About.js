@@ -52,6 +52,11 @@ export default function About() {
             to="https://reddit.com/r/hoardinvest"
             external={true}
           />
+          <Link
+            icon={require('assets/thumbs_up.png')}
+            title="Open Source Thanks"
+            to="OpenSource"
+          />
         </View>
       </View>
     </Scene>

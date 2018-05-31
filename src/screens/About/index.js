@@ -2,7 +2,7 @@ import { StyleSheet, Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import About from './About';
-
+import OpenSource from './OpenSource';
 
 const transitionConfig = () => {
   return {
@@ -37,6 +37,7 @@ const transitionConfig = () => {
 const RoutingStack = createStackNavigator(
   {
     About: { screen: About },
+    OpenSource: { screen: OpenSource },
   },
   {
     headerMode: 'none',
