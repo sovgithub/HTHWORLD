@@ -8,6 +8,7 @@ import T from 'components/Typography';
 import Modal from 'components/Modal';
 import Icon from 'components/Icon';
 import UnderlineInput from 'components/UnderlineInput';
+import LoadingSpinner from 'components/LoadingSpinner';
 import Button from 'components/Button';
 import CurrencySelection from './CurrencySelection';
 import SelectableImageHeader from 'components/SelectableImageHeader';
@@ -18,10 +19,13 @@ import {TYPE_SEND, TYPE_REQUEST} from 'screens/SendRequest/constants';
 import MenuHeader from 'components/MenuHeader';
 import NavigatorService from 'lib/navigator';
 
+import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
+
 const amountFormatter = formatDecimalInput(8);
 
 const initialState = {
   amount: '',
+  fiat: '',
   toAddress: '',
   selectedId: null,
   selectingWallet: false,
@@ -43,6 +47,9 @@ export default class SendRequest extends Component {
         symbol: PropTypes.string.isRequired,
       })
     ).isRequired,
+    prices: PropTypes.objectOf(PropTypes.number),
+    tradingPair: PropTypes.string,
+    getCurrencyPrice: PropTypes.func.isRequired,
     sendFunds: PropTypes.func.isRequired,
     requestFunds: PropTypes.func.isRequired,
   };
@@ -60,8 +67,61 @@ export default class SendRequest extends Component {
     }
   }
 
-  handleChangeAmount = value =>
-    this.setState({ amount: amountFormatter(value) });
+  componentDidMount() {
+    this.fetchPrice();
+  }
+
+  fetchPrice = () => {
+      const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+
+    if (selectedWallet) {
+      this.props.getCurrencyPrice(selectedWallet.symbol);
+    }
+  }
+
+  handleChangeAmount = value => {
+    const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+
+    const { destination } = convertCurrency({
+      source: {
+        pair: this.props.tradingPair,
+        price: this.props.prices[selectedWallet.symbol],
+        amount: Number(value)
+      },
+      destination: {
+        pair: this.props.tradingPair,
+        price: 1,
+        amount: SOLVE_FOR
+      }
+    });
+
+    this.setState({
+      fiat: amountFormatter(destination.amount),
+      amount: amountFormatter(value)
+    });
+  }
+
+  handleChangeFiat = value => {
+    const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+
+    const { destination } = convertCurrency({
+      source: {
+        pair: this.props.tradingPair,
+        price: 1,
+        amount: Number(value)
+      },
+      destination: {
+        pair: this.props.tradingPair,
+        price: this.props.prices[selectedWallet.symbol],
+        amount: SOLVE_FOR
+      }
+    });
+
+    this.setState({
+      fiat: amountFormatter(value),
+      amount: amountFormatter(destination.amount)
+    });
+  }
 
   handleChangeToAddress = value => this.setState({ toAddress: value });
 
@@ -69,11 +129,12 @@ export default class SendRequest extends Component {
     this.setState(
       {
         amount: '',
+        fiat: '',
         toAddress: '',
         selectedId: value,
         selectingWallet: false,
       },
-      this.checkAddress
+      this.fetchPrice
     );
 
   toggleCoinSelector = () =>
@@ -117,15 +178,17 @@ export default class SendRequest extends Component {
   };
 
   render() {
-    const { wallets } = this.props;
+    const { wallets, prices } = this.props;
     const {
       amount,
+      fiat,
       toAddress,
       selectedId,
       selectingWallet,
     } = this.state;
 
     const selectedWallet = wallets.find(wallet => wallet.id === selectedId);
+    const isLoadingPrice = !prices[selectedWallet.symbol];
 
     const walletTitle =
       selectedWallet
@@ -158,20 +221,25 @@ export default class SendRequest extends Component {
       headerProps.rightAction = 'menu'
     }
 
-    console.log(selectedWallet);
-
     return (
       <Scene preload={false}>
         <View style={styles.flex1}>
           <MenuHeader {...headerProps} />
           <Conditional>
+            <Try condition={isLoadingPrice}>
+              <View style={styles.flex1}>
+                <View style={styles.loading}>
+                  <T.GrayedOut>Loading Prices...</T.GrayedOut>
+                </View>
+                <LoadingSpinner />
+              </View>
+            </Try>
             <Try condition={!wallets.length}>
               <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>
             </Try>
             <Try condition={selectingWallet}>
               <CurrencySelection title={walletTitle} items={
                 wallets.map(wallet => {
-                  console.log(wallet);
                   const metadata = getCoinMetadata(wallet.symbol);
 
                   return {
@@ -202,17 +270,30 @@ export default class SendRequest extends Component {
                   selection={currencyDisplay}
                   onPress={this.toggleCoinSelector}
                 />
-                <UnderlineInput
-                  style={styles.input}
-                  keyboardType="numeric"
-                  label={
-                    selectedWallet
-                      ? `Enter ${selectedWallet.symbol}`
-                      : 'Enter Amount'
-                  }
-                  onChangeText={this.handleChangeAmount}
-                  value={amount.toString()}
-                />
+                <View style={styles.valueInputs}>
+                  <View style={styles.amount}>
+                    <UnderlineInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      label={
+                        selectedWallet
+                          ? `Enter ${selectedWallet.symbol}`
+                          : 'Enter Amount'
+                      }
+                      onChangeText={this.handleChangeAmount}
+                      value={amount.toString()}
+                    />
+                  </View>
+                  <View style={styles.fiat}>
+                    <UnderlineInput
+                      style={styles.input}
+                      keyboardType="numeric"
+                      label={`Enter ${this.props.tradingPair}`}
+                      onChangeText={this.handleChangeFiat}
+                      value={fiat}
+                    />
+                  </View>
+                </View>
                 <Button disabled={!selectedId} onPress={this.send}>
                   {title}
                 </Button>
@@ -230,11 +311,14 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   input: {
-    marginBottom: 20,
   },
-
   flex1: {
     flex: 1,
+  },
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   contentContainer: {
     padding: 20,
@@ -259,4 +343,18 @@ const styles = StyleSheet.create({
     margin: 10,
     resizeMode: 'cover',
   },
+  valueInputs: {
+    flexDirection: 'row',
+    flex: 1,
+    marginBottom: 20
+  },
+  amount: {
+    flex: 1,
+    marginRight: 10
+  },
+  fiat: {
+    flex: 1,
+    marginLeft: 10
+  },
+
 });
