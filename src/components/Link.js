@@ -23,7 +23,7 @@ const externalLinkTo = memoize((to) => () => {
   });
 });
 
-export default function Link({title, to, external, icon}) {
+export default function Link({title, to, external, icon, arrowOverride}) {
   const onPress = external ? externalLinkTo(to) : navigateTo(to);
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
@@ -31,7 +31,10 @@ export default function Link({title, to, external, icon}) {
         {icon && <Image source={icon} style={styles.icon}/>}
         <T.Light style={styles.title}>{title}</T.Light>
       </View>
-      <Icon icon="ios-arrow-forward" style={{size: 10, marginLeft: 'auto'}} />
+      {arrowOverride
+        ? arrowOverride
+        : <Icon icon="ios-arrow-forward" style={{size: 10}} />
+      }
     </TouchableOpacity>
   );
 }

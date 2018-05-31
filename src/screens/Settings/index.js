@@ -1,6 +1,7 @@
 import { StyleSheet, Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
+import DisplayCurrency from './DisplayCurrency';
 import Settings from './Settings';
 
 
@@ -37,6 +38,7 @@ const transitionConfig = () => {
 const RoutingStack = createStackNavigator(
   {
     Settings: { screen: Settings },
+    DisplayCurrency: { screen: DisplayCurrency },
   },
   {
     headerMode: 'none',

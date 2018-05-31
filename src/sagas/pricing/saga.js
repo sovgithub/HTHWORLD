@@ -2,6 +2,7 @@ import {
   all,
   takeEvery,
   call,
+  select,
   put
 } from 'redux-saga/effects';
 
@@ -11,6 +12,8 @@ import {getCurrencyHistory} from 'components/GetCurrencyHistory';
 import {
   SYMBOL_BOAR,
 } from 'containers/App/constants';
+
+import {tradingPairSelector} from 'screens/Settings/selectors';
 
 import {
   GET_CURRENCY_HISTORY_REQUEST,
@@ -27,12 +30,13 @@ import {
 function* getCurrencyPriceFlow(action) {
   const { symbol } = action;
   try {
+    const tradingPair = yield select(tradingPairSelector);
     let price;
     if (symbol === SYMBOL_BOAR) {
       price = 0.46;
     } else {
-      const payload = yield call(getCurrencyPrice, [symbol]);
-      price = payload[symbol].USD;
+      const payload = yield call(getCurrencyPrice, [symbol], tradingPair);
+      price = payload[symbol][tradingPair];
     }
 
     yield put(getCurrencyPriceSuccess(
@@ -61,7 +65,8 @@ function* getCurrencyHistoryFlow(action) {
       positive = true;
       change = '+0 (0%)';
     } else {
-      data = yield call(getCurrencyHistory, symbol, limit, interval);
+      const tradingPair = yield select(tradingPairSelector);
+      data = yield call(getCurrencyHistory, symbol, tradingPair, limit, interval);
       const firstPrice = data[0];
       const firstNonZeroPrice = data[data.findIndex(v => v !== 0)];
       const lastPrice = data[data.length - 1];

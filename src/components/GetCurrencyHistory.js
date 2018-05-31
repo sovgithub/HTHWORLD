@@ -31,9 +31,9 @@ const getAggregateValue = interval => {
   }
 };
 
-const constructQueries = (currency, limit, interval, aggregate) => [
+const constructQueries = (currency, tradingPair, limit, interval, aggregate) => [
   { name: 'fsym', value: currency },
-  { name: 'tsym', value: 'USD' },
+  { name: 'tsym', value: tradingPair },
   { name: 'limit', value: limit },
   { name: 'aggregate', value: aggregate || getAggregateValue(interval) },
 ];
@@ -57,6 +57,7 @@ const defaultFormatter = json => json.Data.map(day => day.close);
 
 export async function getCurrencyHistory(
   currency,
+  tradingPair = 'USD',
   limit = '60',
   interval = Intervals.hour,
   aggregate,
@@ -64,7 +65,7 @@ export async function getCurrencyHistory(
 ) {
   const json = await makeRequest(
     getUrl(interval),
-    constructQueries(currency, limit, interval, aggregate)
+    constructQueries(currency, tradingPair, limit, interval, aggregate)
   );
   return formatter(json);
 }

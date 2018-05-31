@@ -4,13 +4,13 @@ import Fetch, { makeRequest } from 'components/Fetch';
 
 const url = 'https://min-api.cryptocompare.com/data/pricemulti';
 
-const constructQueries = currencies => [
+const constructQueries = ( currencies, tradingPair ) => [
   { name: 'fsyms', value: currencies.join(',') },
-  { name: 'tsyms', value: 'USD' },
+  { name: 'tsyms', value: tradingPair },
 ];
 
-export async function getCurrencyPrice(currencies) {
-  return makeRequest(url, constructQueries(currencies));
+export async function getCurrencyPrice(currencies, tradingPair) {
+  return makeRequest(url, constructQueries(currencies, tradingPair));
 }
 
 export default class GetCurrencyPrice extends React.Component {
