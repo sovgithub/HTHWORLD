@@ -1,5 +1,6 @@
 import ethers from "ethers";
 import EthWallet from "./EthWallet";
+import { bigNumberToEther } from 'lib/formatters';
 import { SYMBOL_BOAR } from "containers/App/constants";
 
 export default class BoarWallet extends EthWallet {
@@ -17,15 +18,14 @@ export default class BoarWallet extends EthWallet {
   getBalance = async () => {
     const address = await this.getPublicAddress();
     const result = await this._contract.functions.balanceOf(address);
-    return result;
+    return bigNumberToEther(result);
   };
 
   send = async (amount, toAddress) => {
-    const fromAddress = await this.getPublicAddress();
-    const response = this._contract.functions.transferFrom(
-      fromAddress,
+    const amountInWei = ethers.utils.parseEther(amount.toString());
+    const response = await this._contract.functions.transfer(
       toAddress,
-      amount
+      amountInWei
     );
     return response;
   };
