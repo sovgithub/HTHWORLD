@@ -15,6 +15,7 @@ import PortfolioChart from 'containers/PortfolioChart';
 import MenuHeader from 'components/MenuHeader';
 import Scene from 'components/Scene';
 import { getCoinMetadata } from "lib/currency-metadata";
+import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 
 class Wallet extends React.Component {
   static propTypes = {
@@ -29,8 +30,8 @@ class Wallet extends React.Component {
   };
 
   componentDidMount() {
-    this.props.wallets.map(
-      ({symbol}) => this.props.getCurrencyPrice(symbol)
+    SUPPORTED_COINS_WALLET.map(
+      symbol => this.props.getCurrencyPrice(symbol)
     );
   }
 
@@ -98,11 +99,6 @@ class Wallet extends React.Component {
   }
 
   render() {
-    const totalPrice = this.props.wallets.reduce(
-      (total, wallet) => (wallet.balance * this.props.prices[wallet.symbol]) + total,
-      0
-    );
-
     return (
       <Scene>
         <MenuHeader

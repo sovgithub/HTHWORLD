@@ -6,6 +6,8 @@ import {
   getCurrencyPrice
 } from 'sagas/pricing/actions';
 
+import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
+
 import {
   allWalletsSelector,
   availableCoinsSelector,
@@ -18,10 +20,13 @@ const mapStateToProps = (state) => ({
   wallets: allWalletsSelector(state),
   hasMnemonic: !!mnemonicPhraseSelector(state),
   hasAvailableCoins: availableCoinsSelector(state).length > 0,
-  prices: Object.keys(state.pricing).reduce(
-    (prices, key) => ({
+  prices: SUPPORTED_COINS_WALLET.reduce(
+    (prices, symbol) => ({
       ...prices,
-      [key]: state.pricing[key].price.price
+      [symbol]: state.pricing &&
+        state.pricing[symbol] &&
+        state.pricing[symbol].price &&
+        state.pricing[symbol].price.price
     }),
     {}
   )

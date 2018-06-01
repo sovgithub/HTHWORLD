@@ -30,6 +30,7 @@ const initializeSymbolState = () => ({
 });
 
 const initialState = {
+  initialized: false,
 /*
   <symbol>: {
     price: {
@@ -64,7 +65,8 @@ export default function reducer(state = initialState, action) {
 
     return {
       ...state,
-      ...newState
+      ...newState,
+      initialized: true
     };
   }
   case GET_CURRENCY_PRICE_REQUEST: {
