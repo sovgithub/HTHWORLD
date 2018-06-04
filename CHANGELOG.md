@@ -19,22 +19,25 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 
 ### Removed
 
-## [Unreleased - v1.3]
+# [v1.3] - 2018-06-01
 
-* Added MIT license
-* Fixes unscrollable pages
-* Fixes page padding bug
+### Added
+* Adds ability to change default currency to AUD
+* Adds ability to modify purchase price on send screen
+* Adds open source thanks page
+* Adds MIT license
 * Adds external links to about & get help screens
 * Adds loading spinner to initial app load, to indicate when app is actually interactable
 * Adds loading spinners to signup/login buttons, to indicate that an action has been registered
 * Adds bitcoin transaction history support
+
+### Changed
+* Fixes BOAR wallet sends
+* Fixes unscrollable pages
+* Fixes page padding bug
 * Fixes duplicate "DEF" key in Pin creation
 * Fixes large BOAR logo in View Address screen
 * Fixes looping animations for mnemonic confirmation inputs
-
-### Added
-
-### Changed
 
 ### Removed
 
