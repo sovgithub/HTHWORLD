@@ -1,5 +1,6 @@
 import { AsyncStorage } from 'react-native';
-import { call, take, select } from 'redux-saga/effects';
+import { call, take, select, put } from 'redux-saga/effects';
+
 import NavigatorService from 'lib/navigator';
 import api from 'lib/api';
 
@@ -14,7 +15,13 @@ export const AUTH_USER_SET = 'AUTH_USER_SET';
 export const AUTH_SIGNOUT = 'AUTH_SIGNOUT';
 export const AUTH_USER_STORAGE_KEY = 'auth/user';
 
-import {isMnemonicInitializedSelector, mnemonicPhraseSelector} from "screens/Wallet/selectors";
+import { UPDATE_USER } from 'containers/User/constants';
+import updateUser from 'containers/User/actions';
+import { store } from '../App.js';
+import {
+  isMnemonicInitializedSelector,
+  mnemonicPhraseSelector,
+} from 'screens/Wallet/selectors';
 
 /**
  * Sign Out - Redux action
@@ -26,13 +33,47 @@ export function signOut() {
   };
 }
 
+// TODO: abstract these into dev/prod files
+const checkUserSessionUrl = `https://smaugdev.hoardinvest.com/users/`;
+/**
+ * checkSessionApi
+ * @return {async function} Calls the backend to check the status of the user's session.
+ */
+export async function checkSessionApi(currentUser) {
+  try {
+    return api.get(`${checkUserSessionUrl}${currentUser.user_uid}`);
+  } catch (error) {
+    throw error;
+  }
+}
+
 /**
  * Get User from AsyncStorage
  * @return {object} the user object describing the current user.
  */
 export async function getUser() {
-  const user = await AsyncStorage.getItem(AUTH_USER_STORAGE_KEY);
-  return JSON.parse(user);
+  let user = await AsyncStorage.getItem(AUTH_USER_STORAGE_KEY);
+  user = JSON.parse(user);
+
+  // convert old user.uid to more specific user.user_uid
+  // TODO: remove when we no longer want to support user.uid structure
+  if (user && user.uid && !user.user_uid) {
+    const { uid, ...otherKeys } = user;
+    user = { ...otherKeys, user_uid: uid };
+  }
+
+  if (user && user.user_uid) {
+    try {
+      await checkSessionApi(user);
+    } catch (error) {
+      await setUser('');
+      store.dispatch(updateUser(null));
+      NavigatorService.navigate('Login');
+      return;
+    }
+  }
+
+  return user;
 }
 
 /**
@@ -69,7 +110,8 @@ export async function logoutApi() {
 export function* logoutFlow() {
   // First, let's log the user out of the backend
   yield call(logoutApi);
-  // Then, let's clear the user from our local storage
+  // Then, let's clear the user from our local storage and state
+  yield put(updateUser(null));
   yield call(setUser, '');
 }
 
@@ -101,6 +143,7 @@ export default function* authenticationWatcher() {
       // server as the currentUser
       switch (action.type) {
         case LOGIN_REQUESTING:
+          yield call(setUser, '');
           currentUser = yield call(loginFlow, action);
           break;
         case SIGNUP_REQUESTING:
@@ -151,6 +194,7 @@ export default function* authenticationWatcher() {
     // If we've gotten this far, we have a currentUser and will wait and listen
     // for any logout-related actions, and if dispatched, we'll log them out and
     // redirect them to the Login screen.
+    yield put(updateUser(currentUser));
     yield take([AUTH_SIGNOUT /* all other unset actions */]);
     yield call(logoutFlow);
     NavigatorService.navigate('Login');

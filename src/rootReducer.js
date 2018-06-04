@@ -16,7 +16,8 @@ combineReducers({
 
 import { combineReducers } from 'redux';
 import app from 'containers/App/reducer';
-import contacts from "sagas/contacts/reducer";
+import user from 'containers/User/reducer';
+import contacts from 'sagas/contacts/reducer';
 import login from 'screens/Login/reducer';
 import signup from 'screens/Signup/reducer';
 import wallet from 'screens/Wallet/reducer';
@@ -30,6 +31,7 @@ import kyc from 'screens/KYC/reducer';
 
 const rootReducer = combineReducers({
   app,
+  user,
   contacts,
   login,
   signup,

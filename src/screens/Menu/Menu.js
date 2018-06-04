@@ -17,10 +17,14 @@ import { signOut } from 'sagas/authentication';
 import NavigatorService from 'lib/navigator';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
+import Conditional, { Try, Otherwise } from 'components/Conditional';
 
 class Menu extends Component {
   static propTypes = {
     navigation: PropTypes.object,
+    user: PropTypes.shape({
+      user_uid: PropTypes.string,
+    }),
     signOut: PropTypes.func.isRequired,
   };
 
@@ -91,9 +95,18 @@ class Menu extends Component {
             </View>
           </ScrollView>
           <View style={styles.footerContainer}>
-            <Button type="base" onPress={() => this.props.signOut()}>
-              LOG OUT
-            </Button>
+            <Conditional>
+              <Try condition={this.props.user && this.props.user.user_uid}>
+                <Button type="base" onPress={() => this.props.signOut()}>
+                  LOG OUT
+                </Button>
+              </Try>
+              <Otherwise>
+                <Button type="base" onPress={() => this.navigateTo('Login')}>
+                  Sign Up or Log In
+                </Button>
+              </Otherwise>
+            </Conditional>
           </View>
         </LinearGradient>
       </View>
@@ -102,7 +115,7 @@ class Menu extends Component {
 }
 
 function mapStateToProps(state) {
-  return { user: state.user };
+  return { user: state.user.user };
 }
 
 export default connect(mapStateToProps, { signOut })(Menu);
