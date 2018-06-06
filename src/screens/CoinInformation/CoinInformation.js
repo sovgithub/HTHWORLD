@@ -102,7 +102,7 @@ export default class CoinInformation extends React.Component {
   }
 
   render() {
-    const { transactions, pricing, wallet } = this.props;
+    const { transactions, pricing, wallet, isSignedIn } = this.props;
     const metadata = getCoinMetadata(wallet.symbol);
 
     return (
@@ -132,6 +132,17 @@ export default class CoinInformation extends React.Component {
                   <T.Small style={styles.actionButtonText}>SEND</T.Small>
                 </View>
               </TouchableOpacity>
+              {isSignedIn && (
+                <TouchableOpacity
+                  onPress={this.handleRequest}
+                  style={styles.actionButton}
+                >
+                  <View style={styles.actionButtonView}>
+                    <Image source={require('assets/request.png')} />
+                    <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
+                  </View>
+                </TouchableOpacity>
+              )}
               <TouchableOpacity
                 onPress={this.handleView}
                 style={styles.actionButton}

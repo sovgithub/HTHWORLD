@@ -4,6 +4,7 @@ import { sendFunds } from 'screens/Wallet/actions';
 import { getCurrencyPrice } from 'sagas/pricing/actions';
 import { allWalletsSelector } from 'screens/Wallet/selectors';
 import { tradingPairSelector } from 'screens/Settings/selectors';
+import { isSignedInSelector, emailSelector } from 'containers/User/selectors';
 import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 
 const mapStateToProps = state => {
@@ -19,6 +20,8 @@ const mapStateToProps = state => {
       {}
     ),
     wallets: allWalletsSelector(state),
+    emailAddress: emailSelector(state),
+    isSignedIn: isSignedInSelector(state),
     tradingPair: tradingPairSelector(state)
   };
 };

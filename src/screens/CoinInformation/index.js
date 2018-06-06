@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import CoinInformation from "./CoinInformation";
 import { getCurrencyHistory } from "sagas/pricing/actions";
 import { walletSelector } from "screens/Wallet/selectors";
+import { isSignedInSelector } from "containers/User/selectors";
 import { selectors as transactionSelectors } from "sagas/transactions/reducer";
 import { updateTransaction } from "sagas/transactions/actions";
 import { SYMBOL_ETH, SYMBOL_BTC } from 'containers/App/constants';
@@ -25,6 +26,7 @@ const mapStateToProps = (store, ownProps) => {
   return {
     transactions,
     wallet,
+    isSignedIn: isSignedInSelector(store),
     pricing
   };
 };

@@ -15,12 +15,18 @@ import api from 'lib/api';
 
 // TODO: abstract these into dev/prod files
 const loginUrl = `https://smaugdev.hoardinvest.com/login/`;
+const userInfoUrl = `https://smaugdev.hoardinvest.com/users/`;
 
 // Handle logging in via the API
 export async function loginApi(username_or_email, password) {
   try {
-    const res = await api.post(loginUrl, { username_or_email, password });
-    return { user_uid: res.user_uid };
+    const {user_uid} = await api.post(loginUrl, { username_or_email, password });
+    const fullUrl = `${userInfoUrl}${user_uid}`;
+    const res = await api.get(fullUrl);
+    return {
+      ...res,
+      user_uid
+    };
   } catch (error) {
     throw error;
   }
