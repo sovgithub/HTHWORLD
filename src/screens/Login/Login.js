@@ -107,6 +107,7 @@ export default class Login extends Component {
               autoCorrect={false}
               returnKeyType="next"
               keyboardType="email-address"
+              editable={!this.state.loading}
               onSubmitEditing={() => this.safeFocus(this.loginPasswordInput)}
               onChangeText={this.updateFormField('username_or_email')}
               value={this.state.username_or_email || ''}
@@ -119,6 +120,7 @@ export default class Login extends Component {
               autoCorrect={false}
               returnKeyType="go"
               keyboardType="default"
+              editable={!this.state.loading}
               secureTextEntry
               onSubmitEditing={this.handleFormSubmit}
               onChangeText={this.updateFormField('password')}

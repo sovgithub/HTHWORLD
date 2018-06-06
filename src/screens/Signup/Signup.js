@@ -84,6 +84,7 @@ export default class Signup extends Component {
               ref={el => (this.signupEmailAddressInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
+              editable={!this.state.loading}
               placeholder="you@email.com"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
@@ -98,6 +99,7 @@ export default class Signup extends Component {
               ref={el => (this.signupUsernameInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
+              editable={!this.state.loading}
               placeholder="Username"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
@@ -111,6 +113,7 @@ export default class Signup extends Component {
               ref={el => (this.signupPasswordInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
+              editable={!this.state.loading}
               placeholder="Password"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="go"
@@ -134,6 +137,7 @@ export default class Signup extends Component {
               ref={el => (this.signupPasswordConfirmationInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
+              editable={!this.state.loading}
               placeholder="Re-enter Password"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="go"
