@@ -3,10 +3,10 @@ import {
   WALLET_INITIALIZE_PASSPHRASE,
   WALLET_TRACK_SYMBOL,
   WALLET_TRACK_SYMBOL_SUCCESS,
-  WALLET_TRACK_SYMBOL_FAILURE,
+  WALLET_TRACK_SYMBOL_ERROR,
   WALLET_IMPORT,
   WALLET_IMPORT_SUCCESS,
-  WALLET_IMPORT_FAILURE,
+  WALLET_IMPORT_ERROR,
   WALLET_UPDATE_BALANCE_SUCCESS
 } from "./constants";
 
@@ -86,7 +86,7 @@ export default function reducer(state = initialState, action) {
       }
     };
   }
-  case WALLET_TRACK_SYMBOL_FAILURE: {
+  case WALLET_TRACK_SYMBOL_ERROR: {
     return {
       ...state,
       track_requesting: false,
@@ -121,7 +121,7 @@ export default function reducer(state = initialState, action) {
       }
     };
   }
-  case WALLET_IMPORT_FAILURE: {
+  case WALLET_IMPORT_ERROR: {
     return {
       ...state,
       import_requesting: false,

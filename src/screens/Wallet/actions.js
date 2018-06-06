@@ -3,11 +3,11 @@ import {
 
   WALLET_TRACK_SYMBOL,
   WALLET_TRACK_SYMBOL_SUCCESS,
-  WALLET_TRACK_SYMBOL_FAILURE,
+  WALLET_TRACK_SYMBOL_ERROR,
 
   WALLET_IMPORT,
   WALLET_IMPORT_SUCCESS,
-  WALLET_IMPORT_FAILURE,
+  WALLET_IMPORT_ERROR,
 
   WALLET_UPDATE_BALANCE_REQUESTING,
   WALLET_SEND_FUNDS_REQUESTING
@@ -36,7 +36,7 @@ export function trackSymbolSuccess(payload) {
 
 export function trackSymbolFailure(error) {
   return {
-    type: WALLET_TRACK_SYMBOL_FAILURE,
+    type: WALLET_TRACK_SYMBOL_ERROR,
     error
   };
 }
@@ -59,7 +59,7 @@ export function importWalletSuccess(payload) {
 
 export function importWalletFailure(error) {
   return {
-    type: WALLET_IMPORT_FAILURE,
+    type: WALLET_IMPORT_ERROR,
     error
   };
 }

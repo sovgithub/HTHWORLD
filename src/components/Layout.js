@@ -125,7 +125,7 @@ export class Layout extends Component {
   };
 
   static defaultProps = {
-    delay: 1000,
+    delay: 0,
     duration: 750,
     preload: true,
     withHeader: true,
