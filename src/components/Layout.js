@@ -42,8 +42,10 @@ import PropTypes from 'prop-types';
 import { View as AnimatedView } from 'react-native-animatable';
 import _ from 'lodash';
 import Icon from 'components/Icon';
+import LoadingSpinner from 'components/LoadingSpinner';
 import {
   InteractionManager,
+  Animated,
   ScrollView,
   StyleSheet,
   View,
@@ -119,6 +121,7 @@ export class Layout extends Component {
     delay: PropTypes.number,
     duration: PropTypes.number,
     preload: PropTypes.bool,
+    contentReady: PropTypes.bool,
     withHeader: PropTypes.bool,
     keyboard: PropTypes.bool,
     style: ViewPropTypes.style,
@@ -128,6 +131,7 @@ export class Layout extends Component {
     delay: 0,
     duration: 750,
     preload: true,
+    contentReady: true,
     withHeader: true,
     keyboard: false,
   };
@@ -136,6 +140,8 @@ export class Layout extends Component {
     isReady: false,
     hasFaded: false,
   };
+
+  spinnerAnimationValue = new Animated.Value(0);
 
   handleAnimatingViewRef = ref => (this.animatedView = ref);
   handleAnimatingLoadingRef = ref => (this.animatedLoading = ref);
@@ -146,19 +152,59 @@ export class Layout extends Component {
       this.setState({ hasFaded: true, isReady: true });
       return;
     }
+
+    this.startLoadingAnimation();
+
     InteractionManager.runAfterInteractions(() => {
       this.handleLoadingFinished();
     });
   }
 
+  componentWillReceiveProps(newProps) {
+    if (this.props.preload) {
+      const {animationsReady} = this.state;
+      const wasPreviouslyReady = animationsReady && this.props.contentReady;
+      const isNowReady = animationsReady && newProps.contentReady;
+
+      if (!wasPreviouslyReady && isNowReady) {
+        this.setState(
+          {isReady: true},
+          () => setTimeout(this.handleAnimations, this.props.delay)
+        );
+      }
+    }
+  }
+
+
+
   handleLoadingFinished = () => {
-    this.setState({ isReady: true }, () => {
-      //eslint-disable-next-line no-undef
-      setTimeout(() => {
-        this.handleAnimations();
-      }, this.props.delay);
+    const wasPreviouslyReady = this.state.isReady;
+    const isNowReady = this.props.contentReady;
+
+    this.setState({
+      animationsReady: true,
+      isReady: isNowReady
+    }, () => {
+      if (!wasPreviouslyReady && isNowReady) {
+        //eslint-disable-next-line no-undef
+        setTimeout(this.handleAnimations, this.props.delay);
+      }
     });
   };
+
+  startLoadingAnimation = () => {
+    Animated.loop(
+      Animated.timing(
+        this.spinnerAnimationValue,
+        {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+          isInteraction: false
+        }
+      )
+    ).start();
+  }
 
   handleAnimations = () => {
     _.invoke(this, 'animatedLoading.fadeOutDown', 250);
@@ -176,20 +222,23 @@ export class Layout extends Component {
   };
 
   renderLoader() {
+    const spin = this.spinnerAnimationValue.interpolate({
+      inputRange: [0, 1], outputRange: ['0deg', '360deg']
+    });
+
     return (
-      <AnimatedView
-        animation="rotate"
-        duration={750}
-        easing="ease-in-out-circ"
-        iterationCount="infinite"
+      <Animated.View
         style={{
           height: 40,
           width: 40,
           alignItems: 'center',
+          transform: [
+            {rotate: spin}
+          ]
         }}
       >
         <Icon icon="ios-ionic" style={{ position: 'absolute' }} />
-      </AnimatedView>
+      </Animated.View>
     );
   }
 

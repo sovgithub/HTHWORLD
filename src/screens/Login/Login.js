@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
 import Config from 'react-native-config';
 import T from 'components/Typography';
-import LoadingSpinner from 'components/LoadingSpinner';
 
 import { Layout, Body, Header, Footer } from 'components/Layout';
 import _ from 'lodash';
@@ -82,12 +81,8 @@ export default class Login extends Component {
   safeFocus = element => _.invoke(element, 'inputRef.focus');
 
   render() {
-    if (!this.props.appReady) {
-      return <LoadingSpinner />;
-    }
-
     return (
-      <Layout preload={false} keyboard>
+      <Layout contentReady={this.props.appReady} keyboard>
         <Body scrollable style={styles.body}>
           <Header style={{ alignItems: 'center' }}>
             <Image
