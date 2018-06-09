@@ -25,24 +25,25 @@ export default class Login extends Component {
     }),
   };
 
-  static propTypes = {
-    navigation: PropTypes.any,
-    loginRequest: PropTypes.func.isRequired,
-    errors: PropTypes.arrayOf(
-      PropTypes.shape({
-        code: PropTypes.number,
-        message: PropTypes.string,
-      })
-    ),
-  };
-
   state = {
     loading: false,
     loggedIn: false,
     error: false,
+    errorMessage: '',
     username_or_email: null,
     password: null,
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.loading && !props.login.requesting && !props.login.successful) {
+      return {
+        loading: false,
+        error: true,
+        errorMessage: props.login.errors && props.login.errors[0] && props.login.errors[0].message
+      };
+    }
+    return null;
+  }
 
   handleSignupButton = () => {
     NavigatorService.navigate('Signup');
@@ -57,19 +58,21 @@ export default class Login extends Component {
   };
 
   handleFormSubmit = () => {
-    if (
-      this.state.username_or_email &&
-      this.state.username_or_email.length > 1 &&
-      this.state.password &&
-      this.state.password.length > 1
-    ) {
-      this.setState({ loading: true }, () =>
-        this.props.loginRequest({
-          username_or_email: this.state.username_or_email,
-          password: this.state.password,
-        })
-      );
-    }
+    this.setState({errorMessage: ''}, () => {
+      if (
+        this.state.username_or_email &&
+        this.state.username_or_email.length > 1 &&
+        this.state.password &&
+        this.state.password.length > 1
+      ) {
+        this.setState({ loading: true }, () =>
+          this.props.loginRequest({
+            username_or_email: this.state.username_or_email,
+            password: this.state.password,
+          })
+        );
+      }
+    });
   };
 
   updateFormField = fieldName => text => {
@@ -101,6 +104,11 @@ export default class Login extends Component {
             )}
           </Header>
           <Body>
+            {this.state.errorMessage &&
+              <View style={styles.errorMessageContainer}>
+                <T.Light style={styles.errorMessage}>{this.state.errorMessage}</T.Light>
+              </View>
+            }
             <Input
               placeholder="Username or Email"
               autoCapitalize="none"
@@ -174,6 +182,19 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     marginTop: 10,
     marginRight: 10,
+  },
+  errorMessageContainer: {
+    backgroundColor: '#ff6161',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 5,
+    margin: 20,
+  },
+  errorMessage: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   title: {
     color: '#fff',
