@@ -2,6 +2,7 @@ import { StyleSheet, Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import GetHelp from './GetHelp';
+import CreateSupportTicket from './CreateSupportTicket';
 
 
 const transitionConfig = () => {
@@ -37,6 +38,7 @@ const transitionConfig = () => {
 const RoutingStack = createStackNavigator(
   {
     GetHelp: { screen: GetHelp },
+    CreateSupportTicket: { screen: CreateSupportTicket },
   },
   {
     headerMode: 'none',

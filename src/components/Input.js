@@ -7,6 +7,8 @@ import {
   Animated,
   ViewPropTypes,
 } from 'react-native';
+import T from 'components/Typography';
+import Icon from 'components/Icon';
 import { colors } from 'styles';
 
 export default class Input extends Component {
@@ -28,6 +30,8 @@ export default class Input extends Component {
     onSubmitEditing: PropTypes.func,
     onEndEditing: PropTypes.func,
     onBlur: PropTypes.func,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    multiline: PropTypes.bool,
     editable: PropTypes.bool,
     secureTextEntry: PropTypes.bool,
   };
@@ -37,6 +41,8 @@ export default class Input extends Component {
     autoCapitalize: 'none',
     keyboardType: 'default',
     returnKeyType: 'done',
+    multiline: false,
+    error: false,
     editable: true,
     secureTextEntry: false,
     style: {},
@@ -92,6 +98,10 @@ export default class Input extends Component {
       ? placeholderTextColorLight
       : placeholderTextColorDark;
 
+    const errorBorder = this.props.error
+      ? styles.input_errored
+      : {};
+
     const labelStyle = {
       fontSize: 12,
       color: placeholderTextColor,
@@ -104,6 +114,7 @@ export default class Input extends Component {
         outputRange: [5, 0],
       }),
     };
+
     return (
       <View
         style={[styles.input_wrapper, this.props.containerStyle]}
@@ -116,7 +127,8 @@ export default class Input extends Component {
         <TextInput
           {...this.props}
           editable={this.props.editable}
-          style={[baseInputStyle, inputColors, activeStyle, this.props.style]}
+          style={[baseInputStyle, inputColors, activeStyle, errorBorder, this.props.style]}
+          multiline={this.props.multiline}
           placeholder={this.props.placeholder}
           placeholderTextColor={colors.white}
           value={this.props.value}
@@ -133,6 +145,20 @@ export default class Input extends Component {
           secureTextEntry={this.props.secureTextEntry}
           selectionColor={colors.active}
         />
+        {this.props.error && typeof this.props.error === 'string' && (
+          <View>
+            <View style={styles.errorContainer}>
+              <View style={styles.errorIconContainer}>
+                <View style={styles.errorIconUnderlay} />
+                <Icon
+                  style={{size: 17, color: '#ff6161',}}
+                  icon="md-alert"
+                />
+              </View>
+              <T.Small style={styles.errorText}>{this.props.error}</T.Small>
+            </View>
+          </View>
+        )}
       </View>
     );
   }
@@ -182,5 +208,30 @@ const styles = StyleSheet.create({
   },
   input_inactive_light: {
     borderColor: 'rgba(0,0,0, 0.4)',
+  },
+  input_errored: {
+    borderColor: "#ff6161",
+    borderBottomColor: "#ff6161",
+  },
+  errorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    margin: 5,
+  },
+  errorIconContainer: {
+    marginRight: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorIconUnderlay: {
+    position: 'absolute',
+    width: 10,
+    height: 10,
+    borderRadius: 15,
+    zIndex: -1,
+    backgroundColor: '#fff',
+  },
+  errorText: {
+    color: '#ff6161'
   },
 });
