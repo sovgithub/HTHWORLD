@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, Keyboard, StyleSheet, View } from 'react-native';
 import { Layout, Header, Body } from 'components/Base';
+import { Try } from 'components/Conditional';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import NavigatorService from 'lib/navigator';
@@ -110,7 +111,7 @@ export default class CreateSupportTicket extends Component {
       <Layout keyboard>
         <Body style={styles.content} dismissKeyboard scrollable>
           <DismissableView style={styles.container}>
-            {!this.props.isSignedIn && (
+            <Try condition={!this.props.isSignedIn}>
               <Input
                 placeholder="Enter Email *"
                 keyboardType="email-address"
@@ -120,7 +121,7 @@ export default class CreateSupportTicket extends Component {
                 value={this.state.answers.email_address}
                 type="underline"
               />
-            )}
+            </Try>
             <Input
               placeholder="Name"
               returnKeyType="next"

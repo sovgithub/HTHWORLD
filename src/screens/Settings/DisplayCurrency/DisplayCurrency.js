@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Layout, Body } from 'components/Base';
+import { Try } from 'components/Conditional';
 import T from 'components/Typography';
 
 import memoize from 'lodash/fp/memoize';
@@ -41,12 +42,12 @@ export default class DisplayCurrency extends Component {
                   <T.Light style={styles.name}>
                     {tradingPair.name} ({tradingPair.symbol || '-'})
                   </T.Light>
-                  {selectedTradingPair === tradingPair.name && (
+                  <Try condition={selectedTradingPair === tradingPair.name}>
                     <Image
                       source={require('assets/tick.png')}
                       style={styles.success}
                     />
-                  )}
+                  </Try>
                 </View>
               </TouchableOpacity>
             ))}

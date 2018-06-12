@@ -7,6 +7,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import LoadingSpinner from 'components/LoadingSpinner';
 import SelectableImageList from 'components/SelectableImageList';
+import Conditional, { Try, Otherwise } from 'components/Conditional';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
 
 import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
@@ -202,32 +203,35 @@ export default class ICO extends Component {
     return (
       <DismissableView style={styles.container}>
         <Text style={styles.heading}>Participate in the OAR ICO</Text>
-        {loaded ? (
-          <View style={styles.form}>
-            <Text style={[styles.infoText, styles.formItem]}>
-              Current Price: ${oarPrice}
-            </Text>
-            <Button style={styles.formItem} onPress={this.openModal}>
-              {`Select Currency: ${selectedCurrency}`}
-            </Button>
-            <Text style={styles.infoText}>
-              {selectedCurrency} Price: ${prices[selectedCurrency]}
-            </Text>
-            <Input
-              style={styles.formItem}
-              keyboardType="numeric"
-              placeholder={`Amount of ${selectedCurrency}`}
-              value={amountPaid}
-              onChangeText={this.handleChangePaid}
-            />
-            <Text style={styles.infoText}>
-              Price Total: ${priceTotal.toFixed(2)}
-            </Text>
-            <Text style={styles.infoText}>Oar Received: {oarTotal}</Text>
-          </View>
-        ) : (
-          <LoadingSpinner />
-        )}
+        <Conditional>
+          <Try condition={loaded}>
+            <View style={styles.form}>
+              <Text style={[styles.infoText, styles.formItem]}>
+                Current Price: ${oarPrice}
+              </Text>
+              <Button style={styles.formItem} onPress={this.openModal}>
+                {`Select Currency: ${selectedCurrency}`}
+              </Button>
+              <Text style={styles.infoText}>
+                {selectedCurrency} Price: ${prices[selectedCurrency]}
+              </Text>
+              <Input
+                style={styles.formItem}
+                keyboardType="numeric"
+                placeholder={`Amount of ${selectedCurrency}`}
+                value={amountPaid}
+                onChangeText={this.handleChangePaid}
+              />
+              <Text style={styles.infoText}>
+                Price Total: ${priceTotal.toFixed(2)}
+              </Text>
+              <Text style={styles.infoText}>Oar Received: {oarTotal}</Text>
+            </View>
+          </Try>
+          <Otherwise>
+            <LoadingSpinner />
+          </Otherwise>
+        </Conditional>
         <Button
           style={styles.confirm}
           onPress={this.handleSubmit}

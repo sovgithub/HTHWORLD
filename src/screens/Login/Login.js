@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
 import Config from 'react-native-config';
 import T from 'components/Typography';
+import { Try } from 'components/Conditional';
 
 import { Layout, Body, Header, Footer } from 'components/Base';
 import _ from 'lodash';
@@ -90,20 +91,20 @@ export default class Login extends Component {
               source={require('assets/hoard_circle_logo.png')} // eslint-disable-line no-undef
             />
             <Text style={styles.title}>Log In</Text>
-            {__DEV__ && (
+            <Try condition={__DEV__}>
               <View>
                 <T.Small
                   style={styles.network}
                 >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
               </View>
-            )}
+            </Try>
           </Header>
           <Body>
-            {this.state.errorMessage &&
+            <Try condition={!!this.state.errorMessage}>
               <View style={styles.errorMessageContainer}>
                 <T.Light style={styles.errorMessage}>{this.state.errorMessage}</T.Light>
               </View>
-            }
+            </Try>
             <Input
               placeholder="Username or Email"
               autoCapitalize="none"

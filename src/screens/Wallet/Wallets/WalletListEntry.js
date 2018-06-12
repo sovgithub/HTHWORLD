@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, TouchableOpacity, StyleSheet } from "react-native";
 import T from "components/Typography";
 import Icon from 'components/Icon';
+import { Try } from 'components/Conditional';
 
 const WalletListEntry = ({ name, symbol, balance, value, onPress, change, imported }) => {
   return (
@@ -13,14 +14,14 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
             <T.TitleAlternate style={{color: 'lightgrey'}}>
               {name}
             </T.TitleAlternate>
-            {imported && (
+            <Try condition={imported}>
               <View style={styles.icon}>
                 <Icon
                   style={{size: 15, color: 'black'}}
                   icon="ios-link"
                 />
               </View>
-            )}
+            </Try>
           </View>
           <T.SmallAlternate style={{color: 'lightgrey'}}>
             {symbol} - {balance}

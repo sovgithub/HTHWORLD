@@ -10,6 +10,7 @@ import {
   TRANSACTION_ERROR,
 } from './constants';
 import NavigatorService from 'lib/navigator';
+import { Try } from 'components/Conditional';
 import Button from 'components/Button';
 
 export default class TransactionStatus extends Component {
@@ -46,14 +47,14 @@ export default class TransactionStatus extends Component {
           </View>
           <View style={styles.half}>
             <T.Heading style={styles.heading}>{heading}</T.Heading>
-            {subheading &&
+            <Try condition={!!subheading}>
               <T.SubHeading style={styles.subheading}>{subheading}</T.SubHeading>
-            }
-            {transaction !== TRANSACTION_PENDING && (
+            </Try>
+            <Try condition={transaction !== TRANSACTION_PENDING}>
               <Button style={styles.actionButton} onPress={this.toDashboard}>
                 Go To Dashboard
               </Button>
-            )}
+            </Try>
           </View>
         </View>
       </Scene>

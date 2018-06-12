@@ -42,6 +42,8 @@ import PropTypes from 'prop-types';
 import { View as AnimatedView } from 'react-native-animatable';
 import _ from 'lodash';
 import Icon from 'components/Icon';
+import { Try } from 'components/Conditional';
+
 import {
   Animated,
   ScrollView,
@@ -205,7 +207,7 @@ class Layout extends Component {
     if (this.props.preload) {
       return (
         <View style={[styles.layout, this.props.style]} {...this.props}>
-          {!hasFaded && (
+          <Try condition={!hasFaded}>
             <AnimatedView
               ref={this.handleAnimatingViewRef}
               style={styles.loadingContainer}
@@ -214,8 +216,8 @@ class Layout extends Component {
                 {this.renderLoader()}
               </AnimatedView>
             </AnimatedView>
-          )}
-          {isReady && (
+          </Try>
+          <Try condition={isReady}>
             <AnimatedView
               ref={this.handleBodyRef}
               style={{
@@ -225,7 +227,7 @@ class Layout extends Component {
             >
               {this.renderContent()}
             </AnimatedView>
-          )}
+          </Try>
         </View>
       );
     }

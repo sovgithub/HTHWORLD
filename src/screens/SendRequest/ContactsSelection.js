@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native';
 
+import { Try } from 'components/Conditional';
 import SelectableImageRow from 'components/SelectableImageRow';
 import Input from 'components/Input';
 import T from 'components/Typography';
@@ -41,9 +42,9 @@ export default class ContactsSelection extends Component {
   render () {
     return (
       <View>
-        {this.props.title &&
+        <Try condition={this.props.title}>
           <T.SubHeading style={styles.subheading}>Contacts</T.SubHeading>
-        }
+        </Try>
         <Input
           label="search for contact"
           value={this.state.searchTerm}

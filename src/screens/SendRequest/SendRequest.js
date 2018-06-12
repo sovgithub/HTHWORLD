@@ -395,8 +395,13 @@ export default class SendRequest extends Component {
                 <T.Heading style={styles.subheading}>{title}</T.Heading>
                 <View>
                   <View style={{ flexDirection: 'row' }}>
-                    {this.state.canChangeRecipientType &&
-                      (this.state.recipientType === RECIPIENT_TYPE_ADDRESS ? (
+                    <Conditional>
+                      <Try
+                        condition={
+                          this.state.canChangeRecipientType &&
+                          this.state.recipientType === RECIPIENT_TYPE_ADDRESS
+                        }
+                      >
                         <Button
                           type="text"
                           onPress={this.handleRecipientTypeSelection(
@@ -406,7 +411,13 @@ export default class SendRequest extends Component {
                         >
                           Send to a contact instead!
                         </Button>
-                      ) : (
+                      </Try>
+                      <Try
+                        condition={
+                          this.state.canChangeRecipientType &&
+                          this.state.recipientType === RECIPIENT_TYPE_OTHER
+                        }
+                      >
                         <Button
                           type="text"
                           onPress={this.handleRecipientTypeSelection(
@@ -416,7 +427,8 @@ export default class SendRequest extends Component {
                         >
                           Send to an address instead!
                         </Button>
-                      ))}
+                      </Try>
+                    </Conditional>
                   </View>
                   {this.renderRecipientType(this.state.recipientType)}
                 </View>

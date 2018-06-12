@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import Icon from 'components/Icon';
+import { Try } from 'components/Conditional';
 
 export default class Key extends Component {
   static propTypes = {
@@ -25,12 +26,12 @@ export default class Key extends Component {
         style={[styles.key, this.props.label.length == 0 && styles.keyEmpty]}
         onPress={this.handlePinPress}
       >
-        {this.props.icon && (
+        <Try condition={this.props.icon}>
           <Icon
             icon={this.props.icon}
             style={{ position: 'absolute', color: 'white' }}
           />
-        )}
+        </Try>
         <Text style={{ fontSize: 26, color: 'white' }}>{this.props.label}</Text>
         <Text style={{ fontSize: 12, color: 'white' }}>{this.props.label2}</Text>
       </TouchableOpacity>

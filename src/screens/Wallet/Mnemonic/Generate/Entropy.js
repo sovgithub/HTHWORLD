@@ -13,6 +13,7 @@ import SVG, { Path, Circle } from 'react-native-svg';
 
 import {CircularProgress} from 'react-native-svg-circular-progress';
 
+import Conditional, { Try, Otherwise } from 'components/Conditional';
 import Button from 'components/Button';
 import T from 'components/Typography';
 import { Layout, Header, Body } from 'components/Base';
@@ -153,46 +154,46 @@ export default class Entropy extends Component {
     return (
       <View style={styles.container}>
         <View ref={this.setViewRef} onLayout={this.handleLayout} style={styles.drawBox} {...responders}>
-          {(drawableWidth && drawableHeight && movement.length)
-          ? (
-          <SVG height={`${drawableHeight}`} width={`${drawableWidth}`}>
-            <Path
-              d={path}
-              fill="none"
-              stroke="#e6228d"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </SVG>
-          )
-          : (
-            <View style={{alignItems: 'center'}}>
-              <Image
-                style={{resizeMode: 'contain', opacity: 0.4}}
-                source={require('assets/scribble.png')}
-              />
-              <T.Heading style={{
-                color: "#3E434B",
-                marginTop: 20,
-              }}>
-                Scribble around for a bit
-              </T.Heading>
-            </View>
-          )
-        }
+          <Conditional>
+            <Try condition={drawableWidth && drawableHeight && movement.length}>
+              <SVG height={`${drawableHeight}`} width={`${drawableWidth}`}>
+                <Path
+                  d={path}
+                  fill="none"
+                  stroke="#e6228d"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </SVG>
+            </Try>
+            <Otherwise>
+              <View style={{alignItems: 'center'}}>
+                <Image
+                  style={{resizeMode: 'contain', opacity: 0.4}}
+                  source={require('assets/scribble.png')}
+                />
+                <T.Heading style={{
+                  color: "#3E434B",
+                  marginTop: 20,
+                }}>
+                  Scribble around for a bit
+                </T.Heading>
+              </View>
+            </Otherwise>
+          </Conditional>
         </View>
         <View style={styles.footerContainer}>
-          {finished
-            ? (
+          <Conditional>
+            <Try condition={finished}>
               <View style={{}}>
                 <T.Heading style={{textAlign: 'center', color: 'white', marginBottom: 20}}>{progressText}</T.Heading>
                 <Button onPress={this.handleNextButton} loading={this.state.loading}>
                   {LANG_NEXT_TEXT}
                 </Button>
               </View>
-            )
-            : (
+            </Try>
+            <Otherwise>
               <View style={{alignItems: 'center'}}>
                 <CircularProgress
                   percentage={percentageComplete}
@@ -206,8 +207,8 @@ export default class Entropy extends Component {
                 </CircularProgress>
                 <T.Heading style={{color: 'white', marginTop: 20}}>{progressText}</T.Heading>
               </View>
-            )
-          }
+            </Otherwise>
+          </Conditional>
         </View>
       </View>
     );

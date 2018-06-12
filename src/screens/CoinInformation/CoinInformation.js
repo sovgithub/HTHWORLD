@@ -16,6 +16,7 @@ import { Intervals } from 'components/GetCurrencyHistory';
 import { getColors } from 'styles';
 import NavigatorService from 'lib/navigator';
 import Icon from 'components/Icon';
+import { Try } from "components/Conditional";
 import Card from 'components/Card';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
@@ -129,7 +130,7 @@ export default class CoinInformation extends React.Component {
                   <T.Small style={styles.actionButtonText}>SEND</T.Small>
                 </View>
               </TouchableOpacity>
-              {isSignedIn && (
+              <Try condition={isSignedIn}>
                 <TouchableOpacity
                   onPress={this.handleRequest}
                   style={styles.actionButton}
@@ -139,7 +140,7 @@ export default class CoinInformation extends React.Component {
                     <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
                   </View>
                 </TouchableOpacity>
-              )}
+              </Try>
               <TouchableOpacity
                 onPress={this.handleView}
                 style={styles.actionButton}

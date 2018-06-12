@@ -6,6 +6,14 @@ export class Try extends Component {
     children: PropTypes.element.isRequired,
     condition: PropTypes.bool,
   };
+
+  render() {
+    if (this.props.condition) {
+      return this.props.children;
+    }
+
+    return null;
+  }
 }
 
 export class Otherwise extends Component {

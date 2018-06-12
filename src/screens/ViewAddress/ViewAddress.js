@@ -5,6 +5,7 @@ import T from 'components/Typography';
 import Scene from 'components/Scene';
 import Button from 'components/Button';
 import { getCoinMetadata } from 'lib/currency-metadata';
+import { Try } from 'components/Conditional';
 
 export default class ViewAddress extends Component {
   static propTypes = {
@@ -23,7 +24,7 @@ export default class ViewAddress extends Component {
     return (
       <Scene preload={false}>
         <View style={styles.container}>
-          {wallet && (
+          <Try condition={!!wallet}>
             <View style={styles.addressContainer}>
               <T.GrayedOut style={styles.title}>
                 {getCoinMetadata(wallet.symbol).fullName} Address
@@ -36,7 +37,7 @@ export default class ViewAddress extends Component {
                 <T.Small style={styles.address}>{wallet.publicAddress}</T.Small>
               </View>
             </View>
-          )}
+          </Try>
           <Button style={styles.button} onPress={this.copyAddress}>
             Copy Address
           </Button>

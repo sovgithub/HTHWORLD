@@ -6,6 +6,7 @@ import {
   View
 } from 'react-native';
 
+import Conditional, { Try, Otherwise } from 'components/Conditional';
 import NavigatorService from 'lib/navigator';
 import Button from 'components/Button';
 import T from 'components/Typography';
@@ -131,11 +132,11 @@ export default class KYCStatus extends Component {
           <T.Heading style={styles.text}>Welcome to the ICO signup.</T.Heading>
           <T.SubHeading style={styles.text}>We’re going to need a few things:</T.SubHeading>
           <T.Light style={styles.text}>1. Scan your documentation {documentVerificationStatus}</T.Light>
-          {successful && authorized === 'rejected'
-            ? (
+          <Conditional>
+            <Try condition={successful && authorized === 'rejected'}>
               <T.SubHeading style={[styles.error]}>We were unable to verify your documentation. Please contact support.</T.SubHeading>
-            )
-            : (
+            </Try>
+            <Otherwise>
               <View>
                 <T.Light style={styles.text}>1. Verify who you are {infoVerificationStatus}</T.Light>
                 <T.Light style={styles.text}>2. Make sure you’re able to invest safely {amlStatus}.</T.Light>
@@ -143,9 +144,8 @@ export default class KYCStatus extends Component {
                 <T.Light style={styles.text}>4. Success! </T.Light>
                 {this.renderButton()}
               </View>
-
-            )
-          }
+            </Otherwise>
+          </Conditional>
           <Button
             type="text"
             onPress={() => NavigatorService.navigate('Menu')}
