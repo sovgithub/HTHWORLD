@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
-import {gradients, colors, typography} from 'styles';
+import { colors } from 'styles';
 import Scene from 'components/Scene';
 import T from 'components/Typography';
-import Modal from 'components/Modal';
-import Icon from 'components/Icon';
 import UnderlineInput from 'components/UnderlineInput';
 import LoadingSpinner from 'components/LoadingSpinner';
 import Button from 'components/Button';
@@ -15,8 +13,7 @@ import SelectableImageHeader from 'components/SelectableImageHeader';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { formatDecimalInput } from 'lib/formatters';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
-import {TYPE_SEND, TYPE_REQUEST} from 'screens/SendRequest/constants';
-import MenuHeader from 'components/MenuHeader';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 import NavigatorService from 'lib/navigator';
 import api from 'lib/api';
 
@@ -40,11 +37,12 @@ const initialState = {
 export default class SendRequest extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
+      setParams: PropTypes.func.isRequired,
       state: PropTypes.shape({
         params: PropTypes.shape({
-          type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST])
-        })
-      })
+          type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]),
+        }),
+      }),
     }),
     wallets: PropTypes.arrayOf(
       PropTypes.shape({
@@ -65,11 +63,14 @@ export default class SendRequest extends Component {
   constructor(props) {
     super(props);
 
-    const selectedId = props.navigation.state
-      && props.navigation.state.params
-      && props.navigation.state.params.wallet;
+    const selectedId =
+      props.navigation.state &&
+      props.navigation.state.params &&
+      props.navigation.state.params.wallet;
 
-    const transactionType = this.props.navigation.state.params && this.props.navigation.state.params.type;
+    const transactionType =
+      this.props.navigation.state.params &&
+      this.props.navigation.state.params.type;
 
     let completionAction = () => {};
     if (transactionType === TYPE_SEND) {
@@ -82,69 +83,99 @@ export default class SendRequest extends Component {
       ...initialState,
       transactionType,
       completionAction,
-      recipientType: transactionType === TYPE_SEND ? RECIPIENT_TYPE_ADDRESS : RECIPIENT_TYPE_OTHER,
+      recipientType:
+        transactionType === TYPE_SEND
+          ? RECIPIENT_TYPE_ADDRESS
+          : RECIPIENT_TYPE_OTHER,
       canChangeRecipientType: transactionType === TYPE_SEND && props.isSignedIn,
-      selectedId: selectedId ? selectedId : initialState.selectedId
+      selectedId: selectedId ? selectedId : initialState.selectedId,
     };
   }
 
   componentDidMount() {
     this.fetchPrice();
+    this.setNavigation();
   }
 
+  setNavigation = () => {
+    const headerProps = {};
+
+    if (this.state.selectingWallet) {
+      headerProps.title = 'Select Currency';
+      headerProps.leftAction = (
+        <TouchableOpacity onPress={this.toggleCoinSelector}>
+          <Image source={require('assets/closeicon.png')} />
+        </TouchableOpacity>
+      );
+    } else {
+      headerProps.title = null; // reset and don't override title
+      headerProps.leftAction = 'back';
+      headerProps.rightAction = 'menu';
+    }
+
+    this.props.navigation.setParams(headerProps);
+  };
+
   fetchPrice = () => {
-      const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+    const selectedWallet = this.props.wallets.find(
+      wallet => wallet.id === this.state.selectedId
+    );
 
     if (selectedWallet) {
       this.props.getCurrencyPrice(selectedWallet.symbol);
     }
-  }
+  };
 
   handleChangeAmount = value => {
-    const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+    const selectedWallet = this.props.wallets.find(
+      wallet => wallet.id === this.state.selectedId
+    );
 
     const { destination } = convertCurrency({
       source: {
         pair: this.props.tradingPair,
         price: this.props.prices[selectedWallet.symbol],
-        amount: Number(value)
+        amount: Number(value),
       },
       destination: {
         pair: this.props.tradingPair,
         price: 1,
-        amount: SOLVE_FOR
-      }
+        amount: SOLVE_FOR,
+      },
     });
 
     this.setState({
       fiat: amountFormatter(destination.amount),
-      amount: amountFormatter(value)
+      amount: amountFormatter(value),
     });
-  }
+  };
 
   handleChangeFiat = value => {
-    const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+    const selectedWallet = this.props.wallets.find(
+      wallet => wallet.id === this.state.selectedId
+    );
 
     const { destination } = convertCurrency({
       source: {
         pair: this.props.tradingPair,
         price: 1,
-        amount: Number(value)
+        amount: Number(value),
       },
       destination: {
         pair: this.props.tradingPair,
         price: this.props.prices[selectedWallet.symbol],
-        amount: SOLVE_FOR
-      }
+        amount: SOLVE_FOR,
+      },
     });
 
     this.setState({
       fiat: amountFormatter(value),
-      amount: amountFormatter(destination.amount)
+      amount: amountFormatter(destination.amount),
     });
-  }
+  };
 
-  handleRecipientTypeSelection = recipientType => () => this.setState({recipientType})
+  handleRecipientTypeSelection = recipientType => () =>
+    this.setState({ recipientType });
 
   handleChangeToAddress = value => this.setState({ toAddress: value });
 
@@ -159,11 +190,17 @@ export default class SendRequest extends Component {
         selectedId: value,
         selectingWallet: false,
       },
-      this.fetchPrice
+      () => {
+        this.fetchPrice();
+        this.setNavigation();
+      }
     );
 
   toggleCoinSelector = () =>
-    this.setState({ selectingWallet: !this.state.selectingWallet });
+    this.setState(
+      { selectingWallet: !this.state.selectingWallet },
+      this.setNavigation
+    );
 
   validate({ amount, toAddress, selectedId, contact, recipientType }) {
     const numAmount = Number(amount);
@@ -204,9 +241,9 @@ export default class SendRequest extends Component {
             'https://smaugdev.hoardinvest.com/contacts/transaction',
             {
               sender: selectedWallet.publicAddress,
-              amount: Number( this.state.amount ),
+              amount: Number(this.state.amount),
               recipient: this.state.contact,
-              currency: selectedWallet.symbol
+              currency: selectedWallet.symbol,
             }
           );
 
@@ -219,10 +256,11 @@ export default class SendRequest extends Component {
           } else {
             toAddress = response.public_key;
           }
-
         } catch (e) {
           Alert.alert(
-            `Oops! ${e.message}: ${e.errors && e.errors[0] && e.errors[0].message}`
+            `Oops! ${e.message}: ${e.errors &&
+              e.errors[0] &&
+              e.errors[0].message}`
           );
         }
       }
@@ -236,7 +274,7 @@ export default class SendRequest extends Component {
 
         NavigatorService.navigate('TransactionStatus', {
           id: action.id,
-          type: TYPE_SEND
+          type: TYPE_SEND,
         });
       }
     }
@@ -244,30 +282,31 @@ export default class SendRequest extends Component {
 
   request = async () => {
     if (this.validate(this.state)) {
-      const selectedWallet = this.props.wallets.find(wallet => wallet.id === this.state.selectedId);
+      const selectedWallet = this.props.wallets.find(
+        wallet => wallet.id === this.state.selectedId
+      );
       try {
-        await api.post(
-          'https://smaugdev.hoardinvest.com/request_funds',
-          {
-            email_address: this.props.emailAddress,
-            amount: Number( this.state.amount ),
-            recipient: this.state.contact,
-            currency: selectedWallet.symbol
-          }
-        );
+        await api.post('https://smaugdev.hoardinvest.com/request_funds', {
+          email_address: this.props.emailAddress,
+          amount: Number(this.state.amount),
+          recipient: this.state.contact,
+          currency: selectedWallet.symbol,
+        });
 
         Alert.alert(
           'This user has been notified that you have requested funds from them!'
         );
       } catch (e) {
         Alert.alert(
-          `Oops! ${e.message}: ${e.errors && e.errors[0] && e.errors[0].message}`
+          `Oops! ${e.message}: ${e.errors &&
+            e.errors[0] &&
+            e.errors[0].message}`
         );
       }
     }
   };
 
-  renderRecipientType = (recipientType) => {
+  renderRecipientType = recipientType => {
     if (recipientType === RECIPIENT_TYPE_ADDRESS) {
       return (
         <UnderlineInput
@@ -291,22 +330,16 @@ export default class SendRequest extends Component {
     }
 
     return null;
-  }
+  };
 
   render() {
     const { wallets, prices } = this.props;
-    const {
-      amount,
-      fiat,
-      selectedId,
-      selectingWallet,
-    } = this.state;
+    const { amount, fiat, selectedId, selectingWallet } = this.state;
 
     const selectedWallet = wallets.find(wallet => wallet.id === selectedId);
     const isLoadingPrice = !prices[selectedWallet.symbol];
 
-    const walletTitle =
-      selectedWallet
+    const walletTitle = selectedWallet
       ? `Sending ${getCoinMetadata(selectedWallet.symbol).fullName} ${
           selectedWallet.symbol
         }`
@@ -320,29 +353,14 @@ export default class SendRequest extends Component {
 
     let title = '';
     if (this.state.transactionType === TYPE_SEND) {
-      title = 'SEND'
+      title = 'SEND';
     } else if (this.state.transactionType === TYPE_REQUEST) {
       title = 'Request';
-    }
-
-    const headerProps = {};
-
-    if (selectingWallet) {
-      headerProps.title = 'Select Currency'
-      headerProps.leftAction = (
-        <TouchableOpacity onPress={this.toggleCoinSelector}>
-          <Image source={require('assets/closeicon.png')} />
-        </TouchableOpacity>
-      );
-    } else {
-      headerProps.leftAction = 'back'
-      headerProps.rightAction = 'menu'
     }
 
     return (
       <Scene preload={false}>
         <View style={styles.flex1}>
-          <MenuHeader {...headerProps} />
           <Conditional>
             <Try condition={isLoadingPrice}>
               <View style={styles.flex1}>
@@ -356,8 +374,9 @@ export default class SendRequest extends Component {
               <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>
             </Try>
             <Try condition={selectingWallet}>
-              <CurrencySelection title={walletTitle} items={
-                wallets.map(wallet => {
+              <CurrencySelection
+                title={walletTitle}
+                items={wallets.map(wallet => {
                   const metadata = getCoinMetadata(wallet.symbol);
 
                   return {
@@ -367,29 +386,37 @@ export default class SendRequest extends Component {
                     subtitle: `${wallet.symbol}    ${wallet.balance}`,
                     title: metadata.fullName,
                   };
-                })
-              } />
+                })}
+              />
             </Try>
 
             <Otherwise>
-              <View style={[ styles.flex1, styles.contentContainer ]}>
-                <T.Heading style={styles.subheading}>
-                  {title}
-                </T.Heading>
+              <View style={[styles.flex1, styles.contentContainer]}>
+                <T.Heading style={styles.subheading}>{title}</T.Heading>
                 <View>
-                  <View style={{flexDirection: 'row'}}>
-                    {this.state.canChangeRecipientType && (this.state.recipientType === RECIPIENT_TYPE_ADDRESS
-                      ? (
-                        <Button type="text" onPress={this.handleRecipientTypeSelection(RECIPIENT_TYPE_OTHER)} style={styles.button}>
+                  <View style={{ flexDirection: 'row' }}>
+                    {this.state.canChangeRecipientType &&
+                      (this.state.recipientType === RECIPIENT_TYPE_ADDRESS ? (
+                        <Button
+                          type="text"
+                          onPress={this.handleRecipientTypeSelection(
+                            RECIPIENT_TYPE_OTHER
+                          )}
+                          style={styles.button}
+                        >
                           Send to a contact instead!
                         </Button>
-                      )
-                      : (
-                        <Button type="text" onPress={this.handleRecipientTypeSelection(RECIPIENT_TYPE_ADDRESS)} style={styles.button}>
+                      ) : (
+                        <Button
+                          type="text"
+                          onPress={this.handleRecipientTypeSelection(
+                            RECIPIENT_TYPE_ADDRESS
+                          )}
+                          style={styles.button}
+                        >
                           Send to an address instead!
                         </Button>
-                      )
-                    )}
+                      ))}
                   </View>
                   {this.renderRecipientType(this.state.recipientType)}
                 </View>
@@ -423,7 +450,10 @@ export default class SendRequest extends Component {
                     />
                   </View>
                 </View>
-                <Button disabled={!selectedId} onPress={this.state.completionAction}>
+                <Button
+                  disabled={!selectedId}
+                  onPress={this.state.completionAction}
+                >
                   {title}
                 </Button>
               </View>
@@ -439,11 +469,10 @@ const styles = StyleSheet.create({
   text: {
     marginVertical: 20,
   },
-  input: {
-  },
+  input: {},
   button: {
     flex: 1,
-    margin: 20
+    margin: 20,
   },
   flex1: {
     flex: 1,
@@ -479,15 +508,14 @@ const styles = StyleSheet.create({
   valueInputs: {
     flexDirection: 'row',
     flex: 1,
-    marginBottom: 20
+    marginBottom: 20,
   },
   amount: {
     flex: 1,
-    marginRight: 10
+    marginRight: 10,
   },
   fiat: {
     flex: 1,
-    marginLeft: 10
+    marginLeft: 10,
   },
-
 });

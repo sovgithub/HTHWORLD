@@ -7,12 +7,11 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import MenuHeader from 'components/MenuHeader';
 
 import Button from 'components/Button';
 import T from 'components/Typography';
 import Animations, { FADE, SLIDE_Y } from 'hocs/Animations';
-import { Layout, Body, Header, Footer } from 'components/Layout';
+import { Layout, Body, Header, Footer } from 'components/Base';
 
 const LANG_NEXT_TEXT = 'Next';
 
@@ -31,7 +30,18 @@ export default class Step1 extends Component {
 
   componentDidMount() {
     this.startListAnimation();
+    this.setNavigation();
   }
+
+  setNavigation = () => {
+    this.props.navigation.setParams({
+      leftAction: this.props.goBack,
+      title: 'Create Wallet',
+      multipage: true,
+      currentPage: 2,
+      totalPages: 3,
+    });
+  };
 
   componentWillReceiveProps(nextProps) {
     if (this.props.list !== nextProps.list) {
@@ -68,17 +78,6 @@ export default class Step1 extends Component {
       <Layout preload={false}>
         <Body scrollable style={styles.body}>
           <Header>
-            <MenuHeader
-              leftAction={
-                <TouchableOpacity onPress={this.props.goBack}>
-                  <Image source={require('assets/bck.png')} />
-                </TouchableOpacity>
-              }
-              title="Create Wallet"
-              multipage={true}
-              currentPage={2}
-              totalPages={3}
-            />
             <T.Heading style={styles.headingStyle}>Your Seed Words</T.Heading>
             <T.Light style={styles.text}>
               Write down each word in order and store it in a safe place.

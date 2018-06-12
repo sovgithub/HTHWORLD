@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
-import MenuHeader from "components/MenuHeader";
-import SuccessFailureScreen, {TYPE_FAILURE} from 'components/SuccessFailureScreen';
+import SuccessFailureScreen, {
+  TYPE_FAILURE,
+} from 'components/SuccessFailureScreen';
 import Button from 'components/Button';
 import T from 'components/Typography';
 
@@ -55,17 +56,6 @@ export default class Confirm extends Component {
 
     return (
       <View style={styles.container}>
-        <MenuHeader
-          leftAction={(
-            <TouchableOpacity onPress={this.props.goBack}>
-              <Image source={require('assets/bck.png')} />
-            </TouchableOpacity>
-          )}
-          title="Recover Wallet"
-          multipage={true}
-          currentPage={3}
-          totalPages={3}
-        />
         <T.Heading style={styles.heading}>Confirm Word List </T.Heading>
         <View style={styles.bodyContainer}>
           <T.Light style={styles.description}>

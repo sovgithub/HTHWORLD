@@ -15,7 +15,7 @@ import {CircularProgress} from 'react-native-svg-circular-progress';
 
 import Button from 'components/Button';
 import T from 'components/Typography';
-import MenuHeader from 'components/MenuHeader';
+import { Layout, Header, Body } from 'components/Base';
 
 const LANG_NEXT_TEXT = 'next';
 const LANG_BACK_TEXT = 'back';
@@ -56,6 +56,10 @@ export default class Entropy extends Component {
     });
   }
 
+  componentDidMount() {
+    this.setNavigation();
+  }
+
   componentWillUnmount() {
     const interactionHandle = this.panResponder.getInteractionHandle();
 
@@ -73,6 +77,25 @@ export default class Entropy extends Component {
         yOffset
       })
     );
+  };
+
+  setNavigation = () => {
+    this.props.navigation.setParams({
+      leftAction: (
+        <TouchableOpacity onPress={this.handleGoBack}>
+          <Image source={require('assets/closeicon.png')} />
+        </TouchableOpacity>
+      ),
+      title: 'Scribbles',
+    });
+  };
+
+  handleGoBack = () => {
+    this.props.navigation.setParams({
+      leftAction: null,
+      title: null,
+    });
+    this.props.goBack();
   };
 
   handleNextButton = () => {
@@ -129,14 +152,6 @@ export default class Entropy extends Component {
 
     return (
       <View style={styles.container}>
-        <MenuHeader
-          leftAction={(
-            <TouchableOpacity onPress={this.props.goBack}>
-              <Image source={require('assets/closeicon.png')} />
-            </TouchableOpacity>
-          )}
-          title="Scribble"
-        />
         <View ref={this.setViewRef} onLayout={this.handleLayout} style={styles.drawBox} {...responders}>
           {(drawableWidth && drawableHeight && movement.length)
           ? (

@@ -42,11 +42,10 @@ import PropTypes from 'prop-types';
 import { View as AnimatedView } from 'react-native-animatable';
 import _ from 'lodash';
 import Icon from 'components/Icon';
-import LoadingSpinner from 'components/LoadingSpinner';
 import {
-  InteractionManager,
   Animated,
   ScrollView,
+  InteractionManager,
   StyleSheet,
   View,
   ViewPropTypes,
@@ -55,64 +54,9 @@ import {
   StatusBar,
 } from 'react-native';
 
-export const Header = ({ style, children, ...otherProps }) => (
-  <View style={[styles.header, style]} {...otherProps}>
-    {children}
-  </View>
-);
-Header.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-  style: ViewPropTypes.style,
-};
+import LoadingSpinner from 'components/LoadingSpinner';
 
-export const Body = ({ style, children, ...otherProps }) => {
-  if (otherProps.scrollable) {
-    const dismissKeyboard = otherProps.dismissKeyboard;
-    const dismissMode = Platform.OS === 'ios' ? 'on-drag' : 'none';
-    return (
-      <ScrollView
-        bounces={otherProps.bounces}
-        style={[styles.body, style]}
-        keyboardShouldPersistTaps={dismissKeyboard}
-        keyboardDismissMode={dismissMode}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        {children}
-      </ScrollView>
-    );
-  } else {
-    return (
-      <View style={[styles.body, style]} {...otherProps}>
-        {children}
-      </View>
-    );
-  }
-};
-
-export const Footer = ({ style, children, ...otherProps }) => {
-  const stylesFromProps = {
-    ...(otherProps.push && {
-      marginTop: 'auto',
-    }),
-  };
-  return (
-    <View style={[styles.footer, stylesFromProps, style]} {...otherProps}>
-      {children}
-    </View>
-  );
-};
-Footer.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]).isRequired,
-  style: ViewPropTypes.style,
-};
-
-export class Layout extends Component {
+class Layout extends Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -142,7 +86,6 @@ export class Layout extends Component {
   };
 
   spinnerAnimationValue = new Animated.Value(0);
-
   handleAnimatingViewRef = ref => (this.animatedView = ref);
   handleAnimatingLoadingRef = ref => (this.animatedLoading = ref);
   handleBodyRef = ref => (this.animatedBody = ref);
@@ -162,50 +105,46 @@ export class Layout extends Component {
 
   componentWillReceiveProps(newProps) {
     if (this.props.preload) {
-      const {animationsReady} = this.state;
+      const { animationsReady } = this.state;
       const wasPreviouslyReady = animationsReady && this.props.contentReady;
       const isNowReady = animationsReady && newProps.contentReady;
 
       if (!wasPreviouslyReady && isNowReady) {
-        this.setState(
-          {isReady: true},
-          () => setTimeout(this.handleAnimations, this.props.delay)
+        this.setState({ isReady: true }, () =>
+          setTimeout(this.handleAnimations, this.props.delay)
         );
       }
     }
   }
 
-
-
   handleLoadingFinished = () => {
     const wasPreviouslyReady = this.state.isReady;
     const isNowReady = this.props.contentReady;
 
-    this.setState({
-      animationsReady: true,
-      isReady: isNowReady
-    }, () => {
-      if (!wasPreviouslyReady && isNowReady) {
-        //eslint-disable-next-line no-undef
-        setTimeout(this.handleAnimations, this.props.delay);
+    this.setState(
+      {
+        animationsReady: true,
+        isReady: isNowReady,
+      },
+      () => {
+        if (!wasPreviouslyReady && isNowReady) {
+          //eslint-disable-next-line no-undef
+          setTimeout(this.handleAnimations, this.props.delay);
+        }
       }
-    });
+    );
   };
 
   startLoadingAnimation = () => {
     Animated.loop(
-      Animated.timing(
-        this.spinnerAnimationValue,
-        {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-          isInteraction: false
-        }
-      )
+      Animated.timing(this.spinnerAnimationValue, {
+        toValue: 1,
+        duration: 1000,
+        useNativeDriver: true,
+        isInteraction: false,
+      })
     ).start();
-  }
-
+  };
   handleAnimations = () => {
     _.invoke(this, 'animatedLoading.fadeOutDown', 250);
 
@@ -223,18 +162,16 @@ export class Layout extends Component {
 
   renderLoader() {
     const spin = this.spinnerAnimationValue.interpolate({
-      inputRange: [0, 1], outputRange: ['0deg', '360deg']
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
     });
-
     return (
       <Animated.View
         style={{
           height: 40,
           width: 40,
           alignItems: 'center',
-          transform: [
-            {rotate: spin}
-          ]
+          transform: [{ rotate: spin }],
         }}
       >
         <Icon icon="ios-ionic" style={{ position: 'absolute' }} />
@@ -324,3 +261,5 @@ const styles = StyleSheet.create({
   },
   footer: { marginBottom: 20 },
 });
+
+export default Layout;

@@ -1,47 +1,34 @@
-import { StyleSheet, Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
+import {
+  transitionConfig,
+  getNavigationOptions,
+} from 'components/Base/Navigation';
 
 import GetHelp from './GetHelp';
 import CreateSupportTicket from './CreateSupportTicket';
 
-
-const transitionConfig = () => {
-  return {
-    containerStyle: { backgroundColor: 'transparent' },
-    transitionSpec: {
-      duration: 750,
-      easing: Easing.out(Easing.poly(4)),
-      timing: Animated.timing,
-      useNativeDriver: true,
-    },
-    screenInterpolator: sceneProps => {
-      const { layout, position, scene } = sceneProps;
-
-      const thisSceneIndex = scene.index;
-      const width = layout.initWidth;
-
-      const translateX = position.interpolate({
-        inputRange: [thisSceneIndex - 1, thisSceneIndex],
-        outputRange: [width, 0],
-      });
-
-      const opacity = position.interpolate({
-        inputRange: [thisSceneIndex - 1, thisSceneIndex],
-        outputRange: [0, 1],
-      });
-
-      return { opacity: opacity, transform: [{ translateX: translateX }] };
-    },
-  };
-};
-
 const RoutingStack = createStackNavigator(
   {
-    GetHelp: { screen: GetHelp },
-    CreateSupportTicket: { screen: CreateSupportTicket },
+    GetHelp: {
+      screen: GetHelp,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          leftAction: false,
+          title: 'Get Help',
+        }),
+    },
+    CreateSupportTicket: {
+      screen: CreateSupportTicket,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          title: 'Submit A Request',
+        }),
+    },
   },
   {
-    headerMode: 'none',
+    headerMode: 'float',
     cardStyle: { backgroundColor: 'transparent' },
     transitionConfig,
   }

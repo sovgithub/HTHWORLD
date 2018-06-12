@@ -75,7 +75,11 @@ export default class Generate extends Component {
     const { step, mnemonic } = this.state;
     if (step === 1) {
       return (
-        <Entropy goBack={this.goBack} saveAndContinue={this.generateNewMnemonic} />
+        <Entropy
+          goBack={this.goBack}
+          saveAndContinue={this.generateNewMnemonic}
+          navigation={this.props.navigation}
+        />
       );
     }
     if (step === 2) {
@@ -94,6 +98,7 @@ export default class Generate extends Component {
           list={mnemonicList}
           saveAndContinue={this.nextStep}
           goBack={this.goBack}
+          navigation={this.props.navigation}
         />
       );
     }
@@ -107,6 +112,7 @@ export default class Generate extends Component {
           list={mnemonicList}
           saveAndContinue={this.nextStep}
           goBack={this.goBack}
+          navigation={this.props.navigation}
         />
       );
     }
@@ -117,6 +123,7 @@ export default class Generate extends Component {
           list={confirmList}
           saveWallet={this.saveNewWallet}
           goBack={this.goBack}
+          navigation={this.props.navigation}
         />
       );
     }

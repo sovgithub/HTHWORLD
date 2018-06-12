@@ -8,8 +8,7 @@ import {
   Image,
 } from 'react-native';
 
-import { Layout, Body, Header, Footer } from 'components/Layout';
-import MenuHeader from 'components/MenuHeader';
+import { Layout, Body, Header, Footer } from 'components/Base';
 import Button from 'components/Button';
 import T from 'components/Typography';
 import LottieView from 'lottie-react-native';
@@ -32,6 +31,20 @@ export default class Confirm extends Component {
     exitAnimation: false,
     0: { value: '', confirmed: false },
     1: { value: '', confirmed: false },
+  };
+
+  componentDidMount() {
+    this.setNavigation();
+  }
+
+  setNavigation = () => {
+    this.props.navigation.setParams({
+      leftAction: this.props.goBack,
+      title: 'Create Wallet',
+      multipage: true,
+      currentPage: 3,
+      totalPages: 3,
+    });
   };
 
   updateFormField = fieldName => text => {
@@ -72,7 +85,11 @@ export default class Confirm extends Component {
     }
   };
 
-  handleCreate = () => this.setState({ loading: true }, this.props.saveWallet);
+  handleCreate = () =>
+    this.setState({ loading: true }, () => {
+      this.props.navigation.setParams({ header: null });
+      this.props.saveWallet();
+    });
 
   render() {
     if (__DEV__) {
@@ -89,17 +106,6 @@ export default class Confirm extends Component {
       <Layout preload={false}>
         <Body scrollable style={styles.body}>
           <Header>
-            <MenuHeader
-              leftAction={
-                <TouchableOpacity onPress={this.props.goBack}>
-                  <Image source={require('assets/bck.png')} />
-                </TouchableOpacity>
-              }
-              title="Create Wallet"
-              multipage={true}
-              currentPage={2}
-              totalPages={3}
-            />
             <T.Heading style={styles.headingStyle}>Confirm Word List</T.Heading>
           </Header>
           <Body>

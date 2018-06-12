@@ -18,49 +18,44 @@ import { INIT_REQUESTING } from './containers/App/constants';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 
+import {
+  transitionConfig,
+  getNavigationOptions,
+} from 'components/Base/Navigation';
+
 export const store = configureStore();
-
-const transitionConfig = () => {
-  return {
-    containerStyle: { backgroundColor: 'transparent' },
-    transitionSpec: {
-      duration: 750,
-      easing: Easing.out(Easing.poly(4)),
-      timing: Animated.timing,
-      useNativeDriver: true,
-    },
-    screenInterpolator: sceneProps => {
-      const { layout, position, scene } = sceneProps;
-
-      const thisSceneIndex = scene.index;
-      const width = layout.initWidth;
-
-      const translateX = position.interpolate({
-        inputRange: [thisSceneIndex - 1, thisSceneIndex],
-        outputRange: [width, 0],
-      });
-
-      const opacity = position.interpolate({
-        inputRange: [thisSceneIndex - 1, thisSceneIndex],
-        outputRange: [0, 1],
-      });
-
-      return { opacity: opacity, transform: [{ translateX: translateX }] };
-    },
-  };
-};
 
 const RoutingStack = createStackNavigator(
   {
-    Login: { screen: Login },
-    Signup: { screen: Signup },
-    Menu: { screen: Menu },
-    Mnemonic: { screen: Mnemonic },
-    Track: { screen: Track },
-    Import: { screen: Import },
+    Login: { screen: Login, navigationOptions: { header: null } },
+    Signup: { screen: Signup, navigationOptions: { header: null } },
+    Menu: { screen: Menu, navigationOptions: { header: null } },
+    Mnemonic: {
+      screen: Mnemonic,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          leftAction: false,
+          rightAction: false,
+        }),
+    },
+    Track: {
+      screen: Track,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+        }),
+    },
+    Import: {
+      screen: Import,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+        }),
+    },
   },
   {
-    headerMode: 'none',
+    headerMode: 'float',
     cardStyle: { backgroundColor: 'transparent' },
     transitionConfig,
   }
@@ -79,13 +74,13 @@ export default class App extends React.Component {
     SplashScreen.hide();
   }
 
-  refDidLoad = (navigatorRef) => {
+  refDidLoad = navigatorRef => {
     NavigatorService.setContainer(navigatorRef);
 
     if (!store.getState().app.hasPreviouslyInitialized) {
       store.dispatch({ type: INIT_REQUESTING });
     }
-  }
+  };
 
   render() {
     return (

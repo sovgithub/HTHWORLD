@@ -1,20 +1,12 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import MenuHeader from 'components/MenuHeader';
 import T from 'components/Typography';
-import { Layout, Body, Header } from 'components/Layout';
+import { Layout, Body } from 'components/Base';
 
 export default function OpenSource() {
   return (
     <Layout preload={false} keyboard>
       <Body scrollable style={styles.body}>
-        <Header style={{ alignItems: 'center' }}>
-          <MenuHeader
-            title={'Open Source Thanks'}
-            leftAction="back"
-            rightAction="menu"
-          />
-        </Header>
         <Body>
           <T.Heading style={[styles.type, styles.header]}>
             We would like to thank:

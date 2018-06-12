@@ -1,41 +1,32 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Image,
-  View,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import MenuHeader from 'components/MenuHeader';
-import { Layout, Body, Header } from 'components/Layout';
+import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Layout, Body } from 'components/Base';
 import T from 'components/Typography';
 
 import memoize from 'lodash/fp/memoize';
 
 export default class DisplayCurrency extends Component {
   static propTypes = {
-    tradingPairs: PropTypes.arrayOf(PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      symbol: PropTypes.string,
-      image: Image.propTypes.source,
-    })).isRequired,
+    tradingPairs: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        symbol: PropTypes.string,
+        image: Image.propTypes.source,
+      })
+    ).isRequired,
     selectedTradingPair: PropTypes.string,
-    updateTradingPair: PropTypes.func.isRequired
+    updateTradingPair: PropTypes.func.isRequired,
   };
 
-  selectCurrency = memoize((name) => () => this.props.updateTradingPair(name));
+  selectCurrency = memoize(name => () => this.props.updateTradingPair(name));
 
   render() {
-    const {tradingPairs, selectedTradingPair} = this.props;
+    const { tradingPairs, selectedTradingPair } = this.props;
     return (
       <Layout preload={false}>
-        <Header>
-          <MenuHeader leftAction="back" />
-        </Header>
         <Body scrollable>
-          <T.Heading style={styles.heading}>
-            Display Currency
-          </T.Heading>
+          <T.Heading style={styles.heading}>Display Currency</T.Heading>
           <T.Light style={styles.description}>
             Select your default currency display
           </T.Light>
@@ -47,9 +38,14 @@ export default class DisplayCurrency extends Component {
               >
                 <View style={styles.row}>
                   <Image source={tradingPair.image} style={styles.image} />
-                  <T.Light style={styles.name}>{tradingPair.name}  ({tradingPair.symbol || '-'})</T.Light>
+                  <T.Light style={styles.name}>
+                    {tradingPair.name} ({tradingPair.symbol || '-'})
+                  </T.Light>
                   {selectedTradingPair === tradingPair.name && (
-                    <Image source={require('assets/tick.png')} style={styles.success} />
+                    <Image
+                      source={require('assets/tick.png')}
+                      style={styles.success}
+                    />
                   )}
                 </View>
               </TouchableOpacity>
@@ -63,7 +59,7 @@ export default class DisplayCurrency extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   heading: {
     color: 'white',
@@ -103,6 +99,5 @@ const styles = StyleSheet.create({
     width: 20,
     resizeMode: 'contain',
   },
-  content: {
-  },
+  content: {},
 });

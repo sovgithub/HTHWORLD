@@ -1,9 +1,17 @@
 import ethers from 'ethers';
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
-import InputList from "../components/InputList";
-import ConfirmMnemonic from "../components/ConfirmMnemonic";
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
+
+import InputList from '../components/InputList';
+import ConfirmMnemonic from '../components/ConfirmMnemonic';
 
 export default class Recover extends Component {
   static propTypes = {
@@ -28,17 +36,45 @@ export default class Recover extends Component {
     });
   };
 
-  goForward = () => this.setState({
-    step: this.state.step + 1
-  });
+  componentDidMount() {
+    this.setNavigation(1);
+  }
+
+  setNavigation = step => {
+    this.props.navigation.setParams({
+      leftAction: this.goBack,
+      title: 'Recover Wallet',
+      multipage: true,
+      currentPage: step,
+      totalPages: 3,
+    });
+  };
+
+  goForward = () => {
+    const step = this.state.step + 1;
+    this.setState(
+      {
+        step: step,
+      },
+      this.setNavigation(step)
+    );
+  };
 
   goBack = () => {
     const previousStep = this.state.step - 1;
 
     if (previousStep === 0) {
+      this.props.navigation.setParams({
+        leftAction: false,
+        title: null,
+        multipage: null,
+        currentPage: null,
+        totalPages: null,
+      });
+
       this.props.goBack();
     } else {
-      this.setState({ step: previousStep });
+      this.setState({ step: previousStep }, this.setNavigation(previousStep));
     }
   };
 

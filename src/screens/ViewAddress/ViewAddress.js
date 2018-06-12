@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { View, Clipboard, StyleSheet, Image } from 'react-native';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
-import MenuHeader from 'components/MenuHeader';
 import Button from 'components/Button';
 import { getCoinMetadata } from 'lib/currency-metadata';
 
@@ -16,15 +15,13 @@ export default class ViewAddress extends Component {
     }).isRequired,
   };
 
-  copyAddress = () =>
-    Clipboard.setString(this.props.wallet.publicAddress);
+  copyAddress = () => Clipboard.setString(this.props.wallet.publicAddress);
 
   render() {
     const { wallet } = this.props;
 
     return (
       <Scene preload={false}>
-        <MenuHeader leftAction="cancel" />
         <View style={styles.container}>
           {wallet && (
             <View style={styles.addressContainer}>
@@ -32,7 +29,10 @@ export default class ViewAddress extends Component {
                 {getCoinMetadata(wallet.symbol).fullName} Address
               </T.GrayedOut>
               <View style={styles.row}>
-                <Image style={styles.image} source={getCoinMetadata(wallet.symbol).image} />
+                <Image
+                  style={styles.image}
+                  source={getCoinMetadata(wallet.symbol).image}
+                />
                 <T.Small style={styles.address}>{wallet.publicAddress}</T.Small>
               </View>
             </View>
@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
   },
   addressContainer: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   title: {
     fontSize: 15,
-    fontWeight: "300",
+    fontWeight: '300',
     color: 'white',
   },
   row: {
@@ -74,9 +74,9 @@ const styles = StyleSheet.create({
     marginRight: 20,
   },
   address: {
-    color: '#00bcf8'
+    color: '#00bcf8',
   },
   button: {
-    marginTop: 'auto'
+    marginTop: 'auto',
   },
 });

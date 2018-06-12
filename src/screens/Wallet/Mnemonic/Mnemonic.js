@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 
 import SuccessFailureScreen, {TYPE_SUCCESS} from 'components/SuccessFailureScreen';
 import Scene from 'components/Scene';
+import { Layout } from 'components/Base';
 
 import Type from './Type';
 import Recover from './Recover';
@@ -43,6 +44,7 @@ export default class Mnemonic extends Component {
           subtitle="Next up, add an additional layer of security by setting up your PIN"
           mainButtonText="Set Up Pin"
           onPressMain={this.handleRedirect}
+          navigation={this.props.navigation}
         />
       );
     }
@@ -53,28 +55,38 @@ export default class Mnemonic extends Component {
           newMnemonicType={GENERATE}
           existingMnemonicType={RECOVER}
           saveAndContinue={this.selectType}
+          navigation={this.props.navigation}
         />
       );
     }
 
     if (step === 2) {
       if (this.state.type === GENERATE) {
-      return <Generate goBack={this.goBack} saveAndContinue={this.setMnemonic}/>;
+        return (
+          <Generate
+            goBack={this.goBack}
+            saveAndContinue={this.setMnemonic}
+            navigation={this.props.navigation}
+          />
+        );
       }
-      return <Recover goBack={this.goBack} saveAndContinue={this.setMnemonic}/>;
+      return (
+        <Recover
+          goBack={this.goBack}
+          saveAndContinue={this.setMnemonic}
+          navigation={this.props.navigation}
+        />
+      );
     }
   };
 
   render() {
     return (
-      <Scene
-        withHeader={false}
-        preload={false}
-      >
+      <Layout withHeader={false} preload={false}>
         <View style={styles.container}>
           {this.getComponentForStep(this.state.step)}
         </View>
-      </Scene>
+      </Layout>
     );
   }
 }
@@ -82,6 +94,6 @@ export default class Mnemonic extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'transparent',
-    flex: 1
+    flex: 1,
   },
 });

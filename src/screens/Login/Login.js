@@ -4,7 +4,7 @@ import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
 import Config from 'react-native-config';
 import T from 'components/Typography';
 
-import { Layout, Body, Header, Footer } from 'components/Layout';
+import { Layout, Body, Header, Footer } from 'components/Base';
 import _ from 'lodash';
 
 import Button from 'components/Button';

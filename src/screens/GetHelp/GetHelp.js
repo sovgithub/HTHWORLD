@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-} from 'react-native';
-import MenuHeader from 'components/MenuHeader';
+import { View, StyleSheet } from 'react-native';
 import Link from 'components/Link';
 import Scene from 'components/Scene';
 
@@ -11,10 +7,6 @@ export default function GetHelp() {
   return (
     <Scene preload={false}>
       <View style={styles.container}>
-        <MenuHeader
-          title="Get Help"
-          rightAction="menu"
-        />
         <View style={styles.content}>
           <Link
             external
@@ -43,9 +35,9 @@ export default function GetHelp() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   content: {
-    padding: 20
+    padding: 20,
   },
 });

@@ -1,13 +1,7 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Alert,
-  Keyboard,
-  StyleSheet,
-  View,
-} from 'react-native';
-import MenuHeader from 'components/MenuHeader';
-import { Layout, Header, Body } from 'components/Layout';
+import { Alert, Keyboard, StyleSheet, View } from 'react-native';
+import { Layout, Header, Body } from 'components/Base';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import NavigatorService from 'lib/navigator';
@@ -43,26 +37,28 @@ export default class CreateSupportTicket extends Component {
       return {
         answers: {
           ...state.answers,
-          email_address: props.emailAddress
-        }
+          email_address: props.emailAddress,
+        },
       };
     }
     return null;
   }
 
-  handleChange = (type) => (value) => {
+  handleChange = type => value => {
     const answers = { ...this.state.answers, [type]: value };
     const errors = this.validate(answers);
     this.setState({ answers, errors });
-  }
+  };
 
-  measureLargeInput = ({nativeEvent}) =>
-    this.setState({largeInputHeight: nativeEvent.layout.height - 80});
+  measureLargeInput = ({ nativeEvent }) =>
+    this.setState({ largeInputHeight: nativeEvent.layout.height - 80 });
 
-  validate = ({email_address, description}) => ({
-    email_address: !email_address && 'An email is required'
-                || !email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/) && 'Must be a valid email',
-    description: !description && 'A description is required'
+  validate = ({ email_address, description }) => ({
+    email_address:
+      (!email_address && 'An email is required') ||
+      (!email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/) &&
+        'Must be a valid email'),
+    description: !description && 'A description is required',
   });
 
   submit = async () => {
@@ -70,19 +66,24 @@ export default class CreateSupportTicket extends Component {
 
     const { errors, answers } = this.state;
     if (errors.email_address || errors.subject || errors.description) {
-      return this.setState({showErrors: true});
+      return this.setState({ showErrors: true });
     }
 
     try {
-      const response = await api.post('https://smaugdev.hoardinvest.com/support', answers);
+      const response = await api.post(
+        'https://smaugdev.hoardinvest.com/support',
+        answers
+      );
       if (response.success) {
         Alert.alert(
           'Your ticket has been submitted successfully!',
           'A confirmation email should be sent soon',
-          [{
-            text: 'OK',
-            onPress: () => NavigatorService.navigate('GetHelp')
-          }]
+          [
+            {
+              text: 'OK',
+              onPress: () => NavigatorService.navigate('GetHelp'),
+            },
+          ]
         );
       } else {
         throw new Error('Unknown Error');
@@ -91,24 +92,19 @@ export default class CreateSupportTicket extends Component {
       Alert.alert(
         'An error occurred while submitting your ticket.',
         'Please try again, or email us directly at support@hoardinvest.com',
-        [{
-          text: 'OK',
-          onPress: () => NavigatorService.navigate('GetHelp')
-        }]
+        [
+          {
+            text: 'OK',
+            onPress: () => NavigatorService.navigate('GetHelp'),
+          },
+        ]
       );
     }
-  }
+  };
 
   render() {
     return (
       <Layout keyboard>
-        <Header>
-          <MenuHeader
-            title="Submit a Request"
-            leftAction="back"
-            rightAction="menu"
-          />
-        </Header>
         <Body style={styles.content} dismissKeyboard scrollable>
           <DismissableView style={styles.container}>
             {!this.props.isSignedIn && (
@@ -130,21 +126,21 @@ export default class CreateSupportTicket extends Component {
               value={this.state.answers.subject}
               type="underline"
             />
-            <View
-              onLayout={this.measureLargeInput}
-              style={styles.largeInput}
-            >
+            <View onLayout={this.measureLargeInput} style={styles.largeInput}>
               <Input
                 placeholder="Description *"
                 multiline={true}
                 onChangeText={this.handleChange('description')}
                 value={this.state.answers.description}
                 error={this.state.showErrors && this.state.errors.description}
-                style={{height: this.state.largeInputHeight}}
+                style={{ height: this.state.largeInputHeight }}
               />
             </View>
             <Button
-              disabled={!this.state.answers.email_address || !this.state.answers.description}
+              disabled={
+                !this.state.answers.email_address ||
+                !this.state.answers.description
+              }
               loading={this.state.loading}
               onPress={this.submit}
             >
@@ -159,13 +155,13 @@ export default class CreateSupportTicket extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   largeInput: {
-    flex: 1
+    flex: 1,
   },
   content: {
     padding: 20,
-    paddingVertical: 40
+    paddingVertical: 40,
   },
 });

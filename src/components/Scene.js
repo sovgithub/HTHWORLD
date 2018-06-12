@@ -7,7 +7,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { gradients } from 'styles';
 import { InteractionManager, StyleSheet, ViewPropTypes } from 'react-native';
 import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
-import { Layout, Body, Header, Footer } from 'components/Layout';
+import { Layout, Body, Header, Footer } from 'components/Base';
 
 const DismissableView = withDismissableKeyboard(View);
 

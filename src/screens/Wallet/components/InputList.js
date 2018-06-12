@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { StyleSheet, ScrollView, View, Image, TouchableOpacity } from "react-native";
 
 import Button from "components/Button";
-import MenuHeader from "components/MenuHeader";
 import Input from "components/Input";
 import T from "components/Typography";
 
@@ -34,6 +33,8 @@ export default class InputList extends Component {
     }
   }
 
+  getRef = c => (this.scrollView = c);
+
   isCompleted = answers => {
     return answers.every(v => !!v);
   };
@@ -49,6 +50,7 @@ export default class InputList extends Component {
   };
 
   handleNextButton = () => {
+    this.scrollView.scrollTo({ x: 0, y: 0, animated: true });
     this.props.saveAndContinue();
   };
 
@@ -58,21 +60,12 @@ export default class InputList extends Component {
 
     return (
       <View style={styles.container}>
-        <MenuHeader
-          leftAction={(
-            <TouchableOpacity onPress={onCancel}>
-              <Image source={require('assets/bck.png')} />
-            </TouchableOpacity>
-          )}
-          title="Recover Wallet"
-          multipage={true}
-          currentPage={2}
-          totalPages={3}
-        />
-        <T.Heading style={styles.headingStyle}>
-          Enter Seed Phrase
-        </T.Heading>
-        <ScrollView bounces={false} style={styles.bodyContainer}>
+        <T.Heading style={styles.headingStyle}>Enter Seed Phrase</T.Heading>
+        <ScrollView
+          bounces={false}
+          style={styles.bodyContainer}
+          ref={this.getRef}
+        >
           {answers.map((answer, i) => {
             return (
               <Input

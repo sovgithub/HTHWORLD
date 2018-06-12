@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-import { Layout, Body, Header, Footer } from 'components/Layout';
+import { Layout, Body, Header, Footer } from 'components/Base';
 import { colors } from 'styles';
 import Input from 'components/Input';
 import Button from 'components/Button';

@@ -1,34 +1,33 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Image,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  View
-} from "react-native";
-import ValueStatement from "components/ValueStatement";
-import RoundedButton from "components/RoundedButton";
-import SectionHeader from "components/SectionHeader";
-import TradeItem from "components/TradeItem";
-import { getCoinMetadata } from "lib/currency-metadata";
-import { Intervals } from "components/GetCurrencyHistory";
-import { getColors } from "styles";
-import NavigatorService from "lib/navigator";
-import Icon from "components/Icon";
+  View,
+} from 'react-native';
+import ValueStatement from 'components/ValueStatement';
+import RoundedButton from 'components/RoundedButton';
+import SectionHeader from 'components/SectionHeader';
+import TradeItem from 'components/TradeItem';
+import { getCoinMetadata } from 'lib/currency-metadata';
+import { Intervals } from 'components/GetCurrencyHistory';
+import { getColors } from 'styles';
+import NavigatorService from 'lib/navigator';
+import Icon from 'components/Icon';
 import Card from 'components/Card';
 import T from 'components/Typography';
-import MenuHeader from 'components/MenuHeader';
 import Scene from 'components/Scene';
-import {TYPE_SEND, TYPE_REQUEST} from 'screens/SendRequest/constants';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 export default class CoinInformation extends React.Component {
   static propTypes = {
     pricing: PropTypes.shape({
       price: PropTypes.shape({
         price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired
-      })
+          .isRequired,
+      }),
     }).isRequired,
     transactions: PropTypes.arrayOf(
       PropTypes.shape({
@@ -39,24 +38,24 @@ export default class CoinInformation extends React.Component {
         to: PropTypes.string,
         isTrade: PropTypes.bool,
         tradePrice: PropTypes.number,
-        value: PropTypes.string
+        value: PropTypes.string,
       })
     ).isRequired,
     wallet: PropTypes.shape({
       id: PropTypes.string.isRequired,
       symbol: PropTypes.string.isRequired,
       balance: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-        .isRequired
+        .isRequired,
     }),
     updateTransaction: PropTypes.func.isRequired,
     showReceiveModal: PropTypes.func.isRequired,
     showSendModal: PropTypes.func.isRequired,
-    getCurrencyHistory: PropTypes.func.isRequired
+    getCurrencyHistory: PropTypes.func.isRequired,
   };
 
   state = {
-    selected: null
-  }
+    selected: null,
+  };
 
   componentWillUpdate(props) {
     if (
@@ -71,35 +70,38 @@ export default class CoinInformation extends React.Component {
   }
 
   componentWillMount() {
+    this.props.navigation.setParams({
+      title: this.props.wallet.symbol,
+      leftAction: 'back',
+    });
     this.props.getCurrencyHistory(this.props.wallet.symbol, {
       limit: 2,
-      interval: Intervals.all
+      interval: Intervals.all,
     });
   }
 
-  handleSelect = (/* selected*/) => () =>
-    'disabled for now';
-    /* this.setState({selected: selected === this.state.selected ? null : selected});*/
+  handleSelect = (/* selected*/) => () => 'disabled for now';
+  /* this.setState({selected: selected === this.state.selected ? null : selected});*/
 
   handleView = () => {
     NavigatorService.navigate('ViewAddress', {
-      wallet: this.props.wallet.id
+      wallet: this.props.wallet.id,
     });
-  }
+  };
 
   handleRequest = () => {
     NavigatorService.navigate('SendRequest', {
       type: TYPE_REQUEST,
-      wallet: this.props.wallet.id
+      wallet: this.props.wallet.id,
     });
-  }
+  };
 
   handleSend = () => {
     NavigatorService.navigate('SendRequest', {
       type: TYPE_SEND,
-      wallet: this.props.wallet.id
+      wallet: this.props.wallet.id,
     });
-  }
+  };
 
   render() {
     const { transactions, pricing, wallet, isSignedIn } = this.props;
@@ -107,11 +109,6 @@ export default class CoinInformation extends React.Component {
 
     return (
       <Scene>
-        <MenuHeader
-          title={wallet.symbol}
-          leftAction="back"
-          rightAction="menu"
-        />
         <ScrollView style={[styles.flex, styles.scrollView]}>
           <View style={styles.container}>
             <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
@@ -155,9 +152,14 @@ export default class CoinInformation extends React.Component {
             </View>
           </View>
           <View>
-            <SectionHeader style={styles.sectionHeader}>Recent Activity</SectionHeader>
+            <SectionHeader style={styles.sectionHeader}>
+              Recent Activity
+            </SectionHeader>
             {transactions.map((transaction, i) => (
-              <TouchableOpacity key={transaction.hash} onPress={this.handleSelect(i)}>
+              <TouchableOpacity
+                key={transaction.hash}
+                onPress={this.handleSelect(i)}
+              >
                 <TradeItem
                   wallet={wallet}
                   transaction={transaction}
@@ -173,45 +175,45 @@ export default class CoinInformation extends React.Component {
   }
 }
 
-const buttonBackgroundColor = "rgba(255,255,255, 0.05)";
-const buttonTextColor = "white";
+const buttonBackgroundColor = 'rgba(255,255,255, 0.05)';
+const buttonTextColor = 'white';
 
 const styles = StyleSheet.create({
   flex: {
-    flex: 1
+    flex: 1,
   },
   scrollView: {
-    backgroundColor: "transparent",
+    backgroundColor: 'transparent',
   },
   container: {
     paddingTop: 40,
     padding: 15,
-    flexDirection: "column",
+    flexDirection: 'column',
   },
   heading: {
     marginBottom: 20,
-    color: 'white'
+    color: 'white',
   },
   cardStyle: {
-    width: '100%'
+    width: '100%',
   },
   imageContainer: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: 10,
-    borderRadius: 30
+    borderRadius: 30,
   },
   image: {
     width: 30,
     height: 30,
-    resizeMode: "contain"
+    resizeMode: 'contain',
   },
   holdings: {
-    marginVertical: 40
+    marginVertical: 40,
   },
   actionButtonContainer: {
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'center',
-    marginVertical: 15
+    marginVertical: 15,
   },
   actionButton: {
     flex: 1,
@@ -221,6 +223,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   actionButtonText: {
-    color: "#707c98"
-  }
+    color: '#707c98',
+  },
 });
