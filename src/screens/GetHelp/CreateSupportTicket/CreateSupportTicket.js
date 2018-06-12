@@ -22,11 +22,13 @@ export default class CreateSupportTicket extends Component {
     showErrors: false,
     answers: {
       email_address: '',
+      name: '',
       subject: '',
       description: '',
     },
     errors: {
       email_address: false,
+      name: false,
       subject: false,
       description: false,
     },
@@ -59,13 +61,14 @@ export default class CreateSupportTicket extends Component {
       (!email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/) &&
         'Must be a valid email'),
     description: !description && 'A description is required',
+    name: !name && 'A name is required',
   });
 
   submit = async () => {
     Keyboard.dismiss();
 
     const { errors, answers } = this.state;
-    if (errors.email_address || errors.subject || errors.description) {
+    if (errors.email_address || errors.subject || errors.description || errors.name) {
       return this.setState({ showErrors: true });
     }
 
@@ -119,6 +122,14 @@ export default class CreateSupportTicket extends Component {
               />
             )}
             <Input
+              placeholder="Name"
+              returnKeyType="next"
+              error={this.state.showErrors && this.state.errors.name}
+              onChangeText={this.handleChange('name')}
+              value={this.state.answers.name}
+              type="underline"
+            />
+            <Input
               placeholder="Subject"
               returnKeyType="next"
               error={this.state.showErrors && this.state.errors.subject}
@@ -139,7 +150,8 @@ export default class CreateSupportTicket extends Component {
             <Button
               disabled={
                 !this.state.answers.email_address ||
-                !this.state.answers.description
+                !this.state.answers.description ||
+                !this.state.answers.name
               }
               loading={this.state.loading}
               onPress={this.submit}
