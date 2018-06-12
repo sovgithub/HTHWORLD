@@ -19,12 +19,22 @@ export default class Signup extends Component {
   };
 
   state = {
+    answers: {
+      username: '',
+      email_address: '',
+      password: '',
+      passwordConfirmation: '',
+    },
+    errors: {
+      username: '',
+      email_address: '',
+      password: '',
+      passwordConfirmation: ''
+    },
+    showErrors: false,
+    showPasswordsMatch: false,
     loading: false,
     loggedIn: false,
-    error: false,
-    username: null,
-    email_address: null,
-    password: null,
   };
 
   handleLogInButton = () => {
@@ -32,13 +42,21 @@ export default class Signup extends Component {
   };
 
   handleFormSubmit = () => {
+    const { answers, errors } = this.state;
+
+    if (_.find(errors)) {
+      return this.setState({
+        showErrors: true
+      });
+    }
+
     const userSignupData = {
       first_name: '',
       last_name: '',
       phone_number: '',
-      email_address: this.state.email_address,
-      username: this.state.username,
-      password: this.state.password,
+      email_address: answers.email_address,
+      username: answers.username,
+      password: answers.password,
     };
 
     this.setState({ loading: true }, () =>
@@ -47,27 +65,53 @@ export default class Signup extends Component {
   };
 
   updateFormField = fieldName => text => {
-    let nextState;
+    const answers = {
+      ...this.state.answers,
+      [fieldName]: text
+    };
 
-    if (fieldName === 'passwordConfirmation') {
-      nextState = {
-        ...nextState,
-        ...{ passwordsMatch: this.state.password === text },
-      };
-    }
+    this.setState({
+      answers,
+      errors: this.validate(answers),
+      showPasswordsMatch: this.state.showPasswordsMatch || fieldName === 'passwordConfirmation'
+    });
+  };
 
-    nextState = { ...nextState, ...{ [fieldName]: text } };
-    this.setState(nextState);
+  validate = (answers) => {
+    return {
+      username:
+        !answers.username && 'Username is required'
+        || answers.username.match(/[^\w]/) && 'Username may only include numbers, letters, and _'
+        || (answers.username.length > 18 || answers.username.length < 3)
+          && 'Username must be between 3 and 18 characters'
+        || '',
+      email_address:
+        !answers.email_address && 'Email is required'
+        || !answers.email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/)
+          && 'Must be a valid email'
+        || '',
+      password:
+        !answers.password && 'Password is required'
+        || answers.password !== answers.passwordConfirmation
+        || '',
+      passwordConfirmation:
+        !answers.passwordConfirmation && 'Password confirmation is required'
+        || answers.password !== answers.passwordConfirmation
+          && 'Your passwords do not match'
+        || ''
+    };
   };
 
   safeFocus = element => _.invoke(element, 'inputRef.focus');
 
   render() {
-    const nextEnabled =
-      this.state.email_address &&
-      this.state.username &&
-      this.state.passwordsMatch;
+    const { answers, errors, showErrors, showPasswordsMatch } = this.state;
 
+    const nextEnabled =
+      answers.email_address &&
+      answers.username &&
+      answers.password &&
+      answers.password === answers.passwordConfirmation;
     const placeholderTextColor = 'rgba(255,255,255,0.75)';
 
     return (
@@ -91,7 +135,8 @@ export default class Signup extends Component {
               keyboardType="email-address"
               onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
               onChangeText={this.updateFormField('email_address')}
-              value={this.state.email_address || ''}
+              value={answers.email_address}
+              error={showErrors && errors.email_address}
               type="underline"
               style={styles.input}
             />
@@ -105,7 +150,8 @@ export default class Signup extends Component {
               returnKeyType="next"
               onSubmitEditing={() => this.safeFocus(this.signupPasswordInput)}
               onChangeText={this.updateFormField('username')}
-              value={this.state.username || ''}
+              value={answers.username}
+              error={showErrors && errors.username}
               type="underline"
               style={styles.input}
             />
@@ -122,16 +168,15 @@ export default class Signup extends Component {
                 this.safeFocus(this.signupPasswordConfirmationInput)
               }
               onChangeText={this.updateFormField('password')}
-              value={this.state.password || ''}
+              value={answers.password}
+              error={showErrors && errors.password}
               type="underline"
               style={styles.input}
             />
             <Input
               style={
-                'passwordsMatch' in this.state
-                  ? this.state.passwordsMatch
-                    ? styles.inputSuccess
-                    : styles.inputError
+                (showErrors || showPasswordsMatch) && !errors.passwordConfirmation
+                  ? styles.inputSuccess
                   : {}
               }
               ref={el => (this.signupPasswordConfirmationInput = el)}
@@ -144,15 +189,10 @@ export default class Signup extends Component {
               secureTextEntry
               onSubmitEditing={this.handleFormSubmit}
               onChangeText={this.updateFormField('passwordConfirmation')}
-              value={this.state.passwordConfirmation || ''}
+              value={answers.passwordConfirmation}
+              error={(showErrors || showPasswordsMatch) && errors.passwordConfirmation}
               type="underline"
             />
-            {'passwordsMatch' in this.state &&
-              !this.state.passwordsMatch && (
-                <Text style={styles.inputErrorText}>
-                  Your passwords do not match
-                </Text>
-              )}
           </Body>
           <Footer>
             <Button
