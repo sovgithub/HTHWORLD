@@ -157,7 +157,7 @@ class Layout extends Component {
 
       // Animate the content in as view is fading out
       setTimeout(() => {
-        this.animatedBody.fadeIn();
+        _.invoke(this, 'animatedBody.fadeIn');
       }, 100);
     }
   };
