@@ -75,7 +75,7 @@ export default class CreateSupportTicket extends Component {
 
     try {
       const response = await api.post(
-        'https://smaugdev.hoardinvest.com/support',
+        'https://erebor-staging.hoardinvest.com/support',
         answers
       );
       if (response.success) {

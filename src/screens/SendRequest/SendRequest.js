@@ -238,7 +238,7 @@ export default class SendRequest extends Component {
       } else {
         try {
           const response = await api.post(
-            'https://smaugdev.hoardinvest.com/contacts/transaction',
+            'https://erebor-staging.hoardinvest.com/contacts/transaction',
             {
               sender: selectedWallet.publicAddress,
               amount: Number(this.state.amount),
@@ -286,7 +286,7 @@ export default class SendRequest extends Component {
         wallet => wallet.id === this.state.selectedId
       );
       try {
-        await api.post('https://smaugdev.hoardinvest.com/request_funds', {
+        await api.post('https://erebor-staging.hoardinvest.com/request_funds', {
           email_address: this.props.emailAddress,
           amount: Number(this.state.amount),
           recipient: this.state.contact,

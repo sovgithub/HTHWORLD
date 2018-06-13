@@ -34,7 +34,7 @@ export function signOut() {
 }
 
 // TODO: abstract these into dev/prod files
-const checkUserSessionUrl = `https://smaugdev.hoardinvest.com/users/`;
+const checkUserSessionUrl = `https://erebor-staging.hoardinvest.com/users/`;
 /**
  * checkSessionApi
  * @return {async function} Calls the backend to check the status of the user's session.
@@ -90,7 +90,7 @@ export async function setUser(user) {
 }
 
 // TODO: abstract these into dev/prod files
-const logoutUrl = `https://smaugdev.hoardinvest.com/logout/`;
+const logoutUrl = `https://erebor-staging.hoardinvest.com/logout/`;
 /**
  * Logout
  * @return {async function} Calls the backen to remove the user's session.
