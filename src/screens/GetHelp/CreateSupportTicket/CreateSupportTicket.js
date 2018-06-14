@@ -56,7 +56,7 @@ export default class CreateSupportTicket extends Component {
   measureLargeInput = ({ nativeEvent }) =>
     this.setState({ largeInputHeight: nativeEvent.layout.height - 80 });
 
-  validate = ({ email_address, description }) => ({
+  validate = ({ email_address, description, name }) => ({
     email_address:
       (!email_address && 'An email is required') ||
       (!email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/) &&
