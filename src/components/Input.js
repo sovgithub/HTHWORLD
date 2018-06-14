@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import T from 'components/Typography';
 import Icon from 'components/Icon';
+import { Try } from 'components/Conditional';
 import { colors } from 'styles';
 
 export default class Input extends Component {
@@ -145,7 +146,7 @@ export default class Input extends Component {
           secureTextEntry={this.props.secureTextEntry}
           selectionColor={colors.active}
         />
-        {this.props.error && typeof this.props.error === 'string' && (
+        <Try condition={this.props.error && typeof this.props.error === 'string'}>
           <View>
             <View style={styles.errorContainer}>
               <View style={styles.errorIconContainer}>
@@ -158,7 +159,7 @@ export default class Input extends Component {
               <T.Small style={styles.errorText}>{this.props.error}</T.Small>
             </View>
           </View>
-        )}
+        </Try>
       </View>
     );
   }
