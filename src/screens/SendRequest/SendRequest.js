@@ -16,6 +16,8 @@ import Conditional, { Try, Otherwise } from 'components/Conditional';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 import NavigatorService from 'lib/navigator';
 import api from 'lib/api';
+import Icon from 'components/Icon';
+import Scanner from 'components/Camera';
 
 import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
 
@@ -306,14 +308,48 @@ export default class SendRequest extends Component {
     }
   };
 
+  clearValue = stateKey => {
+    this.setState({ [stateKey]: '' });
+  };
+
+  handleShowQRScanner = () => {
+    this.setState({ showQRScanner: true });
+  };
+
+  handleCloseQRScanner = () => {
+    this.setState({ showQRScanner: false });
+  };
+
+  handleQRRead = result => {
+    this.setState({ toAddress: result, showQRScanner: false });
+  };
+
   renderRecipientType = recipientType => {
     if (recipientType === RECIPIENT_TYPE_ADDRESS) {
+      const addressActions = (
+        <React.Fragment>
+          <TouchableOpacity
+            style={styles.action}
+            onPress={() => this.clearValue('toAddress')}
+          >
+            <Icon icon="ios-close-circle" style={{ size: 20 }} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.actionQR}
+            onPress={this.handleShowQRScanner}
+          >
+            <Icon icon="ios-qr-scanner" style={{ size: 20 }} />
+          </TouchableOpacity>
+        </React.Fragment>
+      );
+
       return (
         <UnderlineInput
           style={styles.input}
           label="Address"
           onChangeText={this.handleChangeToAddress}
           value={this.state.toAddress}
+          actions={addressActions}
         />
       );
     }
@@ -369,6 +405,12 @@ export default class SendRequest extends Component {
                 </View>
                 <LoadingSpinner />
               </View>
+            </Try>
+            <Try condition={this.state.showQRScanner}>
+              <Scanner
+                onClose={this.handleCloseQRScanner}
+                onRead={this.handleQRRead}
+              />
             </Try>
             <Try condition={!wallets.length}>
               <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>
@@ -528,6 +570,9 @@ const styles = StyleSheet.create({
   },
   fiat: {
     flex: 1,
+    marginLeft: 10,
+  },
+  actionQR: {
     marginLeft: 10,
   },
 });
