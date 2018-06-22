@@ -65,7 +65,7 @@ export default class CreateSupportTicket extends Component {
     name: !name && 'A name is required',
   });
 
-  submit = async () => {
+  submit = () => {
     Keyboard.dismiss();
 
     const { errors, answers } = this.state;
@@ -73,15 +73,32 @@ export default class CreateSupportTicket extends Component {
       return this.setState({ showErrors: true });
     }
 
-    try {
-      const response = await api.post(
-        'https://erebor-staging.hoardinvest.com/support',
-        answers
-      );
-      if (response.success) {
+    this.setState({
+      loading: true
+    }, async () => {
+      try {
+        const response = await api.post(
+          'https://erebor-staging.hoardinvest.com/support',
+          answers
+        );
+        if (response.success) {
+          Alert.alert(
+            'Your ticket has been submitted successfully!',
+            'A confirmation email should be sent soon',
+            [
+              {
+                text: 'OK',
+                onPress: () => NavigatorService.navigate('GetHelp'),
+              },
+            ]
+          );
+        } else {
+          throw new Error('Unknown Error');
+        }
+      } catch (e) {
         Alert.alert(
-          'Your ticket has been submitted successfully!',
-          'A confirmation email should be sent soon',
+          'An error occurred while submitting your ticket.',
+          'Please try again, or email us directly at support@hoardinvest.com',
           [
             {
               text: 'OK',
@@ -89,21 +106,8 @@ export default class CreateSupportTicket extends Component {
             },
           ]
         );
-      } else {
-        throw new Error('Unknown Error');
       }
-    } catch (e) {
-      Alert.alert(
-        'An error occurred while submitting your ticket.',
-        'Please try again, or email us directly at support@hoardinvest.com',
-        [
-          {
-            text: 'OK',
-            onPress: () => NavigatorService.navigate('GetHelp'),
-          },
-        ]
-      );
-    }
+    });
   };
 
   render() {
