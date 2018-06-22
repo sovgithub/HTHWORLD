@@ -24,8 +24,9 @@ import {
 } from './actions';
 
 import {bigNumberToEther} from 'lib/formatters';
+import { getNetworkForCoin } from 'lib/currency-metadata';
 
-export const network = ethers.providers.networks.ropsten;
+export const network = ethers.providers.networks[getNetworkForCoin(SYMBOL_ETH)];
 export const provider = ethers.providers.getDefaultProvider(network);
 
 export const actionBridgeChannel = channel();

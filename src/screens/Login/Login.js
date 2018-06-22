@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
-import Config from 'react-native-config';
+import { getNetworkForCoin } from 'lib/currency-metadata';
 import T from 'components/Typography';
 import { Try } from 'components/Conditional';
 
@@ -95,7 +95,7 @@ export default class Login extends Component {
               <View>
                 <T.Small
                   style={styles.network}
-                >{`Using: ${Config.ETHNET.toUpperCase()}`}</T.Small>
+                >{`Using: ${getNetworkForCoin('ETH').toUpperCase()}`}</T.Small>
               </View>
             </Try>
           </Header>

@@ -3,8 +3,9 @@ import Config from 'react-native-config';
 
 import { SYMBOL_ETH } from "containers/App/constants";
 import { bigNumberToEther } from 'lib/formatters';
+import { getNetworkForCoin } from 'lib/currency-metadata';
 
-const network = Config.ETHNET;  // Ex: <Project Root>/.env.test
+const network = getNetworkForCoin(SYMBOL_ETH);  // Ex: <Project Root>/.env.test
 const provider = ethers.providers.getDefaultProvider(network);
 
 if (__DEV__) {

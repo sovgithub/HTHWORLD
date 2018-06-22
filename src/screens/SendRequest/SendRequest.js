@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Validator from 'wallet-address-validator';
+import Config from 'react-native-config';
 import { Alert, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
 
 import { colors } from 'styles';
@@ -218,6 +220,12 @@ export default class SendRequest extends Component {
       return false;
     } else if (recipientType === RECIPIENT_TYPE_ADDRESS && !toAddress) {
       Alert.alert('Please an address to send to');
+      return false;
+    } else if (
+      recipientType === RECIPIENT_TYPE_ADDRESS &&
+      !Validator.validate(toAddress, selectedWallet.symbol, Config.CURRENCY_NETWORK_TYPE === 'main' ? 'prod' : 'testnet')
+    ) {
+      Alert.alert(`This is not a valid ${selectedWallet.symbol} address`);
       return false;
     } else if (recipientType === RECIPIENT_TYPE_OTHER && !contact) {
       Alert.alert('Please enter a contact to send to');

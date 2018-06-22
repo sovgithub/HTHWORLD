@@ -3,10 +3,11 @@ import Bitcoin from 'bitcoinjs-lib';
 import Config from 'react-native-config';
 
 import { SYMBOL_BTC } from "containers/App/constants";
+import { getNetworkForCoin } from "lib/currency-metadata";
 
 const config = {
   endpoint: Config.BTC_NODE_ENDPOINT,
-  network: Bitcoin.networks[Config.BTC_NODE_NETWORK],
+  network: Bitcoin.networks[getNetworkForCoin(SYMBOL_BTC)],
   coinPath: Config.BTC_COINPATH
 };
 

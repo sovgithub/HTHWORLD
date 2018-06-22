@@ -1,3 +1,5 @@
+import Config from 'react-native-config';
+
 export function getCoinMetadata(symbol) {
   switch (symbol) {
     case 'LTC':
@@ -35,5 +37,35 @@ export function getCoinMetadata(symbol) {
         image: null,
         fullName: '',
       };
+  }
+}
+
+export function getNetworkForCoin(symbol) {
+  if (Config.CURRENCY_NETWORK_TYPE === 'main') {
+    switch (symbol) {
+      case 'ETH':
+      case 'BOAR': {
+        return 'homestead';
+      }
+      case 'BTC':
+      case 'LTC': {
+        return 'mainnet';
+      }
+      default:
+        return 'test';
+    }
+  } else {
+    switch (symbol) {
+      case 'ETH':
+      case 'BOAR': {
+        return 'ropsten';
+      }
+      case 'BTC':
+      case 'LTC': {
+        return 'testnet';
+      }
+      default:
+        return 'test';
+    }
   }
 }

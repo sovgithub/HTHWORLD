@@ -1,3 +1,3 @@
 export default {
-  ETHNET: 'ropsten',
+  CURRENCY_NETWORK_TYPE: 'test',
 };
