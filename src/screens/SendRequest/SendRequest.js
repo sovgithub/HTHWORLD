@@ -204,18 +204,33 @@ export default class SendRequest extends Component {
       this.setNavigation
     );
 
-  validate({ amount, toAddress, selectedId, contact, recipientType }) {
+  validate({ amount, toAddress, selectedId, contact, recipientType, transactionType}) {
+    let verb;
+    if (transactionType == TYPE_SEND) verb = 'send';
+    if (transactionType == TYPE_REQUEST) verb = 'request';
+
     const numAmount = Number(amount);
     const selectedWallet = this.props.wallets.find(
       wallet => wallet.id === selectedId
     );
     if (!selectedId) {
-      Alert.alert('Please select a wallet to send from');
+      let preposition;
+      let noun;
+      if (transactionType == TYPE_SEND) {
+        noun = 'wallet';
+        preposition = 'from';
+      }
+      if (transactionType == TYPE_REQUEST) {
+        noun = 'coin';
+        preposition = 'with';
+      }
+
+      Alert.alert(`Please select a ${noun} to ${verb} ${preposition}`);
       return false;
     } else if (!numAmount) {
-      Alert.alert('Please input an amount to send');
+      Alert.alert(`Please input an amount to ${verb}`);
       return false;
-    } else if (numAmount > selectedWallet.balance) {
+    } else if (transactionType === TYPE_SEND && numAmount > selectedWallet.balance) {
       Alert.alert('You cannot send more than you have in your wallet');
       return false;
     } else if (recipientType === RECIPIENT_TYPE_ADDRESS && !toAddress) {
@@ -228,7 +243,11 @@ export default class SendRequest extends Component {
       Alert.alert(`This is not a valid ${selectedWallet.symbol} address`);
       return false;
     } else if (recipientType === RECIPIENT_TYPE_OTHER && !contact) {
-      Alert.alert('Please enter a contact to send to');
+      let preposition;
+      if (transactionType == TYPE_SEND) preposition = 'to';
+      if (transactionType == TYPE_REQUEST) preposition = 'from';
+
+      Alert.alert(`Please enter a contact to ${verb} ${preposition}`);
       return false;
     } else {
       return true;
