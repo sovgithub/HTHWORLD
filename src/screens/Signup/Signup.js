@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Try } from 'components/Conditional';
 
 import { Layout, Body, Header, Footer } from 'components/Base';
 import { colors } from 'styles';
@@ -31,11 +32,22 @@ export default class Signup extends Component {
       password: '',
       passwordConfirmation: ''
     },
+    errorMessage: '',
     showErrors: false,
     showPasswordsMatch: false,
     loading: false,
     loggedIn: false,
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.loading && !props.signup.requesting && !props.signup.successful) {
+      return {
+        loading: false,
+        errorMessage: props.signup.error
+      };
+    }
+    return null;
+  }
 
   handleLogInButton = () => {
     this.props.navigation.navigate('Login');
@@ -124,6 +136,11 @@ export default class Signup extends Component {
             </T.SubHeading>
           </Header>
           <Body>
+            <Try condition={!!this.state.errorMessage}>
+              <View style={styles.errorMessageContainer}>
+                <T.Light style={styles.errorMessage}>{this.state.errorMessage}</T.Light>
+              </View>
+            </Try>
             <Input
               ref={el => (this.signupEmailAddressInput = el)}
               autoCapitalize="none"
@@ -227,6 +244,19 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
     resizeMode: 'cover',
+  },
+  errorMessageContainer: {
+    backgroundColor: '#ff6161',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 5,
+    margin: 20,
+  },
+  errorMessage: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   input: {
     marginBottom: 15,

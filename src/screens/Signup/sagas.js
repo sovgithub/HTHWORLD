@@ -12,6 +12,7 @@
 import { call, put } from 'redux-saga/effects';
 import { SIGNUP_SUCCESS, SIGNUP_ERROR } from './constants';
 import api from 'lib/api';
+import { getErrorMessage } from 'lib/api-errors';
 
 // TODO: abstract these into dev/prod files
 const signupUrl = `https://erebor-staging.hoardinvest.com/users/`;
@@ -83,7 +84,7 @@ export default function* signupFlow(action) {
     // TODO: return nice-looking errors to the user
     yield put({
       type: SIGNUP_ERROR,
-      error: error.errors && error.errors[0] && error.errors[0].message || error.message
+      error: getErrorMessage(error)
     });
   }
 

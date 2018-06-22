@@ -4,7 +4,7 @@ const initialState = {
   requesting: false,
   successful: false,
   messages: [],
-  errors: []
+  error: null
 };
 
 export default function SignupReducer(state = initialState, action) {
@@ -14,7 +14,7 @@ export default function SignupReducer(state = initialState, action) {
         requesting: true,
         successful: false,
         messages: [],
-        errors: []
+        error: null
       };
 
     case SIGNUP_SUCCESS:
@@ -22,7 +22,7 @@ export default function SignupReducer(state = initialState, action) {
         requesting: false,
         successful: true,
         messages: [],
-        errors: []
+        error: null
       };
 
     // Append any errors to the current state, if any.
@@ -31,12 +31,7 @@ export default function SignupReducer(state = initialState, action) {
         requesting: false,
         successful: false,
         messages: [],
-        errors: [
-          ...state.errors,
-          {
-            body: action.error.toString()
-          }
-        ]
+        error: action.error
       };
     }
 

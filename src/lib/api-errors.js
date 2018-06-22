@@ -16,11 +16,15 @@ export async function handleApiErrors(response) {
       const json = await response.json();
       errors.push(...json.errors);
     } catch (e) {
-      errors = 'An error occurred validating your request.';
+      errors.push('An error occurred validating your request.');
     }
     const err = new Error('An API Error occurred');
     err.errors = errors;
     throw err;
   }
   return response;
+}
+
+export function getErrorMessage(error) {
+  return (error.errors && error.errors[0] && error.errors[0].message) || error.message;
 }

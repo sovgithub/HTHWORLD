@@ -4,13 +4,13 @@ const initialState = {
   requesting: false,
   successful: false,
   messages: [],
-  errors: []
+  error: null
 };
 
 export default function loginReducer(state = initialState, action) {
   switch (action.type) {
     case LOGIN_REQUESTING:
-      return { requesting: true, successful: false, messages: [], errors: [] };
+      return { requesting: true, successful: false, messages: [], error: null };
 
     case LOGIN_SUCCESS:
       return {
@@ -18,7 +18,7 @@ export default function loginReducer(state = initialState, action) {
         requesting: false,
         successful: true,
         messages: [],
-        errors: []
+        error: null
       };
 
     // Append any errors to the current state, if any.
@@ -28,7 +28,7 @@ export default function loginReducer(state = initialState, action) {
         requesting: false,
         successful: false,
         messages: [],
-        errors: [...state.errors, ...action.errors]
+        error: action.error
       };
 
     default:

@@ -21,7 +21,7 @@ export default class Login extends Component {
     loginRequest: PropTypes.func.isRequired,
     appReady: PropTypes.bool.isRequired,
     login: PropTypes.shape({
-      errors: PropTypes.arrayOf(PropTypes.object),
+      error: PropTypes.string,
     }),
   };
 
@@ -39,7 +39,7 @@ export default class Login extends Component {
       return {
         loading: false,
         error: true,
-        errorMessage: props.login.errors && props.login.errors[0] && props.login.errors[0].message
+        errorMessage: props.login.error
       };
     }
     return null;

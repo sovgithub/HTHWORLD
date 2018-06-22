@@ -12,6 +12,7 @@
 import { call, put } from 'redux-saga/effects';
 import { LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
 import api from 'lib/api';
+import { getErrorMessage } from 'lib/api-errors';
 
 // TODO: abstract these into dev/prod files
 const loginUrl = `https://erebor-staging.hoardinvest.com/login/`;
@@ -47,7 +48,7 @@ export default function* loginFlow({ username_or_email, password }) {
     currentUser = null;
     yield put({
       type: LOGIN_ERROR,
-      errors: e.errors,
+      error: getErrorMessage(e)
     });
   }
 
