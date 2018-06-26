@@ -8,7 +8,7 @@ import { Layout, Body, Header } from 'components/Base';
 import { colors } from 'styles';
 import Scanner from './Scanner';
 
-export default class MyComponent extends Component {
+export default class Camera extends Component {
   state = {
     result: {},
   };
