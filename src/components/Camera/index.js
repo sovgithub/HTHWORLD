@@ -11,6 +11,7 @@ import Scanner from './Scanner';
 export default class Camera extends Component {
   state = {
     result: {},
+    address: ''
   };
 
   handleOnRead = result => {
@@ -58,7 +59,7 @@ export default class Camera extends Component {
               editable={true}
               onSubmitEditing={this.handleFormSubmit}
               onChangeText={this.updateFormField('address')}
-              value={this.state.address || ''}
+              value={this.state.address}
               type="underline"
             />
             <Button
