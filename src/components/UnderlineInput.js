@@ -7,6 +7,7 @@ import {
   Animated,
   ViewPropTypes,
 } from 'react-native';
+import { Try } from 'components/Conditional';
 
 export default class Input extends Component {
   static propTypes = {
@@ -130,9 +131,9 @@ export default class Input extends Component {
           ref={this.setupInputRef}
           secureTextEntry={this.props.secureTextEntry}
         />
-        {this.props.actions && (
+        <Try condition={this.props.actions}>
           <View style={styles.actionIcons}>{this.props.actions}</View>
-        )}
+        </Try>
       </View>
     );
   }
