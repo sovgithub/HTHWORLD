@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Alert, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import memoize from 'lodash/memoize';
 
 import { colors } from 'styles';
 import Scene from 'components/Scene';
@@ -308,9 +309,9 @@ export default class SendRequest extends Component {
     }
   };
 
-  clearValue = stateKey => {
+  clearValue = memoize(stateKey => () => {
     this.setState({ [stateKey]: '' });
-  };
+  });
 
   handleShowQRScanner = () => {
     this.setState({ showQRScanner: true });
@@ -330,7 +331,7 @@ export default class SendRequest extends Component {
         <React.Fragment>
           <TouchableOpacity
             style={styles.action}
-            onPress={() => this.clearValue('toAddress')}
+            onPress={this.clearValue('toAddress')}
           >
             <Icon icon="ios-close-circle" style={{ size: 20 }} />
           </TouchableOpacity>
