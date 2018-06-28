@@ -7,6 +7,7 @@ import {
   Animated,
   ViewPropTypes,
 } from 'react-native';
+import { Try } from 'components/Conditional';
 
 export default class Input extends Component {
   static propTypes = {
@@ -130,6 +131,9 @@ export default class Input extends Component {
           ref={this.setupInputRef}
           secureTextEntry={this.props.secureTextEntry}
         />
+        <Try condition={this.props.actions}>
+          <View style={styles.actionIcons}>{this.props.actions}</View>
+        </Try>
       </View>
     );
   }
@@ -139,6 +143,12 @@ const placeholderTextColorDark = 'rgba(255,255,255,0.5)';
 const placeholderTextColorLight = 'rgba(0,0,0,0.4)';
 
 const styles = StyleSheet.create({
+  actionIcons: {
+    position: 'absolute',
+    right: 0,
+    padding: 10,
+    flexDirection: 'row',
+  },
   input_wrapper: {
     marginTop: 10,
     marginBottom: 10,

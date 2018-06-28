@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Clipboard, StyleSheet, Image } from 'react-native';
+import QRCode from 'react-native-qrcode';
+import { colors } from 'styles';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
 import Button from 'components/Button';
@@ -25,6 +27,15 @@ export default class ViewAddress extends Component {
       <Scene preload={false}>
         <View style={styles.container}>
           <Try condition={!!wallet}>
+            <View style={styles.qrcontainer}>
+              <QRCode
+                value={wallet.publicAddress}
+                size={200}
+                fgColor={colors.grayDarker}
+                bgColor={colors.white}
+              />
+            </View>
+
             <View style={styles.addressContainer}>
               <T.GrayedOut style={styles.title}>
                 {getCoinMetadata(wallet.symbol).fullName} Address
@@ -56,6 +67,11 @@ const styles = StyleSheet.create({
   addressContainer: {
     flex: 1,
     justifyContent: 'center',
+  },
+  qrcontainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 15,
