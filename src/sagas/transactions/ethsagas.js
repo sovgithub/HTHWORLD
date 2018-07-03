@@ -40,11 +40,29 @@ export const getTransactionCount = asyncMemoize(provider.getTransactionCount.bin
 export const getBlock = asyncMemoize(provider.getBlock.bind(provider));
 export const getBalance = asyncMemoize(provider.getBalance.bind(provider));
 
-export const timestampPriceApi = new RequestLimiter(
+export const timestampLimiter = new RequestLimiter(
   'https://min-api.cryptocompare.com/data/pricehistorical',
   {numRequests: 15, perTimestamp: 1000},
   (response) => response.Type === 99
 );
+
+
+const HISTORICAL_PRICE_CACHE_KEY = 'HISTORICAL_PRICE_CACHE';
+export async function timestampPriceApi(request) {
+  const storedValue = await AsyncStorage.getItem(`${HISTORICAL_PRICE_CACHE_KEY}:${request}`);
+
+  if (storedValue) {
+    return JSON.parse(storedValue);
+  }
+
+  const response = await timestampLimiter.makeRequest(request);
+
+  if (response) {
+    await AsyncStorage.setItem(`${HISTORICAL_PRICE_CACHE_KEY}:${request}`, JSON.stringify(response));
+  }
+
+  return response;
+}
 
 export default function* ethTransactionsSagaWatcher() {
   yield all([
@@ -234,7 +252,7 @@ export function* searchBlockForTransactions(blockNumber, addresses, transactionC
 
       // and check if we have either sent or recieved funds
       if (addresses.includes(transaction.to) || addresses.includes(transaction.from)) {
-        const price = yield call(timestampPriceApi.makeRequest, `?fsym=ETH&tsyms=USD&ts=${block.timestamp}`);
+        const price = yield call(timestampPriceApi, `?fsym=ETH&tsyms=USD&ts=${block.timestamp}`);
         const action = {
           ...transaction,
           timeMined: block.timestamp * 1000,
