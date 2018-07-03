@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Validator from 'wallet-address-validator';
 import Config from 'react-native-config';
-import { Alert, StyleSheet, View, TouchableOpacity, Image } from 'react-native';
+import { Alert, StyleSheet, View, TouchableOpacity } from 'react-native';
 import memoize from 'lodash/memoize';
 
 import { colors } from 'styles';
@@ -11,41 +11,39 @@ import T from 'components/Typography';
 import UnderlineInput from 'components/UnderlineInput';
 import LoadingSpinner from 'components/LoadingSpinner';
 import Button from 'components/Button';
-import CurrencySelection from './CurrencySelection';
 import SelectableImageHeader from 'components/SelectableImageHeader';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { formatDecimalInput } from 'lib/formatters';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
-import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
+import {
+  TYPE_SEND,
+  TYPE_REQUEST,
+  RECIPIENT_TYPE_ADDRESS,
+  RECIPIENT_TYPE_OTHER,
+} from 'screens/SendRequest/constants';
+import Icon from 'components/Icon';
 import NavigatorService from 'lib/navigator';
 import api from 'lib/api';
-import Icon from 'components/Icon';
-import Scanner from 'components/Camera';
 
 import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
 
 const amountFormatter = formatDecimalInput(8);
 
-const RECIPIENT_TYPE_ADDRESS = 'RECIPIENT_TYPE_ADDRESS';
-const RECIPIENT_TYPE_OTHER = 'RECIPIENT_TYPE_OTHER';
-
 const initialState = {
   amount: '',
   fiat: '',
-  contact: '',
+  recipient: '',
   recipientType: RECIPIENT_TYPE_ADDRESS,
-  toAddress: '',
   selectedId: null,
-  selectingWallet: false,
 };
 
 export default class SendRequest extends Component {
   static propTypes = {
     navigation: PropTypes.shape({
-      setParams: PropTypes.func.isRequired,
       state: PropTypes.shape({
         params: PropTypes.shape({
           type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]),
+          wallet: PropTypes.string,
         }),
       }),
     }),
@@ -62,7 +60,6 @@ export default class SendRequest extends Component {
     isSignedIn: PropTypes.bool.isRequired,
     getCurrencyPrice: PropTypes.func.isRequired,
     sendFunds: PropTypes.func.isRequired,
-    requestFunds: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -92,34 +89,13 @@ export default class SendRequest extends Component {
         transactionType === TYPE_SEND
           ? RECIPIENT_TYPE_ADDRESS
           : RECIPIENT_TYPE_OTHER,
-      canChangeRecipientType: transactionType === TYPE_SEND && props.isSignedIn,
       selectedId: selectedId ? selectedId : initialState.selectedId,
     };
   }
 
   componentDidMount() {
     this.fetchPrice();
-    this.setNavigation();
   }
-
-  setNavigation = () => {
-    const headerProps = {};
-
-    if (this.state.selectingWallet) {
-      headerProps.title = 'Select Currency';
-      headerProps.leftAction = (
-        <TouchableOpacity onPress={this.toggleCoinSelector}>
-          <Image source={require('assets/closeicon.png')} />
-        </TouchableOpacity>
-      );
-    } else {
-      headerProps.title = null; // reset and don't override title
-      headerProps.leftAction = 'back';
-      headerProps.rightAction = 'menu';
-    }
-
-    this.props.navigation.setParams(headerProps);
-  };
 
   fetchPrice = () => {
     const selectedWallet = this.props.wallets.find(
@@ -179,35 +155,31 @@ export default class SendRequest extends Component {
     });
   };
 
-  handleRecipientTypeSelection = recipientType => () =>
-    this.setState({ recipientType });
+  handleOnPressRecipient = () => NavigatorService.navigate('RecipientSelection', {
+    transactionType: this.state.transactionType,
+    isSignedIn: this.props.isSignedIn,
+    onChangeRecipient: this.handleChangeRecipient
+  });
 
-  handleChangeToAddress = value => this.setState({ toAddress: value });
+  handleChangeRecipient = ({recipientType, recipient}) => this.setState({recipientType, recipient});
 
-  handleChangeContact = value => this.setState({ contact: value });
+  handleOnPressCurrency = () => NavigatorService.navigate('CurrencyModal', {
+    onChangeCurrency: this.handleChangeCurrency,
+    selectedId: this.state.selectedId,
+  });
 
-  handleSelectCoin = value => () =>
+  handleChangeCurrency = value =>
     this.setState(
       {
         amount: '',
         fiat: '',
-        toAddress: '',
-        selectedId: value,
-        selectingWallet: false,
+        selectedId: value
       },
-      () => {
-        this.fetchPrice();
-        this.setNavigation();
-      }
+      this.fetchPrice
     );
 
-  toggleCoinSelector = () =>
-    this.setState(
-      { selectingWallet: !this.state.selectingWallet },
-      this.setNavigation
-    );
 
-  validate({ amount, toAddress, selectedId, contact, recipientType, transactionType}) {
+  validate({ amount, selectedId, recipient, recipientType, transactionType}) {
     let verb;
     if (transactionType == TYPE_SEND) verb = 'send';
     if (transactionType == TYPE_REQUEST) verb = 'request';
@@ -236,16 +208,16 @@ export default class SendRequest extends Component {
     } else if (transactionType === TYPE_SEND && numAmount > selectedWallet.balance) {
       Alert.alert('You cannot send more than you have in your wallet');
       return false;
-    } else if (recipientType === RECIPIENT_TYPE_ADDRESS && !toAddress) {
+    } else if (recipientType === RECIPIENT_TYPE_ADDRESS && !recipient) {
       Alert.alert('Please an address to send to');
       return false;
     } else if (
       recipientType === RECIPIENT_TYPE_ADDRESS &&
-      !Validator.validate(toAddress, selectedWallet.symbol, Config.CURRENCY_NETWORK_TYPE === 'main' ? 'prod' : 'testnet')
+      !Validator.validate(recipient, selectedWallet.symbol, Config.CURRENCY_NETWORK_TYPE === 'main' ? 'prod' : 'testnet')
     ) {
       Alert.alert(`This is not a valid ${selectedWallet.symbol} address`);
       return false;
-    } else if (recipientType === RECIPIENT_TYPE_OTHER && !contact) {
+    } else if (recipientType === RECIPIENT_TYPE_OTHER && !recipient) {
       let preposition;
       if (transactionType == TYPE_SEND) preposition = 'to';
       if (transactionType == TYPE_REQUEST) preposition = 'from';
@@ -259,12 +231,12 @@ export default class SendRequest extends Component {
 
   send = async () => {
     if (this.validate(this.state)) {
-      let toAddress;
+      let recipient;
       const selectedWallet = this.props.wallets.find(
         wallet => wallet.id === this.state.selectedId
       );
       if (this.state.recipientType === RECIPIENT_TYPE_ADDRESS) {
-        toAddress = this.state.toAddress;
+        recipient = this.state.recipient;
       } else {
         try {
           const response = await api.post(
@@ -272,7 +244,7 @@ export default class SendRequest extends Component {
             {
               sender: selectedWallet.publicAddress,
               amount: Number(this.state.amount),
-              recipient: this.state.contact,
+              recipient: this.state.recipient,
               currency: selectedWallet.symbol,
             }
           );
@@ -284,7 +256,7 @@ export default class SendRequest extends Component {
   have attempted to send them some funds!`
             );
           } else {
-            toAddress = response.public_key;
+            recipient = response.public_key;
           }
         } catch (e) {
           Alert.alert(
@@ -295,10 +267,10 @@ export default class SendRequest extends Component {
         }
       }
 
-      if (toAddress) {
+      if (recipient) {
         const action = this.props.sendFunds(
           this.state.selectedId,
-          toAddress,
+          recipient,
           Number(this.state.amount)
         );
 
@@ -319,7 +291,7 @@ export default class SendRequest extends Component {
         await api.post('https://erebor-staging.hoardinvest.com/request_funds', {
           email_address: this.props.emailAddress,
           amount: Number(this.state.amount),
-          recipient: this.state.contact,
+          recipient: this.state.recipient,
           currency: selectedWallet.symbol,
         });
 
@@ -340,74 +312,12 @@ export default class SendRequest extends Component {
     this.setState({ [stateKey]: '' });
   });
 
-  handleShowQRScanner = () => {
-    this.setState({ showQRScanner: true });
-  };
-
-  handleCloseQRScanner = () => {
-    this.setState({ showQRScanner: false });
-  };
-
-  handleQRRead = result => {
-    this.setState({ toAddress: result, showQRScanner: false });
-  };
-
-  renderRecipientType = recipientType => {
-    if (recipientType === RECIPIENT_TYPE_ADDRESS) {
-      const addressActions = (
-        <React.Fragment>
-          <TouchableOpacity
-            style={styles.action}
-            onPress={this.clearValue('toAddress')}
-          >
-            <Icon icon="ios-close-circle" style={{ size: 20 }} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.actionQR}
-            onPress={this.handleShowQRScanner}
-          >
-            <Icon icon="ios-qr-scanner" style={{ size: 20 }} />
-          </TouchableOpacity>
-        </React.Fragment>
-      );
-
-      return (
-        <UnderlineInput
-          style={styles.input}
-          label="Address"
-          onChangeText={this.handleChangeToAddress}
-          value={this.state.toAddress}
-          actions={addressActions}
-        />
-      );
-    }
-
-    if (recipientType === RECIPIENT_TYPE_OTHER) {
-      return (
-        <UnderlineInput
-          style={styles.input}
-          label="Phone Number, Email, or Username"
-          onChangeText={this.handleChangeContact}
-          value={this.state.contact}
-        />
-      );
-    }
-
-    return null;
-  };
-
   render() {
     const { wallets, prices } = this.props;
-    const { amount, fiat, selectedId, selectingWallet } = this.state;
+    const { amount, fiat, selectedId } = this.state;
 
     const selectedWallet = wallets.find(wallet => wallet.id === selectedId);
     const isLoadingPrice = !prices[selectedWallet.symbol];
-
-    const walletTitle = selectedWallet
-      ? `Sending ${getCoinMetadata(selectedWallet.symbol).fullName} ${
-          selectedWallet.symbol
-        }`
-      : 'Select Currency';
 
     const currencyDisplay = selectedWallet && {
       title: getCoinMetadata(selectedWallet.symbol).fullName,
@@ -434,79 +344,46 @@ export default class SendRequest extends Component {
                 <LoadingSpinner />
               </View>
             </Try>
-            <Try condition={this.state.showQRScanner}>
-              <Scanner
-                onClose={this.handleCloseQRScanner}
-                onRead={this.handleQRRead}
-              />
-            </Try>
             <Try condition={!wallets.length}>
               <T.GrayedOut>You have not yet created any wallets</T.GrayedOut>
             </Try>
-            <Try condition={selectingWallet}>
-              <CurrencySelection
-                title={walletTitle}
-                items={wallets.map(wallet => {
-                  const metadata = getCoinMetadata(wallet.symbol);
-
-                  return {
-                    image: metadata.image,
-                    onPress: this.handleSelectCoin(wallet.id),
-                    selected: selectedId === wallet.id,
-                    subtitle: `${wallet.symbol}    ${wallet.balance}`,
-                    title: metadata.fullName,
-                  };
-                })}
-              />
-            </Try>
-
             <Otherwise>
               <View style={[styles.flex1, styles.contentContainer]}>
                 <T.Heading style={styles.subheading}>{title}</T.Heading>
                 <View>
-                  <View style={{ flexDirection: 'row' }}>
-                    <Conditional>
-                      <Try
-                        condition={
-                          this.state.canChangeRecipientType &&
-                          this.state.recipientType === RECIPIENT_TYPE_ADDRESS
-                        }
-                      >
-                        <Button
-                          type="text"
-                          onPress={this.handleRecipientTypeSelection(
-                            RECIPIENT_TYPE_OTHER
-                          )}
-                          style={styles.button}
-                        >
-                          Send to a contact instead!
-                        </Button>
-                      </Try>
-                      <Try
-                        condition={
-                          this.state.canChangeRecipientType &&
-                          this.state.recipientType === RECIPIENT_TYPE_OTHER
-                        }
-                      >
-                        <Button
-                          type="text"
-                          onPress={this.handleRecipientTypeSelection(
-                            RECIPIENT_TYPE_ADDRESS
-                          )}
-                          style={styles.button}
-                        >
-                          Send to an address instead!
-                        </Button>
-                      </Try>
-                    </Conditional>
-                  </View>
-                  {this.renderRecipientType(this.state.recipientType)}
+                  <TouchableOpacity onPress={this.handleOnPressRecipient}>
+                    <View style={styles.recipientContainer}>
+                      <Conditional>
+                        <Try condition={!!this.state.recipient}>
+                          <T.Light style={styles.recipientHeader}>
+                            Recipient
+                          </T.Light>
+                        </Try>
+                        <Otherwise>
+                          <View style={{height: 22}}/>
+                        </Otherwise>
+                      </Conditional>
+                      <View style={styles.recipientContent}>
+                        <T.Light style={styles.recipientText}>
+                          {this.state.recipient || 'Recipient'}
+                        </T.Light>
+                        <Try condition={!!this.state.recipient}>
+                          <TouchableOpacity
+                            style={styles.action}
+                            onPress={this.clearValue('recipient')}
+                          >
+                            <Icon icon="ios-close-circle" style={{ size: 20, color: 'rgba(255,255,255,0.5)' }} />
+                          </TouchableOpacity>
+                        </Try>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
                 </View>
                 <SelectableImageHeader
                   title="Currency"
                   emptyText="Select Currency"
                   selection={currencyDisplay}
-                  onPress={this.toggleCoinSelector}
+                  onPress={this.handleOnPressCurrency}
                 />
                 <View style={styles.valueInputs}>
                   <View style={styles.amount}>
@@ -552,6 +429,26 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   input: {},
+  recipientContainer: {
+    paddingVertical: 10,
+    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.grayLight,
+  },
+  recipientHeader: {
+    color: 'rgba(255,255,255,0.5)',
+    marginBottom: 5,
+  },
+  recipientContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  recipientText: {
+    color: 'white',
+  },
+  action: {
+    marginBottom: -10,
+  },
   button: {
     flex: 1,
     margin: 20,
@@ -598,9 +495,6 @@ const styles = StyleSheet.create({
   },
   fiat: {
     flex: 1,
-    marginLeft: 10,
-  },
-  actionQR: {
     marginLeft: 10,
   },
 });

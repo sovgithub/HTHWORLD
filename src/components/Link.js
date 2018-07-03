@@ -8,13 +8,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'components/Icon';
+import Conditional, { Try } from 'components/Conditional';
 import NavigatorService from 'lib/navigator';
 import T from 'components/Typography';
 
 import memoize from 'lodash/fp/memoize';
 
-const navigateTo = memoize((to) => () => NavigatorService.navigate(to));
-const externalLinkTo = memoize((to) => () => {
+const navigateTo = memoize(to => () => NavigatorService.navigate(to));
+const externalLinkTo = memoize(to => () => {
   Linking.openURL(to).catch(err => {
     if (__DEV__) {
       // eslint-disable-next-line no-console
@@ -23,18 +24,38 @@ const externalLinkTo = memoize((to) => () => {
   });
 });
 
-export default function Link({title, to, external, icon, arrowOverride}) {
-  const onPress = external ? externalLinkTo(to) : navigateTo(to);
+export default function Link({
+  title,
+  onPress,
+  to,
+  external,
+  icon,
+  arrowOverride,
+  style,
+}) {
+  let action;
+  if (onPress) {
+    action = onPress;
+  } else {
+    action = external ? externalLinkTo(to) : navigateTo(to);
+  }
+
   return (
-    <TouchableOpacity style={styles.container} onPress={onPress}>
+    <TouchableOpacity style={[styles.container, style]} onPress={action}>
       <View style={styles.leftSide}>
-        {icon && <Image source={icon} style={styles.icon}/>}
+        <Conditional>
+          <Try condition={!!icon && typeof icon === 'number'}>
+            <Image source={icon} style={styles.icon} />
+          </Try>
+          <Try condition={!!icon}>{icon}</Try>
+        </Conditional>
         <T.Light style={styles.title}>{title}</T.Light>
       </View>
-      {arrowOverride
-        ? arrowOverride
-        : <Icon icon="ios-arrow-forward" style={{size: 10}} />
-      }
+      {arrowOverride ? (
+        arrowOverride
+      ) : (
+        <Icon icon="ios-arrow-forward" style={{ size: 10 }} />
+      )}
     </TouchableOpacity>
   );
 }
@@ -46,12 +67,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(151, 151, 151, 0.21)'
+    borderBottomColor: 'rgba(151, 151, 151, 0.21)',
   },
   leftSide: {
     flex: 1,
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
   },
   icon: {
     width: 20,
@@ -60,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginLeft: 20,
-    color: 'white'
+    color: 'white',
   },
 });
 

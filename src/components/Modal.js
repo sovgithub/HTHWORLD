@@ -1,97 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import Button from 'components/Button';
-import withDismissableKeyboard from 'hocs/withDismissableKeyboard';
+import { StyleSheet } from 'react-native';
+import { Layout, Body, Header, Footer } from 'components/Base';
+import { Header as NavHeader } from 'components/Base/Navigation';
+import T from 'components/Typography';
 
-const DismissableView = withDismissableKeyboard(View);
-
-export default function Modal({
-  children,
-  height,
-  show,
-  title,
-  onCancel,
-  actionButtons,
-}) {
+export default function Modal({ children, footer, title }) {
   return (
-    <DismissableView
-      style={[styles.container, { display: show ? 'flex' : 'none', height }]}
-    >
-      <TouchableOpacity onPress={onCancel}>
-        <Text style={styles.xButton}>X</Text>
-      </TouchableOpacity>
-      <Text style={styles.header}>{title}</Text>
-      {children}
-      <View style={styles.actionButtons}>
-        {actionButtons.map(({ type, onPress, text, disabled }) => (
-          <Button
-            key={text}
-            disabled={disabled}
-            type={type}
-            style={styles.button}
-            onPress={onPress}
-          >
-            {text}
-          </Button>
-        ))}
-      </View>
-    </DismissableView>
+    <Layout style={styles.container} preload={false}>
+      <Header>
+        <NavHeader leftAction="cancel" rightAction={null} />
+      </Header>
+      <Body style={styles.body}>
+        <T.Heading style={styles.heading}>{title}</T.Heading>
+        {children}
+      </Body>
+      {!!footer && <Footer style={styles.footer}>{footer}</Footer>}
+    </Layout>
   );
 }
 
 Modal.propTypes = {
   children: PropTypes.node,
-  height: PropTypes.string,
-  show: PropTypes.bool.isRequired,
-  title: PropTypes.string.isRequired,
-  onCancel: PropTypes.func.isRequired,
-  actionButtons: PropTypes.arrayOf(
-    PropTypes.shape({
-      disabled: PropTypes.bool,
-      text: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      onPress: PropTypes.func.isRequired,
-    })
-  ),
-};
-
-Modal.defaultProps = {
-  height: '95%',
-  actionButtons: [],
+  footer: PropTypes.node,
+  title: PropTypes.string,
 };
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    paddingHorizontal: 20,
-    paddingTop: 30,
-    left: 10,
-    right: 10,
-    bottom: 0,
-    backgroundColor: '#FFF',
-    borderTopRightRadius: 20,
-    borderTopLeftRadius: 20,
+    zIndex: 100,
+    backgroundColor: '#3d434a',
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    flex: 1,
+    marginTop: 40,
   },
-  xButton: {
-    alignSelf: 'flex-end',
-    fontSize: 30,
-    fontWeight: '100',
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  body: {
+    flex: 1,
+    padding: 20,
   },
-  header: {
-    fontSize: 25,
-    fontWeight: '900',
+  heading: {
+    marginBottom: 20,
+    color: 'white',
   },
-  actionButtons: {
-    width: '100%',
+  footer: {
     marginTop: 'auto',
-    alignItems: 'center',
-  },
-  button: {
-    width: '100%',
-    overflow: 'hidden',
+    padding: 20,
   },
 });

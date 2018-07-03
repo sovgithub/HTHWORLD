@@ -28,10 +28,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   getCurrencyPrice,
-  sendFunds,
-  requestFunds(...args) {
-    console.log('hey you', args);
-  }
+  sendFunds
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendRequest);

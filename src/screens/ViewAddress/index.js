@@ -3,7 +3,6 @@ import ViewAddress from './ViewAddress';
 import { walletSelector } from 'screens/Wallet/selectors';
 
 const mapStateToProps = (state, ownProps) => {
-  console.log(state, ownProps);
   const selectedId = ownProps.navigation.state
         && ownProps.navigation.state.params
         && ownProps.navigation.state.params.wallet;

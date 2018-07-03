@@ -13,7 +13,6 @@ export const userUidSelector = createSelector(
 );
 
 export const isSignedInSelector = createSelector(
-  userSelector,
   userUidSelector,
   user_uid => !!user_uid
 );
