@@ -15,6 +15,7 @@ import Store from 'components/Pin/Store';
 import Menu from './Menu';
 
 import {
+  cardStyle,
   transitionConfig,
   getNavigationOptions,
 } from 'components/Base/Navigation';
@@ -67,7 +68,7 @@ const RouteConfigs = {
       },
       {
         headerMode: 'float',
-        cardStyle: { backgroundColor: 'transparent' },
+        cardStyle,
         transitionConfig,
       }
     ),

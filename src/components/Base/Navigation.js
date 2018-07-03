@@ -186,6 +186,14 @@ export const transitionConfig = () => {
   };
 };
 
+export const cardStyle = {
+  backgroundColor: 'transparent',
+  shadowColor: undefined,
+  shadowOffset: undefined,
+  shadowOpacity: undefined,
+  shadowRadius: undefined
+};
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',

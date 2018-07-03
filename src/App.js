@@ -19,6 +19,7 @@ import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 
 import {
+  cardStyle,
   transitionConfig,
   getNavigationOptions,
 } from 'components/Base/Navigation';
@@ -61,7 +62,7 @@ const RoutingStack = createStackNavigator(
         backgroundColor: 'transparent'
       }
     },
-    cardStyle: { backgroundColor: 'transparent' },
+    cardStyle,
     transitionConfig,
   }
 );

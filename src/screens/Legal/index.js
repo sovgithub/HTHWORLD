@@ -1,6 +1,7 @@
 import { createStackNavigator } from 'react-navigation';
 
 import {
+  cardStyle,
   transitionConfig,
   getNavigationOptions,
 } from 'components/Base/Navigation';
@@ -48,7 +49,7 @@ const RoutingStack = createStackNavigator(
   },
   {
     headerMode: 'float',
-    cardStyle: { backgroundColor: 'transparent' },
+    cardStyle,
     transitionConfig,
   }
 );
