@@ -21,16 +21,22 @@ export default class Signup extends Component {
 
   state = {
     answers: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
       username: '',
       email_address: '',
       password: '',
       passwordConfirmation: '',
     },
     errors: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
       username: '',
       email_address: '',
       password: '',
-      passwordConfirmation: ''
+      passwordConfirmation: '',
     },
     errorMessage: '',
     showErrors: false,
@@ -62,17 +68,8 @@ export default class Signup extends Component {
       });
     }
 
-    const userSignupData = {
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      email_address: answers.email_address,
-      username: answers.username,
-      password: answers.password,
-    };
-
     this.setState({ loading: true }, () =>
-      this.props.signupRequest(userSignupData)
+      this.props.signupRequest(answers)
     );
   };
 
@@ -142,18 +139,63 @@ export default class Signup extends Component {
               </View>
             </Try>
             <Input
+              ref={el => (this.signupFirstNameInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="First Name"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={() => this.safeFocus(this.signupLastNameInput)}
+              onChangeText={this.updateFormField('first_name')}
+              value={answers.first_name}
+              error={showErrors && errors.first_name}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
+              ref={el => (this.signupLastNameInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="Last Name"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={() => this.safeFocus(this.signupEmailAddressInput)}
+              onChangeText={this.updateFormField('last_name')}
+              value={answers.last_name}
+              error={showErrors && errors.last_name}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
               ref={el => (this.signupEmailAddressInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
               editable={!this.state.loading}
-              placeholder="you@email.com"
+              placeholder="Email"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
               keyboardType="email-address"
-              onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
+              onSubmitEditing={() => this.safeFocus(this.signupPhoneInput)}
               onChangeText={this.updateFormField('email_address')}
               value={answers.email_address}
               error={showErrors && errors.email_address}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
+              ref={el => (this.signupPhoneInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="Phone Number"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
+              onChangeText={this.updateFormField('phone_number')}
+              value={answers.phone_number}
+              error={showErrors && errors.phone_number}
               type="underline"
               style={styles.input}
             />
