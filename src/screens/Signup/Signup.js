@@ -127,7 +127,7 @@ export default class Signup extends Component {
       <Layout preload={false} keyboard>
         <Body scrollable style={styles.body}>
           <Header>
-            <T.Heading style={styles.headingText}>Your Information</T.Heading>
+            <T.Heading style={styles.headingText}>Create Account</T.Heading>
             <T.SubHeading style={styles.subHeadingText}>
               Enter your personal information
             </T.SubHeading>
@@ -253,23 +253,16 @@ export default class Signup extends Component {
               type="underline"
             />
           </Body>
-          <Footer>
+          <Footer style={styles.footer}>
             <Button
-              type="primary"
+              type="base"
+              style={styles.submitButton}
               onPress={this.handleFormSubmit}
               loading={this.state.loading}
               disabled={!nextEnabled}
             >
               {LANG_SIGN_UP_TEXT}
             </Button>
-            <TouchableOpacity
-              style={styles.buttonContainerAlt}
-              onPress={this.handleLogInButton}
-            >
-              <Text style={styles.buttonTextAlt}>
-                Already have an account? Log In!
-              </Text>
-            </TouchableOpacity>
           </Footer>
         </Body>
       </Layout>
@@ -312,32 +305,26 @@ const styles = StyleSheet.create({
   inputErrorText: {
     color: colors.error,
   },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
+  footer: {
+    marginTop: 40,
+    marginHorizontal: -20,
+    marginBottom: 0,
   },
-  buttonText: {
-    textAlign: 'center',
-    color: '#223252',
-    fontWeight: '700',
-  },
-  buttonContainerAlt: {
-    backgroundColor: 'transparent',
-    paddingVertical: 10,
-    marginTop: 20,
-  },
-  buttonTextAlt: {
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700',
+  submitButton: {
+    borderRadius: 0,
   },
   headingText: {
     color: colors.white,
     marginTop: 25,
-    marginBottom: 25,
+    marginBottom: 15,
   },
   subHeadingText: {
     color: colors.white,
+    fontFamily: "HelveticaNeue",
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "300",
+    letterSpacing: 0,
     marginBottom: 15,
   },
 });

@@ -35,7 +35,15 @@ export let navigatorRef;
 const RoutingStack = createStackNavigator(
   {
     Login: { screen: Login, navigationOptions: { header: null } },
-    Signup: { screen: Signup, navigationOptions: { header: null } },
+    Signup: {
+      screen: Signup,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          leftAction: 'back',
+          rightAction: null,
+        }),
+    },
     Menu: { screen: Menu, navigationOptions: { header: null } },
     Mnemonic: {
       screen: Mnemonic,
