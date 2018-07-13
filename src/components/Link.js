@@ -43,12 +43,14 @@ export default function Link({
   return (
     <TouchableOpacity style={[styles.container, style]} onPress={action}>
       <View style={styles.leftSide}>
-        <Conditional>
-          <Try condition={!!icon && typeof icon === 'number'}>
-            <Image source={icon} style={styles.icon} />
-          </Try>
-          <Try condition={!!icon}>{icon}</Try>
-        </Conditional>
+        <View style={styles.iconWrapper}>
+          <Conditional>
+            <Try condition={!!icon && typeof icon === 'number'}>
+              <Image source={icon} style={styles.icon} />
+            </Try>
+            <Try condition={!!icon}>{icon}</Try>
+          </Conditional>
+        </View>
         <T.Light style={styles.title}>{title}</T.Light>
       </View>
       {arrowOverride ? (
@@ -77,8 +79,10 @@ const styles = StyleSheet.create({
   icon: {
     width: 20,
     height: 20,
-    marginRight: 20,
     resizeMode: 'contain',
+  },
+  iconWrapper: {
+    marginRight: 20,
   },
   title: {
     color: 'white',
