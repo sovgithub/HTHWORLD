@@ -93,9 +93,6 @@ export const Header = props => {
 };
 
 Header.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
   title: PropTypes.string,
   leftAction: PropTypes.oneOfType([
     PropTypes.string,
