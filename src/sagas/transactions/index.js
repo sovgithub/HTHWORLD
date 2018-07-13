@@ -52,6 +52,14 @@ export function* hydrate() {
   if (transactions) {
     const transactionsArray = Object.values(transactions);
     for (const transaction of transactionsArray) {
+      if (!transaction.symbol) {
+        if (transaction.raw) {
+          transaction.symbol = SYMBOL_ETH;
+        }
+        else {
+          transaction.symbol = SYMBOL_BTC;
+        }
+      }
       yield put(transactionFound(transaction, true));
     }
   }
