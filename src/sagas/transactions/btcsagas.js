@@ -52,6 +52,7 @@ export function* fetchTransactions(action) {
         yield put({
           type: TRANSACTION_FOUND,
           transaction: {
+            symbol: SYMBOL_BTC,
             timeMined: transaction.time * 1000,
             blockNumber: transaction.blockheight,
             isTrade: false,

@@ -7,7 +7,7 @@ import {
 const initialState = {
   fiatTrades: [],
   transactions: {},
-  transactionsByAddress: {},
+  transactionsBySymbolAddress: {},
   hydrationCompleted: false
 };
 
@@ -56,8 +56,10 @@ export default function reducer(state = initialState, action) {
       };
     }
     case TRANSACTION_FOUND: {
-      const transactionToState = state.transactionsByAddress[action.transaction.to] || [];
-      const transactionFromState = state.transactionsByAddress[action.transaction.from] || [];
+      const transactionAddressesBySymbol = state.transactionsBySymbolAddress[action.transaction.symbol] || {};
+
+      const transactionToState = transactionAddressesBySymbol[action.transaction.to] || [];
+      const transactionFromState = transactionAddressesBySymbol[action.transaction.from] || [];
 
       const getFullTransaction = (hash) => hash === action.transaction.hash ? action.transaction : state.transactions[hash];
       const sorter = (a, b) => getFullTransaction(b).blockNumber - getFullTransaction(a).blockNumber;
@@ -75,10 +77,13 @@ export default function reducer(state = initialState, action) {
           ...state.transactions,
           [action.transaction.hash]: action.transaction
         },
-        transactionsByAddress: {
-          ...state.transactionsByAddress,
-          [action.transaction.to]: newTransactionTo,
-          [action.transaction.from]: newTransactionFrom
+        transactionsBySymbolAddress: {
+          ...state.transactionsBySymbolAddress,
+          [action.transaction.symbol]: {
+            ...transactionAddressesBySymbol,
+            [action.transaction.to]: newTransactionTo,
+            [action.transaction.from]: newTransactionFrom
+          }
         }
       };
     }
@@ -89,9 +94,10 @@ export default function reducer(state = initialState, action) {
 }
 
 export const selectors = {
-  getTransactionsForAddress(address) {
+  getTransactionsForSymbolAddress(symbol, address) {
     return store => {
-      const hashes = store.transactions.transactionsByAddress[address] || [];
+      const transactionAddressesBySymbol = store.transactions.transactionsBySymbolAddress[symbol] || {};
+      const hashes = transactionAddressesBySymbol[address] || [];
       return hashes.map(hash => store.transactions.transactions[hash]);
     };
   }

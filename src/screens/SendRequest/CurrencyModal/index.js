@@ -7,7 +7,7 @@ const mapStateToProps = state => {
   const wallets = allWalletsSelector(state);
   const mostUsedWallet = wallets.reduce(
     (previouslyMostUsed, wallet) => {
-      const transactions = transactionSelectors.getTransactionsForAddress(wallet.publicAddress)(state);
+      const transactions = transactionSelectors.getTransactionsForSymbolAddress(wallet.symbol, wallet.publicAddress)(state);
       if (transactions && transactions.length > previouslyMostUsed.count) {
         return {wallet, count: transactions.length};
       }
