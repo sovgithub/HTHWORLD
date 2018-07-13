@@ -26,8 +26,7 @@ export default class CoinInformation extends React.Component {
   static propTypes = {
     pricing: PropTypes.shape({
       price: PropTypes.shape({
-        price: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-          .isRequired,
+        price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
     }).isRequired,
     transactions: PropTypes.arrayOf(
@@ -107,6 +106,7 @@ export default class CoinInformation extends React.Component {
   render() {
     const { transactions, pricing, wallet, isSignedIn } = this.props;
     const metadata = getCoinMetadata(wallet.symbol);
+    const price = pricing.price.price || 0;
 
     return (
       <Scene>
@@ -116,7 +116,7 @@ export default class CoinInformation extends React.Component {
             <Card
               cardStyle={styles.cardStyle}
               title={wallet.symbol}
-              amount={(wallet.balance * pricing.price.price).toFixed(2)}
+              amount={(wallet.balance * price).toFixed(2)}
               change={`${wallet.balance.toFixed(2)} ${wallet.symbol}`}
               colors={['#2889d6', '#123665']}
             />
