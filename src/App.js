@@ -65,7 +65,8 @@ const RoutingStack = createStackNavigator(
     headerMode: 'float',
     navigationOptions: {
       headerStyle: {
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        borderBottomWidth: 0
       }
     },
     cardStyle,
