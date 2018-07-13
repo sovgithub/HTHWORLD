@@ -38,7 +38,10 @@ export default class CoinInformation extends React.Component {
         to: PropTypes.string,
         isTrade: PropTypes.bool,
         tradePrice: PropTypes.number,
-        value: PropTypes.string,
+        value: PropTypes.oneOfType([
+          PropTypes.string,
+          PropTypes.number
+        ]),
       })
     ).isRequired,
     wallet: PropTypes.shape({
