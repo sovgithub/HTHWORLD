@@ -6,6 +6,7 @@ import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import memoize from 'lodash/memoize';
 
 import { colors } from 'styles';
+import Contact from './Contact';
 import Scene from 'components/Scene';
 import T from 'components/Typography';
 import UnderlineInput from 'components/UnderlineInput';
@@ -244,7 +245,7 @@ export default class SendRequest extends Component {
             {
               sender: selectedWallet.publicAddress,
               amount: Number(this.state.amount),
-              recipient: this.state.recipient,
+              recipient: this.getValueFromRecipient(this.state.recipient),
               currency: selectedWallet.symbol,
             }
           );
@@ -291,7 +292,7 @@ export default class SendRequest extends Component {
         await api.post('https://erebor-staging.hoardinvest.com/request_funds', {
           email_address: this.props.emailAddress,
           amount: Number(this.state.amount),
-          recipient: this.state.recipient,
+          recipient: this.getValueFromRecipient(this.state.recipient),
           currency: selectedWallet.symbol,
         });
 
@@ -311,6 +312,21 @@ export default class SendRequest extends Component {
   clearValue = memoize(stateKey => () => {
     this.setState({ [stateKey]: '' });
   });
+
+  getValueFromRecipient(recipient) {
+    if (typeof recipient === 'object') {
+      return [
+        recipient.emailAddresses
+          && recipient.emailAddresses[0]
+          && recipient.emailAddresses[0].email,
+        recipient.phoneNumbers
+          && recipient.phoneNumbers[0]
+          && recipient.phoneNumbers[0].number
+      ].find(v => v);
+    } else {
+      return recipient;
+    }
+  }
 
   render() {
     const { wallets, prices } = this.props;
@@ -367,9 +383,16 @@ export default class SendRequest extends Component {
                         </Otherwise>
                       </Conditional>
                       <View style={styles.recipientContent}>
-                        <T.Light style={styles.recipientText}>
-                          {this.state.recipient || recipientEmptyText}
-                        </T.Light>
+                        <Conditional>
+                          <Try condition={!!this.state.recipient && typeof this.state.recipient === 'object'}>
+                            <Contact contact={this.state.recipient} />
+                          </Try>
+                          <Otherwise>
+                            <T.Light style={styles.recipientText}>
+                              {this.state.recipient || recipientEmptyText}
+                            </T.Light>
+                          </Otherwise>
+                        </Conditional>
                         <Conditional>
                           <Try condition={!!this.state.recipient}>
                             <TouchableOpacity
@@ -450,6 +473,7 @@ const styles = StyleSheet.create({
   recipientContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   recipientText: {
     color: 'white',
