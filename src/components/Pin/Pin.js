@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Image, Text, View, StyleSheet } from 'react-native';
+import { Image, View, StyleSheet, TextInput } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import T from 'components/Typography';
 import InputList from './InputList';
-import Keyboard from './Keyboard';
 import { validateKey } from './utils';
 
 const LANG_ENTER_STRING = 'Please enter your PIN.';
@@ -44,18 +43,11 @@ export default class Pin extends Component {
     }
   };
 
-  handlePinPress = value => {
-    if (value === 'DEL') {
-      const pin = this.state.pinValue.slice(0, -1);
-      this.setState({ pinValue: pin });
-      return;
-    }
-
-    const newPin = `${this.state.pinValue}${value}`;
-    if (newPin.length >= 6) {
-      this.validatePin(newPin);
+  handlePinPress = pinValue => {
+    if (pinValue.length >= 6) {
+      this.validatePin(pinValue);
     } else {
-      this.setState({ pinValue: newPin });
+      this.setState({ pinValue });
     }
   };
 
@@ -97,7 +89,13 @@ export default class Pin extends Component {
               <InputList pinLength={6} pinValue={this.state.pinValue} />
             </Animatable.View>
           </View>
-          <Keyboard handlePinPress={this.handlePinPress} />
+          <TextInput
+            autoFocus={true}
+            keyboardType="number-pad"
+            value={this.state.pinValue}
+            onChangeText={this.handlePinPress}
+            style={{display: 'none'}}
+          />
         </Animatable.View>
       );
     }
