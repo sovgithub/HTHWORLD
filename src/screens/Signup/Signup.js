@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import find from 'lodash/find';
+import invoke from 'lodash/invoke';
+import memoize from 'lodash/memoize';
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Try } from 'components/Conditional';
@@ -62,7 +64,7 @@ export default class Signup extends Component {
   handleFormSubmit = () => {
     const { answers, errors } = this.state;
 
-    if (_.find(errors)) {
+    if (find(errors)) {
       return this.setState({
         showErrors: true
       });
@@ -111,7 +113,7 @@ export default class Signup extends Component {
     };
   };
 
-  safeFocus = element => _.invoke(element, 'inputRef.focus');
+  safeFocus = memoize(element => () => invoke(element, 'inputRef.focus'));
 
   render() {
     const { answers, errors, showErrors, showPasswordsMatch } = this.state;
@@ -146,7 +148,7 @@ export default class Signup extends Component {
               placeholder="First Name"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
-              onSubmitEditing={() => this.safeFocus(this.signupLastNameInput)}
+              onSubmitEditing={this.safeFocus(this.signupLastNameInput)}
               onChangeText={this.updateFormField('first_name')}
               value={answers.first_name}
               error={showErrors && errors.first_name}
@@ -161,7 +163,7 @@ export default class Signup extends Component {
               placeholder="Last Name"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
-              onSubmitEditing={() => this.safeFocus(this.signupEmailAddressInput)}
+              onSubmitEditing={this.safeFocus(this.signupEmailAddressInput)}
               onChangeText={this.updateFormField('last_name')}
               value={answers.last_name}
               error={showErrors && errors.last_name}
@@ -177,7 +179,7 @@ export default class Signup extends Component {
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
               keyboardType="email-address"
-              onSubmitEditing={() => this.safeFocus(this.signupPhoneInput)}
+              onSubmitEditing={this.safeFocus(this.signupPhoneInput)}
               onChangeText={this.updateFormField('email_address')}
               value={answers.email_address}
               error={showErrors && errors.email_address}
@@ -192,7 +194,7 @@ export default class Signup extends Component {
               placeholder="Phone Number"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
-              onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
+              onSubmitEditing={this.safeFocus(this.signupUsernameInput)}
               onChangeText={this.updateFormField('phone_number')}
               value={answers.phone_number}
               error={showErrors && errors.phone_number}
@@ -207,7 +209,7 @@ export default class Signup extends Component {
               placeholder="Username"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
-              onSubmitEditing={() => this.safeFocus(this.signupPasswordInput)}
+              onSubmitEditing={this.safeFocus(this.signupPasswordInput)}
               onChangeText={this.updateFormField('username')}
               value={answers.username}
               error={showErrors && errors.username}
@@ -223,7 +225,7 @@ export default class Signup extends Component {
               placeholderTextColor={placeholderTextColor}
               returnKeyType="go"
               secureTextEntry
-              onSubmitEditing={() =>
+              onSubmitEditing={
                 this.safeFocus(this.signupPasswordConfirmationInput)
               }
               onChangeText={this.updateFormField('password')}
