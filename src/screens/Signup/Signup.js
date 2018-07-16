@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import find from 'lodash/find';
+import invoke from 'lodash/invoke';
+import memoize from 'lodash/memoize';
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Try } from 'components/Conditional';
@@ -21,16 +23,22 @@ export default class Signup extends Component {
 
   state = {
     answers: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
       username: '',
       email_address: '',
       password: '',
       passwordConfirmation: '',
     },
     errors: {
+      first_name: '',
+      last_name: '',
+      phone_number: '',
       username: '',
       email_address: '',
       password: '',
-      passwordConfirmation: ''
+      passwordConfirmation: '',
     },
     errorMessage: '',
     showErrors: false,
@@ -56,23 +64,14 @@ export default class Signup extends Component {
   handleFormSubmit = () => {
     const { answers, errors } = this.state;
 
-    if (_.find(errors)) {
+    if (find(errors)) {
       return this.setState({
         showErrors: true
       });
     }
 
-    const userSignupData = {
-      first_name: '',
-      last_name: '',
-      phone_number: '',
-      email_address: answers.email_address,
-      username: answers.username,
-      password: answers.password,
-    };
-
     this.setState({ loading: true }, () =>
-      this.props.signupRequest(userSignupData)
+      this.props.signupRequest(answers)
     );
   };
 
@@ -114,7 +113,7 @@ export default class Signup extends Component {
     };
   };
 
-  safeFocus = element => _.invoke(element, 'inputRef.focus');
+  safeFocus = memoize(element => () => invoke(element, 'inputRef.focus'));
 
   render() {
     const { answers, errors, showErrors, showPasswordsMatch } = this.state;
@@ -130,7 +129,7 @@ export default class Signup extends Component {
       <Layout preload={false} keyboard>
         <Body scrollable style={styles.body}>
           <Header>
-            <T.Heading style={styles.headingText}>Your Information</T.Heading>
+            <T.Heading style={styles.headingText}>Create Account</T.Heading>
             <T.SubHeading style={styles.subHeadingText}>
               Enter your personal information
             </T.SubHeading>
@@ -142,18 +141,63 @@ export default class Signup extends Component {
               </View>
             </Try>
             <Input
+              ref={el => (this.signupFirstNameInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="First Name"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={this.safeFocus(this.signupLastNameInput)}
+              onChangeText={this.updateFormField('first_name')}
+              value={answers.first_name}
+              error={showErrors && errors.first_name}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
+              ref={el => (this.signupLastNameInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="Last Name"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={this.safeFocus(this.signupEmailAddressInput)}
+              onChangeText={this.updateFormField('last_name')}
+              value={answers.last_name}
+              error={showErrors && errors.last_name}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
               ref={el => (this.signupEmailAddressInput = el)}
               autoCapitalize="none"
               autoCorrect={false}
               editable={!this.state.loading}
-              placeholder="you@email.com"
+              placeholder="Email"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
               keyboardType="email-address"
-              onSubmitEditing={() => this.safeFocus(this.signupUsernameInput)}
+              onSubmitEditing={this.safeFocus(this.signupPhoneInput)}
               onChangeText={this.updateFormField('email_address')}
               value={answers.email_address}
               error={showErrors && errors.email_address}
+              type="underline"
+              style={styles.input}
+            />
+            <Input
+              ref={el => (this.signupPhoneInput = el)}
+              autoCapitalize="none"
+              autoCorrect={false}
+              editable={!this.state.loading}
+              placeholder="Phone Number"
+              placeholderTextColor={placeholderTextColor}
+              returnKeyType="next"
+              onSubmitEditing={this.safeFocus(this.signupUsernameInput)}
+              onChangeText={this.updateFormField('phone_number')}
+              value={answers.phone_number}
+              error={showErrors && errors.phone_number}
               type="underline"
               style={styles.input}
             />
@@ -165,7 +209,7 @@ export default class Signup extends Component {
               placeholder="Username"
               placeholderTextColor={placeholderTextColor}
               returnKeyType="next"
-              onSubmitEditing={() => this.safeFocus(this.signupPasswordInput)}
+              onSubmitEditing={this.safeFocus(this.signupPasswordInput)}
               onChangeText={this.updateFormField('username')}
               value={answers.username}
               error={showErrors && errors.username}
@@ -181,7 +225,7 @@ export default class Signup extends Component {
               placeholderTextColor={placeholderTextColor}
               returnKeyType="go"
               secureTextEntry
-              onSubmitEditing={() =>
+              onSubmitEditing={
                 this.safeFocus(this.signupPasswordConfirmationInput)
               }
               onChangeText={this.updateFormField('password')}
@@ -211,23 +255,16 @@ export default class Signup extends Component {
               type="underline"
             />
           </Body>
-          <Footer>
+          <Footer style={styles.footer}>
             <Button
-              type="primary"
+              type="base"
+              style={styles.submitButton}
               onPress={this.handleFormSubmit}
               loading={this.state.loading}
               disabled={!nextEnabled}
             >
               {LANG_SIGN_UP_TEXT}
             </Button>
-            <TouchableOpacity
-              style={styles.buttonContainerAlt}
-              onPress={this.handleLogInButton}
-            >
-              <Text style={styles.buttonTextAlt}>
-                Already have an account? Log In!
-              </Text>
-            </TouchableOpacity>
           </Footer>
         </Body>
       </Layout>
@@ -270,32 +307,26 @@ const styles = StyleSheet.create({
   inputErrorText: {
     color: colors.error,
   },
-  buttonContainer: {
-    backgroundColor: '#fff',
-    paddingVertical: 10,
+  footer: {
+    marginTop: 40,
+    marginHorizontal: -20,
+    marginBottom: 0,
   },
-  buttonText: {
-    textAlign: 'center',
-    color: '#223252',
-    fontWeight: '700',
-  },
-  buttonContainerAlt: {
-    backgroundColor: 'transparent',
-    paddingVertical: 10,
-    marginTop: 20,
-  },
-  buttonTextAlt: {
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700',
+  submitButton: {
+    borderRadius: 0,
   },
   headingText: {
     color: colors.white,
     marginTop: 25,
-    marginBottom: 25,
+    marginBottom: 15,
   },
   subHeadingText: {
     color: colors.white,
+    fontFamily: "HelveticaNeue",
+    fontSize: 16,
+    fontStyle: "normal",
+    fontWeight: "300",
+    letterSpacing: 0,
     marginBottom: 15,
   },
 });
