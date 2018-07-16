@@ -79,53 +79,57 @@ class Menu extends Component {
                   styles.totalHoldings,
                   this.props.allPricesLoaded
                     ? styles.totalHoldingsLoaded
-                    : styles.totalHoldingsRequesting
+                    : styles.totalHoldingsRequesting,
                 ]}
               >
                 ${this.props.totalHoldings.toFixed(2)}
               </Text>
 
-              <View style={styles.subHeadingContainer}>
-                <Text style={styles.subHeading}>Payments</Text>
+              <View style={[styles.subHeadingContainer, styles.divider]}>
+                <Text style={styles.subHeading}>Your Hoard</Text>
               </View>
               <TouchableOpacity
                 hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Wallet')}
               >
-                <Text style={styles.linkContent}>WALLET</Text>
+                <Text style={styles.linkContent}>Wallet</Text>
               </TouchableOpacity>
+
+              <View style={[styles.subHeadingContainer, styles.divider]}>
+                <Text style={styles.subHeading}>Manage</Text>
+              </View>
               <TouchableOpacity
                 hitSlop={linkHitSlop}
-                style={styles.linkWrapper}
+                style={[styles.linkWrapper, styles.divider]}
                 onPress={() => this.navigateTo('GetHelp')}
               >
-                <Text style={styles.linkContent}>GET HELP</Text>
+                <Text style={styles.linkContent}>Help</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Settings')}
               >
-                <Text style={styles.linkContent}>SETTINGS</Text>
+                <Text style={styles.linkContent}>Settings</Text>
               </TouchableOpacity>
 
-              <View style={styles.subHeadingContainer}>
-                <Text style={styles.subHeading}>Info</Text>
+              <View style={[styles.subHeadingContainer, styles.divider]}>
+                <Text style={styles.subHeading}>About</Text>
               </View>
+              <TouchableOpacity
+                style={[styles.linkWrapper, styles.divider]}
+                onPress={() => this.navigateTo('About')}
+                hitSlop={linkHitSlop}
+              >
+                <Text style={styles.linkContent}>ABOUT</Text>
+              </TouchableOpacity>
               <TouchableOpacity
                 hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Legal')}
               >
                 <Text style={styles.linkContent}>LEGAL</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                hitSlop={linkHitSlop}
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('About')}
-              >
-                <Text style={styles.linkContent}>ABOUT</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -234,11 +238,18 @@ const styles = StyleSheet.create({
   subHeadingContainer: {
     paddingVertical: 20,
     marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(151, 151, 151, 0.21)',
   },
   subHeading: {
-    color: 'darkgrey',
+    marginTop: 20,
+    color: '#9DA0A5',
+    fontSize: 22,
+    fontWeight: 'bold',
+    letterSpacing: 0,
+  },
+  divider: {
+    paddingBottom: 22,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(151, 151, 151, 0.21)',
   },
   linkContent: {
     flex: 1,
