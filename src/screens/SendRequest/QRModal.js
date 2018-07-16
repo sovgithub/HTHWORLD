@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet } from 'react-native';
-import Modal from 'components/Modal';
-import Button from 'components/Button';
+import { StyleSheet, View } from 'react-native';
 import NavigatorService from 'lib/navigator';
+import Scanner from 'components/Camera/Scanner';
+import { Header } from 'components/Base/Navigation';
+
 import { RECIPIENT_TYPE_ADDRESS } from 'screens/SendRequest/constants';
-import Scanner from 'components/Camera';
+import { colors } from 'styles';
 
 export default class QRModal extends Component {
   static propTypes = {
@@ -18,45 +19,46 @@ export default class QRModal extends Component {
     }),
   };
 
-  state = {
-    selection: null,
-    value: ''
-  }
-  changeText = value => this.setState({value});
-
-  handleSubmit = () => {
+  handleRead = (value) => {
     this.props.navigation.state.params.onChangeRecipient({
       recipientType: RECIPIENT_TYPE_ADDRESS,
-      recipient: this.state.value
+      recipient: value
     });
     NavigatorService.navigate('SendRequest');
   }
 
   render() {
     return (
-      <Modal
-        title="Scan QR"
-        footer={
-          <Button
-            style={styles.nextButton}
-            onPress={this.handleSubmit}
-          >
-            NEXT
-          </Button>
-        }
-      >
-        <Scanner
-          onRead={this.changeText}
+      <View style={styles.container}>
+        <Header
+          navigation={this.props.navigation}
+          leftAction={'cancel'}
+          title="Scan QR"
+          rightAction={null}
         />
-      </Modal>
+        <View style={styles.cameraContainer}>
+          <Scanner
+            onRead={this.handleRead}
+            isShowScanBar={false}
+            cornerColor={'rgba(230, 34, 141, 0.5)'}
+            borderColor={colors.pinkDark}
+            borderWidth={1}
+            cornerBorderWidth={2}
+            cornerBorderLength={20}
+            cornerOffsetSize={8}
+          />
+        </View>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  nextButton: {
-    borderRadius: 0,
-    marginHorizontal: -20,
-    marginBottom: -40
+  container: {
+    flex: 1,
+  },
+  cameraContainer: {
+    marginTop: 20,
+    flex: 1,
   },
 });
