@@ -67,30 +67,32 @@ export default class ViewAddress extends Component {
         )}
       >
         <Try condition={!!wallet}>
-          <View style={styles.qrcontainer} onLayout={this.measureQRAffordance}>
-            <Conditional>
-              <Try condition={this.state.QRMeasured}>
-                <View style={styles.qrbackground}>
-                  <QRCode
-                    value={wallet.publicAddress}
-                    size={this.state.QRSize}
-                    fgColor={colors.grayDarker}
-                    bgColor={colors.white}
-                  />
-                </View>
-              </Try>
-              <Otherwise>
-                <LoadingSpinner />
-              </Otherwise>
-            </Conditional>
-          </View>
-          <View style={styles.addressContainer}>
-            <Image
-              style={styles.image}
-              source={getCoinMetadata(wallet.symbol).image}
-            />
-            <T.SemiBold style={styles.address}>{wallet.publicAddress}</T.SemiBold>
-          </View>
+          <Fragment>
+            <View style={styles.qrcontainer} onLayout={this.measureQRAffordance}>
+              <Conditional>
+                <Try condition={this.state.QRMeasured}>
+                  <View style={styles.qrbackground}>
+                    <QRCode
+                      value={wallet.publicAddress}
+                      size={this.state.QRSize}
+                      fgColor={colors.grayDarker}
+                      bgColor={colors.white}
+                    />
+                  </View>
+                </Try>
+                <Otherwise>
+                  <LoadingSpinner />
+                </Otherwise>
+              </Conditional>
+            </View>
+            <View style={styles.addressContainer}>
+              <Image
+                style={styles.image}
+                source={getCoinMetadata(wallet.symbol).image}
+              />
+              <T.SemiBold style={styles.address}>{wallet.publicAddress}</T.SemiBold>
+            </View>
+          </Fragment>
         </Try>
       </Modal>
     );

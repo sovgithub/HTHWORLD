@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 export class Try extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.element,
     condition: PropTypes.bool,
   };
 
@@ -18,7 +18,7 @@ export class Try extends Component {
 
 export class Otherwise extends Component {
   static propTypes = {
-    children: PropTypes.element.isRequired,
+    children: PropTypes.element,
   };
 }
 
