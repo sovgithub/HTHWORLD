@@ -1,13 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { StyleSheet, ScrollView } from 'react-native';
 import PropTypes from 'prop-types';
 import T from 'components/Typography';
 import Modal from 'components/Modal';
 import SelectableImageRow from 'components/SelectableImageRow';
+import { Try } from 'components/Conditional';
 import NavigatorService from 'lib/navigator';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import memoize from 'lodash/memoize';
 
+const WalletType = PropTypes.shape({
+  balance: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+});
 
 export default class CurrencyModal extends Component {
   static propTypes = {
@@ -19,13 +25,8 @@ export default class CurrencyModal extends Component {
         }),
       }),
     }),
-    wallets: PropTypes.arrayOf(
-      PropTypes.shape({
-        balance: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
-        symbol: PropTypes.string.isRequired,
-      })
-    ).isRequired,
+    wallets: PropTypes.arrayOf(WalletType).isRequired,
+    mostUsedWallet: WalletType,
   };
 
   handleSelectCoin = memoize(value => () => this.handleSubmit(value))
@@ -36,13 +37,32 @@ export default class CurrencyModal extends Component {
   }
 
   render() {
+    const {wallets, mostUsedWallet} = this.props;
+
     return (
       <Modal title="Currency">
-        <T.Light style={styles.subtitle}>
+        <T.Light style={styles.text}>
           Select currency to send.
         </T.Light>
+        <Try condition={!!this.props.mostUsedWallet}>
+          <Fragment>
+            <T.SubHeading style={styles.subheading}>
+              Most Used
+            </T.SubHeading>
+            <SelectableImageRow
+              image={getCoinMetadata(mostUsedWallet.symbol).image}
+              onPress={this.handleSelectCoin(mostUsedWallet.id)}
+              selected={this.props.navigation.state.params.selectedId === mostUsedWallet.id}
+              subtitle={`${mostUsedWallet.symbol}    ${mostUsedWallet.balance}`}
+              title={getCoinMetadata(mostUsedWallet.symbol).fullName}
+            />
+          </Fragment>
+        </Try>
+        <T.SubHeading style={styles.subheading}>
+          All Currencies
+        </T.SubHeading>
         <ScrollView bounces={false}>
-          {this.props.wallets.map(wallet => {
+          {wallets.map(wallet => {
             const metadata = getCoinMetadata(wallet.symbol);
             return (
               <SelectableImageRow
@@ -62,8 +82,12 @@ export default class CurrencyModal extends Component {
 }
 
 const styles = StyleSheet.create({
-  subtitle: {
+  text: {
     color: 'white',
-    marginBottom: 40
+  },
+  subheading: {
+    marginTop: 20,
+    color: 'white',
+    fontWeight: '500',
   },
 });

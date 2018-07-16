@@ -255,6 +255,7 @@ export function* searchBlockForTransactions(blockNumber, addresses, transactionC
         const price = yield call(timestampPriceApi, `?fsym=ETH&tsyms=USD&ts=${block.timestamp}`);
         const action = {
           ...transaction,
+          symbol: SYMBOL_ETH,
           timeMined: block.timestamp * 1000,
           priceAtTimeMined: price.ETH.USD,
           gasPrice: bigNumberToEther(transaction.gasPrice),

@@ -16,7 +16,7 @@ const mapStateToProps = (store, ownProps) => {
   let transactions = [];
 
   if ([SYMBOL_BTC, SYMBOL_ETH].includes(wallet.symbol)) {
-    transactions = transactionSelectors.getTransactionsForAddress(wallet.publicAddress)(
+    transactions = transactionSelectors.getTransactionsForSymbolAddress(wallet.symbol, wallet.publicAddress)(
       store
     );
   }
