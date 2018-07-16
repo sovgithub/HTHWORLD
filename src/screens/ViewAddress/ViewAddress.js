@@ -2,13 +2,12 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Clipboard, StyleSheet, Image } from 'react-native';
 import QRCode from 'react-native-qrcode';
-import { colors } from 'styles';
+import { colors, dimensions } from 'styles';
 import T from 'components/Typography';
 import Modal from 'components/Modal';
 import Icon from 'components/Icon';
-import LoadingSpinner from 'components/LoadingSpinner';
 import { getCoinMetadata } from 'lib/currency-metadata';
-import Conditional, { Try, Otherwise } from 'components/Conditional';
+import { Try } from 'components/Conditional';
 import Link from 'components/Link';
 
 export default class ViewAddress extends Component {
@@ -21,19 +20,12 @@ export default class ViewAddress extends Component {
   };
 
   state = {
-    QRSize: 0,
-    QRMeasured: false,
     addressCopied: false,
-  }
-
-  measureQRAffordance = ({ nativeEvent: { layout: { height, width } } }) => this.setState({
-    QRSize: (height > width ? width : height) - 20,
-    QRMeasured: true
-  });
+  };
 
   copyAddress = async () => {
     await Clipboard.setString(this.props.wallet.publicAddress);
-    this.setState({addressCopied: true});
+    this.setState({ addressCopied: true });
   };
 
   render() {
@@ -42,55 +34,58 @@ export default class ViewAddress extends Component {
     return (
       <Modal
         title="Wallet Address"
-        footer={(
+        footer={
           <Fragment>
             <Link
-              icon={<Icon icon="ios-photos-outline" style={{size: 20, color: 'white'}} />}
+              icon={
+                <Icon
+                  icon="ios-photos-outline"
+                  style={{ size: 20, color: 'white' }}
+                />
+              }
               title="Copy Address"
               onPress={this.copyAddress}
               arrowOverride={
-                this.state.addressCopied
-                  ? (
-                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                      <View style={{marginVertical: -10}}>
-                        <Icon icon="ios-checkmark" style={{size: 30, color: 'green'}} />
-                      </View>
-                      <T.Light style={{color: 'green', marginLeft: 5}}>
-                        Copied
-                      </T.Light>
+                this.state.addressCopied ? (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={{ marginVertical: -10 }}>
+                      <Icon
+                        icon="ios-checkmark"
+                        style={{ size: 30, color: 'green' }}
+                      />
                     </View>
-                  )
-                  : <View />
+                    <T.Light style={{ color: 'green', marginLeft: 5 }}>
+                      Copied
+                    </T.Light>
+                  </View>
+                ) : (
+                  <View />
+                )
               }
             />
           </Fragment>
-        )}
+        }
       >
         <Try condition={!!wallet}>
           <Fragment>
-            <View style={styles.qrcontainer} onLayout={this.measureQRAffordance}>
-              <Conditional>
-                <Try condition={this.state.QRMeasured}>
-                  <View style={styles.qrbackground}>
-                    <QRCode
-                      value={wallet.publicAddress}
-                      size={this.state.QRSize}
-                      fgColor={colors.grayDarker}
-                      bgColor={colors.white}
-                    />
-                  </View>
-                </Try>
-                <Otherwise>
-                  <LoadingSpinner />
-                </Otherwise>
-              </Conditional>
+            <View style={styles.qrcontainer}>
+              <View style={styles.qrbackground}>
+                <QRCode
+                  value={wallet.publicAddress}
+                  size={dimensions.width / 2}
+                  fgColor={colors.grayDarker}
+                  bgColor={colors.white}
+                />
+              </View>
             </View>
             <View style={styles.addressContainer}>
               <Image
                 style={styles.image}
                 source={getCoinMetadata(wallet.symbol).image}
               />
-              <T.SemiBold style={styles.address}>{wallet.publicAddress}</T.SemiBold>
+              <T.SemiBold style={styles.address}>
+                {wallet.publicAddress}
+              </T.SemiBold>
             </View>
           </Fragment>
         </Try>
@@ -136,6 +131,5 @@ const styles = StyleSheet.create({
     margin: 20,
     textAlign: 'center',
   },
-  button: {
-  },
+  button: {},
 });
