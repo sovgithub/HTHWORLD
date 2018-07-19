@@ -18,6 +18,7 @@
 		070ACC7B2100FF5B00367138 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 070ACC442100FF5B00367138 /* Airship */; };
 		070ACC912100FF9800367138 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; };
 		070ACC922100FF9800367138 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		070ACD462101268B00367138 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 070ACD452101268B00367138 /* AirshipConfig.plist */; };
 		077B45EA20975797001892B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E820975797001892B8 /* Crashlytics.framework */; };
 		077B45EB20975797001892B8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E920975797001892B8 /* Fabric.framework */; };
 		0824BF54C72E4669B196E646 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F336BE3D510495F8C45243E /* SimpleLineIcons.ttf */; };
@@ -95,6 +96,7 @@
 		EA93D53035EF440B921EE8B3 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2496D4798B8432A8851B269 /* libRNCamera.a */; };
 		EDC4D120A27C40C0872FAD86 /* Exo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6CF4578BF7C1416BB3FF1C1C /* Exo-Italic.ttf */; };
 		EF669A24D59C40069F020C93 /* Exo-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5DAAEBFCB9E6441C9C035AAE /* Exo-Black.ttf */; };
+		F03452678DCA42778F48FC25 /* libUARCTModule.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0CA46E6D6A440728E9A5E19 /* libUARCTModule.a */; };
 		F0C9622C6888437BB79B4400 /* Exo-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D3FC7E0B8A749D59B77C7C8 /* Exo-SemiBold.ttf */; };
 		F6A39DBE370344E59672FB41 /* libRNRandomBytes-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5BCD905BA87D473CAFD12D3A /* libRNRandomBytes-tvOS.a */; };
 		FC73CFCDE4BF4584A0FB105D /* OpenSans-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F9B6268274AE4F4FAA402347 /* OpenSans-ExtraBoldItalic.ttf */; };
@@ -192,6 +194,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 494DD9561B0EB677009C134E;
 			remoteInfo = AirshipKit;
+		};
+		070ACCED21011A4F00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCD1C92CF90E4993B52B9115 /* UARCTModule.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6E4D17C21EBA7FAA0032DED3;
+			remoteInfo = UARCTModule;
 		};
 		0779FBAE20B854BD00B4817F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -589,6 +598,7 @@
 		070ACC442100FF5B00367138 /* Airship */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Airship; path = "../../../../Downloads/libUAirship-9/Airship"; sourceTree = "<group>"; };
 		070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirshipKit.xcodeproj; path = "../../../../Downloads/libUAirship-9/AirshipKit/AirshipKit.xcodeproj"; sourceTree = "<group>"; };
 		070ACC952101001000367138 /* Hoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Hoard.entitlements; path = Hoard/Hoard.entitlements; sourceTree = "<group>"; };
+		070ACD452101268B00367138 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		077B45E820975797001892B8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		077B45E920975797001892B8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0B5A962E4DC44C258A9C6512 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
@@ -663,11 +673,13 @@
 		CE00A9EA0ED74D9F822B790A /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		D6AA2DFF8DD64E5C8F1DBFEF /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		D8A37A75C6E648559379E3BB /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		DCD1C92CF90E4993B52B9115 /* UARCTModule.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = UARCTModule.xcodeproj; path = "../node_modules/urbanairship-react-native/ios/UARCTModule.xcodeproj"; sourceTree = "<group>"; };
 		DF04051316A1461897E122A5 /* libRCTContacts.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTContacts.a; sourceTree = "<group>"; };
 		DFE64BE15D5548BE887BAB13 /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		E6520E96FDB642CFA44EE00D /* Exo-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Exo-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/Exo-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		E8C025B0FE6D43ECB42E614C /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		F035FF9C8CCA4CF28710A68A /* TouchID.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
+		F0CA46E6D6A440728E9A5E19 /* libUARCTModule.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libUARCTModule.a; sourceTree = "<group>"; };
 		F2496D4798B8432A8851B269 /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
 		F9B6268274AE4F4FAA402347 /* OpenSans-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "OpenSans-ExtraBoldItalic.ttf"; path = "../src/assets/fonts/OpenSans-ExtraBoldItalic.ttf"; sourceTree = "<group>"; };
 		FBDFB0D8E1134FC7B7681442 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
@@ -717,6 +729,7 @@
 				3E40A349B63D45BB823FA418 /* libRNOS.a in Frameworks */,
 				29FED068F07E46F3ADD1D6C8 /* libRNRandomBytes.a in Frameworks */,
 				EA93D53035EF440B921EE8B3 /* libRNCamera.a in Frameworks */,
+				F03452678DCA42778F48FC25 /* libUARCTModule.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -820,6 +833,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		070ACCEA21011A4F00367138 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				070ACCEE21011A4F00367138 /* libUARCTModule.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0779FBA820B854BD00B4817F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -918,6 +939,7 @@
 		13B07FAE1A68108700A75B9A /* Hoard */ = {
 			isa = PBXGroup;
 			children = (
+				070ACD452101268B00367138 /* AirshipConfig.plist */,
 				070ACC952101001000367138 /* Hoard.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -1054,6 +1076,7 @@
 				A535BFF62ACB4344BDCF8059 /* RNOS.xcodeproj */,
 				DFE64BE15D5548BE887BAB13 /* RNRandomBytes.xcodeproj */,
 				256A44D7213E4FB49925E778 /* RNCamera.xcodeproj */,
+				DCD1C92CF90E4993B52B9115 /* UARCTModule.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1114,6 +1137,7 @@
 				04534FA05C7C41B191431FBE /* libRNRandomBytes.a */,
 				5BCD905BA87D473CAFD12D3A /* libRNRandomBytes-tvOS.a */,
 				F2496D4798B8432A8851B269 /* libRNCamera.a */,
+				F0CA46E6D6A440728E9A5E19 /* libUARCTModule.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -1381,6 +1405,10 @@
 					ProductGroup = 077B45A22097555D001892B8 /* Products */;
 					ProjectRef = F035FF9C8CCA4CF28710A68A /* TouchID.xcodeproj */;
 				},
+				{
+					ProductGroup = 070ACCEA21011A4F00367138 /* Products */;
+					ProjectRef = DCD1C92CF90E4993B52B9115 /* UARCTModule.xcodeproj */;
+				},
 			);
 			projectRoot = "";
 			targets = (
@@ -1468,6 +1496,13 @@
 			fileType = wrapper.cfbundle;
 			path = AirshipKitTests.xctest;
 			remoteRef = 070ACC8F2100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACCEE21011A4F00367138 /* libUARCTModule.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUARCTModule.a;
+			remoteRef = 070ACCED21011A4F00367138 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0779FBAF20B854BD00B4817F /* libBVLinearGradient.a */ = {
@@ -1854,6 +1889,7 @@
 				C80F3FD4B0F0451F94904C0E /* OpenSans-Italic.ttf in Resources */,
 				59033CE04A214E8B83C2B590 /* OpenSans-Light.ttf in Resources */,
 				5B6CFF9067504A8FA99DB39F /* OpenSans-LightItalic.ttf in Resources */,
+				070ACD462101268B00367138 /* AirshipConfig.plist in Resources */,
 				C8120453E58C40C3A8D61A04 /* OpenSans-Regular.ttf in Resources */,
 				5471304EAEA4428596D02124 /* OpenSans-SemiBold.ttf in Resources */,
 				E8CFA778D3E542D1B477B254 /* OpenSans-SemiBoldItalic.ttf in Resources */,
@@ -2036,6 +2072,7 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = HoardTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2043,6 +2080,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2084,6 +2122,7 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = HoardTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2091,6 +2130,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2138,6 +2178,7 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = Hoard/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -2179,6 +2220,7 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = Hoard/Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-traditional";
@@ -2221,12 +2263,14 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = "Hoard-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2277,12 +2321,14 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = "Hoard-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2332,12 +2378,14 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = "Hoard-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2387,12 +2435,14 @@
 					"$(SRCROOT)/../node_modules/react-native-os/ios",
 					"$(SRCROOT)/../node_modules/react-native-randombytes",
 					"$(SRCROOT)/../node_modules/react-native-camera/ios/**",
+					"$(SRCROOT)/../node_modules/urbanairship-react-native/ios/UARCTModule",
 				);
 				INFOPLIST_FILE = "Hoard-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)/System/Library/Frameworks\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
