@@ -17,11 +17,14 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 
 ### Changed
 
+* [FIX] update gradle build settings
+
 ### Removed
 
 # [v1.3] - 2018-06-01
 
 ### Added
+
 * Adds ability to change default currency to AUD
 * Adds ability to modify purchase price on send screen
 * Adds open source thanks page
@@ -32,6 +35,7 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 * Adds bitcoin transaction history support
 
 ### Changed
+
 * Fixes BOAR wallet sends
 * Fixes unscrollable pages
 * Fixes page padding bug
