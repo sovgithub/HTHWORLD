@@ -15,6 +15,9 @@
 		00E356F31AD99517003FC87E /* HoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HoardTests.m */; };
 		01A8EE1AE1344EF0B449C20F /* Exo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E65C6A3E0EF41D4BF3B3BE6 /* Exo-Medium.ttf */; };
 		06B042F8E2D24A94B079EDE8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4006A61C392C42C7815E8BD7 /* Octicons.ttf */; };
+		070ACC7B2100FF5B00367138 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 070ACC442100FF5B00367138 /* Airship */; };
+		070ACC912100FF9800367138 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; };
+		070ACC922100FF9800367138 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		077B45EA20975797001892B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E820975797001892B8 /* Crashlytics.framework */; };
 		077B45EB20975797001892B8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E920975797001892B8 /* Fabric.framework */; };
 		0824BF54C72E4669B196E646 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F336BE3D510495F8C45243E /* SimpleLineIcons.ttf */; };
@@ -140,6 +143,55 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = Hoard;
+		};
+		070ACC852100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 494DD9571B0EB677009C134E;
+			remoteInfo = AirshipKit;
+		};
+		070ACC872100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC8999771D8B625500A0CECC;
+			remoteInfo = AirshipResources;
+		};
+		070ACC892100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DF6DD6561E7A1EB8000C281A;
+			remoteInfo = "AirshipKit tvOS";
+		};
+		070ACC8B2100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DF7E739E1E7B3F0A0039F65D;
+			remoteInfo = "AirshipResources tvOS";
+		};
+		070ACC8D2100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC899CD01D8B712D00A0CECC;
+			remoteInfo = AirshipLib;
+		};
+		070ACC8F2100FF6E00367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC64F0541D8B77E3009CEF27;
+			remoteInfo = AirshipKitTests;
+		};
+		070ACC932100FF9800367138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 494DD9561B0EB677009C134E;
+			remoteInfo = AirshipKit;
 		};
 		0779FBAE20B854BD00B4817F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -514,6 +566,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				070ACC922100FF9800367138 /* AirshipKit.framework in Embed Frameworks */,
 				AA394F52207D4A2E000C2A7F /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -533,6 +586,9 @@
 		00E356F21AD99517003FC87E /* HoardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoardTests.m; sourceTree = "<group>"; };
 		03AA9E02C3B64F57A0766080 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		04534FA05C7C41B191431FBE /* libRNRandomBytes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRandomBytes.a; sourceTree = "<group>"; };
+		070ACC442100FF5B00367138 /* Airship */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Airship; path = "../../../../Downloads/libUAirship-9/Airship"; sourceTree = "<group>"; };
+		070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirshipKit.xcodeproj; path = "../../../../Downloads/libUAirship-9/AirshipKit/AirshipKit.xcodeproj"; sourceTree = "<group>"; };
+		070ACC952101001000367138 /* Hoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Hoard.entitlements; path = Hoard/Hoard.entitlements; sourceTree = "<group>"; };
 		077B45E820975797001892B8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		077B45E920975797001892B8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		0B5A962E4DC44C258A9C6512 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
@@ -645,6 +701,7 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				AA394F51207D4A2E000C2A7F /* Lottie.framework in Frameworks */,
 				AA394F4E207D47D1000C2A7F /* Lottie.framework in Frameworks */,
+				070ACC912100FF9800367138 /* AirshipKit.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				22F48E43AF6A4BB7A883E9AA /* libLottie.a in Frameworks */,
@@ -750,6 +807,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		070ACC7D2100FF6E00367138 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				070ACC862100FF6E00367138 /* AirshipKit.framework */,
+				070ACC882100FF6E00367138 /* AirshipResources.bundle */,
+				070ACC8A2100FF6E00367138 /* AirshipKit.framework */,
+				070ACC8C2100FF6E00367138 /* AirshipResources tvOS.bundle */,
+				070ACC8E2100FF6E00367138 /* libUAirship.a */,
+				070ACC902100FF6E00367138 /* AirshipKitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		0779FBA820B854BD00B4817F /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -848,6 +918,7 @@
 		13B07FAE1A68108700A75B9A /* Hoard */ = {
 			isa = PBXGroup;
 			children = (
+				070ACC952101001000367138 /* Hoard.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -999,6 +1070,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */,
+				070ACC442100FF5B00367138 /* Airship */,
 				13B07FAE1A68108700A75B9A /* Hoard */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HoardTests */,
@@ -1117,6 +1190,7 @@
 			);
 			dependencies = (
 				AA394F54207D4A2E000C2A7F /* PBXTargetDependency */,
+				070ACC942100FF9800367138 /* PBXTargetDependency */,
 			);
 			name = Hoard;
 			productName = "Hello World";
@@ -1175,6 +1249,14 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 72LCGV4DW6;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1199,6 +1281,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 070ACC7D2100FF6E00367138 /* Products */;
+					ProjectRef = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+				},
 				{
 					ProductGroup = 0779FBA820B854BD00B4817F /* Products */;
 					ProjectRef = 75DF2B557EEE42FC9BF1BE96 /* BVLinearGradient.xcodeproj */;
@@ -1340,6 +1426,48 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC862100FF6E00367138 /* AirshipKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AirshipKit.framework;
+			remoteRef = 070ACC852100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC882100FF6E00367138 /* AirshipResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AirshipResources.bundle;
+			remoteRef = 070ACC872100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC8A2100FF6E00367138 /* AirshipKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AirshipKit.framework;
+			remoteRef = 070ACC892100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC8C2100FF6E00367138 /* AirshipResources tvOS.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AirshipResources tvOS.bundle";
+			remoteRef = 070ACC8B2100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC8E2100FF6E00367138 /* libUAirship.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUAirship.a;
+			remoteRef = 070ACC8D2100FF6E00367138 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		070ACC902100FF6E00367138 /* AirshipKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AirshipKitTests.xctest;
+			remoteRef = 070ACC8F2100FF6E00367138 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0779FBAF20B854BD00B4817F /* libBVLinearGradient.a */ = {
@@ -1745,6 +1873,7 @@
 				668B2466EAA5476FBEFC3848 /* Exo-Regular.ttf in Resources */,
 				F0C9622C6888437BB79B4400 /* Exo-SemiBold.ttf in Resources */,
 				94EF9336F92B44F693BC1F5F /* Exo-SemiBoldItalic.ttf in Resources */,
+				070ACC7B2100FF5B00367138 /* Airship in Resources */,
 				55F1D331F90645BA93ADB189 /* Exo-Thin.ttf in Resources */,
 				3BCD4933851948D1BFDA0036 /* Exo-ThinItalic.ttf in Resources */,
 			);
@@ -1853,6 +1982,11 @@
 			isa = PBXTargetDependency;
 			target = 13B07F861A680F5B00A75B9A /* Hoard */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
+		};
+		070ACC942100FF9800367138 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AirshipKit;
+			targetProxy = 070ACC932100FF9800367138 /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1982,6 +2116,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
@@ -2023,6 +2158,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				FRAMEWORK_SEARCH_PATHS = (
