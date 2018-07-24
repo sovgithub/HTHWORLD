@@ -29,6 +29,7 @@ build/
 .gradle
 local.properties
 *.iml
+google-services.json
 
 # node.js
 #
@@ -58,6 +59,8 @@ buck-out/
 .env.prod
 .env.staging
 .env.test
+ios/AirshipConfig.plist
+airshipconfig.properties
 android/app/fabric.properties
 android/app/src/main/res/values/com_crashlytics_export_strings.xml
 android/app/src/main/assets/crashlytics-build.properties

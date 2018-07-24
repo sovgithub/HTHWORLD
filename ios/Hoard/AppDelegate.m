@@ -12,6 +12,7 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
+@import AirshipKit;
 
 @implementation AppDelegate
 
@@ -38,7 +39,7 @@
   [self.window makeKeyAndVisible];
   [SplashScreen show];
   [Fabric with:@[[Crashlytics class]]];
-
+  [UAirship takeOff];
   return YES;
 }
 
