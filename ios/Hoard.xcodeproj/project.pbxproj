@@ -15,12 +15,12 @@
 		00E356F31AD99517003FC87E /* HoardTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* HoardTests.m */; };
 		01A8EE1AE1344EF0B449C20F /* Exo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6E65C6A3E0EF41D4BF3B3BE6 /* Exo-Medium.ttf */; };
 		06B042F8E2D24A94B079EDE8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4006A61C392C42C7815E8BD7 /* Octicons.ttf */; };
-		070ACC7B2100FF5B00367138 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 070ACC442100FF5B00367138 /* Airship */; };
-		070ACC912100FF9800367138 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; };
-		070ACC922100FF9800367138 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 070ACC862100FF6E00367138 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		070ACD462101268B00367138 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 070ACD452101268B00367138 /* AirshipConfig.plist */; };
 		077B45EA20975797001892B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E820975797001892B8 /* Crashlytics.framework */; };
 		077B45EB20975797001892B8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E920975797001892B8 /* Fabric.framework */; };
+		07CDD29721078A2C0052A528 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 07CDD29621078A2C0052A528 /* Airship */; };
+		07CDD2C221078A8F0052A528 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CDD2B721078A820052A528 /* AirshipKit.framework */; };
+		07CDD2C321078A8F0052A528 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07CDD2B721078A820052A528 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0824BF54C72E4669B196E646 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F336BE3D510495F8C45243E /* SimpleLineIcons.ttf */; };
 		0ABD3A7432654A2B8DB088AC /* libRCTContacts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DF04051316A1461897E122A5 /* libRCTContacts.a */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
@@ -146,55 +146,6 @@
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = Hoard;
 		};
-		070ACC852100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 494DD9571B0EB677009C134E;
-			remoteInfo = AirshipKit;
-		};
-		070ACC872100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CC8999771D8B625500A0CECC;
-			remoteInfo = AirshipResources;
-		};
-		070ACC892100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DF6DD6561E7A1EB8000C281A;
-			remoteInfo = "AirshipKit tvOS";
-		};
-		070ACC8B2100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = DF7E739E1E7B3F0A0039F65D;
-			remoteInfo = "AirshipResources tvOS";
-		};
-		070ACC8D2100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CC899CD01D8B712D00A0CECC;
-			remoteInfo = AirshipLib;
-		};
-		070ACC8F2100FF6E00367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = CC64F0541D8B77E3009CEF27;
-			remoteInfo = AirshipKitTests;
-		};
-		070ACC932100FF9800367138 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 494DD9561B0EB677009C134E;
-			remoteInfo = AirshipKit;
-		};
 		070ACCED21011A4F00367138 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DCD1C92CF90E4993B52B9115 /* UARCTModule.xcodeproj */;
@@ -285,6 +236,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RNCamera;
+		};
+		07CDD2B621078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 494DD9571B0EB677009C134E;
+			remoteInfo = AirshipKit;
+		};
+		07CDD2B821078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC8999771D8B625500A0CECC;
+			remoteInfo = AirshipResources;
+		};
+		07CDD2BA21078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DF6DD6561E7A1EB8000C281A;
+			remoteInfo = "AirshipKit tvOS";
+		};
+		07CDD2BC21078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DF7E739E1E7B3F0A0039F65D;
+			remoteInfo = "AirshipResources tvOS";
+		};
+		07CDD2BE21078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC899CD01D8B712D00A0CECC;
+			remoteInfo = AirshipLib;
+		};
+		07CDD2C021078A820052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = CC64F0541D8B77E3009CEF27;
+			remoteInfo = AirshipKitTests;
+		};
+		07CDD2C421078A8F0052A528 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 494DD9561B0EB677009C134E;
+			remoteInfo = AirshipKit;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -575,7 +575,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				070ACC922100FF9800367138 /* AirshipKit.framework in Embed Frameworks */,
+				07CDD2C321078A8F0052A528 /* AirshipKit.framework in Embed Frameworks */,
 				AA394F52207D4A2E000C2A7F /* Lottie.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -595,12 +595,12 @@
 		00E356F21AD99517003FC87E /* HoardTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HoardTests.m; sourceTree = "<group>"; };
 		03AA9E02C3B64F57A0766080 /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
 		04534FA05C7C41B191431FBE /* libRNRandomBytes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRandomBytes.a; sourceTree = "<group>"; };
-		070ACC442100FF5B00367138 /* Airship */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Airship; path = "../../../../Downloads/libUAirship-9/Airship"; sourceTree = "<group>"; };
-		070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirshipKit.xcodeproj; path = "../../../../Downloads/libUAirship-9/AirshipKit/AirshipKit.xcodeproj"; sourceTree = "<group>"; };
 		070ACC952101001000367138 /* Hoard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Hoard.entitlements; path = Hoard/Hoard.entitlements; sourceTree = "<group>"; };
 		070ACD452101268B00367138 /* AirshipConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = AirshipConfig.plist; sourceTree = "<group>"; };
 		077B45E820975797001892B8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		077B45E920975797001892B8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		07CDD29621078A2C0052A528 /* Airship */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Airship; sourceTree = "<group>"; };
+		07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AirshipKit.xcodeproj; path = AirshipKit/AirshipKit.xcodeproj; sourceTree = "<group>"; };
 		0B5A962E4DC44C258A9C6512 /* RNSVG.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSVG.xcodeproj; path = "../node_modules/react-native-svg/ios/RNSVG.xcodeproj"; sourceTree = "<group>"; };
 		0BABC23383B64992A811D9D4 /* libLottieReactNative.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLottieReactNative.a; sourceTree = "<group>"; };
 		0D39B6BB920645BBBC4F17F9 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
@@ -713,10 +713,10 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				AA394F51207D4A2E000C2A7F /* Lottie.framework in Frameworks */,
 				AA394F4E207D47D1000C2A7F /* Lottie.framework in Frameworks */,
-				070ACC912100FF9800367138 /* AirshipKit.framework in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				22F48E43AF6A4BB7A883E9AA /* libLottie.a in Frameworks */,
+				07CDD2C221078A8F0052A528 /* AirshipKit.framework in Frameworks */,
 				AE9590F1761848B6BA14E873 /* libLottieReactNative.a in Frameworks */,
 				5192D87FA505404997814BC6 /* libReactNativeConfig.a in Frameworks */,
 				0ABD3A7432654A2B8DB088AC /* libRCTContacts.a in Frameworks */,
@@ -820,19 +820,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		070ACC7D2100FF6E00367138 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				070ACC862100FF6E00367138 /* AirshipKit.framework */,
-				070ACC882100FF6E00367138 /* AirshipResources.bundle */,
-				070ACC8A2100FF6E00367138 /* AirshipKit.framework */,
-				070ACC8C2100FF6E00367138 /* AirshipResources tvOS.bundle */,
-				070ACC8E2100FF6E00367138 /* libUAirship.a */,
-				070ACC902100FF6E00367138 /* AirshipKitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		070ACCEA21011A4F00367138 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -912,6 +899,19 @@
 			isa = PBXGroup;
 			children = (
 				078B988E20D1900A00976DCD /* libRNCamera.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		07CDD2AE21078A810052A528 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				07CDD2B721078A820052A528 /* AirshipKit.framework */,
+				07CDD2B921078A820052A528 /* AirshipResources.bundle */,
+				07CDD2BB21078A820052A528 /* AirshipKit.framework */,
+				07CDD2BD21078A820052A528 /* AirshipResources tvOS.bundle */,
+				07CDD2BF21078A820052A528 /* libUAirship.a */,
+				07CDD2C121078A820052A528 /* AirshipKitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1093,8 +1093,8 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */,
-				070ACC442100FF5B00367138 /* Airship */,
+				07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */,
+				07CDD29621078A2C0052A528 /* Airship */,
 				13B07FAE1A68108700A75B9A /* Hoard */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* HoardTests */,
@@ -1214,7 +1214,7 @@
 			);
 			dependencies = (
 				AA394F54207D4A2E000C2A7F /* PBXTargetDependency */,
-				070ACC942100FF9800367138 /* PBXTargetDependency */,
+				07CDD2C521078A8F0052A528 /* PBXTargetDependency */,
 			);
 			name = Hoard;
 			productName = "Hello World";
@@ -1306,8 +1306,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 070ACC7D2100FF6E00367138 /* Products */;
-					ProjectRef = 070ACC7C2100FF6E00367138 /* AirshipKit.xcodeproj */;
+					ProductGroup = 07CDD2AE21078A810052A528 /* Products */;
+					ProjectRef = 07CDD2AD21078A810052A528 /* AirshipKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 0779FBA820B854BD00B4817F /* Products */;
@@ -1456,48 +1456,6 @@
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		070ACC862100FF6E00367138 /* AirshipKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AirshipKit.framework;
-			remoteRef = 070ACC852100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		070ACC882100FF6E00367138 /* AirshipResources.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AirshipResources.bundle;
-			remoteRef = 070ACC872100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		070ACC8A2100FF6E00367138 /* AirshipKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AirshipKit.framework;
-			remoteRef = 070ACC892100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		070ACC8C2100FF6E00367138 /* AirshipResources tvOS.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "AirshipResources tvOS.bundle";
-			remoteRef = 070ACC8B2100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		070ACC8E2100FF6E00367138 /* libUAirship.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libUAirship.a;
-			remoteRef = 070ACC8D2100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		070ACC902100FF6E00367138 /* AirshipKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AirshipKitTests.xctest;
-			remoteRef = 070ACC8F2100FF6E00367138 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		070ACCEE21011A4F00367138 /* libUARCTModule.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1587,6 +1545,48 @@
 			fileType = archive.ar;
 			path = libRNCamera.a;
 			remoteRef = 078B988D20D1900A00976DCD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2B721078A820052A528 /* AirshipKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AirshipKit.framework;
+			remoteRef = 07CDD2B621078A820052A528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2B921078A820052A528 /* AirshipResources.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AirshipResources.bundle;
+			remoteRef = 07CDD2B821078A820052A528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2BB21078A820052A528 /* AirshipKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AirshipKit.framework;
+			remoteRef = 07CDD2BA21078A820052A528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2BD21078A820052A528 /* AirshipResources tvOS.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "AirshipResources tvOS.bundle";
+			remoteRef = 07CDD2BC21078A820052A528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2BF21078A820052A528 /* libUAirship.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libUAirship.a;
+			remoteRef = 07CDD2BE21078A820052A528 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		07CDD2C121078A820052A528 /* AirshipKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AirshipKitTests.xctest;
+			remoteRef = 07CDD2C021078A820052A528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
@@ -1869,6 +1869,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07CDD29721078A2C0052A528 /* Airship in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				C8193CF0EB5742EDB24E2029 /* Entypo.ttf in Resources */,
@@ -1909,7 +1910,6 @@
 				668B2466EAA5476FBEFC3848 /* Exo-Regular.ttf in Resources */,
 				F0C9622C6888437BB79B4400 /* Exo-SemiBold.ttf in Resources */,
 				94EF9336F92B44F693BC1F5F /* Exo-SemiBoldItalic.ttf in Resources */,
-				070ACC7B2100FF5B00367138 /* Airship in Resources */,
 				55F1D331F90645BA93ADB189 /* Exo-Thin.ttf in Resources */,
 				3BCD4933851948D1BFDA0036 /* Exo-ThinItalic.ttf in Resources */,
 			);
@@ -2019,10 +2019,10 @@
 			target = 13B07F861A680F5B00A75B9A /* Hoard */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
-		070ACC942100FF9800367138 /* PBXTargetDependency */ = {
+		07CDD2C521078A8F0052A528 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = AirshipKit;
-			targetProxy = 070ACC932100FF9800367138 /* PBXContainerItemProxy */;
+			targetProxy = 07CDD2C421078A8F0052A528 /* PBXContainerItemProxy */;
 		};
 		2D02E4921E0B4A5D006451C7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
