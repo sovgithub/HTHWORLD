@@ -115,7 +115,6 @@ class Wallet extends React.Component {
           {this.props.wallets.map(wallet => {
             const { balance, symbol, publicAddress, id, imported } = wallet;
             const price = this.props.prices[symbol];
-
             return (
               <WalletListEntry
                 key={id}
@@ -123,6 +122,7 @@ class Wallet extends React.Component {
                 symbol={symbol}
                 balance={balance}
                 change={'0%'}
+                price={price}
                 publicAddress={publicAddress}
                 imported={imported}
                 onPress={this.handleNavigateToCoinInfo(id, symbol)}

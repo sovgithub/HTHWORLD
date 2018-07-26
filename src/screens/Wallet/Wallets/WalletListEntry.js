@@ -6,7 +6,7 @@ import Icon from 'components/Icon';
 import Conditional, { Try, Otherwise} from 'components/Conditional';
 import { getCoinMetadata } from 'lib/currency-metadata';
 
-const WalletListEntry = ({ name, symbol, balance, value, onPress, change, imported }) => {
+const WalletListEntry = ({ name, symbol, balance, value, onPress, change, imported, price }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -36,7 +36,7 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
               {name}
             </T.TitleAlternate>
             <T.SmallAlternate style={{color: '#777'}}>
-              {symbol} - {balance}
+              ${price} / {symbol}
             </T.SmallAlternate>
           </View>
         </View>
@@ -44,7 +44,7 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
         <View style={styles.right}>
           <T.Price style={{color: 'lightgrey', fontSize: 20}}>${value}</T.Price>
           <T.SubtitleAlternate>
-            <T.SemiBoldAlternate style={{color: '#777'}}>{change}</T.SemiBoldAlternate>
+            <T.SemiBoldAlternate style={{color: '#777'}}>{balance} {symbol}</T.SemiBoldAlternate>
           </T.SubtitleAlternate>
         </View>
       </View>
@@ -56,6 +56,7 @@ export default WalletListEntry;
 
 WalletListEntry.propTypes = {
   balance: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
   change: PropTypes.string.isRequired,
   imported: PropTypes.bool,
   name: PropTypes.string.isRequired,
