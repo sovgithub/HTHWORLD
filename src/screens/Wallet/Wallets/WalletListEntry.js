@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Image, TouchableOpacity, StyleSheet } from "react-native";
 import T from "components/Typography";
 import Icon from 'components/Icon';
-import { Try } from 'components/Conditional';
+import Conditional, { Try, Otherwise} from 'components/Conditional';
+import { getCoinMetadata } from 'lib/currency-metadata';
 
 const WalletListEntry = ({ name, symbol, balance, value, onPress, change, imported }) => {
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
         <View style={styles.left}>
-          <View style={styles.titleContainer}>
-            <T.TitleAlternate style={{color: 'lightgrey'}}>
-              {name}
-            </T.TitleAlternate>
+
+          <View style={styles.iconContainer}>
+            <Conditional>
             <Try condition={imported}>
               <View style={styles.icon}>
                 <Icon
@@ -22,15 +22,29 @@ const WalletListEntry = ({ name, symbol, balance, value, onPress, change, import
                 />
               </View>
             </Try>
+            <Otherwise>
+              <Image
+                style={styles.coinImage}
+                source={getCoinMetadata(symbol).image}
+              />
+            </Otherwise>
+          </Conditional>
           </View>
-          <T.SmallAlternate style={{color: 'lightgrey'}}>
-            {symbol} - {balance}
-          </T.SmallAlternate>
+
+          <View style={styles.titleContainer}>
+            <T.TitleAlternate style={{color: 'lightgrey', fontSize: 20}}>
+              {name}
+            </T.TitleAlternate>
+            <T.SmallAlternate style={{color: '#777'}}>
+              {symbol} - {balance}
+            </T.SmallAlternate>
+          </View>
         </View>
+
         <View style={styles.right}>
-          <T.Price style={{color: 'lightgrey'}}>${value}</T.Price>
+          <T.Price style={{color: 'lightgrey', fontSize: 20}}>${value}</T.Price>
           <T.SubtitleAlternate>
-            <T.SemiBoldAlternate style={{color: 'lightgrey'}}>{change}</T.SemiBoldAlternate>
+            <T.SemiBoldAlternate style={{color: '#777'}}>{change}</T.SemiBoldAlternate>
           </T.SubtitleAlternate>
         </View>
       </View>
@@ -53,23 +67,35 @@ WalletListEntry.propTypes = {
 const styles = StyleSheet.create({
   container: {
     margin: 20,
-    padding: 10,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 5,
-    backgroundColor: "#1D252E",
+    backgroundColor: "#202934",
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  iconContainer: {
+    marginRight: 10,
     flexDirection: "row",
     alignItems: "center",
   },
   titleContainer: {
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
   icon: {
     paddingLeft: 5
   },
   left: {
+    flexDirection: 'row',
     flexGrow: 2
   },
   right: {
     flexGrow: 1,
     alignItems: "flex-end"
-  }
+  },
+  coinImage: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain'
+  },
 });
