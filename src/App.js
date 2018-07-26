@@ -102,7 +102,7 @@ const ModalStack = createStackNavigator({
 }, {
   mode: 'modal',
   headerMode: 'none',
-  cardStyle: { backgroundColor: 'transparent' },
+  cardStyle: { backgroundColor: 'transparent', shadowOpacity: 0 },
   transitionConfig: () => ({containerStyle: {backgroundColor: 'transparent'}})
 });
 
