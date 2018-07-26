@@ -2,20 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
-  ScrollView,
+  FlatList,
   StyleSheet,
   TouchableOpacity,
   View,
 } from 'react-native';
-import ValueStatement from 'components/ValueStatement';
-import RoundedButton from 'components/RoundedButton';
 import SectionHeader from 'components/SectionHeader';
 import TradeItem from 'components/TradeItem';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { Intervals } from 'components/GetCurrencyHistory';
-import { getColors } from 'styles';
 import NavigatorService from 'lib/navigator';
-import Icon from 'components/Icon';
 import { Try } from "components/Conditional";
 import Card from 'components/Card';
 import T from 'components/Typography';
@@ -50,6 +46,7 @@ export default class CoinInformation extends React.Component {
       balance: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
         .isRequired,
     }),
+    isSignedIn: PropTypes.bool,
     updateTransaction: PropTypes.func.isRequired,
     showReceiveModal: PropTypes.func.isRequired,
     showSendModal: PropTypes.func.isRequired,
@@ -106,74 +103,82 @@ export default class CoinInformation extends React.Component {
     });
   };
 
-  render() {
-    const { transactions, pricing, wallet, isSignedIn } = this.props;
+  renderHeader = () => {
+    const { pricing, wallet, isSignedIn } = this.props;
     const metadata = getCoinMetadata(wallet.symbol);
     const price = pricing.price.price || 0;
 
     return (
-      <Scene>
-        <ScrollView style={[styles.flex, styles.scrollView]}>
-          <View style={styles.container}>
-            <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
-            <Card
-              cardStyle={styles.cardStyle}
-              title={wallet.symbol}
-              amount={(wallet.balance * price).toFixed(2)}
-              change={`${wallet.balance.toFixed(2)} ${wallet.symbol}`}
-              colors={['#2889d6', '#123665']}
-            />
-            <View style={styles.actionButtonContainer}>
-              <TouchableOpacity
-                onPress={this.handleSend}
-                style={styles.actionButton}
-              >
-                <View style={styles.actionButtonView}>
-                  <Image source={require('assets/send.png')} />
-                  <T.Small style={styles.actionButtonText}>SEND</T.Small>
-                </View>
-              </TouchableOpacity>
-              <Try condition={isSignedIn}>
-                <TouchableOpacity
-                  onPress={this.handleRequest}
-                  style={styles.actionButton}
-                >
-                  <View style={styles.actionButtonView}>
-                    <Image source={require('assets/request.png')} />
-                    <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
-                  </View>
-                </TouchableOpacity>
-              </Try>
-              <TouchableOpacity
-                onPress={this.handleView}
-                style={styles.actionButton}
-              >
-                <View style={styles.actionButtonView}>
-                  <Image source={require('assets/scan.png')} />
-                  <T.Small style={styles.actionButtonText}>VIEW</T.Small>
-                </View>
-              </TouchableOpacity>
+      <View style={styles.container}>
+        <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
+        <Card
+          iconPath={metadata.svgPath}
+          colors={['#2889d6', '#123665']}
+          title={wallet.balance.toFixed(2)}
+          walletsToChart={[wallet]}
+          subtitle={`$${(wallet.balance * price).toFixed(2)}`}
+        />
+        <View style={styles.actionButtonContainer}>
+          <TouchableOpacity
+            onPress={this.handleSend}
+            style={styles.actionButton}
+          >
+            <View style={styles.actionButtonView}>
+              <Image source={require('assets/send.png')} />
+              <T.Small style={styles.actionButtonText}>SEND</T.Small>
             </View>
-          </View>
-          <View>
-            <SectionHeader style={styles.sectionHeader}>
-              Recent Activity
-            </SectionHeader>
-            {transactions.map((transaction, i) => (
-              <TouchableOpacity
-                key={transaction.hash}
-                onPress={this.handleSelect(i)}
-              >
-                <TradeItem
-                  wallet={wallet}
-                  transaction={transaction}
-                  onUpdate={this.props.updateTransaction}
-                  selected={this.state.selected === i}
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ScrollView>
+          </TouchableOpacity>
+          <Try condition={isSignedIn}>
+            <TouchableOpacity
+              onPress={this.handleRequest}
+              style={styles.actionButton}
+            >
+              <View style={styles.actionButtonView}>
+                <Image source={require('assets/request.png')} />
+                <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
+              </View>
+            </TouchableOpacity>
+          </Try>
+          <TouchableOpacity
+            onPress={this.handleView}
+            style={styles.actionButton}
+          >
+            <View style={styles.actionButtonView}>
+              <Image source={require('assets/scan.png')} />
+              <T.Small style={styles.actionButtonText}>VIEW</T.Small>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <SectionHeader style={styles.sectionHeader}>
+          Recent Activity
+        </SectionHeader>
+      </View>
+    );
+  }
+
+  render() {
+    const { transactions, wallet } = this.props;
+
+    return (
+      <Scene>
+        <FlatList
+          style={[styles.flex, styles.scrollView]}
+          ListHeaderComponent={this.renderHeader}
+          data={transactions}
+          keyExtractor={t => t.hash}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={this.handleSelect(item.hash)}
+            >
+              <TradeItem
+                wallet={wallet}
+                transaction={item}
+                onUpdate={this.props.updateTransaction}
+                selected={this.state.selected === item.hash}
+              />
+            </TouchableOpacity>
+          )}
+        />
       </Scene>
     );
   }

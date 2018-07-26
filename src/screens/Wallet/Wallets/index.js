@@ -13,12 +13,18 @@ import {
   availableCoinsSelector,
   mnemonicPhraseSelector
 } from '../selectors';
+import {
+  allPricesLoadedSelector,
+  totalHoldingsSelector
+} from 'sagas/pricing/selectors';
 import { updateBalance } from '../actions';
 
 
 const mapStateToProps = (state) => ({
   wallets: allWalletsSelector(state),
   hasMnemonic: !!mnemonicPhraseSelector(state),
+  allPricesLoaded: allPricesLoadedSelector(state),
+  totalHoldings: totalHoldingsSelector(state),
   hasAvailableCoins: availableCoinsSelector(state).length > 0,
   prices: SUPPORTED_COINS_WALLET.reduce(
     (prices, symbol) => ({

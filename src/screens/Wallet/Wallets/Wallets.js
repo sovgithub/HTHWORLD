@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import Button from 'components/Button';
+import Card from 'components/Card';
 import T from 'components/Typography';
 import WalletListEntry from './WalletListEntry';
 import PortfolioChart from 'containers/PortfolioChart';
@@ -102,6 +103,7 @@ class Wallet extends React.Component {
     wallets: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     hasMnemonic: PropTypes.bool,
     hasAvailableCoins: PropTypes.bool,
+    totalHoldings: PropTypes.number,
     prices: PropTypes.objectOf(PropTypes.number),
     getCurrencyPrice: PropTypes.func.isRequired,
   };
@@ -176,19 +178,16 @@ class Wallet extends React.Component {
   render() {
     return (
       <Layout>
-        <View
+        <Card
+          colors={['#00A073', '#007982']}
+          title="My Balance"
+          subtitle={`$${this.props.totalHoldings.toFixed(2)}`}
+          walletsToChart={this.props.wallets}
           style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            padding: 20,
-            alignItems: 'center',
+            maxHeight: 180,
+            margin: 20,
           }}
-        >
-          <TouchableHighlight onPress={this.flipCards}>
-            <Image source={require('assets/flip.png')} />
-          </TouchableHighlight>
-          <T.Small style={{ color: 'white' }}>My Holdings</T.Small>
-        </View>
+        />
         <ScrollView contentContainerStyle={styles.scrollview} bounces={false}>
           {this.props.wallets.map(wallet => {
             const { balance, symbol, publicAddress, id, imported } = wallet;

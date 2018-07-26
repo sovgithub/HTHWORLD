@@ -1,15 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
-import { VictoryChart, VictoryLine, VictoryTheme } from 'victory-native';
+import { View, ViewPropTypes } from 'react-native';
+import { VictoryArea } from 'victory-native';
 import { getCurrencyHistory, Intervals } from 'components/GetCurrencyHistory';
-import LoadingSpinner from 'components/LoadingSpinner';
-import { SYMBOL_ETH } from 'containers/App/constants';
+import { Try } from 'components/Conditional';
 
 import {
-  transformIntoRunningTotal,
   mergeTimeValueLists
 } from './helpers';
+
+
+function hexToRgb(hex) {
+  const bigint = parseInt(hex.match(/\d+\w+/), 16);
+  return [
+    (bigint >> 16) & 255,
+    (bigint >> 8) & 255,
+    bigint & 255
+  ].join();
+}
 
 /**
    Shows a chart of your portfolio price over time.
@@ -21,223 +29,360 @@ import {
 
    Currently, only ethereum has history tracking enabled,
    so the portfolio chart only takes ethereum into account
-**/
+ **/
+
+const TransactionPropType = PropTypes.shape({
+  priceAtTimeMined: PropTypes.number.isRequired,
+  timeMined: PropTypes.number.isRequired,
+  from: PropTypes.string,
+  to: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+});
+
 export default class PortfolioChart extends Component {
   static propTypes = {
-    transactions: PropTypes.shape({
-      fiatTrades: PropTypes.arrayOf(PropTypes.string).isRequired,
-      transactions: PropTypes.objectOf(PropTypes.shape({
-        priceAtTimeMined: PropTypes.number.isRequired,
-        timeMined: PropTypes.number.isRequired,
-        from: PropTypes.string,
-        to: PropTypes.string,
-        value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
-      })).isRequired,
-      transactionsByAddress: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string).isRequired),
-    }).isRequired,
-    wallets: PropTypes.arrayOf(PropTypes.shape({
-      symbol: PropTypes.oneOf([SYMBOL_ETH]),
-      publicAddress: PropTypes.string,
-    })).isRequired
+    colors: PropTypes.arrayOf(PropTypes.string),
+    bottomPadding: PropTypes.number,
+    fiatTrades: PropTypes.arrayOf(TransactionPropType).isRequired,
+    transactionsToCoalesce: PropTypes.arrayOf(PropTypes.shape({
+      symbol: PropTypes.string.isRequired,
+      address: PropTypes.string,
+      transactions: PropTypes.arrayOf(TransactionPropType).isRequired,
+    })),
+    style: ViewPropTypes.style
   };
 
+  static defaultProps = {
+    bottomPadding: 20,
+    colors: ['#00A073', '#007982']
+  }
+
   state = {
-    data: [],
+    initiallyHeldFiat: 0,
+    // {symbol: [{time, value}]}
+    holdingsOverTimeBySymbol: {},
+    // {symbol: [{time, value}]}
+    historicalPricesBySymbol: {},
+    // [{x, y}]
+    renderablePoints: [],
     height: 0,
     width: 0
   };
 
-  componentDidMount() {
-    const {transactions, wallets} = this.props;
+  componentDidMount = async () => {
 
-    if (!this.isRenderable()) {
-      return;
-    }
+    const {transactionsToCoalesce, fiatTrades} = this.props;
 
-    const { initialPortfolioPrice, timeUSD } = this.getTimeUSD(transactions, wallets);
 
-    const { timeCoin, timePrices } = this.getTimeCoin(transactions, wallets);
+    await Promise.all([
+      ...transactionsToCoalesce.map(({symbol, address, transactions}) =>
+        this.compileHoldingsOverTimeBySymbol(symbol, address, transactions)
+      ),
+      this.compileHeldFiatOverTime(
+        transactionsToCoalesce.reduce(
+          (addressesToCheck, txList) => ({
+            ...addressesToCheck,
+            [txList.address]: true
+          }),
+          {}
+        ),
+        fiatTrades
+      )
+    ]);
 
-    const minimumTimes = [];
-    if (timeCoin[0]) {
-      minimumTimes.push(timeCoin[0].time);
-    }
-    if (timeUSD[0]) {
-      minimumTimes.push(timeUSD[0].time);
-    }
+    // do these after
+    await Promise.all(
+      transactionsToCoalesce.map(({symbol}) =>
+        this.compileHistoricalPricesBySymbol(
+          symbol,
+          this.state.holdingsOverTimeBySymbol[symbol] &&
+          this.state.holdingsOverTimeBySymbol[symbol][0] &&
+          this.state.holdingsOverTimeBySymbol[symbol][0].time
+        )
+      )
+    );
 
-    const minimumTime = Math.min(...minimumTimes.filter(v => v!== undefined));
 
-    const initialOne = {time: minimumTime, value: initialPortfolioPrice};
+    // after everything
+    this.compileRenderablePoints();
+  }
+
+  getInitiallyHeldFiat = (runningTotal) => runningTotal.reduce(
+    ({initialHoldings, prevValue}, newValue) => {
+      const difference = newValue - prevValue;
+      return {
+        initialHoldings: difference < 0
+                       ? initialHoldings - difference
+                       : initialHoldings,
+        prevValue: newValue
+      };
+    },
+    {initialHoldings: 0, prevValue: 0}
+  ).initialHoldings;
+
+  async compileHoldingsOverTimeBySymbol(symbol, address, transactions) {
+    const holdingsOverTime = transactions.reduce(
+      (holdingsOverTime, transaction, index) => {
+        const previous = holdingsOverTime[index-1] || { value: 0 };
+
+        // change each transaction to a positive or negative impact to holdings
+        const isSend = address === transaction.from;
+
+        // ensure value is number type
+        const numberValue = Number(transaction.value);
+
+        // if send, reduce running total of holdings by the send amount
+        const adjustedValue =  isSend ? -numberValue : numberValue;
+
+        const runningTotalValue = adjustedValue + previous.value;
+
+        return [
+          ...holdingsOverTime,
+          {
+            time: transaction.timeMined,
+            value: runningTotalValue
+          }
+        ];
+      },
+      []
+    );
+
+
+    this.setState(
+      state => ({
+        holdingsOverTimeBySymbol: {
+          ...state.holdingsOverTimeBySymbol,
+          [symbol]: holdingsOverTime
+        }
+      })
+    );
+  }
+
+  async compileHistoricalPricesBySymbol(symbol, earliestTime) {
 
     // i want 100 points;
     // now - initialTime / ms in day / 100
     // this will get us the aggregate number for the history request
-    const aggregate = Math.round(((Date.now() - initialOne.time) / 86400000) / 100);
+    const aggregate = Math.round(((Date.now() - earliestTime) / 86400000) / 100);
+    const historicalPrices = await getCurrencyHistory(
+      symbol,
+      'USD',
+      100,
+      Intervals.day,
+      aggregate,
+      (json) => json.Data.map(v => ({time: v.time * 1000, value: v.close}))
+    );
 
-    getCurrencyHistory(SYMBOL_ETH, 100, Intervals.day, aggregate, (json) => json.Data.map(v => ({time: v.time * 1000, value: v.close})))
-
-      .then((resp) => {
-        const totalPrices = [...resp, ...timePrices].sort((a, b) => a.time - b.time);
-        const slicePricesBeforeCoinsIndex = timeCoin[0] ? totalPrices.findIndex(value => value.time >= timeCoin[0].time) : 0;
-
-        const realValues = mergeTimeValueLists(
-          { list: timeCoin }, // add
-          {
-            list: totalPrices.slice(slicePricesBeforeCoinsIndex >= 0 ? slicePricesBeforeCoinsIndex : totalPrices.length),
-            sameTimeValueResolver: (a, b) => a > b ? a : b,
-            aOnBResolver: (a, b) => a * b,
-            defaultItem: {time: 0, value: 1}
-          }, // multiply
-          {
-            list: [
-              initialOne, ...timeUSD
-            ],
-            sameTimeValueResolver: (a, b) => b
-          } // add
-        );
-        const data = realValues.map(v => ({
-          x: new Date(v.time),
-          y: v.value,
-        }));
-        this.setState({data});
-      })
-      .catch((e) => console.log('error in fetching history', e)); // eslint-disable-line no-console
-  }
-
-  getTimeUSD = (transactions, wallets) => {
-    const runningTotal = transformIntoRunningTotal(transactions.fiatTrades.map(
-      hash => {
-        const transaction = transactions.transactions[hash];
-        return wallets[transaction.to] ? -transaction.tradePrice : transaction.tradePrice;
+    this.setState(state => ({
+      historicalPricesBySymbol: {
+        ...state.historicalPricesBySymbol,
+        [symbol]: historicalPrices
       }
-    ));
-
-
-    // get the usd i must have started with to make these trades
-    const {initialPortfolioPrice} = runningTotal
-      .reduce(({initialPortfolioPrice, prevValue}, newValue) => {
-        const difference = newValue - prevValue;
-        return {
-          initialPortfolioPrice: difference < 0
-            ? initialPortfolioPrice - difference
-            : initialPortfolioPrice,
-          prevValue: newValue
-        };
-      }, {initialPortfolioPrice: 0, prevValue: 0})
-    ;
-
-    return {
-      timeUSD: transactions.fiatTrades.map(
-        (hash, i) => ({
-          time: transactions.transactions[hash].timeMined,
-          value: runningTotal[i] + initialPortfolioPrice
-        })
-      ),
-      initialPortfolioPrice
-    };
+    }));
   }
 
-  getTimeCoin = (transactions, wallets) => {
-    const timePrices = [];
+  async compileHeldFiatOverTime(addressesToCheck, transactions) {
+    const runningTotal = transactions.reduce(
+      (runningTotal, transaction, index) => {
+        const previous = runningTotal[index-1] || { value: 0 };
 
-    const listOfTimesCoins = wallets
-      .reduce((ws, w) => {
-        const transactionsForThisWallet = transactions.transactionsByAddress[w.publicAddress] || [];
-        const adjustedValues = transactionsForThisWallet.map(t => {
-          const transaction = transactions.transactions[t];
-          const value = transaction.from === w ? -Number(transaction.value) : Number(transaction.value);
-          return value;
-        });
-        const runningTotalForThisWallet = transformIntoRunningTotal(adjustedValues);
+        // change each transaction to a positive or negative impact to holdings
+        const isSend = !!addressesToCheck[transaction.from];
+
+        // ensure value is number type
+        const numberValue = Number(transaction.tradePrice || transaction.priceAtTimeMined);
+
+        // if send, increase running total of holdings by the send amount
+        const adjustedValue =  isSend ? numberValue : -numberValue;
+
+        const runningTotalValue = adjustedValue + previous.value;
 
         return [
-          ...ws,
+          ...runningTotal,
           {
-            list: runningTotalForThisWallet.map((value, i) => {
-              const transaction = transactions.transactions[transactionsForThisWallet[i]];
-              const time = transaction.timeMined;
-
-              timePrices.push({time, value: transaction.priceAtTimeMined});
-
-              return {
-                time,
-                value
-              };
-            }),
-            sameTimeValueResolver: (a, b) => b
+            time: transaction.timeMined,
+            value: runningTotalValue
           }
         ];
+      },
+      []
+    );
 
-      }, []);
+    // get the usd i must have started with to make these trades
+    const initiallyHeldFiat = this.getInitiallyHeldFiat(runningTotal);
 
-    const timeCoin = mergeTimeValueLists(...listOfTimesCoins).sort((a, b) => a.time - b.time);
-    return {timeCoin, timePrices: timePrices.sort((a, b) => a.time - b.time)};
+    const heldFiatOverTime = runningTotal.map(item => ({
+      ...item,
+      value: item.value + initiallyHeldFiat
+    }));
+
+    this.setState({
+      heldFiatOverTime,
+      initiallyHeldFiat,
+    });
+  }
+
+  async compileRenderablePoints() {
+    const {
+      holdingsOverTimeBySymbol,
+      historicalPricesBySymbol,
+      heldFiatOverTime,
+      initiallyHeldFiat,
+    } = this.state;
+
+    const amountOfCryptoHoldingsBySymbol = {};
+
+    for (const symbol in holdingsOverTimeBySymbol) {
+      const historicalPrices = historicalPricesBySymbol[symbol];
+      const holdingsOverTime = holdingsOverTimeBySymbol[symbol];
+
+      // removeAllPrices before holdings history
+      const sliceIndex = holdingsOverTime[0]
+        ? historicalPrices.findIndex(value => value.time >= holdingsOverTime[0].time)
+        : 0;
+
+      // multiply the holdings by the final prices over time => usd/time
+      const amountOfCryptoHoldingsForSymbol = mergeTimeValueLists(
+        {
+          // add list together
+          list: holdingsOverTime.sort((a, b) => a.time - b.time),
+          // if we run into the same time within "holdingsOverTime",
+          // use the later item
+          sameTimeValueResolver: (a, b) => b
+        },
+        {
+          list: historicalPrices.slice(sliceIndex),
+          sameTimeValueResolver: (a, b) => a > b ? a : b,
+          aOnBResolver: (a, b) => a * b,
+          defaultItem: {time: 0, value: 1}
+        } // multiply
+      );
+
+      amountOfCryptoHoldingsBySymbol[symbol] = amountOfCryptoHoldingsForSymbol;
+    }
+
+
+
+    const holdingsPerSymbolLists = Object.values(amountOfCryptoHoldingsBySymbol);
+
+    const minimumTime = Math.min(
+      ...holdingsPerSymbolLists
+        .map(list => list[0] && list[0].time) // take first item
+        .filter(v => v !== undefined) // ensure all items have defined values
+    );
+
+
+
+    const totalValuesOverTime = mergeTimeValueLists(
+      // add together the symbol lists of usd/time
+      ...holdingsPerSymbolLists
+        .map(list => ({
+          list,
+          sameTimeValueResolver: (a, b) => b
+        })),
+      // layer on held fiat over time
+      {
+        list: [
+          // add item with initial fiat holdings to beginning of fiat history
+          {
+            time: minimumTime,
+            value: initiallyHeldFiat
+          },
+          ...heldFiatOverTime
+        ],
+        sameTimeValueResolver: (a, b) => b
+      }
+    );
+
+
+    // transform into xy coordinates
+    const renderablePoints = totalValuesOverTime
+      .map(v => ({
+        x: v.time,
+        y: v.value,
+      }))
+      .filter(v => v.y && v.x && v.y < Infinity);
+
+    this.setState({renderablePoints});
   }
 
   isRenderable = () => {
-    const listOfTransactions = this.props.wallets
-      .reduce(
-        (fullTransactionsList, wallet) => {
-          const transactions = this.props.transactions.transactionsByAddress[wallet.publicAddress];
+    let totalCount = 0;
 
-          if (transactions) {
-            return [
-              ...fullTransactionsList,
-              ...transactions
-            ];
-          }
+    for (const txList of this.props.transactionsToCoalesce) {
+      totalCount += txList.transactions.length;
+      if (totalCount > 1) {
+        return true;
+      }
+    }
 
-          return fullTransactionsList;
-        },
-        []
-      );
-
-    return listOfTransactions.length > 1;
+    return false;
   }
 
-  render = () => {
-    const { data } = this.state;
+  onLayout = ({nativeEvent: { layout: { width, height } }}) =>
+    this.setState({width, height: height - this.props.bottomPadding});
 
-    if (!this.isRenderable()) {
+  render() {
+    const {
+      bottomPadding,
+      colors,
+      style
+    } = this.props;
+
+    const {
+      renderablePoints,
+      width,
+      height
+    } = this.state;
+
+    if (!this.isRenderable() || !renderablePoints.length) {
       return null;
     }
-    const newTheme = {
-      ...VictoryTheme.grayscale,
-      axis: {
-        ...VictoryTheme.grayscale.axis,
-        style: {
-          ...VictoryTheme.grayscale.axis.style,
-          tickLabels: { fill: 'grey' },
-          axis: {
-            ...VictoryTheme.grayscale.axis.style.axis,
-            stroke: 'grey'
-          },
-        }
-      }
-    };
 
-    return data.length
-      ? (
-        <VictoryChart
-          scale={{x: 'time'}}
-          theme={newTheme}
-        >
-          <VictoryLine
-            padding={{top: 20, bottom: 20}}
-            interpolation="natural"
-            style={{
-              axis: { stroke: 'red' },
-              data: { stroke: data[0].y < data[data.length-1].y ? "#00EC5F" : '#C30072' }
-            }}
-            data={data}
-          />
-        </VictoryChart>
-      )
-      : (
-        <View style={{padding: 50, maxHeight: 100}}>
-          <LoadingSpinner />
-        </View>
-      );
+    const color1 = hexToRgb(colors[0]).split(',');
+    const color2 = hexToRgb(colors[1]).split(',');
+    const averageColor = [
+      parseInt((Number(color1[0]) * 3 + Number(color2[0]) + 255) / 5),
+      parseInt((Number(color1[1]) * 3 + Number(color2[1]) + 255) / 5),
+      parseInt((Number(color1[2]) * 3 + Number(color2[2]) + 255) / 5),
+    ];
+
+    const stroke = averageColor.join();
+    const fill = 'rgba(255,255,255, 0.1083)';
+
+    return (
+      <View
+        style={[{flex: 1}, style]}
+        onLayout={this.onLayout}
+      >
+        <Try condition={!!renderablePoints.length && !!width && !!height}>
+          <Fragment>
+            <VictoryArea
+              padding={{bottom: 0, right: 0, top: 0, left: 0}}
+              height={height}
+              width={width}
+              style={{
+                axis: {
+                  stroke: 'red'
+                },
+                data: {
+                  stroke: `rgba(${stroke}, 0.7)`,
+                  strokeWidth: 2,
+                  fill
+                }
+              }}
+              data={renderablePoints}
+            />
+            <View
+              style={{
+                width: '100%',
+                height: bottomPadding,
+                backgroundColor: fill
+              }}
+            />
+          </Fragment>
+        </Try>
+      </View>
+    );
   }
 }

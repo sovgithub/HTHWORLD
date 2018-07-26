@@ -1,16 +1,53 @@
 import {connect} from 'react-redux';
 import PortfolioChart from './PortfolioChart';
-import { SYMBOL_BTC, SYMBOL_ETH } from 'containers/App/constants';
+import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
 import { walletsForSymbolSelector } from 'screens/Wallet/selectors';
+import { selectors as transactionSelectors } from 'sagas/transactions/reducer';
 
-const mapStateToProps = (state) => {
-  const {transactions, pricing} = state;
-  const ethWallets = walletsForSymbolSelector(state, SYMBOL_ETH);
-  const btcWallets = walletsForSymbolSelector(state, SYMBOL_BTC);
+const mapStateToProps = (state, ownProps) => {
+  const { wallets } = ownProps;
+  console.log('wallets', wallets);
+  let transactionsToCoalesce;
+  if ( wallets && wallets.length ) {
+    transactionsToCoalesce = wallets.map(({symbol, publicAddress}) => ({
+      symbol,
+      address: publicAddress,
+      transactions: transactionSelectors.getTransactionsForSymbolAddress(symbol, publicAddress)(state).sort((a, b) => a.timeMined - b.timeMined)
+    }));
+  }
+
   return {
-    transactions,
-    wallets: [...ethWallets, btcWallets],
-    pricing
+    transactionsToCoalesce: transactionsToCoalesce && transactionsToCoalesce.filter(
+      ({symbol}) => symbol !== SYMBOL_BOAR
+    ),
+    fiatTrades: state.transactions.fiatTrades.reduce(
+      (fiatTrades, hash) => {
+        let validWalletTrade = false;
+
+        for (const wallet of wallets) {
+          const transactionsForWallet = transactionSelectors.getTransactionsForSymbolAddress(wallet.symbol, wallet.publicAddress)(state);
+
+          validWalletTrade = !!transactionsForWallet.find(
+            tx => tx.hash === hash
+          );
+
+          if (validWalletTrade) {
+            break;
+          }
+        }
+
+        if (validWalletTrade) {
+          const transaction = state.transactions.transactions[hash];
+          return [
+            ...fiatTrades,
+            transaction
+          ];
+        }
+
+        return fiatTrades;
+      },
+      []
+    )
   };
 };
 

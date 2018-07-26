@@ -33,237 +33,154 @@
 
  */
 import React, { Component } from 'react';
-import PropTypes, { string, object } from 'prop-types';
+import PropTypes from 'prop-types';
 import {
-  AppRegistry,
+  Dimensions,
+  Image,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Animated,
-  Dimensions,
-  Platform,
+  ViewPropTypes,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import { Try } from 'components/Conditional';
+import PortfolioChart from 'containers/PortfolioChart';
+import SVG, {Path} from 'react-native-svg';
 
-const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
-  'window'
-);
+const { width: viewportWidth } = Dimensions.get('window');
 
 function calcWidth(percentage) {
   const value = percentage * viewportWidth / 100;
   return Math.round(value);
 }
 
-const slideHeight = viewportHeight * 0.36;
 const slideWidth = calcWidth(75);
 const itemHorizontalMargin = calcWidth(2);
 
-export const sliderWidth = viewportWidth;
-export const itemWidth = slideWidth + itemHorizontalMargin * 2;
-export const cardWidth = itemWidth;
+export const cardWidth = slideWidth + itemHorizontalMargin * 2;
 export const cardHeight = slideWidth * 1.618 * 0.4;
 
 export default class Card extends Component {
   static propTypes = {
-    title: string.isRequired,
-    amount: string.isRequired,
-    change: string.isRequired,
-    colors: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+    iconPath: PropTypes.string,
+    colors: PropTypes.arrayOf(
+      PropTypes.string
+    ).isRequired,
+    title: PropTypes.node,
+    subtitle: PropTypes.node,
+    additionalInfo: PropTypes.node,
+    style: ViewPropTypes.style,
   };
-
-  static defaultProps = {
-    title: 'Default Asset',
-    amount: '$45,524.92',
-    change: '5.24%',
-    colors: '#0F716A',
-  };
-
-  componentWillMount() {
-    this.animatedValue = new Animated.Value(0);
-    this.value = 0;
-    this.animatedValue.addListener(({ value }) => {
-      this.value = value;
-    });
-
-    this.frontInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['0deg', '180deg'],
-    });
-    this.backInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 180],
-      outputRange: ['180deg', '360deg'],
-    });
-    this.depthInterpolate = this.animatedValue.interpolate({
-      inputRange: [0, 60, 180],
-      outputRange: [1, 1.25, 1],
-    });
-    this.frontOpacity = this.animatedValue.interpolate({
-      inputRange: [89, 90],
-      outputRange: [1, 0],
-    });
-    this.backOpacity = this.animatedValue.interpolate({
-      inputRange: [89, 90],
-      outputRange: [0, 1],
-    });
-  }
-
-  flipCard() {
-    if (this.value >= 90) {
-      Animated.spring(this.animatedValue, {
-        toValue: 0,
-        friction: 4,
-        tension: 5,
-      }).start();
-    } else {
-      Animated.spring(this.animatedValue, {
-        toValue: 180,
-        friction: 4,
-        tension: 5,
-      }).start();
-    }
-  }
 
   render() {
-    const frontAnimatedStyle = {
-      transform: [
-        { rotateY: this.frontInterpolate },
-        { scaleY: this.depthInterpolate },
-      ],
-    };
-    const backAnimatedStyle = {
-      transform: [
-        { rotateY: this.backInterpolate },
-        { scaleY: this.depthInterpolate },
-      ],
-    };
-
-    const frontColors = this.props.colors;
-    const backColors = [...frontColors].reverse();
+    const {
+      additionalInfo,
+      colors,
+      iconPath,
+      style,
+      subtitle,
+      title,
+    } = this.props;
 
     return (
-      <TouchableOpacity
-        style={styles.container}
-        onPress={() => this.flipCard()}
+      <LinearGradient
+        start={{ x: 0, y: 1 }}
+        end={{ x: 1, y: 1 }}
+        colors={colors}
+        style={[
+          styles.card,
+          style,
+        ]}
       >
-        <View>
-          <Animated.View
-            style={[
-              styles.flipCard,
-              frontAnimatedStyle,
-              { opacity: this.frontOpacity },
-            ]}
-          >
-            <LinearGradient
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              colors={frontColors}
-              style={[
-                styles.card,
-                styles.cardContent,
-                styles.cardGradient,
-                this.props.cardStyle,
-              ]}
-            >
-              <View style={styles.cardLeft}>
-                <Text style={(styles.flipText, styles.subHeading)}>
-                  {this.props.title}
-                </Text>
-                <Text style={(styles.flipText, styles.heading)}>
-                  {this.props.amount}
-                </Text>
-              </View>
-              <View style={styles.cardRight}>
-                <Text style={(styles.flipText, styles.status)}>
-                  {this.props.change}
-                </Text>
-              </View>
-            </LinearGradient>
-          </Animated.View>
-
-          <Animated.View
-            style={[
-              backAnimatedStyle,
-              styles.flipCard,
-              styles.flipCardBack,
-              { opacity: this.backOpacity },
-            ]}
-          >
-            <LinearGradient
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              colors={backColors}
-              style={[styles.card, styles.cardGradient, this.props.cardStyle]}
-            >
-              <Text style={(styles.flipText, styles.subHeading)}>
-                Transactions: 500
-              </Text>
-              <Text style={(styles.flipText, styles.subHeading)}>
-                Pending: 2
-              </Text>
-            </LinearGradient>
-          </Animated.View>
+        <View style={styles.top}>
+          <View style={styles.titleContainer}>
+            <Try condition={!!iconPath}>
+              <SVG
+                style={{marginRight: 2}}
+                height="15"
+                width="15"
+                viewBox="0 0 49 49"
+                preserveAspectRatio="none"
+              >
+                <Path
+                  fill="#fFf"
+                  d={iconPath}
+                />
+              </SVG>
+            </Try>
+            <Text style={[styles.text, styles.title]}>
+              {title}
+            </Text>
+          </View>
+          <Text style={[styles.text, styles.subtitle]}>
+            {subtitle}
+          </Text>
         </View>
-      </TouchableOpacity>
+        <View style={{flex: 1}}>
+          <PortfolioChart
+            style={styles.chart}
+            wallets={this.props.walletsToChart}
+            colors={colors}
+          />
+        </View>
+        <Try condition={!!additionalInfo}>
+          <View style={styles.bottom}>
+            <Text style={[styles.text, styles.additionalInfo]}>
+              {additionalInfo}
+            </Text>
+          </View>
+        </Try>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginBottom: 20,
-  },
   card: {
-    width: cardWidth,
+    flex: 1,
     height: cardHeight,
     borderRadius: 20,
+    overflow: 'hidden',
     padding: 20,
   },
-  cardContent: {
+  top: {
+  },
+  titleContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 5,
   },
-  cardGradient: {
-    borderRadius: 20,
+  text: {
+    color: 'white'
   },
-  flipCard: {
-    backfaceVisibility: 'hidden',
+  icon: {
+    height: 15,
+    width: 15,
+    marginRight: 5,
   },
-  flipCardBack: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    left: 0,
+  title: {
+    fontSize: 15,
+    fontFamily: 'HelveticaNeue-Medium',
+    fontWeight: '500',
+    textAlign: 'left',
   },
-  flipText: {
-    fontSize: 20,
-    color: 'white',
+  subtitle: {
+    fontSize: 26,
+    fontFamily: 'HelveticaNeue-Bold',
     fontWeight: 'bold',
+    textAlign: 'left',
+    letterSpacing: 0,
   },
-  cardLeft: {
-    flexGrow: 1,
+  bottom: {
+    alignItems: 'flex-end',
   },
-  heading: {
+  chart: {
+    marginBottom: -20,
+    marginHorizontal: -20,
+  },
+  additionalInfo: {
+    fontSize: 14,
     fontFamily: 'HelveticaNeue',
-    fontSize: 40,
-    fontWeight: '800',
-    fontStyle: 'normal',
-    letterSpacing: 0.75,
-    color: 'rgb(255, 255, 255)',
-  },
-  subHeading: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 18,
-    fontWeight: '400',
-    fontStyle: 'normal',
-    letterSpacing: 0.75,
-    color: 'rgb(255, 255, 255)',
-  },
-  status: {
-    fontFamily: 'HelveticaNeue',
-    fontSize: 16,
-    fontWeight: '200',
-    fontStyle: 'normal',
-    letterSpacing: 0.75,
-    color: 'rgb(255, 255, 255)',
+    textAlign: 'left',
   },
 });
