@@ -309,10 +309,12 @@ export default class PortfolioChart extends Component {
   isRenderable = () => {
     let totalCount = 0;
 
-    for (const txList of this.props.transactionsToCoalesce) {
-      totalCount += txList.transactions.length;
-      if (totalCount > 1) {
-        return true;
+    if (this.props.transactionsToCoalesce) {
+      for (const txList of this.props.transactionsToCoalesce) {
+        totalCount += txList.transactions.length;
+        if (totalCount > 1) {
+          return true;
+        }
       }
     }
 
