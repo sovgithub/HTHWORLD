@@ -95,7 +95,6 @@ export default class Store extends Component {
             {!this.state.pin &&
               'Your PIN will be used to unlock your wallet and send or receive.'
             }
-            {this.state.pin && this.state.valid && 'YAY! they matched.'}
             {this.state.pin &&
               this.state.confirmPin &&
               !this.state.valid &&
@@ -112,12 +111,14 @@ export default class Store extends Component {
 
           {this.state.pin &&
             this.state.valid && (
-              <Button
-                onPress={this.onSuccessHandler}
-                style={styles.button}
-              >
-                {'Go to dashboard'}
-              </Button>
+              <View style={styles.buttonContainer}>
+                <Button
+                  onPress={this.onSuccessHandler}
+                  style={styles.button}
+                >
+                  {'Go to dashboard'}
+                </Button>
+              </View>
             )}
         </View>
         {!this.state.valid && <Keyboard handlePinPress={this.handlePinPress} />}
@@ -167,7 +168,13 @@ const styles = StyleSheet.create({
   text: {
     color: 'white'
   },
+  buttonContainer: {
+    margin: 20,
+    padding: 20,
+    width: '100%'
+  },
   button: {
+    width: '100%',
     padding: 10,
   },
 });
