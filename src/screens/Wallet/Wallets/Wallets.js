@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-  ImageBackground,
   Image,
+  Text,
   TouchableHighlight,
+  TouchableOpacity,
   ScrollView,
   StyleSheet,
   View,
@@ -15,6 +16,83 @@ import PortfolioChart from 'containers/PortfolioChart';
 import { Layout, Body } from 'components/Base';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
+import Swipeable from 'react-native-swipeable';
+import NavigatorService from 'lib/navigator';
+
+class SwipableItem extends React.Component {
+  static propTypes = {
+    wallet_id: PropTypes.string,
+    children: PropTypes.node,
+  };
+
+  handleView = () => {
+    NavigatorService.navigate('ViewAddress', {
+      wallet: this.props.wallet_id,
+    });
+  };
+
+  handleRequest = () => {
+    NavigatorService.navigate('SendRequest', {
+      type: TYPE_REQUEST,
+      wallet: this.props.wallet_id,
+    });
+  };
+
+  handlePay = () => {
+    NavigatorService.navigate('SendRequest', {
+      type: TYPE_SEND,
+      wallet: this.props.wallet_id,
+    });
+  };
+
+  render() {
+    const PAY_ICON = require('assets/send.png');
+    const REQUEST_ICON = require('assets/request.png');
+    const VIEW_ICON = require('assets/scan.png');
+
+    const rightButtons = [
+      <TouchableOpacity
+        onPress={this.handlePay}
+        style={styles.walletAction}
+        key={'actionPay'}
+      >
+        <View style={styles.walletActionContainer}>
+          <Image style={styles.walletActionImage} source={PAY_ICON} />
+          <Text style={styles.walletActionText}>PAY</Text>
+        </View>
+      </TouchableOpacity>,
+
+      <TouchableOpacity
+        onPress={this.handleRequest}
+        style={styles.walletAction}
+        key={'actionRequest'}
+      >
+        <View style={styles.walletActionContainer}>
+          <Image style={styles.walletActionImage} source={REQUEST_ICON} />
+          <Text style={styles.walletActionText}>REQUEST</Text>
+        </View>
+      </TouchableOpacity>,
+
+      <TouchableOpacity
+        onPress={this.handleView}
+        style={styles.walletAction}
+        key={'actionView'}
+      >
+        <View style={styles.walletActionContainer}>
+          <Image style={styles.walletActionImage} source={VIEW_ICON} />
+          <Text style={styles.walletActionText}>VIEW</Text>
+        </View>
+      </TouchableOpacity>,
+    ];
+
+    return (
+      <Swipeable rightButtons={rightButtons} rightButtonWidth={75}>
+        {this.props.children}
+      </Swipeable>
+    );
+  }
+}
 
 class Wallet extends React.Component {
   static propTypes = {
@@ -116,18 +194,19 @@ class Wallet extends React.Component {
             const { balance, symbol, publicAddress, id, imported } = wallet;
             const price = this.props.prices[symbol];
             return (
-              <WalletListEntry
-                key={id}
-                name={getCoinMetadata(symbol).fullName}
-                symbol={symbol}
-                balance={balance}
-                change={'0%'}
-                price={price}
-                publicAddress={publicAddress}
-                imported={imported}
-                onPress={this.handleNavigateToCoinInfo(id, symbol)}
-                value={(Number(price) * Number(balance)).toFixed(2)}
-              />
+              <SwipableItem key={id} wallet_id={id}>
+                <WalletListEntry
+                  name={getCoinMetadata(symbol).fullName}
+                  symbol={symbol}
+                  balance={balance}
+                  change={'0%'}
+                  price={price}
+                  publicAddress={publicAddress}
+                  imported={imported}
+                  onPress={this.handleNavigateToCoinInfo(id, symbol)}
+                  value={(Number(price) * Number(balance)).toFixed(2)}
+                />
+              </SwipableItem>
             );
           })}
         </ScrollView>
@@ -227,6 +306,32 @@ const styles = StyleSheet.create({
   buttonRight: {
     flex: 1,
     marginLeft: 7.5,
+  },
+  walletAction: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  walletActionContainer: {
+    margin: 10,
+    padding: 5,
+    flex: 1,
+    flexDirection: 'column',
+    width: 75,
+    height: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  walletActionImage: {
+    height: 20,
+    width: 20,
+  },
+
+  walletActionText: {
+    color: '#fff',
+    fontSize: 12,
   },
 });
 
