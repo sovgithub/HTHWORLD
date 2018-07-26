@@ -20,6 +20,7 @@ import NavigatorService from 'lib/navigator';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
+import Config from 'react-native-config';
 
 class Menu extends Component {
   static propTypes = {
@@ -44,9 +45,16 @@ class Menu extends Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <ScrollView style={{ padding: 20, paddingTop: 40, flex: 1}}>
-            <View style={{ backgroundColor: 'transparent', flex: 1 }}>
-              <View style={{ alignSelf: 'flex-end' }}>
+          <ScrollView style={styles.scrollView}>
+            <View style={styles.body}>
+              <View style={styles.header}>
+                <Try condition={Config.CURRENCY_NETWORK_TYPE === 'test'}>
+                  <View style={styles.testnetContainer}>
+                    <View style={styles.testnetBackground}>
+                      <Text style={styles.testnetText}>TESTNET VERSION</Text>
+                    </View>
+                  </View>
+                </Try>
                 <TouchableOpacity
                   style={{
                     paddingVertical: 10,
@@ -146,6 +154,34 @@ export default connect(mapStateToProps, { signOut })(Menu);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollView: {
+    padding: 20,
+    paddingTop: 40,
+    flex: 1
+  },
+  body: {
+    backgroundColor: 'transparent',
+    flex: 1
+  },
+  header: {
+    alignSelf: 'flex-end',
+    flexDirection: 'row'
+  },
+  testnetContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  testnetBackground: {
+    padding: 5,
+    backgroundColor: '#ff6161',
+    borderRadius: 5,
+    marginRight: 'auto'
+  },
+  testnetText: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 12
   },
   footerContainer: {
     padding: 20,
