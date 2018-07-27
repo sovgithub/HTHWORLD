@@ -54,7 +54,7 @@
     "react-native-qrcode": "^0.2.6",
     "react-native-randombytes": "^3.1.0",
     "react-native-search-filter": "^0.1.4",
-    "react-native-splash-screen": "^3.0.6",
+    "react-native-splash-screen": "3.0.9",
     "react-native-stream": "^0.1.9",
     "react-native-svg": "^6.3.1",
     "react-native-svg-circular-progress": "^1.0.4",
