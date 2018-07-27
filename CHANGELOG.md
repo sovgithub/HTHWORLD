@@ -16,6 +16,16 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 ### Changed
 ### Removed
 
+# [v1.8.3] - 2018-07-27
+
+### Changed
+* [FIX] Upgrade react-navigation to fix bug where swiping back before screen loaded would cause interaction handler to never be released
+
+# [v1.8.2] - 2018-07-26
+
+### Changed
+* [FIX] Fix issue where android app would crash on load
+
 # [v1.8] - 2018-07-26
 
 ### Added
