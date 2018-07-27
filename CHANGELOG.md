@@ -11,12 +11,26 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 `minor`: new features, redesigned existing features, etc  
 `patch`: fixes and not-really-impacting-user-experience changes
 
-## [Unreleased]
+# [Unreleased]
+### Added
+### Changed
+### Removed
+
+# [v1.8] - 2018-07-26
 
 ### Added
+* [NEW] Add portfolio cards to Dashboard and Wallet screens (#115)
+* [NEW] swipable actions on wallet
+* [NEW] Adds initial Push Notification Support (#114)
 
 ### Changed
-
+* [FIX] update pin styling
+* [FIX] check to make sure there are transactions (#119)
+* [FIX] Use a FlatList for the CoinInformation page
+* [FIX] Testnet warning (#116)
+* [FIX] remove shadows from scene components
+* [FIX] wallet entry styling    
+* [FIX] update wallet entry values
 * [FIX] update gradle build settings
 
 ### Removed
