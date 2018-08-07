@@ -85,7 +85,7 @@ export default class ContactModal extends Component {
 
   requestPermission = async () => {
     if (Platform.OS == 'android') {
-      const granted = PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
+      const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
         message:
           'Hoard would like to access your contact list to send funds to your friends.',
