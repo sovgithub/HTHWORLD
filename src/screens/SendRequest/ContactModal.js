@@ -18,6 +18,7 @@ import Button from 'components/Button';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
 import Icon from 'components/Icon';
 import Input from 'components/Input';
+import LinearGradient from 'react-native-linear-gradient';
 import LoadingSpinner from 'components/LoadingSpinner';
 import Modal from 'components/Modal';
 import T from 'components/Typography';
@@ -27,8 +28,6 @@ import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { createFilter } from 'react-native-search-filter';
 import { RECIPIENT_TYPE_OTHER } from 'screens/SendRequest/constants';
-
-let inMemoryContactsCache;
 
 const FILTER_BY_KEYS = ['givenName', 'middleName', 'familyName', 'emailAddress', 'phoneNumber'];
 
@@ -111,23 +110,18 @@ export default class ContactModal extends Component {
   }
 
   fetchContacts = () => new Promise((resolve, reject) => {
-    if (inMemoryContactsCache) {
-       resolve(inMemoryContactsCache);
-    } else {
-      Contacts.getAll((err, resp) => {
-        if (err) {
-          reject(err);
-        } else {
-          const contacts = resp.map(contact => ({
-            ...contact,
-            emailAddress: contact.emailAddresses[0] && contact.emailAddresses[0].email,
-            phoneNumber: contact.phoneNumbers[0] && contact.phoneNumbers[0].number
-          }));
-          inMemoryContactsCache = contacts;
-          resolve(contacts);
-        }
-      });
-    }
+    Contacts.getAll((err, resp) => {
+      if (err) {
+        reject(err);
+      } else {
+        const contacts = resp.map(contact => ({
+          ...contact,
+          emailAddress: contact.emailAddresses[0] && contact.emailAddresses[0].email,
+          phoneNumber: contact.phoneNumbers[0] && contact.phoneNumbers[0].number
+        }));
+        resolve(contacts);
+      }
+    });
   })
 
   filterContacts = throttle((contacts, filterString) => {
@@ -253,6 +247,15 @@ export default class ContactModal extends Component {
                   />
                 )}
               />
+              <LinearGradient
+                end={{ x: 1, y: 1 }}
+                start={{ x: 1, y: 0 }}
+                colors={[
+                  'rgba(61,67,74,0)',
+                  'rgba(61,67,74,1)'
+                ]}
+                style={styles.bottomFade}
+              />
             </Fragment>
           </Try>
           <Otherwise>
@@ -315,6 +318,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     margin: 5,
+  },
+  bottomFade: {
+    position:'absolute',
+    height: 40,
+    left: 20,
+    width: '100%',
+    bottom: 0,
   },
   cta: {
     fontFamily: 'HelveticaNeue-Bold',

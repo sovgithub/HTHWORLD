@@ -50,11 +50,11 @@ export default class CurrencyModal extends Component {
               Most Used
             </T.SubHeading>
             <SelectableImageRow
-              image={getCoinMetadata(mostUsedWallet.symbol).image}
-              onPress={this.handleSelectCoin(mostUsedWallet.id)}
-              selected={this.props.navigation.state.params.selectedId === mostUsedWallet.id}
-              subtitle={`${mostUsedWallet.symbol}    ${mostUsedWallet.balance}`}
-              title={getCoinMetadata(mostUsedWallet.symbol).fullName}
+              image={mostUsedWallet && getCoinMetadata(mostUsedWallet.symbol).image}
+              onPress={mostUsedWallet && this.handleSelectCoin(mostUsedWallet.id)}
+              selected={mostUsedWallet && this.props.navigation.state.params.selectedId === mostUsedWallet.id}
+              subtitle={mostUsedWallet && `${mostUsedWallet.symbol}    ${mostUsedWallet.balance}`}
+              title={mostUsedWallet && getCoinMetadata(mostUsedWallet.symbol).fullName}
             />
           </Fragment>
         </Try>

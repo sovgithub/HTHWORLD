@@ -5,7 +5,7 @@ import Config from 'react-native-config';
 import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import memoize from 'lodash/memoize';
 
-import { colors } from 'styles';
+import { colors, calculateHitSlop } from 'styles';
 import Contact from './Contact';
 import Scene from 'components/Scene';
 import T from 'components/Typography';
@@ -28,6 +28,8 @@ import api from 'lib/api';
 
 import { convertCurrency, SOLVE_FOR } from 'lib/currency-helpers';
 
+const clearSize = 20;
+const clearHitSlop = calculateHitSlop(clearSize);
 const amountFormatter = formatDecimalInput(8);
 
 const initialState = {
@@ -396,10 +398,11 @@ export default class SendRequest extends Component {
                         <Conditional>
                           <Try condition={!!this.state.recipient}>
                             <TouchableOpacity
+                              hitSlop={clearHitSlop}
                               style={styles.action}
                               onPress={this.clearValue('recipient')}
                             >
-                              <Icon icon="ios-close-circle" style={{ size: 20, color: 'rgba(255,255,255,0.5)' }} />
+                              <Icon icon="ios-close-circle" style={{ size: clearSize, color: 'rgba(255,255,255,0.5)' }} />
                             </TouchableOpacity>
                           </Try>
                           <Otherwise>

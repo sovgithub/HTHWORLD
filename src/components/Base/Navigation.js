@@ -12,8 +12,14 @@ import {
 
 import T from 'components/Typography';
 import NavigationActions from 'lib/navigator';
-import createStyles, { padding, colors, typography } from 'styles';
+import createStyles, {
+  padding,
+  colors,
+  typography,
+  calculateHitSlop
+} from 'styles';
 
+const hitSlop = calculateHitSlop(20);
 const BACK_ICON = require('assets/bck.png');
 const CLOSE_ICON = require('assets/closeicon.png');
 const MENU_ICON = require('assets/sidebar.png');
@@ -31,7 +37,6 @@ function getNavProps(navProps, key) {
 }
 
 export function LeftActionComponent({ type = 'back' }) {
-  console.log('back', type);
   if (!type || type === false) {
     return null;
   }
@@ -42,7 +47,7 @@ export function LeftActionComponent({ type = 'back' }) {
       type === 'back' || typeof type === 'function' ? BACK_ICON : CLOSE_ICON;
     return (
       <View style={styles.leftActionContainer}>
-        <TouchableOpacity onPress={onPress}>
+        <TouchableOpacity onPress={onPress} hitSlop={hitSlop}>
           <Image source={icon} />
         </TouchableOpacity>
       </View>
@@ -56,9 +61,10 @@ export function RightActionComponent({ type = 'menu' }) {
   if (!type || type === false) {
     return null;
   }
+
   if (type === 'menu') {
     return (
-      <TouchableOpacity onPress={openMenu}>
+      <TouchableOpacity onPress={openMenu} hitSlop={hitSlop}>
         <Image source={MENU_ICON} />
       </TouchableOpacity>
     );

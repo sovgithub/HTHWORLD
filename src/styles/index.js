@@ -16,6 +16,35 @@ export const Theme = {
   dark: 'dark',
 };
 
+export const calculateHitSlop = (height, widthArg) => {
+  const MIN_TOUCH_TARGET = 44;
+
+  let width = widthArg;
+  if (!widthArg) {
+    width = height;
+  }
+
+  let verticalSlop = 0;
+  let horizontalSlop = 0;
+
+  const missingWidth = Math.max(MIN_TOUCH_TARGET - width, 0);
+  if (missingWidth) {
+    horizontalSlop = missingWidth / 2;
+  }
+
+  const missingHeight = Math.max(MIN_TOUCH_TARGET - height, 0);
+  if (missingHeight) {
+    verticalSlop = missingHeight / 2;
+  }
+
+  return {
+    top: verticalSlop,
+    bottom: verticalSlop,
+    left: horizontalSlop,
+    right: horizontalSlop,
+  };
+};
+
 // Colors
 export const colors = {
   white: '#ffffff', // rgba(255, 255, 255, 1)

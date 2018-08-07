@@ -38,13 +38,14 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     padding: 20,
+    paddingBottom: 0,
   },
   heading: {
     marginBottom: 20,
     color: 'white',
   },
   footer: {
-    marginTop: 'auto',
     padding: 20,
+    paddingTop: 0,
   },
 });

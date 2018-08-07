@@ -10,7 +10,9 @@ import {
 import T from 'components/Typography';
 import LinearGradient from 'react-native-linear-gradient';
 import { GradientText } from 'components/GradientText';
-import { gradients, colors } from 'styles';
+import { gradients, colors, calculateHitSlop } from 'styles';
+const textHitSlop = calculateHitSlop(15, Infinity);
+
 export default class Button extends Component {
   static propTypes = {
     type: PropTypes.oneOf(['base', 'primary', 'secondary', 'text']),
@@ -31,6 +33,7 @@ export default class Button extends Component {
   };
 
   render() {
+    let hitSlop;
     const styles =
       stylesForType[
         this.props.disabled || this.props.loading ? `${this.props.type}Disabled` : this.props.type
@@ -48,6 +51,7 @@ export default class Button extends Component {
       if (this.props.loading) {
         buttonContent = <ActivityIndicator size="small" />;
       } else {
+        hitSlop = textHitSlop;
         buttonContent = (
           <T.ButtonText style={styles.buttonText}>
             {shouldUpperCase ? buttonText.toUpperCase() : buttonText}
@@ -117,6 +121,7 @@ export default class Button extends Component {
 
     return (
       <TouchableOpacity
+        hitSlop={hitSlop}
         disabled={this.props.disabled || this.props.loading}
         style={[styles.buttonContainer, this.props.style]}
         onPress={this.props.onPress}

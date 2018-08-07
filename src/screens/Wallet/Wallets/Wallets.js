@@ -18,12 +18,14 @@ import { Layout, Body } from 'components/Base';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
+import { dimensions } from 'styles';
 import Swipeable from 'react-native-swipeable';
 import NavigatorService from 'lib/navigator';
 
 class SwipableItem extends React.Component {
   static propTypes = {
     wallet_id: PropTypes.string,
+    onSwipeStart: PropTypes.func,
     children: PropTypes.node,
   };
 
@@ -51,6 +53,12 @@ class SwipableItem extends React.Component {
     const PAY_ICON = require('assets/send.png');
     const REQUEST_ICON = require('assets/request.png');
     const VIEW_ICON = require('assets/scan.png');
+
+    const horizontalPaddingList = 40;
+    const horizontalPaddingImage = 20;
+    const imageWidth = 30;
+    const offset = horizontalPaddingImage + horizontalPaddingList + imageWidth;
+    const buttonWidth = (dimensions.width - offset) / 3;
 
     const rightButtons = [
       <TouchableOpacity
@@ -88,7 +96,11 @@ class SwipableItem extends React.Component {
     ];
 
     return (
-      <Swipeable rightButtons={rightButtons} rightButtonWidth={75}>
+      <Swipeable
+        onSwipeStart={this.props.onSwipeStart}
+        rightButtons={rightButtons}
+        rightButtonWidth={buttonWidth}
+      >
         {this.props.children}
       </Swipeable>
     );
@@ -108,11 +120,18 @@ class Wallet extends React.Component {
     getCurrencyPrice: PropTypes.func.isRequired,
   };
 
+  state = {
+    swipedWallet: null
+  };
+
   componentDidMount() {
     SUPPORTED_COINS_WALLET.map(symbol => this.props.getCurrencyPrice(symbol));
   }
 
   handleNavigateToCoinInfo = (id, coin) => () => {
+    if (this.state.swipedWallet) {
+      this.state.swipedWallet.recenter();
+    }
     this.props.navigation.navigate('CoinInformation', { id, coin });
   };
 
@@ -127,6 +146,13 @@ class Wallet extends React.Component {
   handleWalletImport = () => {
     this.props.navigation.navigate('Import');
   };
+
+  handleWalletSwipe = (evt, gestureState, swipedWallet) => {
+    if (this.state.swipedWallet) {
+      this.state.swipedWallet.recenter();
+    }
+    this.setState({swipedWallet});
+  }
 
   renderActionButtons() {
     const buttons = [];
@@ -193,7 +219,7 @@ class Wallet extends React.Component {
             const { balance, symbol, publicAddress, id, imported } = wallet;
             const price = this.props.prices[symbol];
             return (
-              <SwipableItem key={id} wallet_id={id}>
+              <SwipableItem key={id} wallet_id={id} onSwipeStart={this.handleWalletSwipe}>
                 <WalletListEntry
                   name={getCoinMetadata(symbol).fullName}
                   symbol={symbol}

@@ -17,10 +17,13 @@ import { signOut } from 'sagas/authentication';
 import { allPricesLoadedSelector, totalHoldingsSelector } from 'sagas/pricing/selectors';
 import { isSignedInSelector, userFullNameSelector } from 'containers/User/selectors';
 import NavigatorService from 'lib/navigator';
-import { gradients } from 'styles';
+import { gradients, calculateHitSlop } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
 import Config from 'react-native-config';
+
+const menuHitSlop = calculateHitSlop(40, 20);
+const linkHitSlop = calculateHitSlop(15, Infinity);
 
 class Menu extends Component {
   static propTypes = {
@@ -56,6 +59,7 @@ class Menu extends Component {
                   </View>
                 </Try>
                 <TouchableOpacity
+                  hitSlop={menuHitSlop}
                   style={{
                     paddingVertical: 10,
                     paddingHorizontal: 0,
@@ -85,18 +89,21 @@ class Menu extends Component {
                 <Text style={styles.subHeading}>Payments</Text>
               </View>
               <TouchableOpacity
+                hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Wallet')}
               >
                 <Text style={styles.linkContent}>WALLET</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('GetHelp')}
               >
                 <Text style={styles.linkContent}>GET HELP</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Settings')}
               >
@@ -107,12 +114,14 @@ class Menu extends Component {
                 <Text style={styles.subHeading}>Info</Text>
               </View>
               <TouchableOpacity
+                hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('Legal')}
               >
                 <Text style={styles.linkContent}>LEGAL</Text>
               </TouchableOpacity>
               <TouchableOpacity
+                hitSlop={linkHitSlop}
                 style={styles.linkWrapper}
                 onPress={() => this.navigateTo('About')}
               >
