@@ -124,7 +124,7 @@ export default class CoinInformation extends React.Component {
             style={styles.actionButton}
           >
             <View style={styles.actionButtonView}>
-              <Image source={require('assets/send.png')} />
+              <Image style={styles.image} source={require('assets/send.png')} />
               <T.Small style={styles.actionButtonText}>SEND</T.Small>
             </View>
           </TouchableOpacity>
@@ -134,7 +134,7 @@ export default class CoinInformation extends React.Component {
               style={styles.actionButton}
             >
               <View style={styles.actionButtonView}>
-                <Image source={require('assets/request.png')} />
+                <Image style={styles.image} source={require('assets/request.png')} />
                 <T.Small style={styles.actionButtonText}>REQUEST</T.Small>
               </View>
             </TouchableOpacity>
@@ -144,7 +144,7 @@ export default class CoinInformation extends React.Component {
             style={styles.actionButton}
           >
             <View style={styles.actionButtonView}>
-              <Image source={require('assets/scan.png')} />
+              <Image style={styles.image} source={require('assets/scan.png')} />
               <T.Small style={styles.actionButtonText}>VIEW</T.Small>
             </View>
           </TouchableOpacity>
@@ -212,8 +212,9 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   image: {
-    width: 30,
-    height: 30,
+    width: 25,
+    height: 25,
+    marginBottom: 5,
     resizeMode: 'contain',
   },
   holdings: {

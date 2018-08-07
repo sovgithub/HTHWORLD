@@ -326,6 +326,7 @@ const styles = StyleSheet.create({
   walletActionImage: {
     height: 20,
     width: 20,
+    marginBottom: 5,
   },
 
   walletActionText: {
