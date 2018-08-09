@@ -24,6 +24,7 @@ import NavigatorService from 'lib/navigator';
 
 class SwipableItem extends React.Component {
   static propTypes = {
+    isSignedIn: PropTypes.bool,
     wallet_id: PropTypes.string,
     onSwipeStart: PropTypes.func,
     children: PropTypes.node,
@@ -54,11 +55,12 @@ class SwipableItem extends React.Component {
     const REQUEST_ICON = require('assets/request.png');
     const VIEW_ICON = require('assets/scan.png');
 
+    const numButtons = this.props.isSignedIn ? 3 : 2;
     const horizontalPaddingList = 40;
     const horizontalPaddingImage = 20;
     const imageWidth = 30;
     const offset = horizontalPaddingImage + horizontalPaddingList + imageWidth;
-    const buttonWidth = (dimensions.width - offset) / 3;
+    const buttonWidth = (dimensions.width - offset) / numButtons;
 
     const rightButtons = [
       <TouchableOpacity
@@ -72,16 +74,18 @@ class SwipableItem extends React.Component {
         </View>
       </TouchableOpacity>,
 
-      <TouchableOpacity
-        onPress={this.handleRequest}
-        style={styles.walletAction}
-        key={'actionRequest'}
-      >
-        <View style={styles.walletActionContainer}>
-          <Image style={styles.walletActionImage} source={REQUEST_ICON} />
-          <Text style={styles.walletActionText}>REQUEST</Text>
-        </View>
-      </TouchableOpacity>,
+      this.props.isSignedIn && (
+        <TouchableOpacity
+          onPress={this.handleRequest}
+          style={styles.walletAction}
+          key={'actionRequest'}
+        >
+          <View style={styles.walletActionContainer}>
+            <Image style={styles.walletActionImage} source={REQUEST_ICON} />
+            <Text style={styles.walletActionText}>REQUEST</Text>
+          </View>
+        </TouchableOpacity>
+      ),
 
       <TouchableOpacity
         onPress={this.handleView}
@@ -93,7 +97,7 @@ class SwipableItem extends React.Component {
           <Text style={styles.walletActionText}>VIEW</Text>
         </View>
       </TouchableOpacity>,
-    ];
+    ].filter(v => v);
 
     return (
       <Swipeable
@@ -114,6 +118,7 @@ class Wallet extends React.Component {
     }).isRequired,
     wallets: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
     hasMnemonic: PropTypes.bool,
+    isSignedIn: PropTypes.bool,
     hasAvailableCoins: PropTypes.bool,
     totalHoldings: PropTypes.number,
     prices: PropTypes.objectOf(PropTypes.number),
@@ -219,7 +224,7 @@ class Wallet extends React.Component {
             const { balance, symbol, publicAddress, id, imported } = wallet;
             const price = this.props.prices[symbol];
             return (
-              <SwipableItem key={id} wallet_id={id} onSwipeStart={this.handleWalletSwipe}>
+              <SwipableItem key={id} wallet_id={id} onSwipeStart={this.handleWalletSwipe} isSignedIn={this.props.isSignedIn}>
                 <WalletListEntry
                   name={getCoinMetadata(symbol).fullName}
                   symbol={symbol}

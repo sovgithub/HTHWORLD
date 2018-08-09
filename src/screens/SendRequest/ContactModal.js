@@ -29,6 +29,8 @@ import throttle from 'lodash/throttle';
 import { createFilter } from 'react-native-search-filter';
 import { RECIPIENT_TYPE_OTHER } from 'screens/SendRequest/constants';
 
+import {gradients} from 'styles';
+
 const FILTER_BY_KEYS = ['givenName', 'middleName', 'familyName', 'emailAddress', 'phoneNumber'];
 
 export default class ContactModal extends Component {
@@ -248,12 +250,9 @@ export default class ContactModal extends Component {
                 )}
               />
               <LinearGradient
-                end={{ x: 1, y: 1 }}
-                start={{ x: 1, y: 0 }}
-                colors={[
-                  'rgba(61,67,74,0)',
-                  'rgba(61,67,74,1)'
-                ]}
+                end={gradients.vertical.start}
+                start={gradients.vertical.end}
+                colors={gradients.transparentBlueGray}
                 style={styles.bottomFade}
               />
             </Fragment>

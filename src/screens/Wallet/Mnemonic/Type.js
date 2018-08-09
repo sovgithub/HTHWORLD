@@ -16,36 +16,33 @@ export default class Type extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.imageContainer}>
+        <View style={styles.bodyContainer}>
           <Image
             style={styles.image}
-            source={require('assets/droplet.png')}
+            source={require('assets/create-wallet-top.png')}
           />
-        </View>
-        <View style={styles.bodyContainer}>
           <T.Heading style={styles.heading}>
-            Create New Mnemonic
+            Create Wallet
           </T.Heading>
           <T.Light style={styles.content}>
-            We will walk you through the process of generating a new mnemonic phrase.
-            This 12 word list will allow you to generate recover your wallets in the
-            future.
+            Okay, first up in the wallet creation process is creating your seed words.
+            All you have to do is scribble, so let's get started.
           </T.Light>
-          <View style={styles.buttonsContainer}>
-            <Button
-              style={styles.generateButton}
-              onPress={this.props.saveAndContinue(this.props.newMnemonicType)}
-            >
-              Let's Get Started!
-            </Button>
-            <Button
-              type="text"
-              style={styles.recoverButton}
-              onPress={this.props.saveAndContinue(this.props.existingMnemonicType)}
-            >
-              Actually, I've Done This Before
-            </Button>
-          </View>
+        </View>
+        <View style={styles.buttonsContainer}>
+          <Button
+            style={styles.generateButton}
+            onPress={this.props.saveAndContinue(this.props.newMnemonicType)}
+          >
+            Get Started
+          </Button>
+          <Button
+            type="text"
+            style={styles.recoverButton}
+            onPress={this.props.saveAndContinue(this.props.existingMnemonicType)}
+          >
+            Actually, I've Done This Before
+          </Button>
         </View>
       </View>
     );
@@ -59,21 +56,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: padding.md,
-    paddingBottom: padding.xl,
-  },
-  imageContainer: {
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
-    padding: padding.lg,
+    paddingBottom: padding.md,
   },
   image: {
     height: imageHeight,
     width: imageWidth,
+    marginBottom: padding.xl,
     resizeMode: 'contain',
   },
   bodyContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
     flex: 1
   },
   heading: {
@@ -82,18 +75,18 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   content: {
-    color: colors.white,
-    textAlign: 'center',
-    fontFamily: typography.family.primary,
-    lineHeight: typography.lineHeight.normal,
-    fontSize: typography.size.md,
-    fontWeight: typography.weight.thin,
+    fontFamily: "HelveticaNeue",
+    fontSize: 16,
+    fontWeight: "300",
+    fontStyle: "normal",
+    textAlign: "center",
+    color: "#9da0a5"
   },
   buttonsContainer: {
     marginTop: 'auto'
   },
   generateButton: {
-    marginBottom: padding.lg,
+    marginBottom: padding.md,
   },
   recoverButton: {
   },

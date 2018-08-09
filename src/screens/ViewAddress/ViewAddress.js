@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { View, Clipboard, StyleSheet, Image } from 'react-native';
-import QRCode from 'react-native-qrcode';
-import { colors, dimensions } from 'styles';
+import QRCode from 'react-native-qrcode-svg';
+import { dimensions } from 'styles';
 import T from 'components/Typography';
 import Modal from 'components/Modal';
 import Icon from 'components/Icon';
@@ -73,8 +73,6 @@ export default class ViewAddress extends Component {
                 <QRCode
                   value={wallet.publicAddress}
                   size={dimensions.width / 2}
-                  fgColor={colors.grayDarker}
-                  bgColor={colors.white}
                 />
               </View>
             </View>

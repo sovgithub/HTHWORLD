@@ -18,6 +18,7 @@ export const AUTH_USER_STORAGE_KEY = 'auth/user';
 import { UPDATE_USER } from 'containers/User/constants';
 import { initUser, updateUser } from 'containers/User/actions';
 import { store } from '../App.js';
+import { getKey } from 'components/Pin/utils';
 import {
   isMnemonicInitializedSelector,
   mnemonicPhraseSelector,
@@ -183,9 +184,12 @@ export default function* authenticationWatcher() {
       }
 
       const mnemonicPhrase = yield select(mnemonicPhraseSelector);
+      const pin = yield call(getKey);
 
-      if (mnemonicPhrase) {
+      if (mnemonicPhrase && pin) {
         NavigatorService.resetReplace('Login', 'Menu');
+      } else if (mnemonicPhrase && !pin) {
+        NavigatorService.navigate('Store');
       } else {
         NavigatorService.navigate('Mnemonic');
       }

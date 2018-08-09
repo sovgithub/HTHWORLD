@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, StyleSheet, AlertIOS } from 'react-native';
+import { KeyboardAvoidingView, Text, View, StyleSheet, TextInput, Platform } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import InputList from './InputList';
-import Keyboard from './Keyboard';
 import { saveKey } from './utils';
 import Button from 'components/Button';
 import T from 'components/Typography';
@@ -25,19 +24,16 @@ export default class Store extends Component {
   };
 
   state = {
-    pin: null,
+    attempts: 0,
     confirmPin: null,
+    pin: null,
+    pinValue: '',
+    valid: false,
   };
 
   handleInputRef = ref => (this.inputEl = ref);
 
   shake = () => this.inputEl.shake(800);
-
-  state = {
-    pinValue: '',
-    valid: false,
-    attempts: 0,
-  };
 
   storePin = value => {
     if (this.state.pin) {
@@ -62,66 +58,69 @@ export default class Store extends Component {
     NavigatorService.resetReplace('Login', 'Wallet');
   };
 
-  validatePin = value => {
-    this.storePin(value);
-  };
-
-  handlePinPress = value => {
-    if (value === 'DEL') {
-      const pin = this.state.pinValue.slice(0, -1);
-      this.setState({ pinValue: pin });
-      return;
-    }
-
-    const newPin = `${this.state.pinValue}${value}`;
-    if (newPin.length >= this.props.pinLength) {
-      this.validatePin(newPin);
+  handlePinPress = pinValue => {
+    if (pinValue.length >= this.props.pinLength) {
+      this.storePin(pinValue);
     } else {
-      this.setState({ pinValue: newPin });
+      this.setState({ pinValue });
     }
   };
 
   render() {
     return (
       <Animatable.View animation="fadeInUp" style={styles.container}>
-        <View style={styles.pinView}>
-          <T.Heading style={styles.text}>
-            {this.state.valid
-              ? ''
-              : !this.state.pin ? LANG_ENTER_STRING : LANG_CONFIRM_STRING}
-            {this.state.pin && this.state.valid && LANG_SUCCESS_STRING}
-          </T.Heading>
-          <Text style={styles.pinPromptText}>
-            {!this.state.pin &&
-              'Your PIN will be used to unlock your wallet and send or receive.'
-            }
-            {this.state.pin &&
-              this.state.confirmPin &&
-              !this.state.valid &&
-              'PIN was not the same'}
-          </Text>
-          <Text style={styles.pinPromptText}>
-            Attempts: {this.state.attempts}
-          </Text>
-          {!this.state.valid && (
-            <Animatable.View ref={this.handleInputRef}>
-              <InputList pinLength={6} pinValue={this.state.pinValue} />
-            </Animatable.View>
-          )}
-
-          {this.state.pin &&
-            this.state.valid && (
-              <View style={styles.buttonContainer}>
-                <Button
-                  onPress={this.onSuccessHandler}
-                  style={styles.button}
-                >
-                  {'Go to dashboard'}
-                </Button>
-              </View>
+        <KeyboardAvoidingView style={{flex: 1}} behavior="padding" enabled={!this.state.valid}>
+          <View style={styles.pinView}>
+            <T.Heading style={styles.text}>
+              {this.state.valid
+                ? ''
+                : !this.state.pin ? LANG_ENTER_STRING : LANG_CONFIRM_STRING}
+              {this.state.pin && this.state.valid && LANG_SUCCESS_STRING}
+            </T.Heading>
+            <Text style={styles.pinPromptText}>
+              {!this.state.pin &&
+                'Your PIN will be used to unlock your wallet and send or receive.'
+              }
+              {this.state.pin &&
+                this.state.confirmPin &&
+                !this.state.valid &&
+                'PIN was not the same'}
+            </Text>
+            <Text style={styles.pinPromptText}>
+              Attempts: {this.state.attempts}
+            </Text>
+            {!this.state.valid && (
+              <Animatable.View ref={this.handleInputRef}>
+                <InputList pinLength={this.props.pinLength} pinValue={this.state.pinValue} />
+              </Animatable.View>
             )}
-        </View>
-        {!this.state.valid && <Keyboard handlePinPress={this.handlePinPress} />}
+
+            {this.state.pin &&
+              this.state.valid && (
+                <View style={styles.buttonContainer}>
+                  <Button
+                    onPress={this.onSuccessHandler}
+                    style={styles.button}
+                  >
+                    {'Go to dashboard'}
+                  </Button>
+                </View>
+              )}
+          </View>
+          {!this.state.valid &&
+            <TextInput
+              style={Platform.OS === 'ios' ? styles.hiddenInputIOS : styles.hiddenInputAndroid}
+              caretHidden={true}
+              selectTextOnFocus={true}
+              autoCorrect={false}
+              autoFocus={true}
+              keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'phone-pad'}
+              maxLength={this.props.pinLength}
+              value={this.state.pinValue}
+              onChangeText={this.handlePinPress}
+            />
+          }
+        </KeyboardAvoidingView>
       </Animatable.View>
     );
   }
@@ -177,4 +176,11 @@ const styles = StyleSheet.create({
     width: '100%',
     padding: 10,
   },
+  hiddenInputIOS: {
+    display: 'none'
+  },
+  hiddenInputAndroid: {
+    height: 0,
+    color: 'transparent'
+  }
 });

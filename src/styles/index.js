@@ -61,6 +61,8 @@ export const colors = {
   greenLight: '#00a073', // rgba(0, 160, 115, 1)
   greenBlue: '#007982', // rgba(0, 121, 130, 1)
 
+  blueGray: '#3d434a', // rgba(61, 67, 74, 1)
+
   red: '#FF6161',
   green: '#33FF33',
   blue: '#00C1FF',
@@ -70,9 +72,29 @@ export const colors = {
   active: '#00C1FF',
 };
 
+export const colorsRGBA = {
+  white: 'rgba(255, 255, 255, 1)',
+  grayLighter: 'rgba(222, 223, 229, 1)',
+  grayLight: 'rgba(140, 143, 165, 1)',
+  gray: 'rgba(95, 98, 125, 1)',
+  grayDark: 'rgba(49, 51, 71, 1)',
+  grayDarker: 'rgba(23, 24, 30, 1)',
+  black: 'rgba(0, 0, 0, 1)',
+  pinkDark: 'rgba(230, 34, 141, 1)',
+  violet: 'rgba(153, 47, 238, 1)',
+  greenLighter: 'rgb(0, 236, 158)',
+  greenLight: 'rgba(0, 160, 115, 1)',
+  greenBlue: 'rgba(0, 121, 130, 1)',
+  blueGray: 'rgba(61, 67, 74, 1)',
+};
+
+export const adjustRGBAOpacity = (rgba, opacity) =>
+  rgba.replace(/\d\.?\d?\)$/, `${opacity})`);
+
 export const gradients = {
   green: [colors.greenLight, colors.greenBlue],
   blue: [colors.grayDark, colors.grayDarker],
+  transparentBlueGray: [adjustRGBAOpacity(colorsRGBA.blueGray, 0), colors.blueGrayRGBA],
   pink: [colors.pinkDark, colors.violet],
   light: [colors.grayLighter, colors.grayLight],
   horizontal: {
