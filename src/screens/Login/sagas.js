@@ -11,12 +11,13 @@
 
 import { call, put } from 'redux-saga/effects';
 import { LOGIN_SUCCESS, LOGIN_ERROR } from './constants';
+import Config from 'react-native-config';
 import api from 'lib/api';
 import { getErrorMessage } from 'lib/api-errors';
 
 // TODO: abstract these into dev/prod files
-const loginUrl = `https://erebor-staging.hoardinvest.com/login/`;
-const userInfoUrl = `https://erebor-staging.hoardinvest.com/users/`;
+const loginUrl = `${Config.EREBOR_ENDPOINT}/login/`;
+const userInfoUrl = `${Config.EREBOR_ENDPOINT}/users/`;
 
 // Handle logging in via the API
 export async function loginApi(username_or_email, password) {

@@ -5,6 +5,7 @@ import Config from 'react-native-config';
 import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import memoize from 'lodash/memoize';
 
+import Config from 'react-native-config';
 import { colors, calculateHitSlop } from 'styles';
 import Contact from './Contact';
 import Scene from 'components/Scene';
@@ -243,7 +244,7 @@ export default class SendRequest extends Component {
       } else {
         try {
           const response = await api.post(
-            'https://erebor-staging.hoardinvest.com/contacts/transaction',
+            `${Config.EREBOR_ENDPOINT}/contacts/transaction`,
             {
               sender: selectedWallet.publicAddress,
               amount: Number(this.state.amount),
@@ -291,7 +292,7 @@ export default class SendRequest extends Component {
         wallet => wallet.id === this.state.selectedId
       );
       try {
-        await api.post('https://erebor-staging.hoardinvest.com/request_funds', {
+        await api.post(`${Config.EREBOR_ENDPOINT}/request_funds`, {
           email_address: this.props.emailAddress,
           amount: Number(this.state.amount),
           recipient: this.getValueFromRecipient(this.state.recipient),
