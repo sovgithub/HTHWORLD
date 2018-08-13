@@ -18,7 +18,7 @@ import AddressModal from 'screens/SendRequest/AddressModal';
 import QRModal from 'screens/SendRequest/QRModal';
 import ContactModal from 'screens/SendRequest/ContactModal';
 import CurrencyModal from 'screens/SendRequest/CurrencyModal';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, SafeAreaView } from 'react-navigation';
 import { INIT_REQUESTING } from './containers/App/constants';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -34,7 +34,12 @@ export let navigatorRef;
 
 const RoutingStack = createStackNavigator(
   {
-    Login: { screen: Login, navigationOptions: { header: null } },
+    Login: { screen: Login, navigationOptions: navProps =>
+      getNavigationOptions({
+        ...navProps,
+        leftAction: null,
+        rightAction: null,
+      }), },
     Signup: {
       screen: Signup,
       navigationOptions: navProps =>
@@ -134,7 +139,9 @@ export default class App extends React.Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <ModalStack ref={this.refDidLoad} />
+          <SafeAreaView style={{flex:1}}>
+            <ModalStack ref={this.refDidLoad} />
+          </SafeAreaView>
         </LinearGradient>
       </Provider>
     );
