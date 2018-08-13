@@ -1,4 +1,4 @@
-package com.hoard;
+package com.hoardinc.Hoard;
 
 import android.app.Application;
 

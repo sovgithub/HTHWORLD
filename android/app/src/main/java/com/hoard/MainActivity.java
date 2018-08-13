@@ -1,4 +1,4 @@
-package com.hoard;
+package com.hoardinc.Hoard;
 import org.devio.rn.splashscreen.SplashScreen; // import this
 import android.os.Bundle; // import this
 

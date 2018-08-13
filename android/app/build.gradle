@@ -124,10 +124,10 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.hoard"
+        applicationId "com.hoardinc.Hoard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
+        versionCode 48
         versionName "1.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"

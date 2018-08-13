@@ -1,4 +1,4 @@
-package com.hoard; // make sure this is your package name
+package com.hoardinc.Hoard; // make sure this is your package name
 
 import android.content.Intent;
 import android.os.Bundle;

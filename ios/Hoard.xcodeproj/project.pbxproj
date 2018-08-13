@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -17,7 +18,6 @@
 		070ACD462101268B00367138 /* AirshipConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 070ACD452101268B00367138 /* AirshipConfig.plist */; };
 		077B45EA20975797001892B8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E820975797001892B8 /* Crashlytics.framework */; };
 		077B45EB20975797001892B8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 077B45E920975797001892B8 /* Fabric.framework */; };
-		07CDD29721078A2C0052A528 /* Airship in Resources */ = {isa = PBXBuildFile; fileRef = 07CDD29621078A2C0052A528 /* Airship */; };
 		07CDD2C221078A8F0052A528 /* AirshipKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CDD2B721078A820052A528 /* AirshipKit.framework */; };
 		07CDD2C321078A8F0052A528 /* AirshipKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 07CDD2B721078A820052A528 /* AirshipKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0824BF54C72E4669B196E646 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F336BE3D510495F8C45243E /* SimpleLineIcons.ttf */; };
@@ -1272,6 +1272,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = 72LCGV4DW6;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1868,7 +1869,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				07CDD29721078A2C0052A528 /* Airship in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				C8193CF0EB5742EDB24E2029 /* Entypo.ttf in Resources */,
@@ -2156,7 +2156,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hoard, Inc. (72LCGV4DW6)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 28;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2190,6 +2192,8 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = Hoard;
+				PROVISIONING_PROFILE = "4e396402-ffe6-4712-8d51-51fe85b5acb4";
+				PROVISIONING_PROFILE_SPECIFIER = "com.hoardinc.Hoard AppStore";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -2199,7 +2203,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hoard, Inc. (72LCGV4DW6)";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2232,6 +2238,8 @@
 					"-lc++",
 				);
 				PRODUCT_NAME = Hoard;
+				PROVISIONING_PROFILE = "4e396402-ffe6-4712-8d51-51fe85b5acb4";
+				PROVISIONING_PROFILE_SPECIFIER = "com.hoardinc.Hoard AppStore";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

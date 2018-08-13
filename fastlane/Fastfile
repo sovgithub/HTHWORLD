@@ -1,0 +1,212 @@
+fastlane_require 'dotenv'
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+#################################################
+##               Setup & Config                ##
+#################################################
+
+ROOT_PATH = `pwd`
+APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifier)
+
+IOS_PATH = "ios/"
+XCODE_PROJECT_PATH = IOS_PATH + "Hoard.xcodeproj"
+
+lane :dev do |options|
+
+end
+
+default_platform :ios
+
+  before_all do
+    # ensure_git_status_clean
+    # ensure_no_debug_code(text: "# TODO", exclude_dirs: ["node_modules"])
+    # ensure_no_debug_code(text: "<<<<<<<", exclude_dirs: ["node_modules"])
+  end
+
+  #################################################
+  ##               PUBLIC LANES                  ##
+  #################################################
+  platform :ios do
+
+    desc "Send an iOS build to Fabric for testing"
+    lane :internal_beta_fabric do
+      fabric_ios(scheme: "Testing")
+    end
+
+    desc "Send an iOS build to TestFlight for testing"
+    lane :internal_beta_itc do
+      itc(scheme: "Testing")
+    end
+
+  end
+
+  platform :android do
+
+    desc "Send an Android build to the Play Store for testing"
+    lane :internal_beta_play do
+      play(scheme: "Testing")
+    end
+
+  end
+
+  ######################### PRIVATE LANES #########################
+  #------------------- Fabric.io - Crashlytics -------------------#
+
+  private_lane :fabric_ios do |options|
+    scheme = options[:scheme]
+    environment = scheme.upcase
+
+    build_ios
+
+    crashlytics(
+      api_token: ENV['FABRIC_API_KEY'],
+      build_secret: ENV['FABRIC_API_SECRET'],
+      groups: 'developers',
+      ipa_path: "./Hoard.ipa",
+      notifications: false,
+      notes: options[:notes] || "App Update - Running on #{environment}"
+    )
+
+    notify_slack(scheme: scheme, destination: "Fabric", platform: 'iOS')
+  end
+
+  private_lane :fabric_android do |options|
+    scheme = options[:scheme]
+    environment = scheme.upcase
+
+    build_android
+
+    crashlytics(
+      api_token: ENV['FABRIC_API_KEY'],
+      build_secret: ENV['FABRIC_API_SECRET'],
+      groups: 'developers',
+      notifications: false,
+      notes: options[:notes] || "App Update - Running on #{environment}"
+    )
+
+    notify_slack(scheme: scheme, destination: "Fabric", platform: 'Android')
+  end
+
+
+  #-------------------------- App Stores -------------------------#
+  private_lane :itc do |options|
+    scheme = options[:scheme]
+
+    build_ios
+
+    upload_to_testflight(
+      distribute_external: options[:distribute_external] || false,
+      changelog: options[:notes] || "App Update - minor build update"
+    )
+
+    notify_slack(scheme: scheme, destination: "TestFlight", platform: 'iOS')
+
+  end
+
+  private_lane :play do |options|
+    JSON_KEY_FILE = File.absolute_path('../android/app/' + ENV['GOOGLE_SERVICE_ACCOUNT_JSON'])
+
+    scheme = options[:scheme]
+
+    build_android
+
+    upload_to_play_store(
+      track: 'internal',
+      package_name: APP_IDENTIFIER,
+      json_key: JSON_KEY_FILE,
+      apk: './android/app/build/outputs/apk/release/app-release.apk'
+    )
+
+    notify_slack(scheme: scheme, destination: "Google Play Store", platform: 'Android')
+
+  end
+
+  ############################# UTIL ##############################
+
+private_lane :build_ios do |options|
+  scheme = options[:scheme]
+
+  cert
+  sigh
+
+  # For Fabric, we need to force an ad-hoc profile:
+  # sigh(force: true, adhoc: true)
+
+  # bump version number
+  if options[:build_number]
+    increment_build_number(
+       build_number: options[:build_number],
+       xcodeproj: XCODE_PROJECT_PATH
+     )
+  else
+    increment_build_number(xcodeproj: XCODE_PROJECT_PATH)
+  end
+
+  gym(
+    export_method: "app-store",
+    # #for Fabric.io
+    # export_method: 'ad-hoc',
+    # export_options: {
+    #   # method: "ad-hoc",
+    #   provisioningProfiles: {
+    #     "com.hoardinc.Hoard" => "AdHoc_com.hoardinc.Hoard.mobileprovision",
+    #   }
+    # },
+    include_symbols: false,
+    scheme: "Hoard",
+    project: XCODE_PROJECT_PATH,
+    xcargs: "ARCHIVE=YES",
+    # output_directory: './Builds/',
+    # silent: true,
+    # suppress_xcode_output: true,
+  )
+end
+
+private_lane :build_android do |options|
+
+  scheme = options[:scheme]
+
+  def increment_version_code(gradle_build: 'android/app/build.gradle')
+    sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  end
+
+  # gradle runs from a different context and adds '/android/app' unnecessarily.
+  KEYSTORE_PATH = File.absolute_path('../android/app/keystores/my-release-key.keystore')
+
+  increment_version_code
+
+  gradle(task: 'clean', project_dir: './android/',)
+
+  gradle(
+    task: 'assemble',
+    build_type: 'Release',
+    project_dir: './android/',
+    properties: {
+      "android.injected.signing.store.file" =>  KEYSTORE_PATH,
+      "android.injected.signing.store.password" => ENV['STORE_PASSWORD'],
+      "android.injected.signing.key.alias" => ENV['KEY_ALIAS'],
+      "android.injected.signing.key.password" => ENV['KEY_PASSWORD'],
+      }
+  )
+end
+
+private_lane :notify_slack do |options|
+  scheme      = options[:scheme]
+  platform    = options[:platform]
+  destination = options[:destination]
+  version     = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+  build       = get_build_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+  message     = "BETA BUILD to #{destination} #{platform}: *#{version}* (#{build})  :rocket:"
+
+  UI.success(message)
+
+  slack(
+    channel: "#dev-updates",
+    default_payloads: [],
+    slack_url: ENV['SLACK_URL'],
+    message: message,
+  )
+
+end
