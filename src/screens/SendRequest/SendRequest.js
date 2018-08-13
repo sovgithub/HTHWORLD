@@ -5,7 +5,6 @@ import Config from 'react-native-config';
 import { Alert, Image, StyleSheet, View, TouchableOpacity } from 'react-native';
 import memoize from 'lodash/memoize';
 
-import Config from 'react-native-config';
 import { colors, calculateHitSlop } from 'styles';
 import Contact from './Contact';
 import Scene from 'components/Scene';
