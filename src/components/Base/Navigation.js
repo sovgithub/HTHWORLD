@@ -199,6 +199,7 @@ export const cardStyle = {
 
 const styles = StyleSheet.create({
   container: {
+    minHeight: 50,
     flexDirection: 'row',
     paddingHorizontal: padding.md,
     paddingTop: padding.lg,
