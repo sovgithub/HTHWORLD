@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import NavigatorService from 'lib/navigator';
 import configureStore from './configureStore';
-import { StyleSheet, Animated, Easing } from 'react-native';
+import { StyleSheet, Animated, Easing, YellowBox } from 'react-native';
 
 /* import HockeyApp from 'react-native-hockeyapp';*/
 // import Config from 'react-native-config';
@@ -112,6 +112,14 @@ const ModalStack = createStackNavigator({
 });
 
 export default class App extends React.Component {
+
+  constructor(){
+    super();
+    if (__DEV__) {
+      YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
+    }
+  }
+
   componentWillMount() {
     /* HockeyApp.configure(Config.HOCKEYAPP_API_KEY, true);*/
   }
