@@ -159,6 +159,13 @@ class Wallet extends React.Component {
     this.setState({swipedWallet});
   }
 
+  handleScroll = () => {
+    if (this.state.swipedWallet) {
+      this.state.swipedWallet.recenter();
+      this.setState({swipedWallet: null});
+    }
+  }
+
   renderActionButtons() {
     const buttons = [];
 
@@ -219,7 +226,7 @@ class Wallet extends React.Component {
             margin: 20,
           }}
         />
-        <ScrollView contentContainerStyle={styles.scrollview} bounces={false}>
+        <ScrollView contentContainerStyle={styles.scrollview} onScroll={this.handleScroll} bounces={false}>
           {this.props.wallets.map(wallet => {
             const { balance, symbol, publicAddress, id, imported } = wallet;
             const price = this.props.prices[symbol];
