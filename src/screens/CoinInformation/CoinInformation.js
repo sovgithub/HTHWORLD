@@ -112,8 +112,8 @@ export default class CoinInformation extends React.Component {
       <View style={styles.container}>
         <T.Heading style={styles.heading}>{metadata.fullName}</T.Heading>
         <Card
-          iconPath={metadata.svgPath}
-          colors={['#2889d6', '#123665']}
+          icon={metadata.icon}
+          colors={metadata.colors}
           title={wallet.balance.toFixed(2)}
           walletsToChart={[wallet]}
           subtitle={`$${(wallet.balance * price).toFixed(2)}`}

@@ -45,7 +45,6 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { Try } from 'components/Conditional';
 import PortfolioChart from 'containers/PortfolioChart';
-import SVG, {Path} from 'react-native-svg';
 
 const { width: viewportWidth } = Dimensions.get('window');
 
@@ -62,7 +61,7 @@ export const cardHeight = slideWidth * 1.618 * 0.4;
 
 export default class Card extends Component {
   static propTypes = {
-    iconPath: PropTypes.string,
+    icon: PropTypes.string,
     colors: PropTypes.arrayOf(
       PropTypes.string
     ).isRequired,
@@ -76,7 +75,7 @@ export default class Card extends Component {
     const {
       additionalInfo,
       colors,
-      iconPath,
+      icon,
       style,
       subtitle,
       title,
@@ -94,19 +93,16 @@ export default class Card extends Component {
       >
         <View style={styles.top}>
           <View style={styles.titleContainer}>
-            <Try condition={!!iconPath}>
-              <SVG
-                style={{marginRight: 2}}
-                height="15"
-                width="15"
-                viewBox="0 0 49 49"
-                preserveAspectRatio="none"
-              >
-                <Path
-                  fill="#fFf"
-                  d={iconPath}
-                />
-              </SVG>
+            <Try condition={!!icon}>
+              <Image
+                style={{
+                  height: 15,
+                  width: 15,
+                  marginRight: 2,
+                  resizeMode: 'contain'
+                }}
+                source={icon}
+              />
             </Try>
             <Text style={[styles.text, styles.title]}>
               {title}

@@ -11,7 +11,7 @@ import {
 
 
 function hexToRgb(hex) {
-  const bigint = parseInt(hex.match(/\d+\w+/), 16);
+  const bigint = parseInt(hex.match(/[\d\w]+/), 16);
   return [
     (bigint >> 16) & 255,
     (bigint >> 8) & 255,
