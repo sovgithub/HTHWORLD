@@ -116,7 +116,6 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     compileOptions {
         sourceCompatibility 1.8
@@ -127,7 +126,7 @@ android {
         applicationId "com.hoardinc.Hoard"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 48
+        versionCode 62
         versionName "1.8"
         ndk {
             abiFilters "armeabi-v7a", "x86"
@@ -141,8 +140,18 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+                storeFile file("../app/" + project.env.get("KEYFILE"))
+                storePassword project.env.get("STORE_PASSWORD")
+                keyAlias project.env.get("KEY_ALIAS")
+                keyPassword project.env.get("KEY_PASSWORD")
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }

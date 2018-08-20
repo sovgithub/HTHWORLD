@@ -9,7 +9,8 @@
     "ios": "react-native run-ios",
     "lint": "yarn eslint src --ext js",
     "format": "prettier ./src/**/*.js --write",
-    "build:android:signed": "source .env && cd android && ./gradlew assembleRelease -Pandroid.injected.signing.store.file=$KEYFILE -Pandroid.injected.signing.store.password=\"$STORE_PASSWORD\" -Pandroid.injected.signing.key.alias=$KEY_ALIAS -Pandroid.injected.signing.key.password=\"$KEY_PASSWORD\"",
+    "build:android:signed": "source .env && cd android && ./gradlew assembleRelease",
+    "android:adb": "adb install -r ./android/app/build/outputs/apk/release/app-release.apk",
     "postinstall": "patch-package"
   },
   "jest": {

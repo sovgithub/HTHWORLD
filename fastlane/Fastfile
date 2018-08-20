@@ -1,7 +1,7 @@
 fastlane_require 'dotenv'
 
 # Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
+update_fastlane
 
 #################################################
 ##               Setup & Config                ##
@@ -113,7 +113,7 @@ default_platform :ios
     build_android
 
     upload_to_play_store(
-      track: 'internal',
+      track: 'alpha',
       package_name: APP_IDENTIFIER,
       json_key: JSON_KEY_FILE,
       apk: './android/app/build/outputs/apk/release/app-release.apk'
@@ -168,14 +168,28 @@ private_lane :build_android do |options|
 
   scheme = options[:scheme]
 
-  def increment_version_code(gradle_build: 'android/app/build.gradle')
-    sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  # def increment_version_code(gradle_build: 'android/app/build.gradle')
+  #   sh %Q{cd ../ && echo "$(awk '{sub(/versionCode [[:digit:]]+$/,"versionCode "$2+1)}1' #{gradle_build})" > #{gradle_build} && cd -}
+  # end
+  #
+  GRADLE_PATH = File.absolute_path('../android/app/build.gradle')
+
+  def bump_android_version
+    re = /versionCode\s+(\d+)/
+
+    s = File.read(GRADLE_PATH)
+    versionCode = s[re, 1].to_i
+    s[re, 1] = (versionCode + 1).to_s
+
+    f = File.new(GRADLE_PATH, 'w')
+    f.write(s)
+    f.close
   end
 
   # gradle runs from a different context and adds '/android/app' unnecessarily.
   KEYSTORE_PATH = File.absolute_path('../android/app/keystores/my-release-key.keystore')
 
-  increment_version_code
+  bump_android_version
 
   gradle(task: 'clean', project_dir: './android/',)
 
@@ -192,12 +206,30 @@ private_lane :build_android do |options|
   )
 end
 
+
 private_lane :notify_slack do |options|
   scheme      = options[:scheme]
   platform    = options[:platform]
   destination = options[:destination]
-  version     = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
-  build       = get_build_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+  version     = 'unknown'
+  build       = 'unknown'
+
+  if platform === 'iOS'
+    version     = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+    build       = get_build_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+  end
+
+  if platform === 'Android'
+    GRADLE_PATH = File.absolute_path('../android/app/build.gradle')
+
+      VC = /versionCode\s+(\d+)/
+      VN = /versionName\s+"([^"]*)"/
+
+      s = File.read(GRADLE_PATH)
+      build = s[VC, 1].to_i
+      version = s.scan(/versionName\s+"([^"]*)"/)
+  end
+
   message     = "BETA BUILD to #{destination} #{platform}: *#{version}* (#{build})  :rocket:"
 
   UI.success(message)
