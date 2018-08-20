@@ -36,8 +36,14 @@ export function* fetchTransactions(action) {
           const firstOtherVout = transaction
             .vout
             .find(vout => vout.scriptPubKey.addresses[0] !== action.payload.publicAddress);
-          to = firstOtherVout.scriptPubKey.addresses[0];
-          value = Number(firstOtherVout.value);
+
+          if (firstOtherVout) {
+            to = firstOtherVout.scriptPubKey.addresses[0];
+            value = Number(firstOtherVout.value);
+          } else { // for some reason this was a send to yourself, but we should still show it
+            to = action.payload.publicAddress;
+            value = transaction.vout.reduce((total, vout) => total + Number(vout.value), 0);
+          }
         } else {
           from = inAddresses[0];
           to = action.payload.publicAddress;
