@@ -2158,7 +2158,7 @@
 				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hoard, Inc. (72LCGV4DW6)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2205,7 +2205,7 @@
 				CODE_SIGN_ENTITLEMENTS = Hoard/Hoard.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Hoard, Inc. (72LCGV4DW6)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 29;
+				CURRENT_PROJECT_VERSION = 30;
 				DEVELOPMENT_TEAM = 72LCGV4DW6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
