@@ -7,7 +7,9 @@ import {
   WALLET_IMPORT,
   WALLET_IMPORT_SUCCESS,
   WALLET_IMPORT_ERROR,
-  WALLET_UPDATE_BALANCE_SUCCESS
+  WALLET_UPDATE_BALANCE_REQUESTING,
+  WALLET_UPDATE_BALANCE_SUCCESS,
+  WALLET_UPDATE_BALANCE_ERROR
 } from "./constants";
 
 const initialState = {
@@ -35,6 +37,8 @@ const initialState = {
         symbol: string
         balance: number
         publicAddress: string
+        balance_requesting: bool
+        balance_successful: bool
       }
     */
   }
@@ -81,7 +85,9 @@ export default function reducer(state = initialState, action) {
           symbol: payload.symbol,
           imported: false,
           balance: payload.balance,
-          publicAddress: payload.publicAddress
+          publicAddress: payload.publicAddress,
+          balance_requesting: true,
+          balance_successful: false
         }
       }
     };
@@ -116,7 +122,9 @@ export default function reducer(state = initialState, action) {
           symbol: payload.symbol,
           imported: true,
           balance: payload.balance,
-          publicAddress: payload.publicAddress
+          publicAddress: payload.publicAddress,
+          balance_requesting: true,
+          balance_successful: false
         }
       }
     };
@@ -129,6 +137,19 @@ export default function reducer(state = initialState, action) {
       import_error: action.error,
     };
   }
+  case WALLET_UPDATE_BALANCE_REQUESTING: {
+    return {
+      ...state,
+      wallets: {
+        ...state.wallets,
+        [action.id]: {
+          ...state.wallets[action.id],
+          balance_requesting: true,
+          balance_successful: false
+        }
+      }
+    };
+  }
   case WALLET_UPDATE_BALANCE_SUCCESS: {
     const payload = action.payload;
     return {
@@ -137,7 +158,22 @@ export default function reducer(state = initialState, action) {
         ...state.wallets,
         [payload.id]: {
           ...state.wallets[payload.id],
-          balance: payload.balance
+          balance: payload.balance,
+          balance_requesting: false,
+          balance_successful: true
+        }
+      }
+    };
+  }
+  case WALLET_UPDATE_BALANCE_ERROR: {
+    return {
+      ...state,
+      wallets: {
+        ...state.wallets,
+        [action.id]: {
+          ...state.wallets[action.id],
+          balance_requesting: false,
+          balance_successful: false
         }
       }
     };

@@ -12,7 +12,7 @@ import {
 import Button from 'components/Button';
 import Card from 'components/Card';
 import T from 'components/Typography';
-import WalletListEntry from './WalletListEntry';
+import WalletListEntry, { ENTRY_STATUS } from './WalletListEntry';
 import PortfolioChart from 'containers/PortfolioChart';
 import { Layout, Body } from 'components/Base';
 import { getCoinMetadata } from 'lib/currency-metadata';
@@ -121,7 +121,11 @@ class Wallet extends React.Component {
     isSignedIn: PropTypes.bool,
     hasAvailableCoins: PropTypes.bool,
     totalHoldings: PropTypes.number,
-    prices: PropTypes.objectOf(PropTypes.number),
+    prices: PropTypes.objectOf(PropTypes.shape({
+      price: PropTypes.number,
+      requesting: PropTypes.bool,
+      successful: PropTypes.bool,
+    })),
     getCurrencyPrice: PropTypes.func.isRequired,
   };
 
@@ -228,20 +232,48 @@ class Wallet extends React.Component {
         />
         <ScrollView contentContainerStyle={styles.scrollview} onScroll={this.handleScroll} bounces={false}>
           {this.props.wallets.map(wallet => {
-            const { balance, symbol, publicAddress, id, imported } = wallet;
-            const price = this.props.prices[symbol];
+            const {
+              balance,
+              balance_requesting,
+              balance_successful,
+              symbol,
+              publicAddress,
+              id,
+              imported
+            } = wallet;
+
+            const {
+              requesting: price_requesting,
+              successful: price_successful,
+              price
+            } = this.props.prices[symbol];
+
+            const balanceStatus =
+              balance_requesting
+               ? ENTRY_STATUS.LOADING
+               : balance_successful
+                 ? ENTRY_STATUS.SUCCESSFUL
+                 : ENTRY_STATUS.ERROR;
+            const priceStatus =
+              price_requesting
+               ? ENTRY_STATUS.LOADING
+               : price_successful
+                 ? ENTRY_STATUS.SUCCESSFUL
+                 : ENTRY_STATUS.ERROR;
+
             return (
               <SwipableItem key={id} wallet_id={id} onSwipeStart={this.handleWalletSwipe} isSignedIn={this.props.isSignedIn}>
                 <WalletListEntry
                   name={getCoinMetadata(symbol).fullName}
                   symbol={symbol}
                   balance={balance}
+                  balanceStatus={balanceStatus}
                   change={'0%'}
                   price={price}
+                  priceStatus={priceStatus}
                   publicAddress={publicAddress}
                   imported={imported}
                   onPress={this.handleNavigateToCoinInfo(id, symbol)}
-                  value={(Number(price) * Number(balance)).toFixed(2)}
                 />
               </SwipableItem>
             );

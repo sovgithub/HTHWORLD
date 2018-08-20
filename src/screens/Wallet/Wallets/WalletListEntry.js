@@ -6,16 +6,27 @@ import Icon from 'components/Icon';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
 import { getCoinMetadata } from 'lib/currency-metadata';
 
+export const ENTRY_STATUS = {
+  ERROR: 'ERROR',
+  LOADING: 'LOADING',
+  SUCCESSFUL: 'SUCCESSFUL',
+};
+
 const WalletListEntry = ({
   name,
   symbol,
   balance,
-  value,
+  balanceStatus,
   onPress,
   change,
   imported,
   price,
+  priceStatus,
 }) => {
+
+  const value = [balanceStatus, priceStatus].reduce((prev, status) => prev && status === ENTRY_STATUS.SUCCESSFUL, true)
+    && (Number(price) * Number(balance)).toFixed(2);
+
   return (
     <TouchableOpacity onPress={onPress}>
       <View style={styles.container}>
@@ -41,18 +52,39 @@ const WalletListEntry = ({
               {name}
             </T.TitleAlternate>
             <T.SmallAlternate style={{ color: '#777' }}>
-              ${price} / {symbol}
+              <Conditional>
+                <Try condition={priceStatus === ENTRY_STATUS.SUCCESSFUL}>
+                  ${price} / {symbol}
+                </Try>
+                <Otherwise>
+                  ...
+                </Otherwise>
+              </Conditional>
             </T.SmallAlternate>
           </View>
         </View>
 
         <View style={styles.right}>
           <T.Price style={{ color: 'lightgrey', fontSize: 20 }}>
-            ${value}
+            <Conditional>
+              <Try condition={priceStatus === ENTRY_STATUS.SUCCESSFUL && balanceStatus === ENTRY_STATUS.SUCCESSFUL}>
+                ${value}
+              </Try>
+              <Otherwise>
+                ...
+              </Otherwise>
+            </Conditional>
           </T.Price>
           <T.SubtitleAlternate>
             <T.SemiBoldAlternate style={{ color: '#777' }}>
-              {balance} {symbol}
+              <Conditional>
+                <Try condition={balanceStatus === ENTRY_STATUS.SUCCESSFUL}>
+                  {balance} {symbol}
+                </Try>
+                <Otherwise>
+                  ...
+                </Otherwise>
+              </Conditional>
             </T.SemiBoldAlternate>
           </T.SubtitleAlternate>
         </View>
@@ -63,14 +95,21 @@ const WalletListEntry = ({
 
 export default WalletListEntry;
 
+
+const EntryStatusProp = PropTypes.oneOf([
+  ENTRY_STATUS.SUCCESSFUL,
+  ENTRY_STATUS.LOADING,
+  ENTRY_STATUS.ERROR,
+]);
 WalletListEntry.propTypes = {
   balance: PropTypes.number.isRequired,
   price: PropTypes.number.isRequired,
+  balanceStatus: EntryStatusProp.isRequired,
+  priceStatus: EntryStatusProp.isRequired,
   change: PropTypes.string.isRequired,
   imported: PropTypes.bool,
   name: PropTypes.string.isRequired,
   symbol: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
 };
 

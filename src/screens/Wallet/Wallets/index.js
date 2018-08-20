@@ -33,8 +33,7 @@ const mapStateToProps = (state) => ({
       ...prices,
       [symbol]: state.pricing &&
         state.pricing[symbol] &&
-        state.pricing[symbol].price &&
-        state.pricing[symbol].price.price
+        state.pricing[symbol].price
     }),
     {}
   )

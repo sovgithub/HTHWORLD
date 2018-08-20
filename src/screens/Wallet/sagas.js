@@ -21,6 +21,7 @@ import { SEARCH_FOR_TRANSACTIONS } from 'sagas/transactions/constants';
 import { INIT_USER } from 'containers/User/constants';
 import {
   initializeMnemonic,
+  updateBalance,
   importWallet,
   importWalletSuccess,
   importWalletFailure,
@@ -131,7 +132,6 @@ export function* storeWallets() {
 async function commonWalletInitializationActions(wallet) {
   const id = makeId();
   const symbol = wallet.symbol;
-  const balance = await wallet.getBalance();
   const publicAddress = await wallet.getPublicAddress();
   wallets[id] = wallet;
 
@@ -156,10 +156,15 @@ async function commonWalletInitializationActions(wallet) {
     );
   }
 
+  setTimeout(
+    () => store.dispatch(updateBalance(id)),
+    0
+  );
+
   return {
     id,
     symbol,
-    balance: Number(balance.toString()),
+    balance: null,
     publicAddress
   };
 }
@@ -225,6 +230,7 @@ function* updateBalanceFlow(action) {
   } catch (error) {
     yield put({
       type: WALLET_UPDATE_BALANCE_ERROR,
+      id,
       error
     });
   }
@@ -326,7 +332,7 @@ export default function* walletSagaWatcher() {
 
     takeEvery(WALLET_IMPORT, importWalletFlow),
 
-    takeLatest(WALLET_UPDATE_BALANCE_REQUESTING, updateBalanceFlow),
+    takeEvery(WALLET_UPDATE_BALANCE_REQUESTING, updateBalanceFlow),
     takeLatest(WALLET_SEND_FUNDS_REQUESTING, sendFundsFlow)
   ]);
 }
