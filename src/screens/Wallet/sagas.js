@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import { select, all, takeLatest, takeEvery, call, put, fork } from "redux-saga/effects";
 import { initializeWallet } from "./WalletInstances";
-import { INIT_REQUESTING, SUPPORTED_COINS_WALLET } from "containers/App/constants";
+import { INIT_REQUESTING, SUPPORTED_COINS_WALLET, SYMBOL_BOAR } from "containers/App/constants";
 import {store} from '../../App';
 import {
   WALLET_INITIALIZE_PASSPHRASE,
@@ -17,6 +17,7 @@ import {
   WALLET_SEND_FUNDS_SUCCESS,
   WALLET_SEND_FUNDS_ERROR
 } from "./constants";
+import { SEARCH_FOR_TRANSACTIONS } from 'sagas/transactions/constants';
 import { INIT_USER } from 'containers/User/constants';
 import {
   initializeMnemonic,
@@ -144,6 +145,15 @@ async function commonWalletInitializationActions(wallet) {
         }
       });
     });
+  } else if (symbol === SYMBOL_BOAR) {
+    setTimeout(
+      () => store.dispatch({
+        type: SEARCH_FOR_TRANSACTIONS,
+        id,
+        wallet
+      }),
+      0
+    );
   }
 
   return {

@@ -4,10 +4,10 @@ import {
   SYMBOL_ETH
 } from "containers/App/constants";
 import { AsyncStorage } from 'react-native';
-import { channel } from 'redux-saga';
+import { channel, delay } from 'redux-saga';
 import { fork, all, take, select, takeEvery, call, put } from "redux-saga/effects";
 import { WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS } from "screens/Wallet/constants";
-import { walletsForSymbolSelector } from "screens/Wallet/selectors";
+import { selectors } from "./reducer";
 import { RequestLimiter, asyncMemoize, getHalfwayPoint, Queue } from './helpers';
 import {
   BLOCK_ADDED_TO_QUEUE,
@@ -26,6 +26,8 @@ import {
 
 import {bigNumberToEther} from 'lib/formatters';
 import { getNetworkForCoin } from 'lib/currency-metadata';
+
+import api from 'lib/api';
 
 export const network = ethers.providers.networks[getNetworkForCoin(SYMBOL_ETH)];
 export const provider = ethers.providers.getDefaultProvider(network);
@@ -67,18 +69,10 @@ export async function timestampPriceApi(request) {
 
 export default function* ethTransactionsSagaWatcher() {
   yield all([
-    call(initialize),
+    fork(setupActionBridgeChannel),
     takeEvery([WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS], listenForWalletEvents), // takes publicAddress, symbol
     takeEvery(SEARCH_FOR_INTERESTING_BLOCKS, fetchHistoryEth),
-    takeEvery(INTERESTING_BLOCK_FOUND, addBlockToQueue),
   ]);
-}
-
-// INITIALIZATION FUNCTIONS
-export function* initialize() {
-  yield fork(setupActionBridgeChannel);
-  yield fork(processTransactionsBlockQueue);
-  yield call(hydrate);
 }
 
 export function* setupActionBridgeChannel() {
@@ -88,206 +82,52 @@ export function* setupActionBridgeChannel() {
   }
 }
 
-export function* processTransactionsBlockQueue() {
-  while (true) {
-    if (!transactionsBlockQueue.length) {
-      yield take(BLOCK_ADDED_TO_QUEUE);
-    }
-
-    const { block, transactionCount } = yield call(transactionsBlockQueue.pop);
-    const wallets = yield select(state => walletsForSymbolSelector(state, SYMBOL_ETH));
-    yield call(searchBlockForTransactions, block, wallets.map(w => w.publicAddress), transactionCount);
-  }
-}
-
-export function listenForWalletEvents(action) {
+export function* listenForWalletEvents(action) {
   const { symbol, publicAddress } = action.payload;
 
   if (symbol === SYMBOL_ETH) {
+    yield fork(fetchHistoryEth, { publicAddress });
+
     provider.on(publicAddress, () => {
       actionBridgeChannel.put(triggerSearchForInterestingBlocks(publicAddress));
     });
   }
 }
 
-export function* hydrate() {
-  const savedBlockNumber = yield call(AsyncStorage.getItem, BLOCK_NUMBER_STORAGE_KEY);
-  let blockNumber = {};
-
-  if (savedBlockNumber) {
-    try {
-      blockNumber = JSON.parse(savedBlockNumber);
-    } catch(e) {
-      blockNumber = {};
-    }
-  }
-
-  lastCheckedBlockNumber = blockNumber;
-  return lastCheckedBlockNumber;
-}
-
-// SIMPLE FUNCTIONS
-export function* updateLastCheckedBlockNumber(address, blockNumber) {
-  lastCheckedBlockNumber = {
-    ...lastCheckedBlockNumber,
-    [address]: blockNumber
-  };
-  yield call(AsyncStorage.setItem, BLOCK_NUMBER_STORAGE_KEY, JSON.stringify(lastCheckedBlockNumber));
-  yield put(blockUpdated());
-}
-
-export function* addBlockToQueue(action) {
-  transactionsBlockQueue.push(action.block);
-  yield put(blockAddedToQueue());
-}
-
-export function getLastCheckedBlockForAddress(address) {
-  return lastCheckedBlockNumber[address] || 0;
-}
-
 // BLOCK SEARCH FUNCTIONS
 export function* fetchHistoryEth(action) {
   const { publicAddress } = action;
 
-  const startBlockNumber = yield call(getLastCheckedBlockForAddress, publicAddress);
-  let mostRecentBlockNumber = startBlockNumber;
-  let mostRecentSearch;
   try {
-    mostRecentBlockNumber = yield call(provider.getBlockNumber.bind(provider));
-    mostRecentSearch = {
-      publicAddress,
-      startBlockNumber,
-      endBlockNumber: mostRecentBlockNumber
-    };
+    const response = yield call(api.get, `${Config.BOMBADIL_ENDPOINT}/transactions/${publicAddress}`);
+    const cachedTransactions = yield select(selectors.getTransactionsForSymbolAddress(SYMBOL_ETH, publicAddress));
+    for (const transaction of response.result.slice(cachedTransactions.length)) {
+
+      const isFrom = transaction.from.toLowerCase() === publicAddress.toLowerCase();
+      const isTo = transaction.to.toLowerCase() === publicAddress.toLowerCase();
+
+      const price = yield call(timestampPriceApi, `?fsym=ETH&tsyms=USD&ts=${transaction.timestamp}`);
+      const action = {
+        symbol: SYMBOL_ETH,
+        timeMined: Number(transaction.timestamp) * 1000,
+        blockNumber: Number(transaction.blockNumber),
+        isTrade: false,
+        hash: transaction.hash,
+        gasPrice: transaction.gas,
+        priceAtTimeMined: Number(transaction.ether) * price.ETH.USD,
+        from: isFrom ? publicAddress : transaction.from,
+        to: isTo ? publicAddress : transaction.to,
+        value: transaction.ether
+      };
+      yield put(transactionFound(action));
+    }
+
   } catch(e) {
     if (__DEV__) {
       // eslint-disable-next-line no-console
-      console.log('error encountered while fetching most recent block number: ', e);
+      console.log('error encountered while fetching ETH transactions');
     }
   }
-
-  // search through previous list of errored out blocks first
-  const searchThroughRanges = mostRecentSearch
-    ? [
-      ...searchInRangeList,
-      mostRecentSearch
-    ]
-    : searchInRangeList;
-
-  // empty out list of previously errored blocks
-  searchInRangeList = [];
-
-  yield all(
-    searchThroughRanges
-      .map(
-        item => call(searchForInterestingBlocks, item.publicAddress, item.startBlockNumber, item.endBlockNumber)
-      )
-  );
-
-
-  yield call(updateLastCheckedBlockNumber, publicAddress, mostRecentBlockNumber);
 }
 
 
-export function* searchForInterestingBlocks(publicAddress, startBlockNumber, endBlockNumber) {
-  try {
-    const startTransactionCount = yield call(getTransactionCount, publicAddress, startBlockNumber);
-    const endTransactionCount = yield call(getTransactionCount, publicAddress, endBlockNumber);
-
-    let transactionCount = endTransactionCount - startTransactionCount;
-
-    if (startTransactionCount === endTransactionCount) {
-      const startBalance = yield call(getBalance, publicAddress, startBlockNumber);
-      const endBalance = yield call(getBalance, publicAddress, endBlockNumber);
-
-      const difference = endBalance - startBalance;
-
-      if (difference === 0) {
-        // since we have not sent (startTransactionCount === endTransactionCount), and we effectively haven't received anything
-        // we can safely cut this branch off
-        return;
-      } else {
-        // hmmm..... there's a price discrepancy here. we don't really know how many transactions have happened to cause this,
-        // so we'll need to loop through the whole block for this one
-        transactionCount = Infinity;
-      }
-    }
-
-    const halfwayBlockNumber = getHalfwayPoint(startBlockNumber, endBlockNumber);
-
-    if (halfwayBlockNumber) {
-      yield fork(searchForInterestingBlocks, publicAddress, startBlockNumber, halfwayBlockNumber);
-      yield fork(searchForInterestingBlocks, publicAddress, halfwayBlockNumber, endBlockNumber);
-    } else {
-      yield put(interestingBlockFound({
-        block: endBlockNumber,
-        publicAddress,
-        transactionCount: transactionCount
-      }));
-    }
-  } catch(e) {
-    if (__DEV__) {
-      // eslint-disable-next-line no-console
-      console.log(`error in searching range ${startBlockNumber} - ${endBlockNumber} for address: ${publicAddress}`, e);
-    }
-
-    searchInRangeList.push({
-      publicAddress,
-      startBlockNumber,
-      endBlockNumber
-    });
-  }
-}
-
-export function* searchBlockForTransactions(blockNumber, addresses, transactionCount) {
-  try {
-    const transactionList = [];
-    // first fetch the full block
-    const block = yield call(getBlock, blockNumber);
-
-    // now, loop through all of the transactions in the block
-    for (let transactionIndex = 0; transactionIndex < block.transactions.length; transactionIndex++) {
-
-      // we have to get the full transaction object
-      const transaction = yield call(getTransaction, block.transactions[transactionIndex]);
-
-      // and check if we have either sent or recieved funds
-      if (addresses.includes(transaction.to) || addresses.includes(transaction.from)) {
-        const price = yield call(timestampPriceApi, `?fsym=ETH&tsyms=USD&ts=${block.timestamp}`);
-        const action = {
-          ...transaction,
-          symbol: SYMBOL_ETH,
-          timeMined: block.timestamp * 1000,
-          priceAtTimeMined: price.ETH.USD,
-          gasPrice: bigNumberToEther(transaction.gasPrice),
-          gasLimit: bigNumberToEther(transaction.gasLimit),
-          value: bigNumberToEther(transaction.value)
-        };
-
-        transactionList.push(action);
-
-        yield put(transactionFound(action));
-
-        // increment the number of counted transactions.
-        // if we have hit all of our events in this block,
-        if (transactionList.length === transactionCount) {
-          //  we jump instantly to the next block
-          break;
-        }
-      }
-    }
-
-    return transactionList;
-  } catch (e) {
-    if (__DEV__) {
-      // eslint-disable-next-line no-console
-      console.log(`error in searching block ${blockNumber} for transactions`, e);
-    }
-
-    // if we ran into an issue with this block, put it back in the queue
-    yield put(interestingBlockFound({
-      block: blockNumber,
-      transactionCount: transactionCount
-    }));
-  }
-}

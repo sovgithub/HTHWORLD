@@ -6,7 +6,6 @@ import { selectors as transactionSelectors } from 'sagas/transactions/reducer';
 
 const mapStateToProps = (state, ownProps) => {
   const { wallets } = ownProps;
-  console.log('wallets', wallets);
   let transactionsToCoalesce;
   if ( wallets && wallets.length ) {
     transactionsToCoalesce = wallets.map(({symbol, publicAddress}) => ({
@@ -17,9 +16,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 
   return {
-    transactionsToCoalesce: transactionsToCoalesce && transactionsToCoalesce.filter(
-      ({symbol}) => symbol !== SYMBOL_BOAR
-    ),
+    transactionsToCoalesce: transactionsToCoalesce,
     fiatTrades: state.transactions.fiatTrades.reduce(
       (fiatTrades, hash) => {
         let validWalletTrade = false;
