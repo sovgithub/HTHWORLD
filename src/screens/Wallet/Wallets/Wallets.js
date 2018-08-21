@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   Image,
   Text,
-  TouchableHighlight,
   TouchableOpacity,
   ScrollView,
   StyleSheet,
@@ -11,10 +10,8 @@ import {
 } from 'react-native';
 import Button from 'components/Button';
 import Card from 'components/Card';
-import T from 'components/Typography';
 import WalletListEntry, { ENTRY_STATUS } from './WalletListEntry';
-import PortfolioChart from 'containers/PortfolioChart';
-import { Layout, Body } from 'components/Base';
+import { Layout } from 'components/Base';
 import { getCoinMetadata } from 'lib/currency-metadata';
 import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
@@ -121,16 +118,18 @@ class Wallet extends React.Component {
     isSignedIn: PropTypes.bool,
     hasAvailableCoins: PropTypes.bool,
     totalHoldings: PropTypes.number,
-    prices: PropTypes.objectOf(PropTypes.shape({
-      price: PropTypes.number,
-      requesting: PropTypes.bool,
-      successful: PropTypes.bool,
-    })),
+    prices: PropTypes.objectOf(
+      PropTypes.shape({
+        price: PropTypes.number,
+        requesting: PropTypes.bool,
+        successful: PropTypes.bool,
+      })
+    ),
     getCurrencyPrice: PropTypes.func.isRequired,
   };
 
   state = {
-    swipedWallet: null
+    swipedWallet: null,
   };
 
   componentDidMount() {
@@ -160,15 +159,15 @@ class Wallet extends React.Component {
     if (this.state.swipedWallet) {
       this.state.swipedWallet.recenter();
     }
-    this.setState({swipedWallet});
-  }
+    this.setState({ swipedWallet });
+  };
 
   handleScroll = () => {
     if (this.state.swipedWallet) {
       this.state.swipedWallet.recenter();
-      this.setState({swipedWallet: null});
+      this.setState({ swipedWallet: null });
     }
-  }
+  };
 
   renderActionButtons() {
     const buttons = [];
@@ -230,7 +229,11 @@ class Wallet extends React.Component {
             margin: 20,
           }}
         />
-        <ScrollView contentContainerStyle={styles.scrollview} onScroll={this.handleScroll} bounces={false}>
+        <ScrollView
+          contentContainerStyle={styles.scrollview}
+          onScroll={this.handleScroll}
+          bounces={false}
+        >
           {this.props.wallets.map(wallet => {
             const {
               balance,
@@ -239,30 +242,33 @@ class Wallet extends React.Component {
               symbol,
               publicAddress,
               id,
-              imported
+              imported,
             } = wallet;
 
             const {
               requesting: price_requesting,
               successful: price_successful,
-              price
+              price,
             } = this.props.prices[symbol];
 
-            const balanceStatus =
-              balance_requesting
-               ? ENTRY_STATUS.LOADING
-               : balance_successful
-                 ? ENTRY_STATUS.SUCCESSFUL
-                 : ENTRY_STATUS.ERROR;
-            const priceStatus =
-              price_requesting
-               ? ENTRY_STATUS.LOADING
-               : price_successful
-                 ? ENTRY_STATUS.SUCCESSFUL
-                 : ENTRY_STATUS.ERROR;
+            const balanceStatus = balance_requesting
+              ? ENTRY_STATUS.LOADING
+              : balance_successful
+                ? ENTRY_STATUS.SUCCESSFUL
+                : ENTRY_STATUS.ERROR;
+            const priceStatus = price_requesting
+              ? ENTRY_STATUS.LOADING
+              : price_successful
+                ? ENTRY_STATUS.SUCCESSFUL
+                : ENTRY_STATUS.ERROR;
 
             return (
-              <SwipableItem key={id} wallet_id={id} onSwipeStart={this.handleWalletSwipe} isSignedIn={this.props.isSignedIn}>
+              <SwipableItem
+                key={id}
+                wallet_id={id}
+                onSwipeStart={this.handleWalletSwipe}
+                isSignedIn={this.props.isSignedIn}
+              >
                 <WalletListEntry
                   name={getCoinMetadata(symbol).fullName}
                   symbol={symbol}
@@ -285,96 +291,12 @@ class Wallet extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   scrollview: {
     flexGrow: 1,
-  },
-  headingContainer: {
-    minHeight: 200,
-    alignItems: 'center',
-  },
-  backgroundImage: {
-    width: null,
-    height: null,
-    resizeMode: 'cover',
-  },
-  transparentBackground: {
-    backgroundColor: 'transparent',
-  },
-  logo: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  currentBalance: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-  },
-  text: {
-    color: 'white',
-  },
-  positive: {
-    color: '#00EC5F',
-  },
-  pagerContainer: {
-    marginTop: 'auto',
-    marginBottom: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  pagerIndicator: {
-    margin: 2,
-    width: 7,
-    height: 7,
-    backgroundColor: 'transparent',
-    borderRadius: 10,
-    borderColor: '#00EC5F',
-    borderWidth: 1,
-    borderStyle: 'solid',
-  },
-  pagerIndicatorSelected: {
-    margin: 2,
-    width: 14,
-    height: 7,
-    backgroundColor: '#00EC5F',
-    borderRadius: 10,
-    borderColor: '#00EC5F',
-    borderWidth: 1,
-    borderStyle: 'solid',
-  },
-  walletContainer: {
-    flex: 1,
-    backgroundColor: 'white',
-    marginBottom: 'auto',
-  },
-  walletHeadingContainer: {
-    padding: 20,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderStyle: 'solid',
-    borderColor: '#f7f7f7',
-  },
-  walletHeading: {
-    fontWeight: 'bold',
-  },
-  emptyText: {
-    padding: 20,
   },
   footerContainer: {
     marginTop: 'auto',
     padding: 15,
-  },
-  buttonLeft: {
-    flex: 1,
-    marginRight: 7.5,
-  },
-  buttonRight: {
-    flex: 1,
-    marginLeft: 7.5,
   },
   walletAction: {
     flex: 1,
@@ -392,13 +314,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   walletActionImage: {
     height: 20,
     width: 20,
     marginBottom: 5,
   },
-
   walletActionText: {
     color: '#fff',
     fontSize: 12,

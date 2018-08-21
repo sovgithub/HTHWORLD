@@ -18,14 +18,15 @@ const WalletListEntry = ({
   balance,
   balanceStatus,
   onPress,
-  change,
   imported,
   price,
   priceStatus,
 }) => {
-
-  const value = [balanceStatus, priceStatus].reduce((prev, status) => prev && status === ENTRY_STATUS.SUCCESSFUL, true)
-    && (Number(price) * Number(balance)).toFixed(2);
+  const value =
+    [balanceStatus, priceStatus].reduce(
+      (prev, status) => prev && status === ENTRY_STATUS.SUCCESSFUL,
+      true
+    ) && (Number(price) * Number(balance)).toFixed(2);
 
   return (
     <TouchableOpacity onPress={onPress}>
@@ -56,9 +57,7 @@ const WalletListEntry = ({
                 <Try condition={priceStatus === ENTRY_STATUS.SUCCESSFUL}>
                   ${price} / {symbol}
                 </Try>
-                <Otherwise>
-                  ...
-                </Otherwise>
+                <Otherwise>...</Otherwise>
               </Conditional>
             </T.SmallAlternate>
           </View>
@@ -67,12 +66,15 @@ const WalletListEntry = ({
         <View style={styles.right}>
           <T.Price style={{ color: 'lightgrey', fontSize: 20 }}>
             <Conditional>
-              <Try condition={priceStatus === ENTRY_STATUS.SUCCESSFUL && balanceStatus === ENTRY_STATUS.SUCCESSFUL}>
+              <Try
+                condition={
+                  priceStatus === ENTRY_STATUS.SUCCESSFUL &&
+                  balanceStatus === ENTRY_STATUS.SUCCESSFUL
+                }
+              >
                 ${value}
               </Try>
-              <Otherwise>
-                ...
-              </Otherwise>
+              <Otherwise>...</Otherwise>
             </Conditional>
           </T.Price>
           <T.SubtitleAlternate>
@@ -81,9 +83,7 @@ const WalletListEntry = ({
                 <Try condition={balanceStatus === ENTRY_STATUS.SUCCESSFUL}>
                   {balance} {symbol}
                 </Try>
-                <Otherwise>
-                  ...
-                </Otherwise>
+                <Otherwise>...</Otherwise>
               </Conditional>
             </T.SemiBoldAlternate>
           </T.SubtitleAlternate>
@@ -94,7 +94,6 @@ const WalletListEntry = ({
 };
 
 export default WalletListEntry;
-
 
 const EntryStatusProp = PropTypes.oneOf([
   ENTRY_STATUS.SUCCESSFUL,

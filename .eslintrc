@@ -4,6 +4,7 @@
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "rules": {
     "react/display-name": 0,
+    "react-native/no-unused-styles": 2,
     "semi": [2, "always"]
   },
   "globals": {

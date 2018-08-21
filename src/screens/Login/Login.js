@@ -158,23 +158,10 @@ export default class Login extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
   body: {
     paddingHorizontal: 20,
     marginTop: -80,
     paddingTop: 80,
-  },
-  containerGradient: {
-    borderRadius: 0,
-  },
-
-  logoContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-    alignContent: 'center',
   },
   logo: {
     width: 150,
@@ -206,16 +193,6 @@ const styles = StyleSheet.create({
   network: {
     color: '#fff',
     textAlign: 'center',
-  },
-  imageView: {
-    flex: 1,
-    flexShrink: 1,
-    paddingTop: 40,
-  },
-  image: {
-    width: null,
-    height: null,
-    resizeMode: 'cover',
   },
   buttonContainerAlt: {
     marginVertical: 20,

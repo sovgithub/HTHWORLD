@@ -4,7 +4,7 @@ import find from 'lodash/find';
 import invoke from 'lodash/invoke';
 import memoize from 'lodash/memoize';
 
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { Try } from 'components/Conditional';
 
 import { Layout, Body, Header, Footer } from 'components/Base';
@@ -51,7 +51,7 @@ export default class Signup extends Component {
     if (state.loading && !props.signup.requesting && !props.signup.successful) {
       return {
         loading: false,
-        errorMessage: props.signup.error
+        errorMessage: props.signup.error,
       };
     }
     return null;
@@ -66,50 +66,53 @@ export default class Signup extends Component {
 
     if (find(errors)) {
       return this.setState({
-        showErrors: true
+        showErrors: true,
       });
     }
 
-    this.setState({ loading: true }, () =>
-      this.props.signupRequest(answers)
-    );
+    this.setState({ loading: true }, () => this.props.signupRequest(answers));
   };
 
   updateFormField = fieldName => text => {
     const answers = {
       ...this.state.answers,
-      [fieldName]: text
+      [fieldName]: text,
     };
 
     this.setState({
       answers,
       errors: this.validate(answers),
-      showPasswordsMatch: this.state.showPasswordsMatch || fieldName === 'passwordConfirmation'
+      showPasswordsMatch:
+        this.state.showPasswordsMatch || fieldName === 'passwordConfirmation',
     });
   };
 
-  validate = (answers) => {
+  validate = answers => {
     return {
       username:
-        !answers.username && 'Username is required'
-        || answers.username.match(/[^\w]/) && 'Username may only include numbers, letters, and _'
-        || (answers.username.length > 18 || answers.username.length < 3)
-          && 'Username must be between 3 and 18 characters'
-        || '',
+        (!answers.username && 'Username is required') ||
+        (answers.username.match(/[^\w]/) &&
+          'Username may only include numbers, letters, and _') ||
+        ((answers.username.length > 18 || answers.username.length < 3) &&
+          'Username must be between 3 and 18 characters') ||
+        '',
       email_address:
-        !answers.email_address && 'Email is required'
-        || !answers.email_address.match(/^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/)
-          && 'Must be a valid email'
-        || '',
+        (!answers.email_address && 'Email is required') ||
+        (!answers.email_address.match(
+          /^[a-zA-Z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]+$/
+        ) &&
+          'Must be a valid email') ||
+        '',
       password:
-        !answers.password && 'Password is required'
-        || answers.password !== answers.passwordConfirmation
-        || '',
+        (!answers.password && 'Password is required') ||
+        answers.password !== answers.passwordConfirmation ||
+        '',
       passwordConfirmation:
-        !answers.passwordConfirmation && 'Password confirmation is required'
-        || answers.password !== answers.passwordConfirmation
-          && 'Your passwords do not match'
-        || ''
+        (!answers.passwordConfirmation &&
+          'Password confirmation is required') ||
+        (answers.password !== answers.passwordConfirmation &&
+          'Your passwords do not match') ||
+        '',
     };
   };
 
@@ -137,7 +140,9 @@ export default class Signup extends Component {
           <Body>
             <Try condition={!!this.state.errorMessage}>
               <View style={styles.errorMessageContainer}>
-                <T.Light style={styles.errorMessage}>{this.state.errorMessage}</T.Light>
+                <T.Light style={styles.errorMessage}>
+                  {this.state.errorMessage}
+                </T.Light>
               </View>
             </Try>
             <Input
@@ -225,9 +230,9 @@ export default class Signup extends Component {
               placeholderTextColor={placeholderTextColor}
               returnKeyType="go"
               secureTextEntry
-              onSubmitEditing={
-                this.safeFocus(this.signupPasswordConfirmationInput)
-              }
+              onSubmitEditing={this.safeFocus(
+                this.signupPasswordConfirmationInput
+              )}
               onChangeText={this.updateFormField('password')}
               value={answers.password}
               error={showErrors && errors.password}
@@ -236,7 +241,8 @@ export default class Signup extends Component {
             />
             <Input
               style={
-                (showErrors || showPasswordsMatch) && !errors.passwordConfirmation
+                (showErrors || showPasswordsMatch) &&
+                !errors.passwordConfirmation
                   ? styles.inputSuccess
                   : {}
               }
@@ -251,7 +257,10 @@ export default class Signup extends Component {
               onSubmitEditing={this.handleFormSubmit}
               onChangeText={this.updateFormField('passwordConfirmation')}
               value={answers.passwordConfirmation}
-              error={(showErrors || showPasswordsMatch) && errors.passwordConfirmation}
+              error={
+                (showErrors || showPasswordsMatch) &&
+                errors.passwordConfirmation
+              }
               type="underline"
             />
           </Body>
@@ -276,12 +285,6 @@ const styles = StyleSheet.create({
   body: {
     paddingHorizontal: 20,
   },
-
-  image: {
-    width: null,
-    height: null,
-    resizeMode: 'cover',
-  },
   errorMessageContainer: {
     backgroundColor: '#ff6161',
     justifyContent: 'center',
@@ -293,19 +296,13 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: '#fff',
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   input: {
     marginBottom: 15,
   },
   inputSuccess: {
     borderBottomColor: 'green',
-  },
-  inputError: {
-    borderBottomColor: 'red',
-  },
-  inputErrorText: {
-    color: colors.error,
   },
   footer: {
     marginTop: 40,
@@ -322,10 +319,10 @@ const styles = StyleSheet.create({
   },
   subHeadingText: {
     color: colors.white,
-    fontFamily: "HelveticaNeue",
+    fontFamily: 'HelveticaNeue',
     fontSize: 16,
-    fontStyle: "normal",
-    fontWeight: "300",
+    fontStyle: 'normal',
+    fontWeight: '300',
     letterSpacing: 0,
     marginBottom: 15,
   },
