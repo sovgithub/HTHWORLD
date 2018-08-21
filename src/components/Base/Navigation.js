@@ -16,8 +16,9 @@ import createStyles, {
   padding,
   colors,
   typography,
-  calculateHitSlop
+  calculateHitSlop,
 } from 'styles';
+import { SafeAreaView } from 'react-navigation';
 
 const hitSlop = calculateHitSlop(20);
 const BACK_ICON = require('assets/bck.png');
@@ -79,22 +80,24 @@ export const Header = props => {
     : [createStyles().header, styles.titleBold];
 
   return (
-    <View style={styles.container}>
-      <LeftActionComponent type={props.leftAction} />
-      <View style={styles.headerContainer}>
-        <T.Heading style={headerStyle}>{props.title}</T.Heading>
-      </View>
-      {props.multipage && (
-        <View style={styles.pagerContainer}>
-          <T.Light style={styles.pager}>
-            {props.currentPage}/{props.totalPages}
-          </T.Light>
+    <SafeAreaView>
+      <View style={styles.container}>
+        <LeftActionComponent type={props.leftAction} />
+        <View style={styles.headerContainer}>
+          <T.Heading style={headerStyle}>{props.title}</T.Heading>
         </View>
-      )}
-      <View style={styles.rightActionContainer}>
-        <RightActionComponent type={props.rightAction} />
+        {props.multipage && (
+          <View style={styles.pagerContainer}>
+            <T.Light style={styles.pager}>
+              {props.currentPage}/{props.totalPages}
+            </T.Light>
+          </View>
+        )}
+        <View style={styles.rightActionContainer}>
+          <RightActionComponent type={props.rightAction} />
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -194,15 +197,16 @@ export const cardStyle = {
   shadowColor: undefined,
   shadowOffset: undefined,
   shadowOpacity: undefined,
-  shadowRadius: undefined
+  shadowRadius: undefined,
 };
 
 const styles = StyleSheet.create({
   container: {
     minHeight: 50,
+    backgroundColor: 'transparent',
     flexDirection: 'row',
     paddingHorizontal: padding.md,
-    paddingTop: padding.lg,
+    paddingTop: 10,
   },
   headerContainer: {},
   titleBold: {

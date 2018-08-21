@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { StatusBar, StyleSheet, Text, Image, View } from 'react-native';
+import { StyleSheet, Text, Image, View } from 'react-native';
 import { getNetworkForCoin } from 'lib/currency-metadata';
 import T from 'components/Typography';
 import { Try } from 'components/Conditional';
@@ -39,7 +39,7 @@ export default class Login extends Component {
       return {
         loading: false,
         error: true,
-        errorMessage: props.login.error
+        errorMessage: props.login.error,
       };
     }
     return null;
@@ -58,7 +58,7 @@ export default class Login extends Component {
   };
 
   handleFormSubmit = () => {
-    this.setState({errorMessage: ''}, () => {
+    this.setState({ errorMessage: '' }, () => {
       if (
         this.state.username_or_email &&
         this.state.username_or_email.length > 1 &&
@@ -93,16 +93,18 @@ export default class Login extends Component {
             <Text style={styles.title}>Log In</Text>
             <Try condition={__DEV__}>
               <View>
-                <T.Small
-                  style={styles.network}
-                >{`Using: ${getNetworkForCoin('ETH').toUpperCase()}`}</T.Small>
+                <T.Small style={styles.network}>{`Using: ${getNetworkForCoin(
+                  'ETH'
+                ).toUpperCase()}`}</T.Small>
               </View>
             </Try>
           </Header>
           <Body>
             <Try condition={!!this.state.errorMessage}>
               <View style={styles.errorMessageContainer}>
-                <T.Light style={styles.errorMessage}>{this.state.errorMessage}</T.Light>
+                <T.Light style={styles.errorMessage}>
+                  {this.state.errorMessage}
+                </T.Light>
               </View>
             </Try>
             <Input
@@ -161,6 +163,8 @@ const styles = StyleSheet.create({
   },
   body: {
     paddingHorizontal: 20,
+    marginTop: -80,
+    paddingTop: 80,
   },
   containerGradient: {
     borderRadius: 0,
@@ -190,7 +194,7 @@ const styles = StyleSheet.create({
   errorMessage: {
     color: '#fff',
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   title: {
     color: '#fff',

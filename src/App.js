@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import SplashScreen from 'react-native-splash-screen';
 import NavigatorService from 'lib/navigator';
 import configureStore from './configureStore';
-import { StyleSheet, Animated, Easing, YellowBox } from 'react-native';
+import { StyleSheet, YellowBox } from 'react-native';
 
 /* import HockeyApp from 'react-native-hockeyapp';*/
 // import Config from 'react-native-config';
@@ -18,7 +18,7 @@ import AddressModal from 'screens/SendRequest/AddressModal';
 import QRModal from 'screens/SendRequest/QRModal';
 import ContactModal from 'screens/SendRequest/ContactModal';
 import CurrencyModal from 'screens/SendRequest/CurrencyModal';
-import { createStackNavigator, SafeAreaView } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import { INIT_REQUESTING } from './containers/App/constants';
 import { gradients } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
@@ -34,12 +34,15 @@ export let navigatorRef;
 
 const RoutingStack = createStackNavigator(
   {
-    Login: { screen: Login, navigationOptions: navProps =>
-      getNavigationOptions({
-        ...navProps,
-        leftAction: null,
-        rightAction: null,
-      }), },
+    Login: {
+      screen: Login,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          leftAction: null,
+          rightAction: null,
+        }),
+    },
     Signup: {
       screen: Signup,
       navigationOptions: navProps =>
@@ -79,41 +82,45 @@ const RoutingStack = createStackNavigator(
     navigationOptions: {
       headerStyle: {
         backgroundColor: 'transparent',
-        borderBottomWidth: 0
-      }
+        borderBottomWidth: 0,
+      },
     },
     cardStyle,
     transitionConfig,
   }
 );
 
-const ModalStack = createStackNavigator({
-  Main: { screen: RoutingStack },
-  AddressModal: {
-    screen: AddressModal,
+const ModalStack = createStackNavigator(
+  {
+    Main: { screen: RoutingStack },
+    AddressModal: {
+      screen: AddressModal,
+    },
+    ContactModal: {
+      screen: ContactModal,
+    },
+    CurrencyModal: {
+      screen: CurrencyModal,
+    },
+    QRModal: {
+      screen: QRModal,
+    },
+    ViewAddress: {
+      screen: ViewAddress,
+    },
   },
-  ContactModal: {
-    screen: ContactModal,
-  },
-  CurrencyModal: {
-    screen: CurrencyModal,
-  },
-  QRModal: {
-    screen: QRModal,
-  },
-  ViewAddress: {
-    screen: ViewAddress,
-  },
-}, {
-  mode: 'modal',
-  headerMode: 'none',
-  cardStyle: { backgroundColor: 'transparent', shadowOpacity: 0 },
-  transitionConfig: () => ({containerStyle: {backgroundColor: 'transparent'}})
-});
+  {
+    mode: 'modal',
+    headerMode: 'none',
+    cardStyle: { backgroundColor: 'transparent', shadowOpacity: 0 },
+    transitionConfig: () => ({
+      containerStyle: { backgroundColor: 'transparent' },
+    }),
+  }
+);
 
 export default class App extends React.Component {
-
-  constructor(){
+  constructor() {
     super();
     if (__DEV__) {
       YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated']);
@@ -147,9 +154,7 @@ export default class App extends React.Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <SafeAreaView style={{flex:1}}>
-            <ModalStack ref={this.refDidLoad} />
-          </SafeAreaView>
+          <ModalStack ref={this.refDidLoad} />
         </LinearGradient>
       </Provider>
     );
