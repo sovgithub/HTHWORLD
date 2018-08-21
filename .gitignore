@@ -25,6 +25,9 @@ project.xcworkspace
 *.dSYM
 *.cer
 *.mobileprovision
+*.p12
+*.pem
+*.pkey
 
 # Android/IntelliJ
 #
@@ -35,6 +38,7 @@ local.properties
 *.iml
 google-services.json
 android/app/api-*.json
+android/app/src/main/res/drawable-*/*.png
 
 # node.js
 #
