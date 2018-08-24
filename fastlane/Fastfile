@@ -13,7 +13,53 @@ APP_IDENTIFIER = CredentialsManager::AppfileConfig.try_fetch_value(:app_identifi
 IOS_PATH = "ios/"
 XCODE_PROJECT_PATH = IOS_PATH + "Hoard.xcodeproj"
 
+
+lane :push_cert do |options|
+
+  get_push_certificate(
+    development: true,
+    force: true, # create a new profile, even if the old one is still valid
+    app_identifier: "com.hoardinc.Hoard", # optional app identifier,
+    save_private_key: true,
+    output_path: './certificates',
+    p12_password: ENV['STORE_PASSWORD'],
+    pem_name: 'com.hoardinc.Hoard - APS Development',
+    new_profile: proc do |profile_path| # this block gets called when a new profile was generated
+      puts profile_path # the absolute path to the new PEM file
+      # insert the code to upload the PEM file to the server
+    end
+  )
+
+  get_push_certificate(
+    development: false,
+    force: true, # create a new profile, even if the old one is still valid
+    app_identifier: "com.hoardinc.Hoard", # optional app identifier,
+    save_private_key: true,
+    output_path: './certificates',
+    p12_password: ENV['STORE_PASSWORD'],
+    pem_name: 'com.hoardinc.Hoard - APS Production',
+    new_profile: proc do |profile_path| # this block gets called when a new profile was generated
+      puts profile_path # the absolute path to the new PEM file
+      # insert the code to upload the PEM file to the server
+    end
+  )
+end
+
 lane :dev do |options|
+
+  match(type: "development")
+
+  # match(type: "adhoc")
+
+  gym(
+    project: XCODE_PROJECT_PATH,
+    scheme: "Hoard",
+    export_method: "development", # development, ad-hoc, app-store
+  )
+
+  install_on_device(
+    ipa: "./Hoard.ipa"
+  )
 
 end
 
@@ -128,11 +174,8 @@ default_platform :ios
 private_lane :build_ios do |options|
   scheme = options[:scheme]
 
-  cert
-  sigh
-
-  # For Fabric, we need to force an ad-hoc profile:
-  # sigh(force: true, adhoc: true)
+  # match(type: "appstore")
+  match(type: "ad-hoc")
 
   # bump version number
   if options[:build_number]
@@ -145,22 +188,12 @@ private_lane :build_ios do |options|
   end
 
   gym(
-    export_method: "app-store",
-    # #for Fabric.io
-    # export_method: 'ad-hoc',
-    # export_options: {
-    #   # method: "ad-hoc",
-    #   provisioningProfiles: {
-    #     "com.hoardinc.Hoard" => "AdHoc_com.hoardinc.Hoard.mobileprovision",
-    #   }
-    # },
+    # export_method: "app-store",
+    export_method: "ad-hoc",
     include_symbols: false,
     scheme: "Hoard",
     project: XCODE_PROJECT_PATH,
     xcargs: "ARCHIVE=YES",
-    # output_directory: './Builds/',
-    # silent: true,
-    # suppress_xcode_output: true,
   )
 end
 
