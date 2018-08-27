@@ -15,6 +15,11 @@ Install _fastlane_ using
 or alternatively using `brew cask install fastlane`
 
 # Available Actions
+### push_cert
+```
+fastlane push_cert
+```
+
 ### dev
 ```
 fastlane dev
