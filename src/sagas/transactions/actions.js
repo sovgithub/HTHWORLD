@@ -4,6 +4,7 @@ import {
   INTERESTING_BLOCK_FOUND,
   SEARCH_FOR_INTERESTING_BLOCKS,
   TRANSACTION_FOUND,
+  RECORD_CONTACT_TRANSACTION,
   TRANSACTION_UPDATE,
 } from './constants';
 
@@ -12,6 +13,13 @@ export function triggerSearchForInterestingBlocks(publicAddress, symbol) {
     type: SEARCH_FOR_INTERESTING_BLOCKS,
     publicAddress,
     symbol
+  };
+}
+
+export function recordContactTransaction(transaction) {
+  return {
+    type: RECORD_CONTACT_TRANSACTION,
+    transaction
   };
 }
 

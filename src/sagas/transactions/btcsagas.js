@@ -3,6 +3,7 @@ import {TRANSACTION_FOUND} from './constants';
 import { WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS } from "screens/Wallet/constants";
 import { SYMBOL_BTC } from "containers/App/constants";
 import { fork, all, take, select, takeEvery, call, put } from "redux-saga/effects";
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 import {BTCNodeRequest} from 'screens/Wallet/WalletInstances/BtcWallet';
 import {timestampPriceApi} from './ethsagas';
@@ -29,7 +30,7 @@ export function* fetchTransactions(action) {
 
         let from;
         let to;
-        let value;
+        let amount;
 
         if (wasSend) {
           from = action.payload.publicAddress;
@@ -39,10 +40,10 @@ export function* fetchTransactions(action) {
 
           if (firstOtherVout) {
             to = firstOtherVout.scriptPubKey.addresses[0];
-            value = Number(firstOtherVout.value);
+            amount = Number(firstOtherVout.value);
           } else { // for some reason this was a send to yourself, but we should still show it
             to = action.payload.publicAddress;
-            value = transaction.vout.reduce((total, vout) => total + Number(vout.value), 0);
+            amount = transaction.vout.reduce((total, vout) => total + Number(vout.value), 0);
           }
         } else {
           from = inAddresses[0];
@@ -50,7 +51,7 @@ export function* fetchTransactions(action) {
           const firstMyVout = transaction
                 .vout
                 .find(vout => vout.scriptPubKey.addresses[0] === action.payload.publicAddress);
-          value = Number(firstMyVout.value);
+          amount = Number(firstMyVout.value);
         }
 
         const price = yield call(timestampPriceApi, `?fsym=BTC&tsyms=USD&ts=${transaction.time}`);
@@ -58,16 +59,18 @@ export function* fetchTransactions(action) {
         yield put({
           type: TRANSACTION_FOUND,
           transaction: {
+            type: wasSend ? TYPE_SEND : TYPE_REQUEST,
+            date: transaction.time * 1000,
             symbol: SYMBOL_BTC,
-            timeMined: transaction.time * 1000,
-            blockNumber: transaction.blockheight,
-            isTrade: false,
-            hash: transaction.txid,
-            gasPrice: transaction.fees,
-            priceAtTimeMined: value * price.BTC.USD,
             from,
             to,
-            value
+            amount,
+            price: amount * price.BTC.USD,
+            fiatTrade: false,
+            details: {
+              ...transaction,
+              hash: transaction.txid
+            }
           }
         });
       }

@@ -62,6 +62,7 @@ export default class SendRequest extends Component {
     emailAddress: PropTypes.string,
     isSignedIn: PropTypes.bool.isRequired,
     getCurrencyPrice: PropTypes.func.isRequired,
+    recordContactTransaction: PropTypes.func.isRequired,
     sendFunds: PropTypes.func.isRequired,
   };
 
@@ -242,22 +243,39 @@ export default class SendRequest extends Component {
         recipient = this.state.recipient;
       } else {
         try {
-          const response = await api.post(
-            `${Config.EREBOR_ENDPOINT}/contacts/transaction`,
-            {
-              sender: selectedWallet.publicAddress,
-              amount: Number(this.state.amount),
-              recipient: this.getValueFromRecipient(this.state.recipient),
-              currency: selectedWallet.symbol,
-            }
-          );
+          const { symbol, publicAddress } = selectedWallet;
+          const recipientValue = this.getValueFromRecipient(this.state.recipient);
+          const contact = this.state.recipient;
+          const amount = Number(this.state.amount);
+
+          const response = await api.post(`${Config.EREBOR_ENDPOINT}/contacts/transaction`, {
+            sender: publicAddress,
+            amount,
+            recipient: recipientValue,
+            currency: symbol,
+          });
 
           if (response.success) {
-            Alert.alert(
-              `This user does not use Hoard,
-  but has been notified that you
-  have attempted to send them some funds!`
-            );
+            this.props.recordContactTransaction({
+              type: TYPE_SEND,
+              date: Date.now(),
+              symbol: symbol,
+              to: recipientValue,
+              from: publicAddress,
+              amount,
+              price: Number(this.state.fiat),
+              contact,
+              details: {
+                ...response,
+                uid: response.transaction_uid,
+              }
+            });
+
+            NavigatorService.navigate('TransactionStatus', {
+              isContactTransaction: true,
+              id: response.transaction_uid,
+              type: TYPE_SEND,
+            });
           } else {
             recipient = response.public_key;
           }
@@ -291,16 +309,39 @@ export default class SendRequest extends Component {
         wallet => wallet.id === this.state.selectedId
       );
       try {
-        await api.post(`${Config.EREBOR_ENDPOINT}/request_funds`, {
-          email_address: this.props.emailAddress,
-          amount: Number(this.state.amount),
-          recipient: this.getValueFromRecipient(this.state.recipient),
-          currency: selectedWallet.symbol,
+        const { symbol } = selectedWallet;
+        const { emailAddress } = this.props;
+        const recipientValue = this.getValueFromRecipient(this.state.recipient);
+        const contact = this.state.recipient;
+        const amount = Number(this.state.amount);
+
+        const response = await api.post(`${Config.EREBOR_ENDPOINT}/request_funds`, {
+          email_address: emailAddress,
+          amount,
+          recipient: recipientValue,
+          currency: symbol,
         });
 
-        Alert.alert(
-          'This user has been notified that you have requested funds from them!'
-        );
+        this.props.recordContactTransaction({
+          type: TYPE_REQUEST,
+          date: Date.now(),
+          symbol: symbol,
+          to: emailAddress,
+          from: recipientValue,
+          amount,
+          price: Number(this.state.fiat),
+          contact,
+          details: {
+            ...response,
+            uid: response.transaction_uid,
+          }
+        });
+
+        NavigatorService.navigate('TransactionStatus', {
+          isContactTransaction: true,
+          id: response.transaction_uid,
+          type: TYPE_REQUEST,
+        });
       } catch (e) {
         Alert.alert(
           `Oops! ${e.message}: ${e.errors &&

@@ -3,7 +3,7 @@ import CoinInformation from "./CoinInformation";
 import { getCurrencyHistory } from "sagas/pricing/actions";
 import { walletSelector } from "screens/Wallet/selectors";
 import { isSignedInSelector } from "containers/User/selectors";
-import { selectors as transactionSelectors } from "sagas/transactions/reducer";
+import { sortedTransactionsForWalletSelector, sortedContactTransactionsForSymbolSelector } from "sagas/transactions/selectors";
 import { updateTransaction } from "sagas/transactions/actions";
 import { SYMBOL_ETH, SYMBOL_BTC } from 'containers/App/constants';
 import {showReceiveModal} from 'containers/ReceiveModal/actions';
@@ -14,15 +14,26 @@ const mapStateToProps = (store, ownProps) => {
 
   const wallet = walletSelector(store, id);
   let transactions = [];
+  let contactTransactions = [];
 
-  transactions = transactionSelectors.getTransactionsForSymbolAddress(wallet.symbol, wallet.publicAddress)(
-    store
+  transactions = sortedTransactionsForWalletSelector(
+    store,
+    wallet.symbol,
+    wallet.publicAddress,
+    'ASC'
+  );
+
+  contactTransactions = sortedContactTransactionsForSymbolSelector(
+    store,
+    wallet.symbol,
+    'ASC'
   );
 
   const pricing = store.pricing[wallet.symbol];
 
   return {
     transactions,
+    contactTransactions,
     wallet,
     isSignedIn: isSignedInSelector(store),
     pricing

@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import SendRequest from './SendRequest';
 import { sendFunds } from 'screens/Wallet/actions';
 import { getCurrencyPrice } from 'sagas/pricing/actions';
+import { recordContactTransaction } from 'sagas/transactions/actions';
 import { allWalletsSelector } from 'screens/Wallet/selectors';
 import { tradingPairSelector } from 'screens/Settings/selectors';
 import { isSignedInSelector, emailSelector } from 'containers/User/selectors';
@@ -27,6 +28,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
+  recordContactTransaction,
   getCurrencyPrice,
   sendFunds
 };

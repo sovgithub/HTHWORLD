@@ -9,12 +9,28 @@ import {
   TRANSACTION_SUCCESS,
   TRANSACTION_ERROR,
 } from './constants';
+import {
+  TYPE_SEND,
+  TYPE_REQUEST
+} from 'screens/SendRequest/constants';
 import NavigatorService from 'lib/navigator';
 import { Try } from 'components/Conditional';
 import Button from 'components/Button';
 
 export default class TransactionStatus extends Component {
   static propTypes = {
+    navigation: {
+      state: {
+        params: {
+          id: PropTypes.string.isRequired,
+          isContactTransaction: PropTypes.bool,
+          type: PropTypes.oneOf([
+            TYPE_SEND,
+            TYPE_REQUEST,
+          ])
+        }
+      }
+    },
     transaction: PropTypes.oneOf([
       TRANSACTION_PENDING,
       TRANSACTION_SUCCESS,
@@ -27,17 +43,32 @@ export default class TransactionStatus extends Component {
   }
 
   render() {
-    const {transaction} = this.props;
-    let heading = 'Sending...';
-    if (transaction === TRANSACTION_SUCCESS) {
-      heading = 'Success!';
-    } else if (transaction === TRANSACTION_ERROR) {
-      heading = 'Error.';
-    }
+    const {transaction, navigation} = this.props;
+    const isContactTransaction = navigation.state.params.isContactTransaction;
+    const type = navigation.state.params.type;
+    let heading, subheading;
 
-    let subheading;
-    if (transaction === TRANSACTION_SUCCESS) {
-      subheading = 'Your transaction is pending.';
+    if (isContactTransaction) {
+      heading = 'Pending';
+      if (type === TYPE_REQUEST) {
+        subheading = 'This user has been notified that you have requested funds from them!';
+      }
+      if (type === TYPE_SEND) {
+        subheading = `This user does not use Hoard,
+ but has been notified that you
+ have attempted to send them some funds!`;
+      }
+    } else {
+      heading = 'Sending...';
+      if (transaction === TRANSACTION_SUCCESS) {
+        heading = 'Success!';
+      } else if (transaction === TRANSACTION_ERROR) {
+        heading = 'Error.';
+      }
+
+      if (transaction === TRANSACTION_SUCCESS) {
+        subheading = 'Your transaction is pending.';
+      }
     }
 
     return (
@@ -50,7 +81,7 @@ export default class TransactionStatus extends Component {
             <Try condition={!!subheading}>
               <T.SubHeading style={styles.subheading}>{subheading}</T.SubHeading>
             </Try>
-            <Try condition={transaction !== TRANSACTION_PENDING}>
+            <Try condition={transaction !== TRANSACTION_PENDING || isContactTransaction}>
               <Button style={styles.actionButton} onPress={this.toDashboard}>
                 Go To Dashboard
               </Button>

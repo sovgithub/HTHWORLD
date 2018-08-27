@@ -3,6 +3,7 @@ import { TRANSACTION_FOUND } from './constants';
 import { SYMBOL_BOAR } from "containers/App/constants";
 import { call, put } from "redux-saga/effects";
 import { bigNumberToEther } from 'lib/formatters';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 import { provider, getBlock } from "sagas/transactions/ethsagas";
 
@@ -37,18 +38,23 @@ export function* fetchHistoryBoar({wallet}) {
       if (isMine) {
         const block = yield call(getBlock, log.blockNumber);
 
+        const amount = bigNumberToEther(
+          wallet._contract.interface.events.Transfer.parse(log.data)._value
+        );
+
         const transaction = {
+          type: isFrom ? TYPE_SEND : TYPE_REQUEST,
+          date: block.timestamp * 1000,
           symbol: SYMBOL_BOAR,
-          timeMined: block.timestamp * 1000,
-          blockNumber: log.blockNumber,
-          isTrade: false,
-          hash: log.transactionHash,
-          priceAtTimeMined: 0.46,
           from: isFrom ? address : from,
           to: isTo ? address : to,
-          value: bigNumberToEther(
-            wallet._contract.interface.events.Transfer.parse(log.data)._value
-          ),
+          amount,
+          price: Number(amount) * 0.46,
+          fiatTrade: false,
+          details: {
+            ...log,
+            hash: log.transactionHash,
+          }
         };
 
         yield put({

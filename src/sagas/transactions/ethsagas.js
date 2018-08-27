@@ -5,9 +5,9 @@ import {
 } from "containers/App/constants";
 import { AsyncStorage } from 'react-native';
 import { channel, delay } from 'redux-saga';
-import { fork, all, take, select, takeEvery, call, put } from "redux-saga/effects";
+import { fork, all, take, select, takeLatest, takeEvery, call, put } from "redux-saga/effects";
 import { WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS } from "screens/Wallet/constants";
-import { selectors } from "./reducer";
+import { transactionsForWalletSelector } from "./selectors";
 import { RequestLimiter, asyncMemoize, getHalfwayPoint, Queue } from './helpers';
 import {
   BLOCK_ADDED_TO_QUEUE,
@@ -15,6 +15,7 @@ import {
   SEARCH_FOR_INTERESTING_BLOCKS,
   INTERESTING_BLOCK_FOUND
 } from './constants';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 import {
   blockAddedToQueue,
@@ -71,7 +72,7 @@ export default function* ethTransactionsSagaWatcher() {
   yield all([
     fork(setupActionBridgeChannel),
     takeEvery([WALLET_IMPORT_SUCCESS, WALLET_TRACK_SYMBOL_SUCCESS], listenForWalletEvents), // takes publicAddress, symbol
-    takeEvery(SEARCH_FOR_INTERESTING_BLOCKS, fetchHistoryEth),
+    takeLatest(SEARCH_FOR_INTERESTING_BLOCKS, fetchHistoryEth),
   ]);
 }
 
@@ -100,32 +101,35 @@ export function* fetchHistoryEth(action) {
 
   try {
     const response = yield call(api.get, `${Config.BOMBADIL_ENDPOINT}/transactions/${publicAddress}`);
-    const cachedTransactions = yield select(selectors.getTransactionsForSymbolAddress(SYMBOL_ETH, publicAddress));
+    const cachedTransactions = yield select(
+      state => transactionsForWalletSelector(state, SYMBOL_ETH, publicAddress)
+    );
     for (const transaction of response.result.slice(cachedTransactions.length)) {
 
       const isFrom = transaction.from.toLowerCase() === publicAddress.toLowerCase();
       const isTo = transaction.to.toLowerCase() === publicAddress.toLowerCase();
 
       const price = yield call(timestampPriceApi, `?fsym=ETH&tsyms=USD&ts=${transaction.timestamp}`);
+
       const action = {
+        type: isFrom ? TYPE_SEND : TYPE_REQUEST,
+        date: Number(transaction.timestamp) * 1000,
         symbol: SYMBOL_ETH,
-        timeMined: Number(transaction.timestamp) * 1000,
-        blockNumber: Number(transaction.blockNumber),
-        isTrade: false,
-        hash: transaction.hash,
-        gasPrice: transaction.gas,
-        priceAtTimeMined: Number(transaction.ether) * price.ETH.USD,
         from: isFrom ? publicAddress : transaction.from,
         to: isTo ? publicAddress : transaction.to,
-        value: transaction.ether
+        amount: transaction.ether,
+        price: Number(transaction.ether) * price.ETH.USD,
+        fiatTrade: false,
+        details: transaction
       };
+
       yield put(transactionFound(action));
     }
 
   } catch(e) {
     if (__DEV__) {
       // eslint-disable-next-line no-console
-      console.log('error encountered while fetching ETH transactions');
+      console.log('error encountered while fetching ETH transactions', e);
     }
   }
 }

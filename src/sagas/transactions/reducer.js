@@ -1,88 +1,122 @@
 import {
-  TRANSACTIONS_HYDRATED,
+  HYDRATE_TRANSACTIONS,
+  RECORD_CONTACT_TRANSACTION,
   TRANSACTION_FOUND,
   TRANSACTION_UPDATE
 } from "./constants";
 
+
+
+// needed_transaction_keys => {type, date, symbol, to, from, amount, price, details}
+
 const initialState = {
-  fiatTrades: [],
-  transactions: {},
-  transactionsBySymbolAddress: {},
-  hydrationCompleted: false
-};
-
-function fiatTradesReducer(state, action) {
-  const prevState = state.transactions[action.transaction.hash] || {};
-  const isTrade = action.transaction.isTrade || false;
-  const prevIsTrade = prevState.isTrade || false;
-
-  const getFullTransaction = (hash) => hash === action.transaction.hash ? action.transaction : state.transactions[hash];
-  const sorter = (a, b) => getFullTransaction(a).blockNumber - getFullTransaction(b).blockNumber;
-
-  if (isTrade !== prevIsTrade) {
-    if (isTrade) {
-      return [...state.fiatTrades, action.transaction.hash].sort(sorter);
-    } else {
-      const removalIndex = state.fiatTrades.indexOf(action.transaction.hash);
-
-      if (removalIndex >= 0) {
-        return [
-          ...state.fiatTrades.slice(0, removalIndex),
-          ...state.fiatTrades.slice(removalIndex + 1),
-        ];
-      }
-    }
+  version: 1,
+  hydrationCompleted: false,
+  contactTransactionsBySymbol: {
+    // <symbol>
+    //   [uid]
+  },
+  contactTransactions: {
+    // <uid>
+    //   { ...needed_transaction_keys, contact, details: { uid } }
+  },
+  transactionsByWallet: {
+    // <symbol>
+    //   <address>
+    //     [ hash ]
+  },
+  blockchainTransactions: {
+    // <symbol>
+    //   <hash>
+    //     { ... needed_transaction_keys, fiatTrade?, details: { hash } }
   }
-
-  return state.fiatTrades;
-}
+};
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case TRANSACTIONS_HYDRATED: {
+    case HYDRATE_TRANSACTIONS: {
       return {
         ...state,
+        ...action.state,
         hydrationCompleted: true
       };
     }
-    case TRANSACTION_UPDATE: {
+    case RECORD_CONTACT_TRANSACTION: {
+      const { symbol, details: { uid } } = action.transaction;
+      const { contactTransactionsBySymbol, contactTransactions } = state;
+
+      if (contactTransactions[uid]) {
+        return state;
+      }
+
       return {
         ...state,
-        fiatTrades: fiatTradesReducer(state, action),
-        transactions: {
-          ...state.transactions,
-          [action.transaction.hash]: action.transaction
+        contactTransactions: {
+          ...contactTransactions,
+          [uid]: action.transaction
+        },
+        contactTransactionsBySymbol: {
+          ...contactTransactionsBySymbol,
+          [symbol]: [
+            ...(contactTransactionsBySymbol[symbol] || []),
+            uid
+          ]
         }
+
       };
     }
     case TRANSACTION_FOUND: {
-      const transactionAddressesBySymbol = state.transactionsBySymbolAddress[action.transaction.symbol] || {};
+      const { symbol, to, from, details: { hash } } = action.transaction;
+      const { blockchainTransactions, transactionsByWallet } = state;
 
-      const transactionToState = transactionAddressesBySymbol[action.transaction.to] || [];
-      const transactionFromState = transactionAddressesBySymbol[action.transaction.from] || [];
+      const blockchainTransactionsForSymbol = blockchainTransactions[symbol] || {};
 
-      const getFullTransaction = (hash) => hash === action.transaction.hash ? action.transaction : state.transactions[hash];
-      const sorter = (a, b) => getFullTransaction(b).blockNumber - getFullTransaction(a).blockNumber;
+      if (blockchainTransactionsForSymbol[hash]) {
+        return state;
+      }
 
-      const newTransactionTo = transactionToState.includes(action.transaction.hash)
-            ? transactionToState
-            : [...transactionToState, action.transaction.hash].sort(sorter);
-      const newTransactionFrom = transactionFromState.includes(action.transaction.hash)
-            ? transactionFromState
-            : [...transactionFromState, action.transaction.hash].sort(sorter);
+      const transactionsByWalletForSymbol = transactionsByWallet[symbol] || {};
+      const toTransactions = transactionsByWalletForSymbol[to] || [];
+      const fromTransactions = transactionsByWalletForSymbol[from] || [];
+
       return {
         ...state,
-        fiatTrades: fiatTradesReducer(state, action),
-        transactions: {
-          ...state.transactions,
-          [action.transaction.hash]: action.transaction
+        blockchainTransactions: {
+          ...blockchainTransactions,
+          [symbol]: {
+            ...blockchainTransactionsForSymbol,
+            [hash]: action.transaction
+          }
         },
-        transactionsBySymbolAddress: {
-          ...state.transactionsBySymbolAddress,
-          [action.transaction.symbol]: {
-            ...transactionAddressesBySymbol,
-            [action.transaction.to]: newTransactionTo,
-            [action.transaction.from]: newTransactionFrom
+        transactionsByWallet: {
+          ...transactionsByWallet,
+          [symbol]: {
+            ...transactionsByWalletForSymbol,
+            [to]: [
+              ...toTransactions,
+              hash
+            ],
+            [from]: [
+              ...fromTransactions,
+              hash
+            ]
+          }
+        }
+      };
+    }
+    case TRANSACTION_UPDATE: {
+      const { symbol, details: { hash } } = action.transaction;
+      const { blockchainTransactions } = state;
+
+      const blockchainTransactionsForSymbol = blockchainTransactions[symbol] || {};
+
+      return {
+        ...state,
+        blockchainTransactions: {
+          ...blockchainTransactions,
+          [symbol]: {
+            ...blockchainTransactionsForSymbol,
+            [hash]: action.transaction
           }
         }
       };
@@ -92,13 +126,3 @@ export default function reducer(state = initialState, action) {
     }
   }
 }
-
-export const selectors = {
-  getTransactionsForSymbolAddress(symbol, address) {
-    return store => {
-      const transactionAddressesBySymbol = store.transactions.transactionsBySymbolAddress[symbol] || {};
-      const hashes = transactionAddressesBySymbol[address] || [];
-      return hashes.map(hash => store.transactions.transactions[hash]);
-    };
-  }
-};

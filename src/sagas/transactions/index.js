@@ -7,10 +7,11 @@ import {
 import { AsyncStorage } from 'react-native';
 import { throttle, fork, all, put, takeLatest, select, takeEvery, call } from "redux-saga/effects";
 import {
-  TRANSACTIONS_HYDRATED,
+  HYDRATE_TRANSACTIONS,
   TRANSACTION_FOUND,
   SEARCH_FOR_TRANSACTIONS,
   TRANSACTION_UPDATE,
+  RECORD_CONTACT_TRANSACTION,
   TRANSACTIONS_STORAGE_KEY
 } from './constants';
 import {transactionFound} from './actions';
@@ -25,6 +26,7 @@ export default function* transactionSagaWatcher() {
     takeLatest(INIT_REQUESTING, initialize),
     takeEvery(SEARCH_FOR_TRANSACTIONS, fetchHistory),
     throttle(1000, TRANSACTION_FOUND, forwardActionToSaveTransactions),
+    throttle(1000, RECORD_CONTACT_TRANSACTION, forwardActionToSaveTransactions),
     throttle(1000, TRANSACTION_UPDATE, forwardActionToSaveTransactions)
   ]);
 }
@@ -34,37 +36,32 @@ export function* initialize() {
   yield fork(btcSagas);
 
   yield call(hydrate);
-
-  yield put({type: TRANSACTIONS_HYDRATED});
 }
 
 export function* hydrate() {
-  const savedTransactions = yield call(AsyncStorage.getItem, TRANSACTIONS_STORAGE_KEY);
+  const savedState = yield call(AsyncStorage.getItem, TRANSACTIONS_STORAGE_KEY);
 
-  let transactions;
+  let state;
+  if (savedState) {
 
-  if (savedTransactions) {
     try {
-      transactions = JSON.parse(savedTransactions);
+      state = JSON.parse(savedState);
     } catch(e) {
-      transactions = null;
+      state = null;
     }
   }
 
-  if (transactions) {
-    const transactionsArray = Object.values(transactions);
-    for (const transaction of transactionsArray) {
-      if (!transaction.symbol) {
-        if (transaction.raw) {
-          transaction.symbol = SYMBOL_ETH;
-        }
-        else {
-          transaction.symbol = SYMBOL_BTC;
-        }
-      }
-      yield put(transactionFound(transaction, true));
+  if (state) {
+    const currentVersion = yield select(state => state.transactions.version);
+    if (state.version !== currentVersion) {
+      state = null
     }
   }
+
+  yield put({
+    type: HYDRATE_TRANSACTIONS,
+    state
+  });
 }
 
 export function* forwardActionToSaveTransactions(action) {
@@ -74,7 +71,7 @@ export function* forwardActionToSaveTransactions(action) {
 }
 
 export function* saveTransactions() {
-  const transactions = yield select(state => state.transactions.transactions);
+  const transactions = yield select(state => state.transactions);
 
   yield call(
     AsyncStorage.setItem,

@@ -32,8 +32,8 @@ function hexToRgb(hex) {
  **/
 
 const TransactionPropType = PropTypes.shape({
-  priceAtTimeMined: PropTypes.number.isRequired,
-  timeMined: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired,
   from: PropTypes.string,
   to: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
@@ -129,7 +129,7 @@ export default class PortfolioChart extends Component {
         const isSend = address === transaction.from;
 
         // ensure value is number type
-        const numberValue = Number(transaction.value);
+        const numberValue = Number(transaction.amount);
 
         // if send, reduce running total of holdings by the send amount
         const adjustedValue =  isSend ? -numberValue : numberValue;
@@ -139,7 +139,7 @@ export default class PortfolioChart extends Component {
         return [
           ...holdingsOverTime,
           {
-            time: transaction.timeMined,
+            time: transaction.date,
             value: runningTotalValue
           }
         ];
@@ -190,7 +190,7 @@ export default class PortfolioChart extends Component {
         const isSend = !!addressesToCheck[transaction.from];
 
         // ensure value is number type
-        const numberValue = Number(transaction.tradePrice || transaction.priceAtTimeMined);
+        const numberValue = Number(transaction.tradePrice || transaction.price);
 
         // if send, increase running total of holdings by the send amount
         const adjustedValue =  isSend ? numberValue : -numberValue;
@@ -200,7 +200,7 @@ export default class PortfolioChart extends Component {
         return [
           ...runningTotal,
           {
-            time: transaction.timeMined,
+            time: transaction.date,
             value: runningTotalValue
           }
         ];

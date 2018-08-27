@@ -5,6 +5,7 @@ import T from 'components/Typography';
 import Checkbox from 'components/Checkbox';
 import Input from 'components/Input';
 import RoundedButton from 'components/RoundedButton';
+import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 import { formatDecimalInput } from 'lib/formatters';
 
 const trimAddress = address => {
@@ -47,48 +48,49 @@ class TradeItem extends Component {
   constructor(props) {
     super();
 
-    const tradePrice = props.transaction.isTrade
+    const tradePrice = props.transaction.fiatTrade
       ? props.transaction.tradePrice
-      : props.transaction.priceAtTimeMined * props.transaction.value;
+      : props.transaction.price;
 
     this.state = {
-      isTrade: props.transaction.isTrade,
+      fiatTrade: props.transaction.fiatTrade,
       tradePrice: tradePrice && tradePrice.toFixed(2),
     };
   }
 
-  handleToggleIsTrade = () => this.setState({ isTrade: !this.state.isTrade });
+  handleToggleIsTrade = () => this.setState({ fiatTrade: !this.state.fiatTrade });
   handleChangeTradePrice = tradePrice =>
     this.setState({
       tradePrice: formatDecimalInput(2)(tradePrice.replace('$', '')),
     });
 
   handleUpdate = () => {
-    const { tradePrice, isTrade } = this.state;
+    const { tradePrice, fiatTrade } = this.state;
 
     this.props.onUpdate({
       ...this.props.transaction,
       tradePrice: Number(tradePrice),
-      isTrade,
+      fiatTrade,
     });
   };
 
   render() {
     const { wallet, transaction, selected } = this.props;
-    const transactionType = transaction.creates
+    const transactionType = transaction.details.creates
       ? creation
-      : transaction.from === wallet.publicAddress
+      : transaction.type === TYPE_SEND
         ? send
         : receive;
 
-    const tradeTitle = transaction.isTrade
+    const tradeTitle = transaction.fiatTrade
       ? isTradeTitle[transactionType]
       : transactionType;
 
-    const otherWalletAddress =
-      transaction[otherWalletKeyForType[transactionType]];
+    const otherWalletAddress = transaction.details.creates
+      ? transaction.details.creates
+      : transaction[otherWalletKeyForType[transactionType]];
 
-    const date = new Date(transaction.timeMined);
+    const date = new Date(transaction.date);
 
     return (
       <View style={{ paddingTop: 15, paddingHorizontal: 15 }}>
@@ -123,7 +125,7 @@ class TradeItem extends Component {
             style={{ flexDirection: 'column', flex: 1, alignItems: 'flex-end' }}
           >
             <T.Light style={{ fontWeight: '400', color: 'white' }}>
-              {transaction.value} {wallet.symbol}
+              {transaction.amount} {transaction.symbol}
             </T.Light>
             <T.Small style={{ fontWeight: '300', color: '#8cbcbd' }}>
               {date.toLocaleString(undefined, {
@@ -182,7 +184,7 @@ class TradeItem extends Component {
               <T.Small>
                 <T.SemiBold>price per {wallet.symbol}: </T.SemiBold>
               </T.Small>
-              <T.Small>{transaction.priceAtTimeMined}</T.Small>
+              <T.Small>{transaction.price}</T.Small>
             </View>
             <View
               style={{
@@ -213,12 +215,12 @@ class TradeItem extends Component {
                 </T.Small>
                 <Checkbox
                   iconStyle={{ size: 20, color: 'black' }}
-                  value={this.state.isTrade}
+                  value={this.state.fiatTrade}
                   onPress={this.handleToggleIsTrade}
                 />
               </View>
             )}
-            {this.state.isTrade && (
+            {this.state.fiatTrade && (
               <View
                 style={{
                   flexDirection: 'row',
@@ -236,7 +238,7 @@ class TradeItem extends Component {
                 />
               </View>
             )}
-            {(transaction.isTrade !== this.state.isTrade ||
+            {(transaction.fiatTrade !== this.state.fiatTrade ||
               transaction.tradePrice !== Number(this.state.tradePrice)) && (
               <RoundedButton onPress={this.handleUpdate}>Update</RoundedButton>
             )}

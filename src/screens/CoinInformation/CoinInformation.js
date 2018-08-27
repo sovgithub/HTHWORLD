@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
   Image,
@@ -18,6 +18,19 @@ import T from 'components/Typography';
 import Scene from 'components/Scene';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
+const commonTransactionProps = {
+  type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]).isRequired,
+  date: PropTypes.number.isRequired,
+  symbol: PropTypes.string.isRequired,
+  to: PropTypes.string.isRequired,
+  from: PropTypes.string.isRequired,
+  amount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  price: PropTypes.number,
+};
+
 export default class CoinInformation extends React.Component {
   static propTypes = {
     pricing: PropTypes.shape({
@@ -25,19 +38,20 @@ export default class CoinInformation extends React.Component {
         price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       }),
     }).isRequired,
+    contactTransactions: PropTypes.arrayOf(
+      PropTypes.shape({
+        ...commonTransactionProps,
+        details: PropTypes.shape({
+          uid: PropTypes.string.isRequired,
+        }).isRequired,
+      })
+    ).isRequired,
     transactions: PropTypes.arrayOf(
       PropTypes.shape({
-        blockNumber: PropTypes.number,
-        creates: PropTypes.string,
-        from: PropTypes.string,
-        hash: PropTypes.string,
-        to: PropTypes.string,
-        isTrade: PropTypes.bool,
-        tradePrice: PropTypes.number,
-        value: PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.number
-        ]),
+        ...commonTransactionProps,
+        details: PropTypes.shape({
+          hash: PropTypes.string.isRequired,
+        }).isRequired,
       })
     ).isRequired,
     wallet: PropTypes.shape({
@@ -104,7 +118,7 @@ export default class CoinInformation extends React.Component {
   };
 
   renderHeader = () => {
-    const { pricing, wallet, isSignedIn } = this.props;
+    const { pricing, wallet, isSignedIn, contactTransactions } = this.props;
     const metadata = getCoinMetadata(wallet.symbol);
     const price = pricing.price.price || 0;
 
@@ -149,6 +163,29 @@ export default class CoinInformation extends React.Component {
             </View>
           </TouchableOpacity>
         </View>
+        <Try condition={contactTransactions.length > 0}>
+          <Fragment>
+            <SectionHeader style={styles.sectionHeader}>
+              Pending Transactions
+            </SectionHeader>
+            <View style={{marginHorizontal: -15, marginBottom: 20}}>
+              {contactTransactions.map((item) => (
+                <TouchableOpacity
+                  key={item.details.uid}
+                  onPress={this.handleSelect(item.details.uid)}
+                >
+                  <TradeItem
+                    wallet={wallet}
+                    transaction={item}
+                    onUpdate={this.props.updateTransaction}
+                    selected={this.state.selected === item.details.uid}
+                  />
+                </TouchableOpacity>
+              ))}
+            </View>
+          </Fragment>
+        </Try>
+
         <SectionHeader style={styles.sectionHeader}>
           Recent Activity
         </SectionHeader>
@@ -165,16 +202,16 @@ export default class CoinInformation extends React.Component {
           style={[styles.flex, styles.scrollView]}
           ListHeaderComponent={this.renderHeader}
           data={transactions}
-          keyExtractor={t => t.hash}
+          keyExtractor={t => t.details.hash}
           renderItem={({item}) => (
             <TouchableOpacity
-              onPress={this.handleSelect(item.hash)}
+              onPress={this.handleSelect(item.details.hash)}
             >
               <TradeItem
                 wallet={wallet}
                 transaction={item}
                 onUpdate={this.props.updateTransaction}
-                selected={this.state.selected === item.hash}
+                selected={this.state.selected === item.details.hash}
               />
             </TouchableOpacity>
           )}
