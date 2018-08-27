@@ -27,7 +27,7 @@ import NavigatorService from 'lib/navigator';
 import memoize from 'lodash/memoize';
 import throttle from 'lodash/throttle';
 import { createFilter } from 'react-native-search-filter';
-import { RECIPIENT_TYPE_OTHER } from 'screens/SendRequest/constants';
+import { RECIPIENT_TYPE_OTHER, TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 import {gradients} from 'styles';
 
@@ -38,7 +38,8 @@ export default class ContactModal extends Component {
     navigation: PropTypes.shape({
       state: PropTypes.shape({
         params: PropTypes.shape({
-          onChangeRecipient: PropTypes.func.isRequired
+          onChangeRecipient: PropTypes.func.isRequired,
+          transactionType: PropTypes.oneOf([TYPE_REQUEST, TYPE_SEND])
         }),
       }),
     }),
@@ -192,6 +193,14 @@ export default class ContactModal extends Component {
       shownContacts,
     } = this.state;
 
+    let inputPlaceholder = "Contact";
+    if (this.props.navigation.state.params.transactionType === TYPE_SEND) {
+      inputPlaceholder = "Send to";
+    }
+    if (this.props.navigation.state.params.transactionType === TYPE_REQUEST) {
+      inputPlaceholder = "Request from";
+    }
+
     const clearButton = (
       <TouchableOpacity
         style={styles.action}
@@ -218,7 +227,7 @@ export default class ContactModal extends Component {
         </T.Light>
         <Input
           type="underline"
-          placeholder="Send to"
+          placeholder={inputPlaceholder}
           onChangeText={this.changeText}
           value={value}
           actions={clearButton}
