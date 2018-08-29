@@ -249,7 +249,7 @@ private_lane :notify_slack do |options|
 
   if platform === 'iOS'
     version     = get_version_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
-    build       = get_build_number(xcodeproj: XCODE_PROJECT_PATH, target: 'Hoard')
+    build       = get_build_number(xcodeproj: XCODE_PROJECT_PATH)
   end
 
   if platform === 'Android'
