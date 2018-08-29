@@ -5,6 +5,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Text,
   View,
 } from 'react-native';
 import SectionHeader from 'components/SectionHeader';
@@ -16,6 +17,7 @@ import { Try } from "components/Conditional";
 import Card from 'components/Card';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
+import Swipeable from 'react-native-swipeable';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 
 const commonTransactionProps = {
@@ -170,17 +172,33 @@ export default class CoinInformation extends React.Component {
             </SectionHeader>
             <View style={{marginHorizontal: -15, marginBottom: 20}}>
               {contactTransactions.map((item) => (
-                <TouchableOpacity
+                <Swipeable
                   key={item.details.uid}
-                  onPress={this.handleSelect(item.details.uid)}
+                  rightButtons={[
+                    <TouchableOpacity
+                      onPress={() => this.props.cancelContactTransaction(item)}
+                      style={styles.walletAction}
+                      key={'actionRequest'}
+                    >
+                      <View style={styles.walletActionContainer}>
+                        <Image style={styles.walletActionImage} source={require('assets/cancel.png')} />
+                        <Text style={styles.walletActionText}>CANCEL</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ]}
+                  rightButtonWidth={100}
                 >
-                  <TradeItem
-                    wallet={wallet}
-                    transaction={item}
-                    onUpdate={this.props.updateTransaction}
-                    selected={this.state.selected === item.details.uid}
-                  />
-                </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={this.handleSelect(item.details.uid)}
+                  >
+                    <TradeItem
+                      wallet={wallet}
+                      transaction={item}
+                      onUpdate={this.props.updateTransaction}
+                      selected={this.state.selected === item.details.uid}
+                    />
+                  </TouchableOpacity>
+                </Swipeable>
               ))}
             </View>
           </Fragment>
@@ -271,5 +289,30 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: '#707c98',
+  },
+  walletAction: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginVertical: 10,
+  },
+  walletActionContainer: {
+    margin: 10,
+    padding: 5,
+    flex: 1,
+    flexDirection: 'column',
+    width: 75,
+    height: 75,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  walletActionImage: {
+    height: 20,
+    width: 20,
+    marginBottom: 5,
+  },
+  walletActionText: {
+    color: '#fff',
+    fontSize: 12,
   },
 });
