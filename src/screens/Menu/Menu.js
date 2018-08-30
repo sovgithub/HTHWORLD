@@ -21,6 +21,7 @@ import { gradients, calculateHitSlop } from 'styles';
 import LinearGradient from 'react-native-linear-gradient';
 import Conditional, { Try, Otherwise } from 'components/Conditional';
 import Config from 'react-native-config';
+import { SafeAreaView } from 'react-navigation';
 
 const menuHitSlop = calculateHitSlop(40, 20);
 const linkHitSlop = calculateHitSlop(15, Infinity);
@@ -41,114 +42,117 @@ class Menu extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
         <LinearGradient
           start={gradients.vertical.start}
           end={gradients.vertical.end}
           colors={gradients.blue}
-          style={styles.container}
+          style={{flex: 1, height: '100%'}}
         >
-          <ScrollView style={styles.scrollView}>
-            <View style={styles.body}>
-              <View style={styles.header}>
-                <Try condition={Config.CURRENCY_NETWORK_TYPE === 'test'}>
-                  <View style={styles.testnetContainer}>
-                    <View style={styles.testnetBackground}>
-                      <Text style={styles.testnetText}>TESTNET VERSION</Text>
+          <SafeAreaView forceInset={{ top: 'always' }} style={styles.container}>
+            <SafeAreaView forceInset={{ top: 'always' }} style={styles.closeWrapper}>
+              <TouchableOpacity
+                hitSlop={menuHitSlop}
+                style={{
+                  paddingVertical: 10,
+                  paddingHorizontal: 0,
+                }}
+                onPress={() => NavigatorService.closeDrawer()}
+              >
+                <Icon icon="ios-close-outline" />
+              </TouchableOpacity>
+            </SafeAreaView>
+
+            <ScrollView style={styles.scrollView}>
+              <View style={styles.body}>
+                <View style={styles.header}>
+                  <Try condition={Config.CURRENCY_NETWORK_TYPE === 'test'}>
+                    <View style={styles.testnetContainer}>
+                      <View style={styles.testnetBackground}>
+                        <Text style={styles.testnetText}>TESTNET VERSION</Text>
+                      </View>
                     </View>
-                  </View>
+                  </Try>
+                </View>
+                <Try condition={this.props.isSignedIn && !!this.props.userFullName}>
+                  <Text style={styles.userFullName}>
+                    {this.props.userFullName}
+                  </Text>
                 </Try>
-                <TouchableOpacity
-                  hitSlop={menuHitSlop}
-                  style={{
-                    paddingVertical: 10,
-                    paddingHorizontal: 0,
-                  }}
-                  onPress={() => NavigatorService.closeDrawer()}
+                <Text
+                  style={[
+                    styles.totalHoldings,
+                    this.props.allPricesLoaded
+                      ? styles.totalHoldingsLoaded
+                      : styles.totalHoldingsRequesting,
+                  ]}
                 >
-                  <Icon icon="ios-close-outline" />
+                  ${this.props.totalHoldings.toFixed(2)}
+                </Text>
+
+                <View style={[styles.subHeadingContainer, styles.divider]}>
+                  <Text style={styles.subHeading}>Your Hoard</Text>
+                </View>
+                <TouchableOpacity
+                  hitSlop={linkHitSlop}
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Wallet')}
+                >
+                  <Text style={styles.linkContent}>Wallet</Text>
+                </TouchableOpacity>
+
+                <View style={[styles.subHeadingContainer, styles.divider]}>
+                  <Text style={styles.subHeading}>Manage</Text>
+                </View>
+                <TouchableOpacity
+                  hitSlop={linkHitSlop}
+                  style={[styles.linkWrapper, styles.divider]}
+                  onPress={() => this.navigateTo('GetHelp')}
+                >
+                  <Text style={styles.linkContent}>Help</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  hitSlop={linkHitSlop}
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Settings')}
+                >
+                  <Text style={styles.linkContent}>Settings</Text>
+                </TouchableOpacity>
+
+                <View style={[styles.subHeadingContainer, styles.divider]}>
+                  <Text style={styles.subHeading}>About</Text>
+                </View>
+                <TouchableOpacity
+                  style={[styles.linkWrapper, styles.divider]}
+                  onPress={() => this.navigateTo('About')}
+                  hitSlop={linkHitSlop}
+                >
+                  <Text style={styles.linkContent}>ABOUT</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  hitSlop={linkHitSlop}
+                  style={styles.linkWrapper}
+                  onPress={() => this.navigateTo('Legal')}
+                >
+                  <Text style={styles.linkContent}>LEGAL</Text>
                 </TouchableOpacity>
               </View>
-              <Try condition={this.props.isSignedIn && !!this.props.userFullName}>
-                <Text style={styles.userFullName}>
-                  {this.props.userFullName}
-                </Text>
-              </Try>
-              <Text
-                style={[
-                  styles.totalHoldings,
-                  this.props.allPricesLoaded
-                    ? styles.totalHoldingsLoaded
-                    : styles.totalHoldingsRequesting,
-                ]}
-              >
-                ${this.props.totalHoldings.toFixed(2)}
-              </Text>
-
-              <View style={[styles.subHeadingContainer, styles.divider]}>
-                <Text style={styles.subHeading}>Your Hoard</Text>
-              </View>
-              <TouchableOpacity
-                hitSlop={linkHitSlop}
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Wallet')}
-              >
-                <Text style={styles.linkContent}>Wallet</Text>
-              </TouchableOpacity>
-
-              <View style={[styles.subHeadingContainer, styles.divider]}>
-                <Text style={styles.subHeading}>Manage</Text>
-              </View>
-              <TouchableOpacity
-                hitSlop={linkHitSlop}
-                style={[styles.linkWrapper, styles.divider]}
-                onPress={() => this.navigateTo('GetHelp')}
-              >
-                <Text style={styles.linkContent}>Help</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                hitSlop={linkHitSlop}
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Settings')}
-              >
-                <Text style={styles.linkContent}>Settings</Text>
-              </TouchableOpacity>
-
-              <View style={[styles.subHeadingContainer, styles.divider]}>
-                <Text style={styles.subHeading}>About</Text>
-              </View>
-              <TouchableOpacity
-                style={[styles.linkWrapper, styles.divider]}
-                onPress={() => this.navigateTo('About')}
-                hitSlop={linkHitSlop}
-              >
-                <Text style={styles.linkContent}>ABOUT</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                hitSlop={linkHitSlop}
-                style={styles.linkWrapper}
-                onPress={() => this.navigateTo('Legal')}
-              >
-                <Text style={styles.linkContent}>LEGAL</Text>
-              </TouchableOpacity>
+            </ScrollView>
+            <View style={styles.footerContainer}>
+              <Conditional>
+                <Try condition={this.props.isSignedIn}>
+                  <Button type="base" onPress={() => this.props.signOut()}>
+                    LOG OUT
+                  </Button>
+                </Try>
+                <Otherwise>
+                  <Button type="base" onPress={() => this.navigateTo('Login')}>
+                    Sign Up or Log In
+                  </Button>
+                </Otherwise>
+              </Conditional>
             </View>
-          </ScrollView>
-          <View style={styles.footerContainer}>
-            <Conditional>
-              <Try condition={this.props.isSignedIn}>
-                <Button type="base" onPress={() => this.props.signOut()}>
-                  LOG OUT
-                </Button>
-              </Try>
-              <Otherwise>
-                <Button type="base" onPress={() => this.navigateTo('Login')}>
-                  Sign Up or Log In
-                </Button>
-              </Otherwise>
-            </Conditional>
-          </View>
+          </SafeAreaView>
         </LinearGradient>
-      </View>
     );
   }
 }
@@ -168,12 +172,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  closeWrapper: {
+    position: 'absolute',
+    right: 20,
+    zIndex: 10
+  },
   scrollView: {
-    padding: 20,
-    paddingTop: 40,
     flex: 1
   },
   body: {
+    padding: 20,
     backgroundColor: 'transparent',
     flex: 1
   },
@@ -199,9 +207,6 @@ const styles = StyleSheet.create({
   footerContainer: {
     padding: 20,
   },
-  imageView: {
-    flex: 1,
-  },
   userFullName: {
     color: '#FFFFFF',
     fontSize: 12,
@@ -225,15 +230,10 @@ const styles = StyleSheet.create({
   totalHoldingsRequesting: {
     color: '#999',
   },
-  image: {
-    width: null,
-    height: null,
-    resizeMode: 'cover',
-  },
   linkWrapper: {
     width: '100%',
     backgroundColor: 'transparent',
-    marginBottom: 20,
+    marginBottom: 14,
   },
   subHeadingContainer: {
     paddingVertical: 20,
