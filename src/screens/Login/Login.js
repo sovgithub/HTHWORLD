@@ -12,7 +12,7 @@ import Button from 'components/Button';
 import Input from 'components/Input';
 import NavigatorService from 'lib/navigator';
 
-const LANG_SIGN_UP_TEXT = 'LOG IN';
+const LANG_SIGN_UP_TEXT = 'NEXT';
 
 export default class Login extends Component {
   static propTypes = {
@@ -47,6 +47,10 @@ export default class Login extends Component {
 
   handleSignupButton = () => {
     NavigatorService.navigate('Signup');
+  };
+
+  handleCantLogIn = () => {
+    NavigatorService.navigate('Forgot');
   };
 
   handleBypassButton = () => {
@@ -84,8 +88,8 @@ export default class Login extends Component {
   render() {
     return (
       <Layout contentReady={this.props.appReady} keyboard>
-        <Body scrollable style={styles.body}>
-          <Header style={{ alignItems: 'center' }}>
+        <Body scrollable style={styles.body} navigationOffset={80}>
+          <Header style={{ alignItems: 'center', marginTop: -40}}>
             <Image
               style={styles.logo}
               source={require('assets/hoard_circle_logo.png')} // eslint-disable-line no-undef
@@ -133,11 +137,12 @@ export default class Login extends Component {
               value={this.state.password || ''}
               type="underline"
             />
+
+            <Button type="text" onPress={this.handleCantLogIn} style={styles.buttonContainerAlt}>
+              {`Can't log?`}
+            </Button>
           </Body>
           <Footer>
-            <Button type="text" onPress={this.handleSignupButton}>
-              New to Hoard? Sign Up!
-            </Button>
             <Button
               type="base"
               disabled={!this.state.password && !this.state.username_or_email}
@@ -146,6 +151,9 @@ export default class Login extends Component {
               style={styles.buttonContainerAlt}
             >
               {LANG_SIGN_UP_TEXT}
+            </Button>
+            <Button type="text" onPress={this.handleSignupButton} style={styles.buttonContainerAlt}>
+              New to Hoard? Sign Up!
             </Button>
             <Button type="text" onPress={this.handleBypassButton}>
               No thanks, I just want to use the wallet
@@ -160,14 +168,11 @@ export default class Login extends Component {
 const styles = StyleSheet.create({
   body: {
     paddingHorizontal: 20,
-    marginTop: -80,
-    paddingTop: 80,
   },
   logo: {
     width: 150,
     height: 150,
     resizeMode: 'contain',
-    marginTop: 10,
     marginRight: 10,
   },
   errorMessageContainer: {

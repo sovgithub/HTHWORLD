@@ -45,6 +45,7 @@ android/app/src/main/res/drawable-*/*.png
 node_modules/
 npm-debug.log
 yarn-error.log
+.jest
 
 # BUCK
 buck-out/

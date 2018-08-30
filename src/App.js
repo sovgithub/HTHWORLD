@@ -12,6 +12,8 @@ import Mnemonic from 'screens/Wallet/Mnemonic';
 import Track from 'screens/Wallet/Track';
 import Import from 'screens/Wallet/Import';
 import Signup from 'screens/Signup';
+import Forgot from 'screens/Forgot';
+import ForgotModal from 'screens/Forgot/ForgotModal';
 import Menu from 'screens/Menu';
 import ViewAddress from 'screens/ViewAddress';
 import AddressModal from 'screens/SendRequest/AddressModal';
@@ -52,6 +54,15 @@ const RoutingStack = createStackNavigator(
           rightAction: null,
         }),
     },
+    Forgot: {
+      screen: Forgot,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          rightAction: null,
+        }),
+
+     },
     Menu: { screen: Menu, navigationOptions: { header: null } },
     Mnemonic: {
       screen: Mnemonic,
@@ -93,6 +104,9 @@ const RoutingStack = createStackNavigator(
 const ModalStack = createStackNavigator(
   {
     Main: { screen: RoutingStack },
+    ForgotModal: {
+      screen: ForgotModal,
+    },
     AddressModal: {
       screen: AddressModal,
     },

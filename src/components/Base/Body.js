@@ -8,20 +8,30 @@ import {
   Platform,
 } from 'react-native';
 
-const Body = ({ style, children, ...otherProps }) => {
+const Body = ({ style, children, navigationOffset, ...otherProps }) => {
   if (otherProps.scrollable) {
     const dismissKeyboard = otherProps.dismissKeyboard;
     const dismissMode = Platform.OS === 'ios' ? 'on-drag' : 'none';
     return (
-      <ScrollView
-        bounces={otherProps.bounces}
-        style={[styles.body, style]}
-        keyboardShouldPersistTaps={dismissKeyboard}
-        keyboardDismissMode={dismissMode}
-        contentContainerStyle={{ flexGrow: 1 }}
-      >
-        {children}
-      </ScrollView>
+      <View style={[
+        styles.body,
+        {
+          marginTop: navigationOffset ? -navigationOffset : 0,
+        }
+      ]}  {...otherProps}>
+        <ScrollView
+          contentOffset = {{x: 0, y: 0}}
+          bounces={otherProps.bounces}
+          keyboardShouldPersistTaps={dismissKeyboard}
+          keyboardDismissMode={dismissMode}
+          contentContainerStyle={[
+            style,
+            { flexGrow: 1, paddingTop: navigationOffset ? navigationOffset : 0 }
+          ]}
+        >
+          {children}
+        </ScrollView>
+      </View>
     );
   } else {
     return (
@@ -38,6 +48,7 @@ Body.propTypes = {
     PropTypes.node,
   ]).isRequired,
   style: ViewPropTypes.style,
+  navigationOffset: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
