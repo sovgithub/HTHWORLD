@@ -34,9 +34,11 @@ const amountFormatter = formatDecimalInput(8);
 
 const initialState = {
   amount: '',
+  completionAction: () => {},
   fiat: '',
   recipient: '',
   recipientType: RECIPIENT_TYPE_ADDRESS,
+  transactionType: TYPE_SEND,
   selectedId: null,
 };
 
@@ -47,6 +49,17 @@ export default class SendRequest extends Component {
         params: PropTypes.shape({
           type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]),
           wallet: PropTypes.string,
+          contactTransaction: PropTypes.shape({
+            amount: PropTypes.oneOfType([PropTypes.string, PropTypes.numbrer]),
+            date: PropTypes.number,
+            symbol: PropTypes.string,
+            type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]),
+            to: PropTypes.string,
+            from: PropTypes.string,
+            details: PropTypes.shape({
+              uid: PropTypes.string,
+            })
+          })
         }),
       }),
     }),
@@ -69,31 +82,57 @@ export default class SendRequest extends Component {
   constructor(props) {
     super(props);
 
-    const selectedId =
+    const params =
       props.navigation.state &&
-      props.navigation.state.params &&
-      props.navigation.state.params.wallet;
+      props.navigation.state.params ||
+      {};
 
-    const transactionType =
-      this.props.navigation.state.params &&
-      this.props.navigation.state.params.type;
+    const {
+      type,
+      wallet,
+      contactTransaction
+    } = params;
 
-    let completionAction = () => {};
+    let {
+      amount,
+      completionAction,
+      fiat,
+      recipient,
+      recipientType,
+      transactionType,
+      selectedId,
+    } = initialState;
+
+    if (contactTransaction) {
+      amount = contactTransaction.amount;
+      selectedId = this.props.wallets.find(w => w.symbol === contactTransaction.symbol).id;
+      transactionType = contactTransaction.type;
+      recipient = transactionType === TYPE_SEND ? contactTransaction.to : contactTransaction.from;
+    } else {
+      if (wallet) {
+        selectedId = wallet;
+      }
+      if (type) {
+        transactionType = type;
+      }
+    }
+
     if (transactionType === TYPE_SEND) {
       completionAction = this.send;
+      recipientType = contactTransaction ? RECIPIENT_TYPE_OTHER : RECIPIENT_TYPE_ADDRESS;
     } else if (transactionType === TYPE_REQUEST) {
       completionAction = this.request;
+      recipientType = RECIPIENT_TYPE_OTHER;
     }
 
     this.state = {
-      ...initialState,
-      transactionType,
+      amount,
       completionAction,
-      recipientType:
-        transactionType === TYPE_SEND
-          ? RECIPIENT_TYPE_ADDRESS
-          : RECIPIENT_TYPE_OTHER,
-      selectedId: selectedId ? selectedId : initialState.selectedId,
+      fiat,
+      recipient,
+      recipientType,
+      transactionType,
+      selectedId,
     };
   }
 

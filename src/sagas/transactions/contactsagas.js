@@ -26,12 +26,6 @@ import api from 'lib/api';
 
 import { network, provider } from './ethsagas';
 
-// import timestampPriceApi;
-// import getTransaction;
-// import getTransactionCount;
-// import getBlock;
-// import getBalance;
-
 
 export default function* contactTransactionsSagaWatcher() {
   yield all([

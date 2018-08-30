@@ -15,6 +15,7 @@ const mapStateToProps = (store, ownProps) => {
   const wallet = walletSelector(store, id);
   let transactions = [];
   let contactTransactions = [];
+  const isSignedIn =  isSignedInSelector(store);
 
   transactions = sortedTransactionsForWalletSelector(
     store,
@@ -23,11 +24,13 @@ const mapStateToProps = (store, ownProps) => {
     'ASC'
   );
 
-  contactTransactions = sortedContactTransactionsForSymbolSelector(
-    store,
-    wallet.symbol,
-    'ASC'
-  ).filter(tx => tx.details.status === 'pending');
+  contactTransactions = isSignedIn
+    ? sortedContactTransactionsForSymbolSelector(
+        store,
+        wallet.symbol,
+        'ASC'
+      ).filter(tx => tx.details.status === 'pending')
+    : [];
 
   const pricing = store.pricing[wallet.symbol];
 
@@ -35,7 +38,7 @@ const mapStateToProps = (store, ownProps) => {
     transactions,
     contactTransactions,
     wallet,
-    isSignedIn: isSignedInSelector(store),
+    isSignedIn,
     pricing
   };
 };

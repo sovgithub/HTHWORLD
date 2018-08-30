@@ -178,13 +178,39 @@ export default class CoinInformation extends React.Component {
                     <TouchableOpacity
                       onPress={() => this.props.cancelContactTransaction(item)}
                       style={styles.walletAction}
-                      key={'actionRequest'}
+                      key={'actionCancel'}
                     >
                       <View style={styles.walletActionContainer}>
                         <Image style={styles.walletActionImage} source={require('assets/cancel.png')} />
                         <Text style={styles.walletActionText}>CANCEL</Text>
                       </View>
-                    </TouchableOpacity>
+                    </TouchableOpacity>,
+                    <TouchableOpacity
+                      onPress={() =>
+                        NavigatorService.navigate('SendRequest', {
+                          contactTransaction: item,
+                        })
+                      }
+                      style={styles.walletAction}
+                      key={'actionRequest'}
+                    >
+                      <View style={styles.walletActionContainer}>
+                        <Image
+                          style={styles.walletActionImage}
+                          source={
+                            item.type === TYPE_SEND
+                              ? require('assets/send.png')
+                              : require('assets/request.png')
+                          }
+                        />
+                        <Text style={styles.walletActionText}>{
+                          item.type === TYPE_SEND
+                            ? 'SEND'
+                            : 'REQUEST'
+                        }</Text>
+                      </View>
+                    </TouchableOpacity>,
+
                   ]}
                   rightButtonWidth={100}
                 >
