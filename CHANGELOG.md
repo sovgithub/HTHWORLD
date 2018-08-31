@@ -16,6 +16,14 @@ Since our client software doesn't have an API, we should try to _mostly_ follow 
 ### Changed
 ### Removed
 
+# [v1.8.32] - 2018-08-30
+### Added
+* [NEW] add forgot username feature
+* [NEW] add forgot password feature
+### Changed
+* [FIX] scrollable menu, persistent close icon
+* [FIX] the sometimes-jumpy calculations for notched devices
+
 # [v1.8.3] - 2018-07-27
 
 ### Changed

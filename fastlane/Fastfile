@@ -83,7 +83,9 @@ default_platform :ios
 
     desc "Send an iOS build to TestFlight for testing"
     lane :internal_beta_itc do
-      itc(scheme: "Testing")
+      notes = "added forgot username, password feature, fixed scrollable menu, persistent close icon"
+
+      itc(scheme: "Testing", notes: notes)
     end
 
   end
@@ -140,7 +142,7 @@ default_platform :ios
   private_lane :itc do |options|
     scheme = options[:scheme]
 
-    build_ios
+    # build_ios
 
     upload_to_testflight(
       distribute_external: options[:distribute_external] || false,
@@ -174,8 +176,8 @@ default_platform :ios
 private_lane :build_ios do |options|
   scheme = options[:scheme]
 
-  # match(type: "appstore")
-  match(type: "ad-hoc")
+  match(type: "appstore")
+  # match(type: "ad-hoc")
 
   # bump version number
   if options[:build_number]
@@ -188,8 +190,8 @@ private_lane :build_ios do |options|
   end
 
   gym(
-    # export_method: "app-store",
-    export_method: "ad-hoc",
+    export_method: "app-store",
+    # export_method: "ad-hoc",
     include_symbols: false,
     scheme: "Hoard",
     project: XCODE_PROJECT_PATH,
