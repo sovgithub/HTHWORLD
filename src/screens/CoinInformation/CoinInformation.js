@@ -6,6 +6,7 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Text,
   View,
 } from 'react-native';
 import SectionHeader from 'components/SectionHeader';
@@ -17,6 +18,7 @@ import { Try } from "components/Conditional";
 import Card from 'components/Card';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
+import Swipeable from 'react-native-swipeable';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
 import Config from 'react-native-config';
@@ -68,6 +70,7 @@ export default class CoinInformation extends React.Component {
     showReceiveModal: PropTypes.func.isRequired,
     showSendModal: PropTypes.func.isRequired,
     getCurrencyHistory: PropTypes.func.isRequired,
+    cancelContactTransaction: PropTypes.func.isRequired,
   };
 
   state = {
@@ -96,6 +99,9 @@ export default class CoinInformation extends React.Component {
       interval: Intervals.all,
     });
   }
+
+  handleCancelContactTransaction = transaction => () =>
+    this.props.cancelContactTransaction(transaction);
 
   handleSelect = (selectedHash) => () => {
     const selectedTx = this.props.transactions.find(tx => tx.details.hash === selectedHash);
@@ -196,11 +202,23 @@ export default class CoinInformation extends React.Component {
             <SectionHeader style={styles.sectionHeader}>
               Pending Transactions
             </SectionHeader>
-            <View style={{marginHorizontal: -15, marginBottom: 20}}>
+            <View style={styles.contactTransactionsContainer}>
               {contactTransactions.map((item) => (
-                <TouchableOpacity
+                <Swipeable
                   key={item.details.uid}
-                  onPress={this.handleSelect(item.details.uid)}
+                  rightButtons={[
+                    <TouchableOpacity
+                      onPress={this.handleCancelContactTransaction(item)}
+                      style={styles.walletAction}
+                      key={'actionCancel'}
+                    >
+                      <View style={styles.walletActionContainer}>
+                        <Image style={styles.walletActionImage} source={require('assets/cancel.png')} />
+                        <Text style={styles.walletActionText}>CANCEL</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ]}
+                  rightButtonWidth={95}
                 >
                   <TradeItem
                     wallet={wallet}
@@ -208,7 +226,7 @@ export default class CoinInformation extends React.Component {
                     onUpdate={this.props.updateTransaction}
                     selected={this.state.selected === item.details.uid}
                   />
-                </TouchableOpacity>
+                </Swipeable>
               ))}
             </View>
           </Fragment>
@@ -299,5 +317,33 @@ const styles = StyleSheet.create({
   },
   actionButtonText: {
     color: '#707c98',
+  },
+  contactTransactionsContainer: {
+    marginHorizontal: -15,
+    marginBottom: 20
+  },
+  walletAction: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+  walletActionContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+    padding: 5,
+    width: 75,
+  },
+  walletActionImage: {
+    height: 20,
+    width: 20,
+    marginBottom: 5,
+  },
+  walletActionText: {
+    color: '#fff',
+    fontSize: 12,
   },
 });

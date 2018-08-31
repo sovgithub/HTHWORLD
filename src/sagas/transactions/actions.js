@@ -5,6 +5,7 @@ import {
   SEARCH_FOR_INTERESTING_BLOCKS,
   TRANSACTION_FOUND,
   RECORD_CONTACT_TRANSACTION,
+  CANCEL_CONTACT_TRANSACTION_REQUESTING,
   TRANSACTION_UPDATE,
 } from './constants';
 
@@ -19,6 +20,13 @@ export function triggerSearchForInterestingBlocks(publicAddress, symbol) {
 export function recordContactTransaction(transaction) {
   return {
     type: RECORD_CONTACT_TRANSACTION,
+    transaction
+  };
+}
+
+export function cancelContactTransaction(transaction) {
+  return {
+    type: CANCEL_CONTACT_TRANSACTION_REQUESTING,
     transaction
   };
 }

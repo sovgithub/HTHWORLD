@@ -1,6 +1,7 @@
 import {
   HYDRATE_TRANSACTIONS,
   RECORD_CONTACT_TRANSACTION,
+  CANCEL_CONTACT_TRANSACTION_SUCCESS,
   TRANSACTION_FOUND,
   TRANSACTION_UPDATE
 } from "./constants";
@@ -41,12 +42,28 @@ export default function reducer(state = initialState, action) {
         hydrationCompleted: true
       };
     }
+    case CANCEL_CONTACT_TRANSACTION_SUCCESS: {
+      return {
+        ...state,
+        contactTransactions: {
+          ...state.contactTransactions,
+          [action.transaction.details.uid]: {
+            ...action.transaction,
+            details: {
+              ...action.transaction.details,
+              status: 'denied'
+            }
+          }
+        }
+      };
+    }
     case RECORD_CONTACT_TRANSACTION: {
       const { symbol, details: { uid } } = action.transaction;
-      const { contactTransactionsBySymbol, contactTransactions } = state;
+      const { contactTransactionsBySymbol={}, contactTransactions } = state;
 
-      if (contactTransactions[uid]) {
-        return state;
+      let newSymbolState = contactTransactionsBySymbol[symbol] || [];
+      if (!contactTransactions[uid]) {
+        newSymbolState = [...newSymbolState, uid];
       }
 
       return {
@@ -57,12 +74,8 @@ export default function reducer(state = initialState, action) {
         },
         contactTransactionsBySymbol: {
           ...contactTransactionsBySymbol,
-          [symbol]: [
-            ...(contactTransactionsBySymbol[symbol] || []),
-            uid
-          ]
+          [symbol]: newSymbolState
         }
-
       };
     }
     case TRANSACTION_FOUND: {

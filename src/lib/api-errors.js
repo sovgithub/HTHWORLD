@@ -13,8 +13,18 @@ export async function handleApiErrors(response) {
   if (!response.ok) {
     let errors = [];
     try {
-      const json = await response.json();
-      errors.push(...json.errors);
+      let body = await response.text();
+
+      try {
+        const json = JSON.parse(body);
+        if (json.errors) {
+          errors.push(...json.errors);
+        } else {
+          errors.push(json);
+        }
+      } catch (e) {
+        errors.push(body);
+      }
     } catch (e) {
       errors.push('An error occurred validating your request.');
     }

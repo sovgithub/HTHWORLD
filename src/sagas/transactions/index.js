@@ -12,11 +12,13 @@ import {
   SEARCH_FOR_TRANSACTIONS,
   TRANSACTION_UPDATE,
   RECORD_CONTACT_TRANSACTION,
+  CANCEL_CONTACT_TRANSACTION_SUCCESS,
   TRANSACTIONS_STORAGE_KEY
 } from './constants';
 import {transactionFound} from './actions';
 import ethSagas, {fetchHistoryEth} from './ethsagas';
 import btcSagas, {fetchHistoryBTC} from './btcsagas';
+import contactSagas from './contactsagas';
 import {fetchHistoryBoar} from './boarsagas';
 import { walletSelector } from 'screens/Wallet/selectors';
 
@@ -27,6 +29,7 @@ export default function* transactionSagaWatcher() {
     takeEvery(SEARCH_FOR_TRANSACTIONS, fetchHistory),
     throttle(1000, TRANSACTION_FOUND, forwardActionToSaveTransactions),
     throttle(1000, RECORD_CONTACT_TRANSACTION, forwardActionToSaveTransactions),
+    throttle(1000, CANCEL_CONTACT_TRANSACTION_SUCCESS, forwardActionToSaveTransactions),
     throttle(1000, TRANSACTION_UPDATE, forwardActionToSaveTransactions)
   ]);
 }
@@ -34,6 +37,7 @@ export default function* transactionSagaWatcher() {
 export function* initialize() {
   yield fork(ethSagas);
   yield fork(btcSagas);
+  yield fork(contactSagas);
 
   yield call(hydrate);
 }
