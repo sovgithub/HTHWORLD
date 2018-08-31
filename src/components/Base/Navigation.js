@@ -217,7 +217,9 @@ const styles = StyleSheet.create({
     fontSize: typography.size.md,
     fontWeight: typography.weight.normal,
   },
-  pagerContainer: {},
+  pagerContainer: {
+    marginLeft: 5,
+  },
   pager: {
     color: colors.grayLight,
     fontSize: typography.size.md,
