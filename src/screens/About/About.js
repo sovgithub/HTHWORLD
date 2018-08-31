@@ -50,6 +50,10 @@ export default class About extends Component {
               title="Open Source Thanks"
               to="OpenSource"
             />
+            <Link
+              title="Release Notes"
+              to="ReleaseNotes"
+            />
           </View>
         </View>
       </Layout>

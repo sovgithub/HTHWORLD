@@ -2,6 +2,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import About from './About';
 import OpenSource from './OpenSource';
+import ReleaseNotes from './ReleaseNotes';
 
 import {
   cardStyle,
@@ -27,6 +28,15 @@ const RoutingStack = createStackNavigator(
           ...navProps,
           leftAction: 'back',
           title: 'Open Source Thanks',
+        }),
+    },
+    ReleaseNotes: {
+      screen: ReleaseNotes,
+      navigationOptions: navProps =>
+        getNavigationOptions({
+          ...navProps,
+          leftAction: 'back',
+          title: 'Release Notes',
         }),
     },
   },

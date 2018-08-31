@@ -13,11 +13,15 @@ import Card from 'components/Card';
 import WalletListEntry, { ENTRY_STATUS } from './WalletListEntry';
 import { Layout } from 'components/Base';
 import { getCoinMetadata } from 'lib/currency-metadata';
+import Storage from 'lib/storage';
 import { SUPPORTED_COINS_WALLET } from 'containers/App/constants';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
 import { dimensions } from 'styles';
 import Swipeable from 'react-native-swipeable';
 import NavigatorService from 'lib/navigator';
+import Config from 'react-native-config';
+import T from 'components/Typography';
+
 
 class SwipableItem extends React.Component {
   static propTypes = {
@@ -108,6 +112,8 @@ class SwipableItem extends React.Component {
   }
 }
 
+const HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY = 'HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY';
+
 class Wallet extends React.Component {
   static propTypes = {
     navigation: PropTypes.shape({
@@ -130,9 +136,27 @@ class Wallet extends React.Component {
 
   state = {
     swipedWallet: null,
+    hasDismissedModal: Config.CURRENCY_NETWORK_TYPE === 'main',
+    fetchingModalState: true,
   };
 
   componentDidMount() {
+    if (Config.CURRENCY_NETWORK_TYPE !== 'main') {
+      Storage.get(HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY).then(
+        value => {
+          let hasDismissedModal = false;
+          if (value) {
+            hasDismissedModal = value;
+          }
+
+          this.setState({
+            hasDismissedModal,
+            fetchingModalState: false
+          });
+        }
+      );
+    }
+
     SUPPORTED_COINS_WALLET.map(symbol => this.props.getCurrencyPrice(symbol));
   }
 
@@ -168,6 +192,14 @@ class Wallet extends React.Component {
       this.setState({ swipedWallet: null });
     }
   };
+
+  handleDismissTestnetWarning = async () => {
+    await Storage.set(HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY, true);
+
+    this.setState({
+      hasDismissedModal: true
+    });
+  }
 
   renderActionButtons() {
     const buttons = [];
@@ -285,6 +317,28 @@ class Wallet extends React.Component {
             );
           })}
         </ScrollView>
+        {!this.state.hasDismissedModal && !this.state.fetchingModalState && (
+          <View style={styles.testnetWarning}>
+            <View style={styles.testnetTop}>
+              <View style={styles.testnetIconWrapper}>
+                <Text style={styles.testnetIcon}>!</Text>
+              </View>
+              <View style={styles.testnetBody}>
+                <T.SubHeading style={styles.testnetHeader}>Do Not Use Real Cryptocurrency</T.SubHeading>
+                <T.Light style={styles.testnetContent}>
+                  The Hoard beta app is a testnet beta app.
+                  If you use real cryptocurrency, you will lose it.
+                </T.Light>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={styles.testnetBottom}
+              onPress={this.handleDismissTestnetWarning}
+            >
+              <T.SubHeading style={styles.testnetButton}>Dismiss</T.SubHeading>
+            </TouchableOpacity>
+          </View>
+        )}
       </Layout>
     );
   }
@@ -323,6 +377,61 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
   },
+  testnetWarning: {
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    left: 10,
+    padding: 20,
+    backgroundColor: '#ff6161',
+    borderRadius: 5,
+  },
+  testnetTop: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1
+  },
+  testnetBottom: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.2)',
+    marginTop: 15
+  },
+  testnetIconWrapper: {
+    height: 40,
+    width: 40,
+    marginRight: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 22,
+    borderWidth: 2,
+    borderColor: 'white',
+  },
+  testnetIcon: {
+    color: 'white',
+    fontSize: 28,
+    textAlign: 'center',
+  },
+  testnetBody: {
+    flex: 1
+  },
+  testnetHeader: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 5,
+    color: 'white',
+  },
+  testnetContent: {
+    fontSize: 12,
+    color: 'white',
+  },
+  testnetButton: {
+    textAlign: 'center',
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: 'white',
+  }
 });
 
 export default Wallet;

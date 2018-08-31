@@ -68,7 +68,7 @@ class Menu extends Component {
                   <Try condition={Config.CURRENCY_NETWORK_TYPE === 'test'}>
                     <View style={styles.testnetContainer}>
                       <View style={styles.testnetBackground}>
-                        <Text style={styles.testnetText}>TESTNET VERSION</Text>
+                        <Text style={styles.testnetText}>Testnet Version</Text>
                       </View>
                     </View>
                   </Try>
@@ -126,14 +126,14 @@ class Menu extends Component {
                   onPress={() => this.navigateTo('About')}
                   hitSlop={linkHitSlop}
                 >
-                  <Text style={styles.linkContent}>ABOUT</Text>
+                  <Text style={styles.linkContent}>About</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   hitSlop={linkHitSlop}
                   style={styles.linkWrapper}
                   onPress={() => this.navigateTo('Legal')}
                 >
-                  <Text style={styles.linkContent}>LEGAL</Text>
+                  <Text style={styles.linkContent}>Legal</Text>
                 </TouchableOpacity>
               </View>
             </ScrollView>
@@ -194,9 +194,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   testnetBackground: {
-    padding: 5,
+    padding: 7.5,
+    paddingHorizontal: 15,
     backgroundColor: '#ff6161',
-    borderRadius: 5,
+    borderRadius: 20,
     marginRight: 'auto'
   },
   testnetText: {
