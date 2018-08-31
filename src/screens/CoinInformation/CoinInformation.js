@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import {
+  Linking,
   Image,
   FlatList,
   StyleSheet,
@@ -17,6 +18,8 @@ import Card from 'components/Card';
 import T from 'components/Typography';
 import Scene from 'components/Scene';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
+import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
+import Config from 'react-native-config';
 
 const commonTransactionProps = {
   type: PropTypes.oneOf([TYPE_SEND, TYPE_REQUEST]).isRequired,
@@ -94,8 +97,33 @@ export default class CoinInformation extends React.Component {
     });
   }
 
-  handleSelect = (/* selected*/) => () => 'disabled for now';
-  /* this.setState({selected: selected === this.state.selected ? null : selected});*/
+  handleSelect = (selectedHash) => () => {
+    const selectedTx = this.props.transactions.find(tx => tx.details.hash === selectedHash);
+    let to;
+    if (selectedTx.symbol === SYMBOL_BTC) {
+      if (Config.CURRENCY_NETWORK_TYPE === 'main') {
+        to = `https://live.blockcypher.com/btc/tx/${selectedTx.details.hash}`;
+      } else {
+        to = `https://live.blockcypher.com/btc-testnet/tx/${selectedTx.details.hash}`;
+      }
+    }
+    if ([SYMBOL_ETH, SYMBOL_BOAR].includes(selectedTx.symbol)) {
+      if (Config.CURRENCY_NETWORK_TYPE === 'main') {
+        to = `https://etherscan.io/tx/${selectedTx.details.hash}`;
+      } else {
+        to = `https://ropsten.etherscan.io/tx/${selectedTx.details.hash}`;
+      }
+    }
+
+    if (to) {
+      Linking.openURL(to).catch(err => {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console
+          console.error('An error occurred', err);
+        }
+      });
+    }
+  }
 
   handleView = () => {
     NavigatorService.navigate('ViewAddress', {
