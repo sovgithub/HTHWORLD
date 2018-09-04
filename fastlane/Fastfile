@@ -48,19 +48,9 @@ end
 lane :dev do |options|
 
   match(type: "development")
+  match(type: "appstore")
 
   # match(type: "adhoc")
-
-  gym(
-    project: XCODE_PROJECT_PATH,
-    scheme: "Hoard",
-    export_method: "development", # development, ad-hoc, app-store
-  )
-
-  install_on_device(
-    ipa: "./Hoard.ipa"
-  )
-
 end
 
 default_platform :ios
