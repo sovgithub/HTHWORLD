@@ -139,7 +139,7 @@ export default class Login extends Component {
             />
 
             <Button type="text" onPress={this.handleCantLogIn} style={styles.buttonContainerAlt}>
-              {`Can't log?`}
+              {`Can't log in?`}
             </Button>
           </Body>
           <Footer>
