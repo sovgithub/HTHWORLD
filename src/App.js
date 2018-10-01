@@ -20,6 +20,7 @@ import AddressModal from 'screens/SendRequest/AddressModal';
 import QRModal from 'screens/SendRequest/QRModal';
 import ContactModal from 'screens/SendRequest/ContactModal';
 import CurrencyModal from 'screens/SendRequest/CurrencyModal';
+import Notifications from 'containers/Notifications';
 import { createStackNavigator } from 'react-navigation';
 import { INIT_REQUESTING } from './containers/App/constants';
 import { gradients } from 'styles';
@@ -168,7 +169,9 @@ export default class App extends React.Component {
           colors={gradients.blue}
           style={styles.container}
         >
-          <ModalStack ref={this.refDidLoad} />
+          <Notifications>
+            <ModalStack ref={this.refDidLoad} />
+          </Notifications>
         </LinearGradient>
       </Provider>
     );

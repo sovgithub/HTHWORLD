@@ -132,27 +132,38 @@ class Wallet extends React.Component {
       })
     ),
     getCurrencyPrice: PropTypes.func.isRequired,
+    notificationRecieved: PropTypes.func.isRequired,
   };
 
   state = {
     swipedWallet: null,
     hasDismissedModal: Config.CURRENCY_NETWORK_TYPE === 'main',
-    fetchingModalState: true,
+    testnetWarning: null
   };
 
   componentDidMount() {
     if (Config.CURRENCY_NETWORK_TYPE !== 'main') {
       Storage.get(HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY).then(
         value => {
-          let hasDismissedModal = false;
-          if (value) {
-            hasDismissedModal = value;
-          }
+          if (value) { return; }
 
-          this.setState({
-            hasDismissedModal,
-            fetchingModalState: false
-          });
+          setTimeout(() => {
+            const { notification } = this.props.notificationRecieved({
+              type: 'error',
+              title: 'Do Not Use Real Cryptocurrency',
+              content: 'The Hoard beta app is a testnet beta app. If you use real cryptocurrency, you will lose it.',
+              icon: require('assets/exclamation-circle.png'),
+              onDismiss: this.handleDismissTestnetWarning,
+              actions: [
+                {
+                  title: 'Dismiss',
+                  onPress: this.handleDismissTestnetWarning,
+                }
+              ]
+            });
+
+            this.setState({ testnetWarning: notification });
+          }, 1000);
         }
       );
     }
@@ -196,9 +207,7 @@ class Wallet extends React.Component {
   handleDismissTestnetWarning = async () => {
     await Storage.set(HAS_DISMISSED_TESTNET_MODAL_STORAGE_KEY, true);
 
-    this.setState({
-      hasDismissedModal: true
-    });
+    this.props.notificationDismissed(this.state.testnetWarning);
   }
 
   renderActionButtons() {
@@ -317,28 +326,6 @@ class Wallet extends React.Component {
             );
           })}
         </ScrollView>
-        {!this.state.hasDismissedModal && !this.state.fetchingModalState && (
-          <View style={styles.testnetWarning}>
-            <View style={styles.testnetTop}>
-              <View style={styles.testnetIconWrapper}>
-                <Text style={styles.testnetIcon}>!</Text>
-              </View>
-              <View style={styles.testnetBody}>
-                <T.SubHeading style={styles.testnetHeader}>Do Not Use Real Cryptocurrency</T.SubHeading>
-                <T.Light style={styles.testnetContent}>
-                  The Hoard beta app is a testnet beta app.
-                  If you use real cryptocurrency, you will lose it.
-                </T.Light>
-              </View>
-            </View>
-            <TouchableOpacity
-              style={styles.testnetBottom}
-              onPress={this.handleDismissTestnetWarning}
-            >
-              <T.SubHeading style={styles.testnetButton}>Dismiss</T.SubHeading>
-            </TouchableOpacity>
-          </View>
-        )}
       </Layout>
     );
   }
@@ -377,61 +364,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
   },
-  testnetWarning: {
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-    left: 10,
-    padding: 20,
-    backgroundColor: '#ff6161',
-    borderRadius: 5,
-  },
-  testnetTop: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1
-  },
-  testnetBottom: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.2)',
-    marginTop: 15
-  },
-  testnetIconWrapper: {
-    height: 40,
-    width: 40,
-    marginRight: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 22,
-    borderWidth: 2,
-    borderColor: 'white',
-  },
-  testnetIcon: {
-    color: 'white',
-    fontSize: 28,
-    textAlign: 'center',
-  },
-  testnetBody: {
-    flex: 1
-  },
-  testnetHeader: {
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: 'white',
-  },
-  testnetContent: {
-    fontSize: 12,
-    color: 'white',
-  },
-  testnetButton: {
-    textAlign: 'center',
-    fontSize: 14,
-    fontWeight: 'bold',
-    color: 'white',
-  }
 });
 
 export default Wallet;

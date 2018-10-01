@@ -18,6 +18,7 @@ import {
   totalHoldingsSelector
 } from 'sagas/pricing/selectors';
 import { isSignedInSelector } from "containers/User/selectors";
+import { notificationRecieved, notificationDismissed } from "containers/Notifications/actions";
 import { updateBalance } from '../actions';
 
 
@@ -41,6 +42,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   getCurrencyPrice,
+  notificationRecieved,
+  notificationDismissed,
   updateBalance
 };
 

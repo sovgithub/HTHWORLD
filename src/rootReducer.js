@@ -21,6 +21,7 @@ import contacts from 'sagas/contacts/reducer';
 import login from 'screens/Login/reducer';
 import signup from 'screens/Signup/reducer';
 import wallet from 'screens/Wallet/reducer';
+import notifications from 'containers/Notifications/reducer';
 import receiveModal from 'containers/ReceiveModal/reducer';
 import sendModal from 'containers/SendModal/reducer';
 import pricing from 'sagas/pricing/reducer';
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   settings,
   transactions,
   transactionStatus,
-  kyc
+  kyc,
+  notifications
 });
 
 export default rootReducer;
