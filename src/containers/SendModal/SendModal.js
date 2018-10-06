@@ -55,7 +55,7 @@ export default class SendModal extends Component {
       PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS, {
         title: 'Contacts',
         message:
-          'Hoard would like to access your contact list to send funds to your friends.',
+          'HTH would like to access your contact list to send funds to your friends.',
       })
         .then(granted => {
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
