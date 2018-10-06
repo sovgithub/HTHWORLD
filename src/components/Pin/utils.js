@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 
-const STORAGE_PREFS_PIN = '@Hoard:preferences:PIN';
+const STORAGE_PREFS_PIN = '@HTH:preferences:PIN';
 
 export const getKey = async () => {
   try {
