@@ -11,38 +11,32 @@ export default class About extends Component {
           <View style={styles.content}>
             <Link
               icon={require('assets/telegram.png')}
-              title="Telegram"
-              to="https://t.me/hoardinvest"
-              external={true}
-            />
-            <Link
-              icon={require('assets/blog.png')}
-              title="Blog"
-              to="https://blog.hoardinvest.com"
+              title="Discord"
+              to="https://discord.gg/jmuJqCv"
               external={true}
             />
             <Link
               icon={require('assets/twitter.png')}
               title="Twitter"
-              to="https://twitter.com/hoardinvest"
+              to="https://twitter.com/hthcoin"
               external={true}
             />
             <Link
               icon={require('assets/facebook.png')}
               title="Facebook"
-              to="https://facebook.com/hoardinvest"
+              to="https://facebook.com/hth_coin_9"
               external={true}
             />
             <Link
               icon={require('assets/linkedin.png')}
-              title="LinkedIn"
-              to="https://linkedin.com/company/hoardinvest"
+              title="HTH Wiki"
+              to="https://hthcoin.wiki/index.php/Main_Page"
               external={true}
             />
             <Link
               icon={require('assets/reddit.png')}
-              title="Reddit"
-              to="https://reddit.com/r/hoardinvest"
+              title="Help The Homeless Worldwide"
+              to="https://helpthehomelessworldwide.org"
               external={true}
             />
             <Link
