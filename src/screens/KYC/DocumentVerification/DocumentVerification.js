@@ -156,7 +156,7 @@ export default class Verification extends React.Component {
   render() {
     const LANG_HEADING_TEXT = "Let's Get Started!";
     const LANG_MAIN_TEXT =
-      "In to participate in the Hoard ICO event, we'll need to verify your personal information.";
+      "No ICO event.";
 
     return (
       <ImageBackground
