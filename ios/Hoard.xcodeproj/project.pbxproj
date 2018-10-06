@@ -935,7 +935,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* Hoard */ = {
+		13B07FAE1A68108700A75B9A /* HTHWORLD */ = {
 			isa = PBXGroup;
 			children = (
 				070ACD452101268B00367138 /* AirshipConfig.plist */,
@@ -948,7 +948,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = Hoard;
+			name = HTH;
 			sourceTree = "<group>";
 		};
 		146834001AC3E56700842450 /* Products */ = {
@@ -1198,9 +1198,9 @@
 			productReference = 00E356EE1AD99517003FC87E /* HoardTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* Hoard */ = {
+		13B07F861A680F5B00A75B9A /* HTH */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hoard" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "HTH" */;
 			buildPhases = (
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -1215,7 +1215,7 @@
 				AA394F54207D4A2E000C2A7F /* PBXTargetDependency */,
 				07CDD2C521078A8F0052A528 /* PBXTargetDependency */,
 			);
-			name = Hoard;
+			name = HTH;
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* Hoard.app */;
 			productType = "com.apple.product-type.application";
@@ -1293,7 +1293,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Hoard" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "HTH" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -2015,7 +2015,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* Hoard */;
+			target = 13B07F861A680F5B00A75B9A /* HTH */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 		07CDD2C521078A8F0052A528 /* PBXTargetDependency */ = {
@@ -2042,7 +2042,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = Hoard;
+			path = HTH;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -2192,7 +2192,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = Hoard;
+				PRODUCT_NAME = HTH;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2239,7 +2239,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = Hoard;
+				PRODUCT_NAME = HTHWORLD;
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				VERSIONING_SYSTEM = "apple-generic";
@@ -2564,7 +2564,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "Hoard" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "HTH" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -2591,7 +2591,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "Hoard" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "HTH" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
