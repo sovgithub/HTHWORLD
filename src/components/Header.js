@@ -11,7 +11,7 @@ const Header = props => {
   return (
     <View style={[props.style, styles.contentContainer]}>
       <Logo />
-      <Text style={[styles.header, themedStyles.header]}>Hoard</Text>
+      <Text style={[styles.header, themedStyles.header]}>HTHWORLD</Text>
       {props.showSubtitle ? (
         <Text style={[styles.subtitle, themedStyles.subtitle]}>
           Digital currency for everyone
