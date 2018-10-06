@@ -21,7 +21,7 @@ export default function ReleaseNotes() {
                 <View style={styles.testnetBody}>
                   <T.SubHeading style={styles.testnetHeader}>Do Not Use Real Cryptocurrency</T.SubHeading>
                   <T.Light style={styles.testnetContent}>
-                    The Hoard beta app is a testnet beta app.
+                    The HTHWorld beta app is a testnet beta app.
                     If you use real cryptocurrency, you will lose it.
                   </T.Light>
                 </View>
@@ -41,11 +41,11 @@ export default function ReleaseNotes() {
                   and receive test Bitcoin and Ether to play with and help us by testing the app.
                 </T.Light>
                 <T.Light style={styles.type}>
-                  To report bugs, leave us a bug report at github.com/hoardinvest/hoard,
+                  To report bugs, leave us a bug report at support@hthcoin.world,
                   or use the support form in the app found under Get Help > Submit a Request.
                 </T.Light>
                 <T.Light style={styles.type}>
-                  For more information, visit us on telegram at t.me/hoardinvest
+                  For more information, visit us on https://discord.gg/jmuJqCv
                   and thanks again for your support!
                 </T.Light>
               </View>
