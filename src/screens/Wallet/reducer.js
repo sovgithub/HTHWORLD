@@ -25,7 +25,7 @@ const initialState = {
   walletIds: [
     /* id[] */
   ],
-  hoardWallets: {
+  hthWallets: {
     /*
       <symbol>: <id>
     */
