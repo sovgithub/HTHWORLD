@@ -12,9 +12,10 @@ export default function OpenSource() {
             We would like to thank:
           </T.Heading>
           <T.Paragraph style={styles.type}>
-            React, React Native, Ethers, React Navigation, Redux, React Redux,
-            Redux Saga, Reselect, Victory Native, Lottie React Native, Prop
-            Types, React Native Animatable, React Native Config, React Native
+            Hoard, AltcoinCash, Devilking6105React, React Native, Ethers, 
+            React Navigation, Redux, React Redux, Redux Saga, Reselect, 
+            Victory Native, Lottie React Native, Prop Types, 
+            React Native Animatable, React Native Config, React Native
             Contacts, React Native Linear Gradient, React Native Search Filter,
             React Native Splash Screen, React Native Svg, React Native
             Swipeable, React Native Touch Id, React Native Vector Icons, and
