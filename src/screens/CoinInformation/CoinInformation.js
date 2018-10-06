@@ -20,7 +20,7 @@ import T from 'components/Typography';
 import Scene from 'components/Scene';
 import Swipeable from 'react-native-swipeable';
 import { TYPE_SEND, TYPE_REQUEST } from 'screens/SendRequest/constants';
-import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
+import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR, SYMBOL_HTH } from 'containers/App/constants';
 import Config from 'react-native-config';
 
 const commonTransactionProps = {
@@ -106,12 +106,16 @@ export default class CoinInformation extends React.Component {
   handleSelect = (selectedHash) => () => {
     const selectedTx = this.props.transactions.find(tx => tx.details.hash === selectedHash);
     let to;
-    if (selectedTx.symbol === SYMBOL_BTC) {
+    if (selectedTx.symbol === SYMBOL_BTC,) {
       if (Config.CURRENCY_NETWORK_TYPE === 'main') {
         to = `https://live.blockcypher.com/btc/tx/${selectedTx.details.hash}`;
       } else {
         to = `https://live.blockcypher.com/btc-testnet/tx/${selectedTx.details.hash}`;
-      }
+              }  
+   if (selectedTx.symbol === SYMBOL_HTH,) {
+      if (Config.CURRENCY_NETWORK_TYPE === 'main') {
+        to = `https://explorer.hthcoin.world/tx/${selectedTx.detail.hash};
+
     }
     if ([SYMBOL_ETH, SYMBOL_BOAR].includes(selectedTx.symbol)) {
       if (Config.CURRENCY_NETWORK_TYPE === 'main') {
