@@ -2,7 +2,8 @@ import {
   INIT_REQUESTING,
   SYMBOL_BTC,
   SYMBOL_ETH,
-  SYMBOL_BOAR
+  SYMBOL_BOAR,
+  SYMBOL_HTH
 } from "containers/App/constants";
 import { AsyncStorage } from 'react-native';
 import { throttle, fork, all, put, takeLatest, select, takeEvery, call } from "redux-saga/effects";
@@ -18,6 +19,7 @@ import {
 import {transactionFound} from './actions';
 import ethSagas, {fetchHistoryEth} from './ethsagas';
 import btcSagas, {fetchHistoryBTC} from './btcsagas';
+import hthSagas, {fetchHistoryHTH} from './hthsaga';
 import contactSagas from './contactsagas';
 import {fetchHistoryBoar} from './boarsagas';
 import { walletSelector } from 'screens/Wallet/selectors';
@@ -37,6 +39,7 @@ export default function* transactionSagaWatcher() {
 export function* initialize() {
   yield fork(ethSagas);
   yield fork(btcSagas);
+  yield fork(hthSagas);
   yield fork(contactSagas);
 
   yield call(hydrate);
@@ -97,6 +100,10 @@ export function* fetchHistory(action) {
     yield call(fetchHistoryBTC, action);
     return;
   }
+  case SYMBOL_HTH:{
+    yield call(fetchHistoryHTH, action);
+    return;
+  }    
   case SYMBOL_BOAR: {
     yield call(fetchHistoryBoar, action);
     return;
