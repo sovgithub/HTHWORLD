@@ -1,4 +1,4 @@
-rootProject.name = 'Hoard'
+rootProject.name = 'HTHWORLD'
 include ':urbanairship-react-native'
 project(':urbanairship-react-native').projectDir = new File(rootProject.projectDir, '../node_modules/urbanairship-react-native/android')
 include ':react-native-camera'
