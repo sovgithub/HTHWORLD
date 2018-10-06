@@ -5,4 +5,4 @@ import 'react-native-process-shim';
 
 import { AppRegistry } from 'react-native';
 import App from './App';
-AppRegistry.registerComponent('Hoard', () => App);
+AppRegistry.registerComponent('HTHWorld', () => App);
