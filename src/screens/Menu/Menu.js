@@ -90,7 +90,7 @@ class Menu extends Component {
                 </Text>
 
                 <View style={[styles.subHeadingContainer, styles.divider]}>
-                  <Text style={styles.subHeading}>Your Hoard</Text>
+                  <Text style={styles.subHeading}>Your HTHWORLD</Text>
                 </View>
                 <TouchableOpacity
                   hitSlop={linkHitSlop}
