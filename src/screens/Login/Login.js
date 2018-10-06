@@ -153,7 +153,7 @@ export default class Login extends Component {
               {LANG_SIGN_UP_TEXT}
             </Button>
             <Button type="text" onPress={this.handleSignupButton} style={styles.buttonContainerAlt}>
-              New to Hoard? Sign Up!
+              New to HTH? Sign Up!
             </Button>
             <Button type="text" onPress={this.handleBypassButton}>
               No thanks, I just want to use the wallet
