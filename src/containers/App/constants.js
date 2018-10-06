@@ -6,6 +6,7 @@ export const INIT_SUPPORTED_COINS = 'root/INIT_SUPPORTED_COINS';
 
 export const SYMBOL_ETH = 'ETH';
 export const SYMBOL_BOAR = 'BOAR';
+export const SYMBOL_HTH = 'HTH';
 export const SYMBOL_DASH = 'DASH';
 export const SYMBOL_BTC = 'BTC';
 export const SYMBOL_XRP = 'XRP';
@@ -16,6 +17,7 @@ export const SUPPORTED_COINS_PRICING = [
   SYMBOL_BOAR,
   SYMBOL_ETH,
   SYMBOL_BTC,
+  SYMBOL_HTH,
   SYMBOL_LTC,
   SYMBOL_XRP
 ];
@@ -28,5 +30,6 @@ export const SUPPORTED_COINS_ICO = [
 export const SUPPORTED_COINS_WALLET = [
   SYMBOL_ETH,
   SYMBOL_BTC,
-  SYMBOL_BOAR
+  SYMBOL_BOAR,
+  SYMBOL_HTH
 ];
