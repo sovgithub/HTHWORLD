@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import PortfolioChart from './PortfolioChart';
-import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_BOAR } from 'containers/App/constants';
+import { SYMBOL_BTC, SYMBOL_ETH, SYMBOL_HTH, SYMBOL_BOAR } from 'containers/App/constants';
 import { walletsForSymbolSelector } from 'screens/Wallet/selectors';
 import { sortedTransactionsForWalletSelector, sortedFiatTradesForWalletsSelector } from 'sagas/transactions/selectors';
 
