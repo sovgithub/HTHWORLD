@@ -32,6 +32,6 @@ export const isMnemonicInitializedSelector = createSelector(
 );
 
 export const availableCoinsSelector = createSelector(
-  state => state.wallet.hoardWallets,
-  hoardWallets => SUPPORTED_COINS_WALLET.filter(coin => !hoardWallets[coin])
+  state => state.wallet.hthWallets,
+  hthWallets => SUPPORTED_COINS_WALLET.filter(coin => !hthWallets[coin])
 );
