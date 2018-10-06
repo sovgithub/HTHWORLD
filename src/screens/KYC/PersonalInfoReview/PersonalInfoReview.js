@@ -8,7 +8,7 @@ import FillOutThisInput from './FillOutThisInput';
 import { snakeToCamel, camelToTitle } from 'lib/string-helpers';
 import { keyMapper } from 'lib/object-helpers';
 
-const SUPPORT_URL = 'https://hoard.zendesk.com';
+const SUPPORT_URL = 'support@hthcoin.world';
 
 /*
 Jumio returns Netverify success response like:
