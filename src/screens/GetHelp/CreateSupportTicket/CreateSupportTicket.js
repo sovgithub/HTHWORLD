@@ -99,7 +99,7 @@ export default class CreateSupportTicket extends Component {
       } catch (e) {
         Alert.alert(
           'An error occurred while submitting your ticket.',
-          'Please try again, or email us directly at support@hoardinvest.com',
+          'Please try again, or email us directly at support@hthcoin.world',
           [
             {
               text: 'OK',
