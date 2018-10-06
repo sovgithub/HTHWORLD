@@ -24,6 +24,12 @@ export function getCoinMetadata(symbol) {
         colors: ['#F2A900', '#BD8401'],
         fullName: 'Bitcoin',
       };
+    case 'HTH':
+      return {
+        image: require('assets/btc_logo.png'),
+        icon: require('assets/btc_icon.png'),
+        colors: ['#F2A900', '#BD8401'],
+        fullName: 'Help The Homeless Coin',
     case 'ETH':
       return {
         image: require('assets/eth_logo.png'),
@@ -54,7 +60,8 @@ export function getNetworkForCoin(symbol) {
         return 'homestead';
       }
       case 'BTC':
-      case 'LTC': {
+      case 'LTC':
+      case 'HTH': {
         return 'mainnet';
       }
       default:
@@ -67,7 +74,8 @@ export function getNetworkForCoin(symbol) {
         return 'ropsten';
       }
       case 'BTC':
-      case 'LTC': {
+      case 'LTC':
+      case 'HTH": {
         return 'testnet';
       }
       default:
