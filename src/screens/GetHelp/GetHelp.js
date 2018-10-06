@@ -10,13 +10,13 @@ export default function GetHelp() {
         <View style={styles.content}>
           <Link
             external
-            title="Browse our FAQs"
-            to="https://support.hoardinvest.com/hc/en-us/sections/360000948793-FAQ"
+            title="email us"
+            to="support@hthcoin.world"
           />
           <Link
             external
             title="Contact Us"
-            to="mailto:support@hoardinvest.com"
+            to="mailto:support@hthcoin.world"
           />
           <Link
             title="Submit a Request"
@@ -25,7 +25,7 @@ export default function GetHelp() {
           <Link
             external
             title="My Support"
-            to="https://support.hoardinvest.com"
+            to="support@hthcoin.world"
           />
         </View>
       </View>
