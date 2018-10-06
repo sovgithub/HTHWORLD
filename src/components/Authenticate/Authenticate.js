@@ -53,7 +53,7 @@ export default class Authenticate extends Component {
       return;
     }
 
-    TouchID.authenticate('To unlock or authenticate Hoard', androidConfigObject)
+    TouchID.authenticate('To unlock or authenticate HTHWorld', androidConfigObject)
       //eslint-disable-next-line no-unused-vars
       .then(success => {
         this.onAuthenticationSuccess();
