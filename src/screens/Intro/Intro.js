@@ -22,7 +22,7 @@ const Intro = props => (
         </T.Small>
       </View>
       <View style={styles.slide}>
-        <T.Heading style={styles.heading}>Hoard Node</T.Heading>
+        <T.Heading style={styles.heading}>HTH Node</T.Heading>
         <T.Small style={styles.small}>
           Masternode network providing adjudication, verification, and
           governance across channels.
