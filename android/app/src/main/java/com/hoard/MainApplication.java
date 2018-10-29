@@ -70,3 +70,11 @@ public class MainApplication extends Application implements ReactApplication {
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
+@Override
+protected List<ReactPackage> getPackages() {
+  return Arrays.asList(
+    ...
+    new ReactNativeConfigPackage(),
+    ...
+  );
+}
